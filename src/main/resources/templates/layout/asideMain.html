@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style>
+	body {
+        position: relative;
+        min-height: 100vh;
+        /* background: rgb(22, 22, 24) url("https://images.unsplash.com/photo-1619170743049-4688803388b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80") center center fixed no-repeat;
+        background-size: cover;
+        background-image: url("https://images.unsplash.com/photo-1619170743049-4688803388b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80");
+        background-size: 2000px;
+        background-repeat: repeat-y; */
+        background-color: rgb(22, 22, 24);
+        color: rgb(242, 236, 236);
+    }
+	.aside {
+        width: 200px;
+    }
+    .dm_aside{
+        background-color: rgb(33, 37, 41);
+    }
+</style>
+<title></title>
+</head>
+<body>
+<aside class="aside min-vh-100 pt-4 flex-shrink-0 dm_aside">
+    <nav class="nav flex-column navColor">
+        <a class="nav-link active link-light" aria-current="page"
+            href="http://localhost:8080/group5/view/MemberMain.jsp">MEMBER</a>
+        <a class="nav-link link-light"
+            href="http://localhost:8080/group5/view/GameDashBoardHome.jsp">GAME</a>
+        <a class="nav-link link-light" href="http://localhost:8080/group5/gameitem.controller">GAME ITEM</a>
+        <a class="nav-link link-light" href="http://localhost:8080/group5/view/BonusMain.jsp">SHOP</a>
+        <a class="nav-link link-light" href="http://localhost:8080/group5/view/EventMain.jsp">EVENT</a>
+        <a class="nav-link link-light"
+            href="http://localhost:8080/group5/view/DiscussionsMain.jsp">DISCUSSIONS</a>
+    </nav>
+</aside>
+</body>
+</html>
