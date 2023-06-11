@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+.area1 {
+	position: absolute;
+	width: 80%;
+	margin: 180px 250px;
+}
+
+table {
+	background-color: rgb(33, 37, 41);
+}

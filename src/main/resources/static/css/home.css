@@ -1,0 +1,44 @@
+body {
+    height: 100vh;
+}
+
+.loginContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url("../img/Manager_Login.jpg");
+    background-size: cover;
+}
+
+.formContainer {
+    width: 400px;
+    height: 500px;
+    background-color: #17bbec;
+    border: 2px solid rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 25%;
+    left: 65%;
+    padding: 3px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.loginForm {
+    padding-top: 50px;
+}
+
+.loginForm input {
+
+    width: 300px;
+    margin-bottom: 30px;
+}
+
+.loginForm span {
+    border: 1px solid #5a6cb9cb;
+    padding: 5px;
+    border-radius: 2px;
+    background-color: cornflowerblue;
+}
