@@ -109,10 +109,10 @@ public class MemberService {
 		Optional<Level> optional = levelRepository.findById(1);
 		if (optional.isPresent()) {
 			Level level = optional.get();
-			level.setMember(members);/*level已經改變了，如果下方不寫levelRepository.save(level); ，那就要在方法前加上@Transactional*/
+			//level.setMember(members);/*level已經改變了，如果下方不寫levelRepository.save(level); ，那就要在方法前加上@Transactional*/
 			member.setLevel(level);
 			mRepository.save(member);
-			levelRepository.save(level);
+			//levelRepository.save(level);
 			return true;
 		}
 		return false;
