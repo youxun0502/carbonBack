@@ -18,9 +18,14 @@ public class MainFunction {
 	@Autowired
 	private MemberService mService;
 
-	@GetMapping("main/goBackToHome")
-	public String goBackTOHome() {
+	@GetMapping("main/goBackToMain")
+	public String goBackToMain() {
 		return "liu/main";
+	}
+	
+	@GetMapping("main/goBackToHome")
+	public String goBackToHome() {
+		return "liu/home";
 	}
 	
 	@GetMapping("main/loginPage")

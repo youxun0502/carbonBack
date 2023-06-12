@@ -1,44 +1,72 @@
 body {
-    height: 100vh;
+	background-color: #3652c0;
 }
 
-.loginContainer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-image: url("../img/Manager_Login.jpg");
-    background-size: cover;
+.loginBtn {
+	background-color: #6fb7d4;
 }
 
-.formContainer {
-    width: 400px;
-    height: 500px;
-    background-color: #17bbec;
-    border: 2px solid rgba(0, 0, 0, 0);
-    position: absolute;
-    top: 25%;
-    left: 65%;
-    padding: 3px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
+.imgContainer {
+	background-color: rgba(255, 255, 255, 0.452);
 }
 
-.loginForm {
-    padding-top: 50px;
+.gameSelect1 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(235, 88, 88));
 }
 
-.loginForm input {
-
-    width: 300px;
-    margin-bottom: 30px;
+.gameSelect2 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(201, 35, 252));
 }
 
-.loginForm span {
-    border: 1px solid #5a6cb9cb;
-    padding: 5px;
-    border-radius: 2px;
-    background-color: cornflowerblue;
+.gameSelect3 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(255, 201, 54));
+}
+
+.gameSelect4 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(172, 168, 168));
+}
+
+.gameSelect5 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(114, 231, 247));
+}
+
+.gameSelect1:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(248, 67, 67));
+}
+
+.gameSelect2:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(170, 13, 218));
+}
+
+.gameSelect3:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(252, 189, 16));
+}
+
+.gameSelect4:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(121, 118, 118));
+}
+
+.gameSelect5:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(28, 206, 230));
+}
+
+.gameSelectorContainer {
+	height: 400px;
+}
+
+.srotByCLass {
+	font-size: 40px;
+	color: azure;
+	top: 645px;
+	left: 200px;
 }
