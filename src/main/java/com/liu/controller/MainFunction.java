@@ -31,6 +31,7 @@ public class MainFunction {
 	@PostMapping("main/memberLogin")
 	public String memberLogin(@RequestParam("email") String email, @RequestParam("memberPwd") String memberPwd,
 			Model m, HttpSession session) {
+		
 		Member member = mService.isMember(email, memberPwd);
 		if(member == null) {
 			return "liu/memberLoginError";

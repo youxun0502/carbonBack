@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.liu.model.Level;
@@ -24,6 +25,9 @@ public class MemberService {
 	@Autowired
 	LevelRepository levelRepository;
 
+	@Autowired
+	private PasswordEncoder pwdEncoder;
+
 	public List<Member> findAll() {
 		return mRepository.findAll();
 	}
@@ -32,7 +36,7 @@ public class MemberService {
 		return mRepository.findMemberByName(memberName);
 	}
 
-	//用在找update的資料
+	// 用在找update的資料
 	public Member findById(Integer id) {
 		Optional<Member> optional = mRepository.findById(id);
 
@@ -65,11 +69,20 @@ public class MemberService {
 	}
 
 	public Member isMember(String email, String memberPwd) {
-		return mRepository.isMember(email, memberPwd);
+		Member member = mRepository.findMemberByEmail(email);
+
+		if (member != null) {
+			if (pwdEncoder.matches(memberPwd, member.getMemberPwd())) {
+				return member;
+			} else {
+				return null;
+			}
+		}
+		return null;
 	}
 
 	public boolean emailAlreadyRegistered(String email) {
-		Member member = mRepository.emailAlreadyRegistered(email);
+		Member member = mRepository.findMemberByEmail(email);
 		if (member != null) {
 			return true;
 		}
@@ -77,7 +90,7 @@ public class MemberService {
 	}
 
 	public boolean phoneAlreadyRegistered(String phone) {
-		Member member = mRepository.phoneAlreadyRegistered(phone);
+		Member member = mRepository.findMemberByPhone(phone);
 		if (member != null) {
 			return true;
 		}
@@ -88,6 +101,7 @@ public class MemberService {
 		// aJax emailAlreadyRegistered() , phoneAlreadyRegistered() 先判斷是否註冊過了
 
 		Set<Member> members = new HashSet<>();
+		member.setMemberPwd(pwdEncoder.encode(member.getMemberPwd()));
 		members.add(member);
 
 		Optional<Level> optional = levelRepository.findById(1);
