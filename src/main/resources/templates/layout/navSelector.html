@@ -5,8 +5,8 @@
 <title>Carbon</title>
 </head>
 <body>
+<th:block th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></th:block>
 
-		<div th:replace="{session.memberBeans} ? ~{layout/navHomeLogin} ${session.memberBeans} : ~{layout/navHome}"></div>
-
+</th:block>
 </body>
 </html>

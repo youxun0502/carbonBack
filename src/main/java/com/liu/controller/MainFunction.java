@@ -51,4 +51,9 @@ public class MainFunction {
 		}
 		
 	}
+	
+	@GetMapping("main/register")
+	public String memberRegister() {
+		return "liu/memberRegister";
+	}
 }

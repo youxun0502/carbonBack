@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+
+	<link rel="stylesheet" th:href="@{/css/memberRegister.css}">
+	<style>
+		.mt-200 {
+			margin-top: 200px;
+		}
+
+		.w-60 {
+			width: 60%;
+		}
+
+		.formInputbg {
+			background-color: rgba(57, 56, 56, 0.8) !important;
+		}
+
+		.bg-gray {
+			background-color: rgba(28, 28, 28) !important;
+		}
+
+
+		@media (max-width: 600px) {
+			body {
+			  background-image: none;
+				background-color: rgb(39, 39, 39) !important;
+			}
+		}
+			@media (min-width: 601px) {
+			body {
+
+				background-color: black !important;
+			}
+		}
+	</style>
+
+	<title>Member Register</title>
+</head>
+
+
+<body>
+	<div th:replace="~{layout/navSelector}"></div>
+
+	<div class="container vh-100">
+		<div class="row h-100">
+			<div class="col-12 col-lg-6 ms-lg-5 mx-auto">
+				<div class="d-flex mt-200 h-50  w-100 justify-content-starter p-3">
+					<form class="w-100">
+						<div class="mb-3">
+							<label for="email" class="form-label form-control-lg w-100 text-white-50">Email</label>
+							<input type="email" class="form-control formInputbg text-light" id="email" />
+						</div>
+						<div class="mb-3">
+							<label for="password"
+								class="form-label form-control-lg w-100 text-white-50">Password</label> <input
+								type="password" class="form-control formInputbg text-light" id="password" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(".userId").on("change", function () {
+			let userId = $(".userId").val();
+			let regex = /[a-zA-Z0-9]/;
+			if (regex.test(userId)) {
+				$("#userId1").css("display", "inline");
+			} else {
+				$("#userId1").css("display", "none");
+			}
+		})
+		$(".email").on("change", function () {
+			let email = $(".email").val();
+			let regex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+			if (regex.test(email)) {
+				$("#email1").css("display", "inline");
+			} else {
+				$("#email1").css("display", "none");
+			}
+		})
+		$(".memberPwd").on("change", function () {
+			let memberPwd = $(".memberPwd").val();
+			let regex = /[a-zA-Z0-9]{6,}/;
+			if (regex.test(memberPwd)) {
+				$("#memberPwd1").css("display", "inline");
+			} else {
+				$("#memberPwd1").css("display", "none");
+			}
+		})
+		$(".birthday").on("change", function () {
+			let birthday = $(".birthday").val();
+			let regex = /^\d{4}-\d{2}-\d{2}$/;
+			if (regex.test(birthday)) {
+				$("#birthday1").css("display", "inline");
+			} else {
+				$("#birthday1").css("display", "none");
+			}
+		})
+		$(".phone").on("change", function () {
+			let phone = $(".phone").val();
+			let regex = /^0[29]\d{8}$/;
+			if (regex.test(phone)) {
+				$("#phone1").css("display", "inline");
+			} else {
+				$("#phone1").css("display", "none");
+			}
+		})
+
+		$("#birthday").datepicker({
+			dateFormat: "yy-mm-dd"
+		})
+		function submitForm() {
+			var currentDate = new Date();
+			var formattedDate = $.datepicker
+				.formatDate('yy-mm-dd', currentDate);
+			document.querySelector("#registrationDate").value = formattedDate;
+			document.querySelector("#submitForm").submit();
+		}
+
+		function autoInput() {
+			$("#userId").val("XiaoMing").trigger("change");
+			$("#email").val("XiaoMing123@gmail.com").trigger("change");
+			$("#memberPwd").val("XiaoMing123").trigger("change");
+			$("#memberName").val("XiaoMing").trigger("change");
+			$("#birthday").val("2000-05-01").trigger("change");
+			$("#phone").val("0908666444").trigger("change");
+			$('input[name="gender"][value="1"]').prop('checked', true).trigger("change");
+		}
+	</script>
+</body>
+
+</html>
