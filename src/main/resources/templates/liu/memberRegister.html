@@ -43,7 +43,8 @@
 
 
 <body>
-	<div th:replace="~{layout/navSelector}"></div>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+
 
 	<div class="container vh-100">
 		<div class="row h-100">

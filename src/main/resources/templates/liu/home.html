@@ -7,8 +7,7 @@
 </head>
 
 <body>
-	<div th:replace="~{layout/navSelector}" ></div>
-
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
 	<section class="my-4">
 		<div class="container">
 			<div class="row">
