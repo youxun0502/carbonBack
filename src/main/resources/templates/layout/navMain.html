@@ -1,70 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<style>
-    .light_mode {
-        background-color: #fff;
-        color: rgb(22, 22, 24);
-    }
-    .fontcolor_light{
-        color: rgb(22, 22, 24);
-    }
-    .lm_aside {
-        background-color: #e5e0cdb0;
-    }
-    .dm_aside {
-        background-color: rgb(33, 37, 41);
-    }
-    .lm_table{
-        background-color: whitesmoke;
-        color: rgb(22, 22, 24);
-    }
-</style>
+    <meta charset="UTF-8">
+    <style>
+        .light_mode {
+            background-color: #fff;
+            color: rgb(22, 22, 24);
+        }
 
-<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-<script th:src="@{/js/axios.min.js}"></script>
-<title></title>
+        .fontcolor_light {
+            color: rgb(22, 22, 24);
+        }
+
+        .lm_aside {
+            background-color: #e5e0cdb0;
+        }
+
+        .dm_aside {
+            background-color: rgb(33, 37, 41);
+        }
+
+        .lm_table {
+            background-color: whitesmoke;
+            color: rgb(22, 22, 24);
+        }
+    </style>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <script th:src="@{/js/axios.min.js}"></script>
+    <title></title>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark" data-bs-theme="dark">
-    <div class="container-fluid">
-        <form method="Get" th:action="@{/main/goBackToMain}">
-            <button class="navbar-brand" type="submit"
-                style=" background-color: transparent;border-color: transparent;">
-                <i class="d-inline-block align-text-top fa-solid fa-gamepad"
-                    style="color: #ffc107; font-size:1.5em;">HOMEPAGE</i>
-            </button>
-        </form>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <div class="navbar-nav me-auto mb-2 mb-lg-0"> </div>
 
-            <a class="nav-link active link-light" href="#">
-                <i class="fa-solid fa-user d-inline-block"></i>
-              	<span th:text=${session.managerBeans.userId}></span>
-            </a>
-            <form class="d-flex" method="post" action="./ManagerLogout">
-                <button type="submit" class="btn btn-secondary btn-sm ms-1">
-                    <i class="fa-solid fa-right-from-bracket" style="color: white;"></i>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <form method="Get" th:action="@{/main/goBackToMain}">
+                <button class="navbar-brand" type="submit"
+                    style=" background-color: transparent;border-color: transparent;">
+                    <i class="d-inline-block align-text-top fa-solid fa-gamepad"
+                        style="color: #ffc107; font-size:1.5em;">HOMEPAGE</i>
                 </button>
             </form>
-            <div class="d-flex">
-            	<button class="change_mode btn btn-outline-warning btn-sm ms-1"><i class="fa-solid fa-lightbulb"></i></button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0"> </div>
+
+                <a class="nav-link active link-light" href="#">
+                    <i class="fa-solid fa-user d-inline-block"></i>
+                    <span th:text=${session.managerBeans.userId}></span>
+                </a>
+                <form class="d-flex" method="post" action="./ManagerLogout">
+                    <button type="submit" class="btn btn-secondary btn-sm ms-1">
+                        <i class="fa-solid fa-right-from-bracket" style="color: white;"></i>
+                    </button>
+                </form>
+                <div class="d-flex">
+                    <button class="change_mode btn btn-outline-warning btn-sm ms-1"><i
+                            class="fa-solid fa-lightbulb"></i></button>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<script th:src="@{/js/jquery-3.7.0.min.js}"></script> 
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://kit.fontawesome.com/f3a13d5fed.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/f3a13d5fed.js" crossorigin="anonymous"></script>
     <script>
         $(function () {
             var mode = localStorage.getItem('mode');
@@ -112,4 +119,5 @@
         })
     </script>
 </body>
+
 </html>

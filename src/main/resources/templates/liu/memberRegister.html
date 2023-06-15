@@ -3,50 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-
   <link rel="stylesheet" th:href="@{/css/memberRegister.css}">
-  <style>
-    .mt-180 {
-      margin-top: 180px;
-    }
-
-
-    .w-60 {
-      width: 60%;
-    }
-
-    .formInputbg {
-      background-color: rgba(57, 56, 56, 0.8) !important;
-    }
-
-    .bg-gray {
-      background-color: rgba(28, 28, 28) !important;
-    }
-
-    .space {
-      visibility: hidden;
-    }
-
-
-    @media (max-width: 600px) {
-      body {
-        background-image: none;
-        background-color: rgb(39, 39, 39) !important;
-      }
-    }
-
-    @media (min-width: 601px) {
-      body {
-
-        background-color: black !important;
-      }
-
-    }
-  </style>
-
   <title>Member Register</title>
 </head>
-
 
 <body>
   <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
@@ -55,161 +14,70 @@
   <div class="container vh-100">
     <div class="row h-100">
       <div class="col-12 col-lg-6 ms-lg-5 mx-auto">
-        <div class="text-light mt-180 fs-3 p-3">建立您的帳戶</div>
-        <div class="d-flex h-50  col-12 justify-content-center p-3">
-          <form class="w-100">
-            <div class="mb-3">
-              <label for="email" class="form-label form-control-lg col-12 text-light">Email</label>
-              <input type="email" class="form-control formInputbg text-light" id="email" placeholder="請輸入您的電子郵件"
-                pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" required />
-              <div class="col-12 text-light space">space</div>
+        <div class="text-light mt-120 fs-3 p-3">建立您的帳戶</div>
+        <div class=" h-50  col-12  p-3">
+
+          <form class="col-12">
+            <div id="animation" class="animate__animated ">
+              <div class="mb-3">
+                <label for="email" class="form-label form-control-lg col-12 text-light">Email</label>
+                <input type="email" class="form-control formInputbg text-light" id="email" placeholder="請輸入您的電子郵件"
+                  required />
+                <div class="col-12 text-light space">space</div>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label form-control-lg col-12 text-light">Password</label>
+                <input type="password" class="form-control formInputbg text-light" id="password"
+                  placeholder="請輸入六位數以上英數字" required />
+                <div class="col-12 text-light space">space</div>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="password" class="form-label form-control-lg col-12 text-light">Password</label>
-              <input type="password" class="form-control formInputbg text-light" id="password" placeholder="請輸入六位數以上英數字"
-                pattern="[a-zA-Z0-9]{6,}" required />
-              <div class="col-12 text-light space">space</div>
+            <div id="animationIn" class="animate__animated" style="display: none;">
+              <div class="mb-3">
+                <label for="userId" class="form-label form-control-lg col-12 text-light">UserID</label>
+                <input type="text" class="form-control formInputbg text-light" id="userId" placeholder="請輸入公開顯示的稱呼"
+                  required />
+                <div class="col-12 text-light space">space</div>
+              </div>
+              <div class="mb-3">
+                <label for="memberName" class="form-label form-control-lg col-12 text-light">Name</label>
+                <input type="text" class="form-control formInputbg text-light" id="memberName" placeholder="請輸入您的姓名" />
+                <div class="col-12 text-light space">space</div>
+              </div>
+              <div class="mb-3">
+                <label for="birthday" class="form-label form-control-lg col-12 text-light">Birthday</label>
+                <input type="date" class="form-control formInputbg text-light" id="birthday" required />
+                <div class="col-12 text-light space">space</div>
+              </div>
+              <div class="mb-3">
+                <label for="phone" class="form-label form-control-lg col-12 text-light">Phone</label>
+                <input type="text" class="form-control formInputbg text-light" id="phone" placeholder="請輸入您的電話號碼"
+                  required />
+                <div class="col-12 text-light space">space</div>
+              </div>
+              <div class="mb-3">
+                <label for="birthday" class="form-label form-control-lg col-12 text-light">Gender</label>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input ms-2" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                    value="option1">
+                  <label class="form-check-label text-light fs-6 ms-1" for="inlineRadio1">男</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input ms-3" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                    value="option2">
+                  <label class="form-check-label text-light fs-6 ms-1" for="inlineRadio2">女</label>
+                </div>
+              </div>
             </div>
-            <button class="btn btn-primary col-12 col-lg-6" disabled>下一步</button>
           </form>
+          <button class="btn btn-primary col-12 col-lg-6" id="nextStep" disabled>下一步</button>
+          <button class="btn btn-primary col-12 col-lg-6 d-none mb-5" id="reigisterBtn">註冊</button>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-    let emailContainer = document.querySelector('#email');
-    let emailSpace = document.querySelector('.space');
-    let pwdContainer = document.querySelector('#password');
-    let pwdSpace = Array.from(document.querySelectorAll('.space'))[1];
-    let nextStepBtn = document.querySelector('.btn');
-    let emailStatus = '';
-    let pwdStatus = '';
-
-    emailContainer.addEventListener('input', function () {
-      let email = emailContainer.value;
-      emailStatus = 'isExist';
-      checkEmail(email);
-    })
-
-    pwdContainer.addEventListener('input', function () {
-      let pwd = pwdContainer.value;
-      checkPwd(pwd);
-    })
-
-    emailContainer.addEventListener('blur', function () {
-      let email = emailContainer.value;
-
-      if (checkEmail(email) == true) {
-        emailAPI(email)
-          .then(status => {
-            emailStatus = status;
-            buttonStatus(emailStatus, pwdStatus)
-          })
-          .catch(err => {
-            console.log('err: ' + err);
-          });
-      }
-      if (email == '') {
-        classMaker(emailContainer, emailSpace, 'null', 'null');
-      }
-    });
-
-    pwdContainer.addEventListener('blur', function () {
-      let pwd = pwdContainer.value;
-      if (pwd == '') {
-        classMaker(pwdContainer, pwdSpace, 'null', 'null');
-      }
-    });
-
-    function checkEmail(email) {
-      let regex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-      if (regex.test(email)) {
-
-        buttonStatus(emailStatus, pwdStatus);
-        classMaker(emailContainer, emailSpace, '格式正確，輸入完成後將為您進行驗證', 'true');
-        return true;
-      } else {
-        buttonStatus(emailStatus, pwdStatus);
-        classMaker(emailContainer, emailSpace, '請輸入正確的電子郵件格式xxxx@xxxxx.xxx', 'false');
-      }
-    }
-
-    function checkPwd(pwd) {
-      let regex = /[a-zA-Z0-9]{6,}/;
-      if (regex.test(pwd)) {
-        pwdStatus = 'ok';
-        buttonStatus(emailStatus, pwdStatus);
-      } else {
-        classMaker(pwdContainer, pwdSpace, '請輸入6位數以上英數字', 'false');
-        pwdStatus = '';
-        buttonStatus(emailStatus, pwdStatus);
-      }
-
-    }
-
-    function classMaker(container, space, text, status) {
-      if (status == 'true') {
-        container.classList.add('is-valid');
-        container.classList.remove('is-invalid');
-        space.classList.add('text-success');
-        space.classList.remove('space', 'text-light', 'text-danger');
-        space.innerText = text;
-      } else if (status == 'false') {
-        container.classList.add('is-invalid');
-        container.classList.remove('is-valid');
-        space.classList.add('text-danger');
-        space.classList.remove('space', 'text-light', 'text-success');
-        space.innerText = text;
-      } else {
-        container.classList.remove('is-invalid', 'is-valid');
-        space.classList.add('space', 'text-light');
-        space.classList.remove('text-danger', 'text-success');
-        space.innerText = text;
-      }
-    }
-
-
-    function emailAPI(email) {
-      return new Promise((resolve, reject) => {
-        axios({
-          url: 'http://localhost:8080/carbon/member/api/checkEmail',
-          method: 'get',
-          params: {
-            'e': email
-          },
-          headers: { 'Content-Type': 'application/x-www-form-urlencode' }
-        })
-          .then(response => {
-            if (response.data == 'isExist') {
-              classMaker(emailContainer, emailSpace, '此帳號已被註冊', 'false');
-              resolve('isExist');
-            } else {
-              classMaker(emailContainer, emailSpace, '恭喜您！您可以使用此Email', 'true');
-              resolve('isNotExist');
-            }
-          })
-          .catch(err => {
-            reject(err);
-          });
-      });
-    }
-
-    function buttonStatus(emailStatus, pwdStatus) {
-      if (emailStatus == 'isNotExist' && pwdStatus == 'ok') {
-        classMaker(pwdContainer, pwdSpace, '請點選下一步', 'true');
-        nextStepBtn.removeAttribute('disabled');
-      } else if (emailStatus == 'isExist' && pwdStatus == 'ok') {
-        classMaker(pwdContainer, pwdSpace, '密碼符合要求，請完成Email欄位', 'true');
-        nextStepBtn.setAttribute('disabled', 'true');
-      } else {
-        nextStepBtn.setAttribute('disabled', 'true');
-      }
-
-    }
-
-
-  </script>
+  <script th:src="@{/js/memberRegister.js}"></script>
 </body>
 
 </html>
