@@ -24,4 +24,15 @@ public class MemberController {
 			return "isNotExist";
 		}
 	}
+	
+	@ResponseBody
+	@GetMapping("/member/api/checkPhone")
+	public String checkPhone(@RequestParam(name = "p") String phone) {
+		boolean result = mService.phoneAlreadyRegistered(phone);
+		if(result == true) {
+			return "isExist";
+		}else {
+			return "isNotExist";
+		}
+	}
 }

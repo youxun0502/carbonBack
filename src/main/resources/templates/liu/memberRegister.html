@@ -14,19 +14,18 @@
   <div class="container vh-100">
     <div class="row h-100">
       <div class="col-12 col-lg-6 ms-lg-5 mx-auto">
-        <div class="text-light mt-120 fs-3 p-3">建立您的帳戶</div>
+        <div class="text-light mt-120 fs-3 p-3">建立您專屬的帳號</div>
         <div class=" h-50  col-12  p-3">
-
-          <form class="col-12">
+          <form class="col-12" id="form">
             <div id="animation" class="animate__animated ">
               <div class="mb-3">
-                <label for="email" class="form-label form-control-lg col-12 text-light">Email</label>
+                <label for="email" class="form-label form-control-lg col-12 text-light">電子郵件</label>
                 <input type="email" class="form-control formInputbg text-light" id="email" placeholder="請輸入您的電子郵件"
                   required />
                 <div class="col-12 text-light space">space</div>
               </div>
               <div class="mb-3">
-                <label for="password" class="form-label form-control-lg col-12 text-light">Password</label>
+                <label for="password" class="form-label form-control-lg col-12 text-light">密碼</label>
                 <input type="password" class="form-control formInputbg text-light" id="password"
                   placeholder="請輸入六位數以上英數字" required />
                 <div class="col-12 text-light space">space</div>
@@ -34,44 +33,42 @@
             </div>
             <div id="animationIn" class="animate__animated" style="display: none;">
               <div class="mb-3">
-                <label for="userId" class="form-label form-control-lg col-12 text-light">UserID</label>
-                <input type="text" class="form-control formInputbg text-light" id="userId" placeholder="請輸入公開顯示的稱呼"
-                  required />
-                <div class="col-12 text-light space">space</div>
+                <label for="userId" class="form-label form-control-lg col-12 text-light">帳號</label>
+                <input type="text" class="form-control formInputbg text-light" id="userId" placeholder="請輸入公開顯示的稱呼" />
+                <div class="col-12 text-light space" id="userIdSpace">space</div>
               </div>
               <div class="mb-3">
-                <label for="memberName" class="form-label form-control-lg col-12 text-light">Name</label>
+                <label for="memberName" class="form-label form-control-lg col-12 text-light">姓名</label>
                 <input type="text" class="form-control formInputbg text-light" id="memberName" placeholder="請輸入您的姓名" />
-                <div class="col-12 text-light space">space</div>
+                <div class="col-12 text-light space" id="memberNameSpace">space</div>
               </div>
               <div class="mb-3">
-                <label for="birthday" class="form-label form-control-lg col-12 text-light">Birthday</label>
-                <input type="date" class="form-control formInputbg text-light" id="birthday" required />
-                <div class="col-12 text-light space">space</div>
+                <label for="birthday" class="form-label form-control-lg col-12 text-light">生日</label>
+                <input type="date" class="form-control formInputbg text-light" id="birthday" value="1911-01-01" />
+                <div class="col-12 text-light space" id="birthdaySpace">space</div>
               </div>
               <div class="mb-3">
-                <label for="phone" class="form-label form-control-lg col-12 text-light">Phone</label>
-                <input type="text" class="form-control formInputbg text-light" id="phone" placeholder="請輸入您的電話號碼"
-                  required />
-                <div class="col-12 text-light space">space</div>
+                <label for="phone" class="form-label form-control-lg col-12 text-light">電話號碼</label>
+                <input type="text" class="form-control formInputbg text-light" id="phone" placeholder="請輸入您的電話號碼" />
+                <div class="col-12 text-light space" id="phoneSpace">space</div>
               </div>
-              <div class="mb-3">
-                <label for="birthday" class="form-label form-control-lg col-12 text-light">Gender</label>
+              <div class="mb-4">
+                <label for="birthday" class="form-label form-control-lg col-12 text-light">性別</label>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input ms-2" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                    value="option1">
-                  <label class="form-check-label text-light fs-6 ms-1" for="inlineRadio1">男</label>
+                  <input class="form-check-input ms-2" type="radio" name="gender" id="genderMale" value="1" >
+                  <label class="form-check-label text-light fs-6 ms-1" for="genderMale">男</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input ms-3" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                    value="option2">
-                  <label class="form-check-label text-light fs-6 ms-1" for="inlineRadio2">女</label>
+                  <input class="form-check-input ms-3" type="radio" name="gender" id="genderFemale" value="2">
+                  <label class="form-check-label text-light fs-6 ms-1" for="genderFemale">女</label>
                 </div>
+                <span class=" text-light space" id="genderSpace">space</span>
               </div>
+              <button type="submit" class="btn btn-primary col-12 col-lg-6 d-none mb-5" id="reigisterBtn"
+                disabled>註冊</button>
             </div>
           </form>
           <button class="btn btn-primary col-12 col-lg-6" id="nextStep" disabled>下一步</button>
-          <button class="btn btn-primary col-12 col-lg-6 d-none mb-5" id="reigisterBtn">註冊</button>
         </div>
       </div>
     </div>
