@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.liu.dto.MemberDto;
 import com.liu.model.Member;
 import com.liu.service.MemberService;
 
@@ -18,42 +19,43 @@ public class MainFunction {
 	@Autowired
 	private MemberService mService;
 
-	@GetMapping("main/goBackToMain")
+	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
 		return "liu/main";
 	}
 	
-	@GetMapping("main/goBackToHome")
+	@GetMapping("/main/goBackToHome")
 	public String goBackToHome() {
 		return "liu/home";
 	}
 	
-	@GetMapping("main/loginPage")
+	@GetMapping("/main/loginPage")
 	public String loginPage(){
-		return "liu/memberLogin";
+		return "/liu/memberLogin";
 	}
 
-	@PostMapping("main/memberLogin")
+	@PostMapping("/main/memberLogin")
 	public String memberLogin(@RequestParam("email") String email, @RequestParam("memberPwd") String memberPwd,
 			Model m, HttpSession session) {
 		
 		Member member = mService.isMember(email, memberPwd);
 		if(member == null) {
-			return "liu/memberLoginError";
+			return "/liu/memberLoginError";
 		}else if(member.getLevelId() == 100){
 			session.setAttribute("managerBeans", member);
 			session.setAttribute("character", "manager");
-			return "liu/main";
+			return "/liu/main";
 		}else {
 			session.setAttribute("memberBeans", member);
 			session.setAttribute("character", "member");
-			return "liu/home";
+			return "/liu/home";
 		}
 		
 	}
 	
-	@GetMapping("main/register")
-	public String memberRegister() {
-		return "liu/memberRegister";
+	@GetMapping("/main/registerPage")
+	public String memberRegister(Model m) {
+		m.addAttribute("memberDto", new MemberDto());
+		return "/liu/memberRegister";
 	}
 }

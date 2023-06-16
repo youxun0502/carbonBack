@@ -2,6 +2,8 @@ package com.liu.model;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,6 +26,7 @@ public class Level {
 	@Column(name = "[desc]")
 	private String desc;
 	
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "level", cascade = CascadeType.ALL)
 	private Set<Member> member;
 	
