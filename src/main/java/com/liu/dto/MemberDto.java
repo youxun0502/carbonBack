@@ -28,6 +28,16 @@ public class MemberDto {
 	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+8")
 	private Date registration;
 	
+	private int level;
+	
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	public String getId() {
 		return id;
 	}
