@@ -58,4 +58,10 @@ public class MainFunction {
 		m.addAttribute("memberDto", new MemberDto());
 		return "/liu/memberRegister";
 	}
+	
+	@GetMapping("/main/logout")
+	public String memberLogout(@RequestParam(name = "id") Integer id, HttpSession session, Model m) {
+		session.invalidate();
+		return "/liu/home";
+	}
 }

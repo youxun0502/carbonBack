@@ -70,3 +70,16 @@ body {
 	top: 645px;
 	left: 200px;
 }
+
+.dropdown-menu li:hover a {
+	color: rgb(84, 83, 83) !important;
+}
+
+.dropdown-menu li:hover form .logout_btn {
+	color: rgb(84, 83, 83) !important;
+}
+
+
+.logout_btn:hover {
+	cursor: pointer;
+}

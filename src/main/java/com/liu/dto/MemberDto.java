@@ -8,6 +8,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class MemberDto {
 
+	public String getInnerId() {
+		return innerId;
+	}
+
+	public void setInnerId(String innerId) {
+		this.innerId = innerId;
+	}
+
+	private String innerId;
 	
 	private String id;
 	
@@ -25,11 +34,22 @@ public class MemberDto {
 
 	private String phone;
 	
-	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date registration;
 	
 	private int level;
 	
+	private String account ;
+	
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
 	public int getLevel() {
 		return level;
 	}

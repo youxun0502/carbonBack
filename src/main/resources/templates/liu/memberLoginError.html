@@ -5,7 +5,11 @@
 
 
 <link rel="stylesheet" th:href="@{/css/memberlogin.css}">
-
+<style>
+	.loginForm input{
+	margin-bottom: 0;
+	}
+</style>
 <title>Member Login</title>
 </head>
 
@@ -20,10 +24,11 @@
 					style="text-align: center; font-size: 40px; padding: 0; margin: 0">
 					<i class="fa-solid fa-circle-user" style="font-size: 80px;"></i> <br>會員登入
 				</div>
-				<span>帳號</span><input type="text" name="email" id=""
+				<span>帳號</span><input type="text" name="email" id="email"
 					placeholder="請輸入電子郵件"></Input> <br> <span>密碼</span><input
 					type="password" name="memberPwd" id="" placeholder="請輸入密碼"></Input>
-				<br>
+				<br> <span style="all: unset; color: red; margin-left: 10px"
+					id="error">帳號或密碼錯誤，請重新輸入！</span>
 				<div style="height: 40px">
 					<Input type="checkbox" name="rememberMe" id="rememberMe" value="1"
 						style="width: 20px" checked></Input> <label style="margin: 0;"
@@ -42,7 +47,9 @@
 			</form>
 		</div>
 	</div>
-
+	<script>		$("#email").on("focus", function() {
+			$("#error").css("visibility", "hidden");
+		})</script>
 </body>
 
 </html>

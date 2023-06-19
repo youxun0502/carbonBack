@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		table {
+			background-color: rgb(33, 37, 41);
+		}
+
+		table td,
+		table th {
+			max-width: 170px;
+		}
+
+		.tdCenter {
+			text-align: center;
+		}
+
+		.imgBox {
+			width: 100px;
+			height: 100px;
+		}
+
+		.showDesc {
+			cursor: pointer;
+		}
+
+		.section-big {
+			max-width: calc(100% - 42px);
+		}
+
+		.section-small {
+			max-width: calc(100% - 200px);
+		}
+	</style>
+	<title>Member</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navMain}"></div>
+	<div class="d-flex">
+		<div th:replace="~{layout/asideMain}"></div>
+		<div class="w-100 section section-big">
+			<div class="content mt-3">
+				<nav class="navbar navColor">
+					<div class="container-fluid">
+						<a class="navbar-brand link-light" th:href="@{/member}" style="font-size: 30px;">Member</a>
+						<div class="d-flex" role="search">
+							<input class="form-control me-2" type="search" placeholder="會員姓名查詢" aria-label="Search" name="memberName"
+								id="memberName_search">
+							<button class="btn btn-outline-warning" type="submit" id="name_search_btn">Search</button>
+						</div>
+					</div>
+				</nav>
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" th:href="@{/member/allMember}">ALL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Create</a>
+					</li>
+				</ul>
+			</div>
+			<div class="container-fluid">
+				<div class="row my-3">
+					<table id="example" class="hover row-border" style="width:100%">
+						<thead>
+							<tr>
+								<th>id</th>
+								<th>帳號</th>
+								<th>信箱</th>
+								<th>密碼</th>
+								<th>姓名</th>
+								<th>生日</th>
+								<th>性別</th>
+								<th>電話</th>
+								<th>等級</th>
+								<th>帳戶</th>
+								<th>註冊日期</th>
+								<th>更新</th>
+								<th>刪除</th>
+							</tr>
+						</thead>
+						<tbody id="showSeachItem">
+							<th:block th:each="member : ${members}">
+								<tr>
+									<td th:id="id + ${member.id}">[[${member.id}]]</td>
+									<td>[[${member.userId}]]</td>
+									<td>[[${member.email}]]</td>
+									<td style="overflow:hidden;">[[${member.memberPwd}]]</td>
+									<td>[[${member.memberName}]]</td>
+									<td th:text="${member} ? ${#dates.format(member.birthday, 'yyyy-MM-dd')}">
+									</td>
+									<td>[[${member.gender}]]</td>
+									<td>[[${member.phone}]]</td>
+									<td>[[${member.levelId}]]</td>
+									<td>[[${member.account}]]</td>
+									<td th:text="${member} ? ${#dates.format(member.registrationDate, 'yyyy-MM-dd')}">
+									</td>
+									<td>
+										<button th:data-id="${member.id}" class="btn btn-info btn-update" data-bs-toggle="modal"
+											data-bs-target="#exampleModal">更新
+										</button>
+									</td>
+									<td>
+										<button th:data-id="${member.id}" class="btn btn-danger btn-delete">刪除
+										</button>
+									</td>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" tabindex="-1" id="exampleModal" aria-labelledby="id_email" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-dark" id="idEmail"></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form class="row g-3">
+						<input type="text" class="form-control" id="modalId" hidden>
+						<input type="text" class="form-control" id="modalEmail" hidden>
+						<div class="col-md-6">
+							<label for="userId" class="form-label text-dark">帳號</label>
+							<input type="text" class="form-control" id="userId">
+						</div>
+						<div class="col-md-6">
+							<label for="memberPwd" class="form-label text-dark">密碼</label>
+							<input type="password" class="form-control" id="memberPwd">
+						</div>
+						<div class="col-12">
+							<label for="memberName" class="form-label text-dark">姓名</label>
+							<input type="text" class="form-control" id="memberName">
+						</div>
+						<div class="col-12">
+							<label for="birthday" class="form-label text-dark">生日</label>
+							<input type="date" class="form-control" id="birthday" value="1911-01-01">
+						</div>
+						<div class="col-12">
+							<label for="phone" class="form-label text-dark">電話</label>
+							<input type="text" class="form-control" id="phone" readonly>
+						</div>
+						<div class="col-12">
+							<label for="account" class="form-label text-dark">帳戶</label>
+							<input type="text" class="form-control" id="account">
+						</div>
+						<div class="col-6">
+							<label for="registration" class="form-label text-dark">註冊日期</label>
+							<input type="date" class="form-control" id="registration" value="1911-01-01">
+						</div>
+						<div class="col-md-3">
+							<label for="gender" class="form-label text-dark">性別</label>
+							<select id="gender" class="form-select">
+								<option selected>1</option>
+								<option>2</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<label for="level" class="form-label text-dark">等級</label>
+							<select id="level" class="form-select">
+								<option selected>1</option>
+								<option>2</option>
+								<option>100</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary col-4" id="update" data-bs-dismiss="modal">更新</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script>
+		const modalId = document.querySelector('#modalId');
+		const modalEmail = document.querySelector('#modalEmail');
+		const updateBtn = document.querySelectorAll('.btn-update');
+		const idEmail = document.querySelector('#idEmail')
+		const userId = document.querySelector('#userId');
+		const memberPwd = document.querySelector('#memberPwd');
+		const memberName = document.querySelector('#memberName');
+		const birthday = document.querySelector('#birthday');
+		const phone = document.querySelector('#phone');
+		const registration = document.querySelector('#registration');
+		const gender = document.querySelector('#gender');
+		const level = document.querySelector('#level');
+		const account = document.querySelector('#account');
+		let updateData;
+
+		//set modal 
+		updateBtn.forEach(function (button) {
+			button.addEventListener('click', () => {
+				updateData = document.querySelector(`#id${button.dataset.id}`);
+				let id = button.dataset.id;
+				axios({
+					url: 'http://localhost:8080/carbon/member/api/getUpdateData',
+					method: 'get',
+					params: {
+						"id": id
+					},
+					headers: { 'Content-Type': 'application/x-www-form-urlencode' }
+				})
+					.then(response => {
+						idEmail.innerText = `${response.data.innerId} - ${response.data.email}`;
+						modalId.value = response.data.innerId;
+						modalEmail.value = response.data.email
+						userId.value = response.data.id;
+						memberPwd.value = response.data.pwd;
+						memberName.value = response.data.name
+						birthday.value = response.data.birthday
+						phone.value = response.data.phone
+						registration.value = response.data.registration
+						gender.value = response.data.gender
+						level.value = response.data.level
+						account.value = response.data.account
+
+					})
+					.catch(err => {
+						console.log('err: ' + err);
+					})
+			})
+		})
+
+		//update modal
+		const update = document.querySelector('#update');
+		update.addEventListener('click', function () {
+			let update_id = modalId.value;
+			let update_email = modalEmail.value;
+			let update_userId = userId.value;
+			let update_memberPwd = memberPwd.value;
+			let update_memberName = memberName.value;
+			let update_origin_birthday = birthday.value;
+			let update_phone = phone.value;
+			let update_origin_registration = registration.value;
+			let update_gender = gender.value;
+			let update_level = level.value;
+			let update_account = account.value;
+
+			console.log("日期1" + update_origin_birthday);
+			var options = {
+				year: "numeric",
+				month: "2-digit",
+				day: "2-digit",
+
+			};
+			let update_birthday = new Date(update_origin_birthday).toLocaleDateString('zh', options).replace(/\//g, '-');
+			let update_registration = new Date(update_origin_registration).toLocaleDateString('zh', options).replace(/\//g, '-');
+			console.log("日期2" + update_birthday);
+			axios({
+				url: 'http://localhost:8080/carbon/member/api/update',
+				method: 'put',
+				data: {
+					"innerId": update_id,
+					"id": update_userId,
+					"email": update_email,
+					"pwd": update_memberPwd,
+					"name": update_memberName,
+					"birthday": update_birthday,
+					"gender": update_gender,
+					"phone": update_phone,
+					"registration": update_registration,
+					"level": update_level,
+					"account": update_account
+				},
+				headers: { 'Content-Type': 'application/json' }
+			})
+				.then(response => {
+
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: 'udpate success',
+						showConfirmButton: false,
+						timer: 1000
+					})
+					console.log(updateData);
+					var siblings = Array.from(updateData.parentNode.children).filter(function (child) {
+						return child !== updateData;
+					});
+					siblings[0].innerText = update_userId;
+					siblings[1].innerText = update_email;
+					siblings[2].innerText = update_memberPwd;
+					siblings[3].innerText = update_memberName;
+					siblings[4].innerText = update_origin_birthday;
+					siblings[5].innerText = update_gender;
+					siblings[6].innerText = update_phone;
+					siblings[7].innerText = update_level;
+					siblings[8].innerText = update_account;
+					siblings[9].innerText = update_origin_registration;
+				})
+				.catch(err => {
+					console.log('err: ' + err);
+				})
+		})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		$(function () {
+			////////// showDesc //////////
+			$('.showDesc').on('click', function () {
+				$(this).toggleClass('text-truncate');
+			});
+
+			////////// Datatables find by name  //////////
+			// $('#gameitem_search').on('keyup', function () {
+			// 	console.log($(this).val());
+			// 	let thisval=$(this).val()
+			// 	$('#example').DataTable()
+			// 		.search(thisval)
+			// 		.draw();
+			// })
+		})
+		//////////  Delete //////////
+		const deleteBtn = document.getElementsByClassName('delBtn');
+		for (i = 0; i < deleteBtn.length; i++) {
+			deleteBtn[i].addEventListener('click', function (e) {
+				let deleteId = this.getAttribute('data-id');
+				let thisRow = $(this).closest('tr');
+				e.preventDefault();
+
+				Swal.fire({
+					title: 'Are you sure?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						axios({
+							url: 'http://localhost:8080/group5/gameitem/gameitemDelete',
+							method: 'delete',
+							data: {
+								itemId: deleteId
+							}
+						})
+							.then(function (response) {
+								console.log('response: ' + response.data);
+								var table = $('#example').DataTable();
+								table
+									.row(thisRow)
+									.remove()
+									.draw()
+							})
+							.then(function () {
+								Swal.fire(
+									'Deleted!',
+									'Your file has been deleted.',
+									'success'
+								)
+							})
+							.catch(err => {
+								console.log('err: ' + err);
+								Swal.fire({
+									icon: 'error',
+									title: 'Oops...',
+									text: 'Something went wrong!',
+								})
+							})
+					}
+				})
+			})
+		}
+
+		////////// find by name //////////
+		$('#gameitem_search').on('keyup change', function () {
+			let searchVal = $(this).val();
+			axios({
+				url: 'http://localhost:8080/group5/gameitem/api/getGameitemByName',
+				method: 'get',
+				params: {
+					itemName: searchVal
+				}
+			})
+				.then(response => {
+					console.log('response: ' + JSON.stringify(response.data));
+					htmlMaker(response.data);
+				})
+				.catch(err => {
+					console.log('err: ' + err);
+				})
+		})
+
+		////////// all gameitem //////////
+		function getAllGameItem() {
+			axios.get('http://localhost:8080/group5/gameitem/api/allGameitem')
+				.then(response => {
+					console.log('response: ' + response.data[0].itemName);
+					htmlMaker(response.data);
+				})
+				.catch(err => {
+					console.log('err: ' + err);
+				})
+		}
+
+		////////// table for ajax //////////
+		function htmlMaker(data) {
+			$('#example').DataTable().destroy();
+			let tbody = document.getElementById('showSeachItem');
+			tbody.innerHTML = ``;
+			tbody = '<tbody>';
+			data.forEach(item => {
+				////////// set timeformat //////////
+				var options = {
+					year: "numeric",
+					month: "2-digit",
+					day: "2-digit",
+					hour: "2-digit",
+					minute: "2-digit",
+					second: "2-digit",
+				};
+				const createTime = new Date(item.createTime).toLocaleString('zh', options);
+				const updateTime = new Date(item.updateTime).toLocaleString('zh', options);
+
+				tbody += `<tr>`;
+				tbody += `<td class="tdCenter">${item.itemId}</td>
+					<td class="imgBox overflow-hidden">
+						<img src="/group5/downloadImage/ + ${item.itemId}" alt="${item.itemImgName}" class="img-fluid">
+					</td>
+					<td>${item.itemName}</td>
+					<td>${item.game.gameId} ${item.game.gameName}</td>
+					<td class="showDesc text-truncate">${item.itemDesc}</td>
+					<td>${item.itemGrade}</td>
+					<td>${item.itemType}</td>`;
+				if (item.status == 1) {
+					tbody += `<td class="ps-3">
+								<i class="fa-regular fa-circle-check fa-2xl" style="color: #31dd39;"></i>
+							  </td>`;
+				} else {
+					tbody += `<td class="ps-3">
+								<i class="fa-solid fa-ban fa-2xl" style="color: #ff0000;"></i>
+							  </td>`;
+				}
+				tbody += `<td>${createTime}</td>`
+				if (item.updateTime == null) {
+					tbody += `<td></td>`
+				} else {
+					tbody += `<td>${updateTime}</td>`
+				}
+				tbody += `<td>
+						<form method="get" action="/group5/gameitem/gameitemUpdate">
+							<button type="submit" value="${item.itemId}" name="itemId" class="btn btn-info">
+								<i class="fa-solid fa-pen"></i>
+							</button>
+						</form>
+					</td>
+					<td>
+						<button type="submit" class="delBtn btn btn-secondary" data-id="${item.itemId}">
+							<i class="fa-solid fa-trash-can"></i>
+						</button>
+					</td>`;
+				tbody += `</tr>`;
+			})
+			tbody += '</tbody>';
+			const itemTable = document.getElementById('example');
+			itemTable.getElementsByTagName('tbody')[0].innerHTML = tbody;
+
+			$('#example').DataTable({
+				scrollX: true,
+				"dom": 'lrtip'
+			});
+
+			////////// showDesc //////////
+			$('.showDesc').on('click', function () {
+				$(this).toggleClass('text-truncate');
+			});
+		}
+	</script>
+</body>
+
+</html>
