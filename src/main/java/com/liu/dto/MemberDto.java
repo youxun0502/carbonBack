@@ -42,6 +42,16 @@ public class MemberDto {
 	
 	private String account ;
 	
+	private int status;
+	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public String getAccount() {
 		return account;
 	}

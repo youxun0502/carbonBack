@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		table {
+			background-color: rgb(33, 37, 41);
+		}
+
+		table td,
+		table th {
+			max-width: 170px;
+		}
+
+		.tdCenter {
+			text-align: center;
+		}
+
+		.imgBox {
+			width: 100px;
+			height: 100px;
+		}
+
+		.showDesc {
+			cursor: pointer;
+		}
+
+		.section-big {
+			max-width: calc(100% - 42px);
+		}
+
+		.section-small {
+			max-width: calc(100% - 200px);
+		}
+	</style>
+	<title>賽事列表</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navMain}"></div>
+	<div class="d-flex">
+		<div th:replace="~{layout/asideMain}"></div>
+		<div class="w-100 section section-big">
+			<div class="content mt-3" th:replace="~{chen/Main}"></div>
+			<div class="container-fluid">
+				<div class="row my-3">
+					<table id="example" class="hover row-border" style="width:100%">
+						<thead>
+							<tr>
+								<th>賽事ID
+								<th>活動名稱
+								<th>描述欄
+								<th>開始日期
+								<th>結束日期
+								<th>限時優惠
+								<th>活動地點
+								<th>名額限制
+								<th>報名截止日期
+								<th>報名費
+								<th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<form method="post" th:action="@{/event/insert}">
+									<td>
+										<select name="gameId">
+											<th:block th:each=" game : ${gameList}">
+												<option th:value="${game.gameId}"
+													th:text="${game.gameId + ' - ' + game.gameName}"></option>
+											</th:block>
+										</select>
+									</td>
+									<td>
+										<input style="width: 100%" type="text" name="name" required autocomplete=off />
+									</td>
+									<td>
+										<input style="width: 100%" type="text" name="desc" autocomplete=off />
+									</td>
+									<td>
+										<input id="pick-start_date" style="width: 100%" type="text" name="startDate"
+											required autocomplete=off />
+									</td>
+									<td>
+										<input id="pick-end_date" style="width: 100%" type="text" name="endDate"
+											required autocomplete=off />
+									</td>
+									<td>
+										<input style="width: 100%" type="text" name="timeLimitedDiscount"
+											autocomplete=off />
+									</td>
+									<td>
+										<input style="width: 100%" type="text" name="location" required
+											autocomplete=off />
+									</td>
+
+									<td>
+										<input style="width: 100%" type="text" name="quotaLimited" autocomplete=off />
+									</td>
+									<td>
+										<input id="pick-deadline" style="width: 100%" type="text" name="deadline"
+											required autocomplete=off />
+									</td>
+									<td>
+										<input id="pick-deadline" style="width: 100%" type="text" name="fee"
+											autocomplete=off />
+									</td>
+									<td>
+										<button type="submit">新增</button>
+									</td>
+								</form>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(function () {
+
+			$.extend(true, $.fn.dataTable.defaults, {
+				searching: false,
+				ordering: true,
+			});
+
+			$(document).ready(function () {
+				$('#example').DataTable();
+			});
+
+			$("#pick-start_date").datepicker({
+				dateFormat: 'yy-mm-dd',
+				onSelect: function (selected) {
+					$("#pick-end_date").datepicker("option", "minDate", selected);
+
+					$("#pick-deadline").datepicker("option", "maxDate", selected);
+				},
+			});
+
+			$("#pick-end_date").datepicker({
+				dateFormat: 'yy-mm-dd',
+				onSelect: function (selected) {
+					$("#pick-start_date").datepicker("option", "maxDate", selected);
+				},
+			});
+
+			$("#pick-deadline").datepicker({
+				dateFormat: 'yy-mm-dd',
+				onSelect: function (selected) {
+					$("#pick-start_date").datepicker("option", "minDate", selected);
+				},
+			});
+
+			
+		})
+	</script>
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 package com.liu.controller;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,5 +148,32 @@ public class MemberController {
 		} else {
 			return "fail";
 		}
+	}
+	
+	@ResponseBody
+	@GetMapping("/member/api/seachByName")
+	public List<MemberDto> findMemberByName(@RequestParam(name = "name") String name) {
+		List<MemberDto> memberDtos = new ArrayList<>();
+		List<Member> members = mService.findByName(name);
+		
+		for (Member member : members) {
+			MemberDto memberDto = new MemberDto();
+			memberDto.setInnerId(member.getId().toString());
+			memberDto.setBirthday(member.getBirthday());
+			memberDto.setEmail(member.getEmail());
+			memberDto.setGender(member.getGender());
+			memberDto.setLevel(member.getLevelId());
+			memberDto.setName(member.getMemberName());
+			memberDto.setId(member.getUserId());
+			memberDto.setPhone(member.getPhone());
+			memberDto.setPwd(member.getMemberPwd());
+			memberDto.setRegistration(member.getRegistrationDate());
+			memberDto.setAccount(member.getAccount());
+			memberDto.setStatus(member.getStatus());
+			memberDtos.add(memberDto);
+		}
+		return memberDtos;
+		
+
 	}
 }

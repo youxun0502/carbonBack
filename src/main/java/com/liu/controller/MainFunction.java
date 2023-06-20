@@ -29,6 +29,11 @@ public class MainFunction {
 		return "liu/home";
 	}
 	
+	@GetMapping("/")
+	public String homePage() {
+		return "liu/home";
+	}
+	
 	@GetMapping("/main/loginPage")
 	public String loginPage(){
 		return "/liu/memberLogin";
@@ -40,6 +45,8 @@ public class MainFunction {
 		
 		Member member = mService.isMember(email, memberPwd);
 		if(member == null) {
+			return "/liu/memberLoginError";
+		}else if(member.getStatus() == 2) {
 			return "/liu/memberLoginError";
 		}else if(member.getLevelId() == 100){
 			session.setAttribute("managerBeans", member);
