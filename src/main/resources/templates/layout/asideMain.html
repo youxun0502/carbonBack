@@ -80,7 +80,7 @@
     	})
     	
     	$('#asideBtn-right').on('click', function(){
-    		console.log('onClick right')
+
     		$('#asideBtn-right').addClass('d-none');
     		$('#asideBtn-left').removeClass('invisible');
     		$('#asideWidth').removeClass('aside-toggle');
@@ -89,7 +89,7 @@
     	})
     	
     	$('#asideBtn-left').on('click', function(){
-    		console.log('onClick left')
+
     		$('#asideBtn-right').removeClass('d-none');
     		$('#asideBtn-left').addClass('invisible');
     		$('#asideWidth').removeClass('aside-toggle');
@@ -103,7 +103,7 @@
     let bodyWidth =0;
     function showAside(){
     	bodyWidth = $('body').width();
-   		console.log(bodyWidth);
+   	
     	if(bodyWidth >= 992){
     		$('.aside').addClass('show');
     		$('#asideBtn-right').addClass('d-none');

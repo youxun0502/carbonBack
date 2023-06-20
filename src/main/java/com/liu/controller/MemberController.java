@@ -1,6 +1,8 @@
 package com.liu.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -122,5 +124,28 @@ public class MemberController {
 			return "false";
 		}
 
+	}
+
+	@ResponseBody
+	@PutMapping("/member/api/delete")
+	public String delete(@RequestBody Map<String,Integer> deleteId) {
+		boolean status = mService.deleteById(deleteId.get("id"));
+		if (status == true) {
+			return "finish";
+		} else {
+			return "fail";
+		}
+
+	}
+	
+	@ResponseBody
+	@PutMapping("/member/api/restore")
+	public String restore(@RequestBody Map<String,Integer> restoreId) {
+		boolean status = mService.restoreById(restoreId.get("id"));
+		if (status == true) {
+			return "finish";
+		} else {
+			return "fail";
+		}
 	}
 }

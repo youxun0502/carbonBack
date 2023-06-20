@@ -57,15 +57,15 @@ public class MemberService {
 			updateMember.setBirthday(member.getBirthday());
 			updateMember.setGender(member.getGender());
 			updateMember.setPhone(member.getPhone());
-			if(member.getLevelId() == 100) {
+			if (member.getLevelId() == 100) {
 				Optional<Level> level = levelRepository.findById(100);
-				if(level.isPresent()) {
+				if (level.isPresent()) {
 					updateMember.setLevel(level.get());
 				}
-	
-			}else {
+
+			} else {
 				Optional<Level> level = levelRepository.findById(1);
-				if(level.isPresent()) {
+				if (level.isPresent()) {
 					updateMember.setLevel(level.get());
 				}
 			}
@@ -75,8 +75,18 @@ public class MemberService {
 		return false;
 	}
 
-	public void deleteById(Integer id) {
-		mRepository.deleteById(id);
+	@Transactional
+	public boolean deleteById(Integer id) {
+		Member member = mRepository.getReferenceById(id);
+		member.setStatus(2);
+		return true;
+	}
+	
+	@Transactional
+	public boolean restoreById(Integer id) {
+		Member member = mRepository.getReferenceById(id);
+		member.setStatus(1);
+		return true;
 	}
 
 	public Member isMember(String email, String memberPwd) {
@@ -92,7 +102,7 @@ public class MemberService {
 		return null;
 	}
 
-	//註冊驗證email
+	// 註冊驗證email
 	public boolean emailAlreadyRegistered(String email) {
 		Member member = mRepository.findMemberByEmail(email);
 		if (member != null) {
@@ -101,7 +111,7 @@ public class MemberService {
 		return false;
 	}
 
-	//註冊驗證phone
+	// 註冊驗證phone
 	public boolean phoneAlreadyRegistered(String phone) {
 		Member member = mRepository.findMemberByPhone(phone);
 		if (member != null) {
@@ -115,15 +125,17 @@ public class MemberService {
 
 		Set<Member> members = new HashSet<>();
 		member.setMemberPwd(pwdEncoder.encode(member.getMemberPwd()));
+		member.setStatus(1);
 		members.add(member);
 
 		Optional<Level> optional = levelRepository.findById(1);
 		if (optional.isPresent()) {
 			Level level = optional.get();
-			//level.setMember(members);/*level已經改變了，如果下方不寫levelRepository.save(level); ，那就要在方法前加上@Transactional*/
+			// level.setMember(members);/*level已經改變了，如果下方不寫levelRepository.save(level);
+			// ，那就要在方法前加上@Transactional*/
 			member.setLevel(level);
 			mRepository.save(member);
-			//levelRepository.save(level);
+			// levelRepository.save(level);
 			return true;
 		}
 		return false;
