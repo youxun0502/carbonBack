@@ -33,6 +33,7 @@
 		max-width: calc(100% - 200px);
 	}
 	}
+
 </style>
 <title></title>
 </head>
@@ -46,13 +47,11 @@
 		</div>
         <a class="nav-link active link-light" aria-current="page"
             th:href="@{/member}">MEMBER</a>
-        <a class="nav-link link-light"
-            href="#">GAME</a>
-        <a class="nav-link link-light" th:href="@{/gameitem}">GAME ITEM</a>
-        <a class="nav-link link-light" href="#">SHOP</a>
+        <a class="nav-link link-light" th:href="@{/game}">GAME</a>
+        <a class="nav-link link-light" th:href="@{/gameitem/allGameitem}">GAME ITEM</a>
+        <a class="nav-link link-light" th:href="@{/bonus/main}">SHOP</a>
         <a class="nav-link link-light" th:href="@{/competition/data}">EVENT</a>
-        <a class="nav-link link-light"
-            href="#">DISCUSSIONS</a>
+        <a class="nav-link link-light" th:href="@{/discussions}">DISCUSSIONS</a>
     </nav>
 </aside>
 <div>

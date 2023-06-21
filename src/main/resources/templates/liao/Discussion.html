@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>論壇頁面</title>
+  <style>
+    .list-group-item {
+      align-items: center;
+    }
+
+    .post-image {
+      flex-shrink: 0;
+      width: 100px;
+      height: 100px;
+      margin-right: 20px;
+    }
+
+    .post-content {
+      flex-grow: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>論壇</h1>
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex">
+          <img src="image.jpg" alt="圖片" class="post-image">
+          <div class="post-content">
+            <h5 class="mb-1 text-center">帖子標題 1</h5>
+            <p class="mb-1 text-center">帖子內容...</p>
+            <small class="text-muted text-center">作者 1</small>
+          </div>
+        </div>
+      </a>
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex">
+          <img src="image.jpg" alt="圖片" class="post-image">
+          <div class="post-content">
+            <h5 class="mb-1 text-center">帖子標題 2</h5>
+            <p class="mb-1 text-center">帖子內容...</p>
+            <small class="text-muted text-center">作者 2</small>
+          </div>
+        </div>
+      </a>
+      <!-- 其他帖子項目 -->
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

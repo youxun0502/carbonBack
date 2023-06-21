@@ -26,7 +26,7 @@ public class CompetitionRegistrationController {
 	private CompetitionRepository cRepo;
 	
 	//跳轉新增頁面
-	@GetMapping("/competition/registration")
+	@GetMapping("/3/competition/registration")
 	public String signupPage(Model m) {
 		List<Competition> competitions = cRepo.findAll();
 		m.addAttribute("competitions", competitions);
@@ -61,7 +61,7 @@ public class CompetitionRegistrationController {
 	}
 	
 	//新增資料
-	@PostMapping("/competition/registration/insert")
+	@PostMapping("/3/competition/registration/insert")
 	public String inserData(@RequestParam("competitionId")Integer id,@RequestParam("gameNickname")String gameNickname,@RequestParam(value = "teamName", required = false)String teamName,
 							@RequestParam("realName")String realName,@RequestParam("email")String email,@RequestParam("phone")String phone,
 							@RequestParam("address")String address) {

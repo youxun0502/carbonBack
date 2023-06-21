@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.Even.model.GameDTO;
-import com.Even.model.GameDTORepository;
 import com.chen.model.Competition;
 import com.chen.service.CompetitionService;
+import com.evan.dao.GameRepository;
+import com.evan.model.Game;
 
 @Controller
 public class CompetitionController {
@@ -23,12 +23,12 @@ public class CompetitionController {
 	private CompetitionService cService;
 	
 	@Autowired
-	private GameDTORepository gRepo;
+	private GameRepository gRepo;
 	
 	//跳轉新增頁面
 	@GetMapping("/competition/add")
 	public String processInsert(Model m) {
-		List<GameDTO> gameList = gRepo.findAll();
+		List<Game> gameList = gRepo.findAll();
 		m.addAttribute("gameList", gameList);
 		return "chen/insertCompetition";
 	}

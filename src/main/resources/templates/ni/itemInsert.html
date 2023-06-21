@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .area1 {
+            background-color: rgba(53, 53, 53, 0.705);
+            border-radius: 14px;
+            padding: 20px 50px;
+        }
+
+        .imgBox {
+            height: 350px;
+            border: 2px dashed rgb(40, 44, 49);
+            background-color: rgba(65, 65, 65, 0.418);
+        }
+
+        .errMsg {
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            color: #dc3545;
+        }
+    </style>
+    <title>新增道具資料</title>
+</head>
+
+<body>
+    <div th:replace="~{layout/navMain}"></div>
+    <div class="d-flex">
+        <div th:replace="~{layout/asideMain}"></div>
+        <div class="w-100">
+            <div class="content mt-3">
+                <nav class="navbar navColor">
+                    <div class="container-fluid">
+                        <a class="navbar-brand link-light" th:href="@{/gameitem}" style="font-size: 30px;">GAME ITEM</a>
+                        <form class="d-flex" role="search" method="get" th:action="@{/gameitem/getGameitemByName}">
+                            <input class="form-control me-2" type="search" placeholder="道具名稱查詢" aria-label="Search"
+                                name="itemName">
+                            <button class="btn btn-outline-warning" type="submit">Search</button>
+                        </form>
+                    </div>
+                </nav>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/gameitem/allGameitem}">ALL</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
+                    </li>
+                    <li class="nav-item">
+						<a class="nav-link" th:href="@{/gameitem/allOrder}">ORDER LOG</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/gameitem/allItemLog}">ITEM LOG</a>
+					</li>
+                </ul>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="area1 my-4 w-75">
+                    <div>
+                        <h2>新增道具資料</h2>
+                    </div>
+                    <form th:action="@{/gameitem/newGameitem}" method="post" enctype="multipart/form-data"
+                        class="row g-3 needs-validation" novalidate>
+                        <div class="col-lg-6">
+                            <div class="imgBox overflow-hidden d-flex justify-content-center align-items-center">
+                                <img src="" class="rounded img-fluid" alt="" id="show">
+                            </div>
+                            <input name="myImg" type="file" id="itemImg1" class="form-control" />
+                        </div>
+                        <div class="col-lg-6 gy-3">
+                            <div class="mb-3">
+                                <label for="gameId" class="form-label h4">選擇遊戲</label>
+                                <select name="gameId" id="gameId1" class="form-select form-select-lg"
+                                    aria-label="form-select-lg example" required>
+                                    <option selected disabled value="">選擇遊戲...</option>
+                                    <th:block th:each="game : ${games}">
+                                        <option th:value="${game.gameId}" th:selectedName="${game.gameName}">
+                                            [[${game.gameId}]]
+                                            [[${game.gameName}]]</option>
+                                    </th:block>
+                                </select>
+                                <input type="hidden" name="gameName" id="gameName1">
+                                <div class="invalid-feedback fs-5">
+                                    請選擇遊戲
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="itemName" class="form-label h4">道具名稱</label>
+                                <input name="itemName" type="text" id="itemName1" class="form-control form-control-lg"
+                                    placeholder="ITEM NAME" required autofocus />
+                                <div class="invalid-feedback fs-5">請輸入道具名稱</div>
+                                <div class="errMsg fs-5" id="errMsg">選擇的遊戲已經存在相同名稱的道具</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label h4">交易狀態</label>
+                                <select name="status" id="status1" class="form-select form-select-lg mb-3"
+                                    aria-label=".form-select-lg example">
+                                    <option id="txn" value="1">可交易</option>
+                                    <option id="ntxn" value="0">不可交易</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="itemDesc" class="form-label h4">道具介紹</label>
+                            <textarea name="itemDesc" class="form-control form-control-lg" id="itemDesc1"
+                                placeholder="DESCRIPTION" style="height: 100px"></textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="itemGrade" class="form-label h4">道具等級</label>
+                            <input name="itemGrade" type="text" id="itemGrade1" class="form-control form-control-lg"
+                                placeholder="GRADE" />
+                        </div>
+                        <div class="col-md-12">
+                            <label for="itemType" class="form-label h4">道具種類</label>
+                            <input name="itemType" type="text" id="itemType1" class="form-control form-control-lg"
+                                placeholder="TYPE" />
+                        </div>
+                        <div class="gap-2 d-md-flex justify-content-md-end mt-5">
+                            <input type="submit" value="確定" class="btn btn-warning col-3" />
+                            <input type="reset" value="清空" class="btn btn-secondary col-3" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        ////////// Validation //////////
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        event.preventDefault();
+                        let itemName = document.getElementById('itemName1').value;
+                        let gameId = document.getElementById('gameId1').value;
+                        checkItemName(itemName, gameId)
+                            .then(function (result) {
+                                console.log('result: ' + result);
+                                if (result) {
+                                    console.log('stop');
+                                    event.stopPropagation();
+                                    document.getElementById('errMsg').style.display = 'block';
+                                } else {
+                                    console.log('next');
+                                    document.getElementById('errMsg').style.display = null;
+                                    form.submit();
+                                }
+                            })
+                            .catch(function (err) {
+                                console.log('err: ' + err);
+                            });
+                        form.classList.add('was-validated');
+                    }, false)
+                })
+        })()
+
+		////////// check itemName //////////
+        function checkItemName(name, id) {
+            return new Promise(function (resolve, reject) {
+                axios({
+                    url: 'http://localhost:8080/carbon/gameitem/checkItemName',
+                    method: 'get',
+                    params: {
+                        itemName: name,
+                        gameId: id
+                    }
+                })
+                    .then(response => {
+                        resolve(response.data);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    })
+            })
+        }
+
+        $(function () {
+            ////////// select game //////////
+            var gameName = $('#gameId1').find('option:selected').attr('selectedName');
+            $('#gameName1').attr('value', gameName);
+            $('#gameId1').change(function () {
+                var selectedName = $('#gameId1').find('option:selected').attr('selectedName');
+                console.log(selectedName);
+                $('#gameName1').attr('value', selectedName);
+            })
+
+            ////////// change image //////////
+            $('#itemImg1').change(function () {
+                readURL(this);
+            })
+
+        })
+
+        ////////// show image //////////
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#show').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

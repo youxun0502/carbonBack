@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<style>
+table {
+	background-color: rgb(33, 37, 41);
+}
+.btn-group{
+	border:0.25px solid gray;	
+}
+.table-dark td, th{
+	max-width:200px;
+	text-align: center;
+}
+
+* td {
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.image-container {
+  position: relative;
+}
+
+.image-container img {
+  transition: opacity 0.3s;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.image-container:hover img {
+  opacity: 0.7;
+}
+
+.image-container:hover .overlay {
+  opacity: 1;
+}
+
+.delete-icon {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  color: #fff;
+  background-color: #333;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.image-container:hover .delete-icon {
+  background-color: #ff0000;
+}
+.section-big {
+			max-width: calc(100% - 42px);
+}
+
+.section-small {
+	max-width: calc(100% - 200px);
+}
+</style>
+<title>GameDashBoard</title>
+</head>
+<body onload="showGames()">
+<!-- =================NAV&SIDEBA======================  -->
+	<div th:replace="~{layout/navMain}"></div>
+	<div class="d-flex">
+	<div th:replace="~{layout/asideMain}"></div>
+<!-- =================NAV&SIDEBA END====================  -->
+
+
+<!-- =================SEARCH LINE======================  -->
+		<div class="d-flex w-100 flex-column flex-wrap section"
+			style="max-width: calc(100% - 200px);">
+			<div class="content mt-3">
+			
+			<!-- =================search Bar====================== -->
+				<nav class="navbar navColor">
+					<div class="container-fluid">
+						<a class="navbar-brand link-light" th:href="@{/game}" style="font-size: 30px">GAME</a><!-- 連線首頁 -->
+							<div class="d-flex" role="search" >
+								<input class="form-control me-2" type="search" placeholder="Search"  aria-label="Search" name="gname" id="findNamek">
+									<button class="btn btn-outline-warning" type="submit" id="findName">Search</button><!-- Ajex模糊查詢 -->
+							</div>
+					</div>
+				</nav>
+			<!-- =================search Bar END==================== -->
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+					<a class="nav-link active" th:href="@{/game}">All</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/game/type/all}">type</a>
+				</li>
+				<li class="nav-item">
+					<div>
+						<button class="nav-link "  name="insert" type="submit" data-bs-toggle="modal" data-bs-target="#create" onclick="clearButton();">NewGame</button>
+					</div>
+				</li>
+			</ul>
+			</div>
+<!-- =================SEARCH LINE END===================  -->
+
+			<div class="container-fluid ">
+				<div class="row my-3">
+					<table id="example"
+						class="hover row-border" style="width:100%">
+						<thead>
+							<tr >
+								<th scope="col" style="width: 60px;">遊戲編號
+								<th scope="col">遊戲名稱
+								<th scope="col">遊戲價格
+								<th scope="col">欲上架日期
+								<th scope="col">遊戲介紹
+								<th scope="col">遊戲標籤
+								<th scope="col">遊戲圖片
+								<th scope="col">購買人數
+								<th scope="col">遊戲狀態
+								<th scope="col">操作
+						</thead>
+						<tbody id="showAllGame"><!-- JS打印Table -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	
+<!-- ========================modal body================================ -->
+	
+	<div class="modal fade " id="create" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true"
+		style="color: black">
+		<div class="modal-dialog" onload="RunForm()">
+			<form class="needs-validation" method="post" id="gameForm" th:action="@{/game/create}" enctype="multipart/form-data" novalidate><!-- create Game -->
+				<div class="modal-content"
+					style="background-color: #262424; color: white;">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Create New Game</h5>
+						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<table id="CTable" >
+							<tbody>
+								<tr>
+									<td>遊戲名稱
+									<td><input type="text" name="GameName" id="copyName" class="form-control" required /> 
+										<span id="username_err" style="display: none; color: yellow;">
+											<em>不要抄襲</em>
+										</span> 
+										<span class="invalid-feedback" style="color: rgb(238, 146, 146);">
+											<em>No Name???Are you sure???</em> 
+										</span>
+									</td>
+								<tr>
+									<td>遊戲價格
+									<td><input type="text" name="Price" class="form-control" required pattern="^\d+(\.\d+)?$" />
+										 <span class="invalid-feedback" style="color: rgb(238, 146, 146);">
+										 	<em>Please enter Number</em> 
+										 </span>
+								<tr>
+									<td>上架時間
+									<td><input type="date" name="CreateDate" value="2002-01-01" class="form-control today" />
+										<div class="valid-feedback" style="color: rgb(114, 245, 132);">
+											<em>Looks good!</em>
+										</div>
+								<tr>
+									<td>遊戲介紹
+									<td><textarea   name="GameIntroduce" class="form-control" required style="height:100px"></textarea>
+										<div class="valid-feedback" style="color: rgb(114, 245, 132);">
+											<em>Looks good!</em>
+										</div>
+										<div class="invalid-feedback" style="color: rgb(238, 146, 146);">
+											<em>Lazy!</em>
+										</div>
+								<tr>
+									<td>遊戲標籤
+									<td><textarea   name="GameTypes" class="form-control" required style="height:50px"></textarea>
+									<em>請用 " , " 區分類別 例如：FPS,第一人稱射擊</em>
+										<div class="valid-feedback" style="color: rgb(114, 245, 132);">
+											<em>Looks good!</em>
+										</div>
+										<div class="invalid-feedback" style="color: rgb(238, 146, 146);">
+											<em>Lazy!</em>
+										</div>
+								<tr>
+									<td>圖片
+									<td><div id="carouselExample" class="carousel slide" style="width:350px;display:none">
+										  <div class="carousel-inner" id="demo">
+										  </div>
+										  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+										    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										    <span class="visually-hidden">Previous</span>
+										  </button>
+										  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+										    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+										    <span class="visually-hidden">Next</span>
+										  </button>
+										</div>
+										<div class="invalid-feedback" style="color: rgb(238, 146, 146);">
+											<em>????</em>
+										</div>
+										<input type="file" name="gameImg" accept=".png,.jpg,.gif" class="form-control" required id="file" multiple/>
+								<tr>
+									<td>購買人數
+									<td><input type="text" name="BuyerCount" class="form-control" pattern="[0-9]{1,}" required />
+										<div class="valid-feedback" style="color: rgb(114, 245, 132);">Looks good!</div>
+										<div class="invalid-feedback" style="color: rgb(238, 146, 146);">
+											<em>Give me the Number!</em>
+										</div>
+								<tr>
+									<td>上架狀態
+									<td style="text-align: center">
+									<input type="radio" name="Status" value="0" checked />
+										<em>關閉</em> 
+									<input type="radio" name="Status" value="1" style="margin-left: 50px" />
+										<em>開啟</em>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" onclick="RunForm();">確定</button>
+						<button type="button" class="btn btn-secondary"data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+<!-- ========================modal body END============================= -->
+
+<!-- ========================modal delete============================= -->
+	<div class="modal fade" id="deletemessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content" style="background-color: #252424 ; color: white">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5"  id="deleteTitle" style="color: white">刪除</h1>
+					<button type="button" class="btn-close　btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="color: rgb(238, 146, 146);">
+					注意：這是一個不可逆的動作</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+					<form th:method="delete" th:action="@{/game/delete}" >
+					  <input type="hidden" name="id" id="selectedInput">
+					  <button type="submit" class="btn btn-primary">Delete Game</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- ========================modal delete END============================= -->
+
+<!-- ========================modal update ================================ -->
+<div class="modal fade " id="updatemessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: black">
+     <div class="modal-dialog">
+         <form th:action="@{/game/updateNoImg}" th:method="put" enctype="multipart/form-data" class="needs-validation" novalidate>
+             <div class="modal-content" style="background-color: #252424 ; color: white">
+                 <div class="modal-header">
+                     <h5 class="modal-title updateTitle " id="exampleModalLabel"></h5>
+                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body" >
+                     <table class="d-flex justify-content-center">
+                         <tr>
+                             <td>遊戲編號：
+                             <td><input type="text" class="form-control" readonly name="GameId" id="uGameId" style="background-color: #252424;border:none;color:white">
+                         <tr>
+                             <td>遊戲名稱：
+                             <td><input type="text"  name="GameName" class="form-control" required id="uGameName">
+                                 <div class="valid-feedback" style="color: rgb(114, 245, 132);">Looks good!</div></td>
+                         <tr>
+                             <td>遊戲價格：
+                             <td><input type="text" name="Price" id="uPrice" class="form-control" required>
+                        	  <div class="invalid-feedback" style="color: rgb(238, 146, 146);">Please enter Number</div>
+                         <tr>
+                             <td>上架時間：
+                             <td><input type="date"  name="CreateDate" id="uCreateDate" class="form-control today">
+                                 <div class="valid-feedback" style="color: rgb(114, 245, 132);">Looks good!</div>
+                         <tr>
+                             <td>遊戲介紹：
+                             <td><textarea  name="GameIntroduce" id="uIntroduce" class="form-control" required style="height:100px"></textarea>
+                                 <div class="valid-feedback" style="color: rgb(114, 245, 132);">Looks good!</div>
+                                 <div class="invalid-feedback" style="color: rgb(238, 146, 146);">Lazy!
+                                 </div>
+                         <tr>
+                             <td>遊戲標籤：
+                             <td><textarea  name="GameTypes" id="uTypes" class="form-control" required style="height:100px"></textarea>
+                                 <div class="valid-feedback" style="color: rgb(114, 245, 132);">Looks good!</div>
+                                 <div class="invalid-feedback" style="color: rgb(238, 146, 146);">Lazy!
+                                 </div>
+                         <tr>
+                             <td>購買人數：
+                             <td><input type="text"  name="BuyerCount" id="uBuyerCount" class="form-control"  pattern="[0-9]{1,}" required>
+                                 <div class="valid-feedback" style="color: rgb(114, 245, 132);">Looks good!</div>
+                                 <div class="invalid-feedback" style="color: rgb(238, 146, 146);">Give me the Number!
+                                 </div>
+                     </table>
+                 </div>
+                 <div class="modal-footer d-flex justify-content-center">
+                     <button type="submit" class="btn btn-primary">確定</button>
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                 </div>
+             </div>
+         </form>
+     </div>
+ </div>
+<!-- ========================modal update END============================= -->
+<!-- ========================modal Image ================================= -->
+<div class="modal fade" id="updateImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content" style="background-color: #252424 ; color: white">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="ImgTitle"></h1>
+        <button type="button" class="btn-close　btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="imageLists" >
+      <h4 id="imageTitle">圖片數量:</h4>
+	   	<!-- ========================輪播區================================= -->
+	 
+		<div id="photoList" class="carousel slide">
+			<div class="carousel-inner ImgInner" id="inputImg">
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#photoList" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button"
+				data-bs-target="#photoList" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+			<!-- ========================輪播區 END============================= -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+        <button type="button" class="btn btn-primary" id="uploadButton">新增圖片</button>
+        <input id="fileInput" type="file" style="display: none;" />
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ========================modal Image  END============================= -->
+<script th:src="@{/js/GameDashBoardHome.js}"></script> 
+<script src="https://unpkg.com/bootstrap-checkbox@2.0.0/dist/js/bootstrap-checkbox.js" defer></script>
+
+</body>
+</html>

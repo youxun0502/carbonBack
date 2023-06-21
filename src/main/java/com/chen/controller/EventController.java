@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.Even.model.GameDTO;
-import com.Even.model.GameDTORepository;
+
+
 import com.chen.model.Event;
 import com.chen.service.EventService;
+import com.evan.dao.GameRepository;
+import com.evan.model.Game;
 
 @Controller
 public class EventController {
@@ -23,12 +25,12 @@ public class EventController {
 	private EventService eService;
 	
 	@Autowired
-	private GameDTORepository gRepo;
+	private GameRepository gRepo;
 	
 	//跳轉新增頁面
 	@GetMapping("/event/add")
 	public String insertData(Model m) {
-		List<GameDTO> gameList = gRepo.findAll();
+		List<Game> gameList = gRepo.findAll();
 		m.addAttribute("gameList", gameList);
 		return "chen/insertEvent";
 	}

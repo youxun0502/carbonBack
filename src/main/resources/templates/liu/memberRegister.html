@@ -16,7 +16,7 @@
       <div class="col-12 col-lg-6 ms-lg-5 mx-auto">
         <div class="text-light mt-120 fs-3 p-3">建立您專屬的帳號</div>
         <div class=" h-50  col-12  p-3">
-          <form class="col-12" id="form" th:action="@{/member/register}" method="post" th:object=${memberDto}>
+          <form class="col-12" id="form" th:action="@{/main/register}" method="post" th:object=${memberDto}>
             <div id="animation" class="animate__animated ">
               <div class="mb-3">
                 <label for="email" class="form-label form-control-lg col-12 text-light">電子郵件</label>
@@ -64,11 +64,14 @@
                 </div>
                 <span class=" text-light space" id="genderSpace">space</span>
               </div>
-              <button type="submit" class="btn btn-primary col-12 col-lg-6 d-none mb-5" id="reigisterBtn"
+              <button type="submit" class="btn btn-primary col-12 col-lg-6 d-none mb-3" id="reigisterBtn"
                 disabled>註冊</button>
+                <button class="btn btn-secondary col-12 col-lg-6 d-none" id="autoInput2" >ㄧ鍵輸入</button>
             </div>
           </form>
           <button class="btn btn-primary col-12 col-lg-6" id="nextStep" disabled>下一步</button>
+          <button class="btn btn-secondary col-12 col-lg-6 mt-3" id="autoInput1">ㄧ鍵輸入</button>
+        
         </div>
       </div>
     </div>

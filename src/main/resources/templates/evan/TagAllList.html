@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style>
+.section-big {
+	max-width: calc(100% - 42px);
+}
+
+.section-small {
+	max-width: calc(100% - 200px);
+}
+</style>
+<title>Type Manager</title>
+</head>
+<body onload="getSort(1)">
+<!-- =================NAV&SIDEBA======================  -->
+	<div th:replace="~{layout/navMain}"></div>
+	<div class="d-flex">
+	<div th:replace="~{layout/asideMain}"></div>
+<!-- =================NAV&SIDEBA END====================  -->
+
+
+<!-- =================SEARCH LINE======================  -->
+		<div class="d-flex w-100 flex-column flex-wrap section"style="max-width: calc(100% - 200px);">
+			<div class="content mt-3">
+			
+			<!-- =================search Bar====================== -->
+				<nav class="navbar navColor">
+					<div class="container-fluid">
+						<a class="navbar-brand link-light" th:href="@{/game}" style="font-size: 30px">Type</a><!-- 連線首頁 -->
+<!-- 							<div class="d-flex" role="search" >
+								<input class="form-control me-2" type="search" placeholder="Search"  aria-label="Search" name="gname">
+									<button class="btn btn-outline-warning" type="submit" id="findName">Search</button>
+							</div> --><!-- Ajex模糊查詢 -->
+					</div>
+				</nav>
+			<!-- =================search Bar END==================== -->
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/game}">All</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active" th:href="@{/game/type/all}">type</a>
+				</li>
+			</ul>
+			</div>
+<!-- =================SEARCH LINE END===================  -->
+			<div class="container-fluid" >
+				<div class="row my-3 d-flex">
+					<div class="col-6">
+						<table border="1" id="example1"
+							class="hover row-border order-column table table-striped table-dark" style="width:100%">
+							<thead>
+								<tr >
+									<th scope="col">標籤名稱
+									<th scope="col" onclick="getSort(1)" >總銷售額
+									<th scope="col" onclick="getSort(2)">標籤遊戲數量
+									<th scope="col" onclick="getSort(3)">標籤遊戲購買人數
+							</thead>
+							<tbody id="showAllType"><!-- JS打印Table -->
+								<th:block th:each="type:${typeList}">
+									<tr>
+										<td>
+											<button class="btn btn-outline-warning ms-3 mt-1 " data-bs-toggle="modal" data-bs-target="#typeGameList" 
+												style="font-weight: bold;" onclick="getGameListByType(this)">#[[${type.typeName}]]</button></td>
+										<td>[[${type.totalSalesRev}]]</td>
+										<td>[[${type.gameNum}]]</td>
+										<td>[[${type.typeBuyer}]]</td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-1">
+					</div>
+					<div class="col-4" >
+						<div class="my-4">
+						<button class="btn btn-outline-success ms-3 mt-1 fs-5" onclick="getSort(1)">總銷售額</button>
+						<button class="btn btn-outline-success ms-3 mt-1 fs-5" onclick="getSort(2)">標籤遊戲數量</button>
+						<button class="btn btn-outline-success ms-3 mt-1 fs-5" onclick="getSort(3)">標籤遊戲購買人數</button>
+						</div>
+						 <canvas id="myChart" class="w-100"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--  ==============================  -->
+	<div class="modal fade" id="typeGameList"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content" style="background-color: #252424 ; color: white">
+				<div class="modal-header" >
+					<h1 class="modal-title fs-5" id="TypeGameTitle"></h1>
+					<button type="button" class="btn-close　btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="color: rgb(238, 146, 146);">
+				<table border="1" id="modalGameList"
+							class="hover row-border order-column table table-striped table-dark" style="width:100%">
+							<thead>
+								<tr >
+									<th scope="col">遊戲圖片
+									<th scope="col">遊戲名稱
+									<th scope="col">購買人數
+									<th scope="col">價格
+									<th scope="col">銷售額
+									<th scope="col">標籤
+							</thead>
+							<tbody id="showAllGameList"><!-- JS打印Table -->
+
+							</tbody>
+						</table>
+				</div>
+				<div class="modal-footer">
+
+				</div>
+			</div>
+		</div>
+	</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:src="@{/js/GameDashBoardHome.js}"></script> 
+</body>
+</html>

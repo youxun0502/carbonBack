@@ -37,7 +37,12 @@
 					<li class="nav-item"><a class="nav-link" href="#">GAME</a></li>
 					<li class="nav-item"><a class="nav-link " href="#">MARKET</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">EVENT</a>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+							href="#" aria-expanded="false">EVENT</a>
+					<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" th:href="@{/3/competition/registration}">CompetitinoRegistration</a></li>
+							<li><a class="dropdown-item text-light" th:href="@{/event/registration}">EventRegistration</a></li>
+					</ul>
 					<li class="nav-item"><a class="nav-link" href="#">DISCUSSIONS</a>
 					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
 							href="#" aria-expanded="false" th:text="${session.memberBeans.userId}"></a>

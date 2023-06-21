@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GAME ITEM MARKET</title>
+</head>
+
+<body>
+<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+    <div class="container my-5">
+        <div class="gx-3 d-flex justify-content-between">
+            <div class="card col-8">
+                <div class="card-header d-flex">
+                    <span class="col-11">Items</span>
+                    <span class="col-1">price</span>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <th:block th:each="order: ${orders}">
+                        <li class="list-group-item">
+                            <a th:href="@{'/market/'+ ${order.gameId} + '/' + ${order.itemName}}"
+                                class="col d-flex justify-content-between align-items-center link-dark">
+                                <div class="imgBox overflow-hidden row col-3" style="max-width: 150px">
+                                    <img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.itemImgName}"
+                                        class="img-fluid">
+                                </div>
+                                <div class="col-8">
+                                    <h4>[[${order.itemName}]]</h4>
+                                </div>
+                                <div class="col-1">
+                                    $ [[${order.price}]]
+                                </div>
+                            </a>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+            <div class="card col-3">
+                <div class="card-body">
+                    <div class="card-title">SEARCH</div>
+                    <div class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="道具名稱查詢" aria-label="Search"
+                            name="itemName" id="orderLog_search">
+                        <button class="btn btn-outline-warning" type="submit" id="orderLog_search_btn">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

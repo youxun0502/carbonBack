@@ -97,15 +97,6 @@
 	<script>
 		$(function () {
 
-			$.extend(true, $.fn.dataTable.defaults, {
-				searching: false,
-				ordering: true,
-			});
-
-			$(document).ready(function () {
-				$('#example').DataTable();
-			});
-
 			$('.delete-btn').click(function (event) {
 				event.preventDefault();
 				Swal.fire({
@@ -125,7 +116,10 @@
 				})
 			});
 
-			
+			$('#example').DataTable({
+				scrollX: true,
+				"dom": 'lrtip'
+			});
 
 
 

@@ -47,13 +47,17 @@ pwdContainer.addEventListener('blur', function () {
 });
 
 nextStepBtn.addEventListener('click', function () {
+  let autoInput2 = document.querySelector('#autoInput2');
+  let autoInput1 = document.querySelector('#autoInput1');
   animation.classList.add('animate__fadeOutLeft');
   animation.style.display = 'none';
   animationIn.style.display = 'block';
   animationIn.classList.add('animate__fadeInRight');
   this.style.display = 'none';
+  autoInput1.style.display = 'none';
   reigisterBtn.classList.remove('d-none');
-
+  autoInput2.classList.remove('d-none');
+  autoInput2.classList.add('animate__fadeInRight');
 })
 
 
@@ -156,7 +160,16 @@ form.addEventListener('submit', function (event) {
     classMaker(genderContainer[0], genderSpace, '請選擇一個選項', 'false');
     classMaker(genderContainer[1], genderSpace, '請選擇一個選項', 'false');
   } else {
-    form.submit();
+    Swal.fire({
+      title: 'Registration successful',
+      text: 'You have successfully registered',
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 1500
+    })
+    setTimeout(function () {
+      form.submit();
+    }, 1500)
   }
 })
 
@@ -192,7 +205,7 @@ function checkPwd(pwd) {
 function emailAPI(email) {
   return new Promise((resolve, reject) => {
     axios({
-      url: 'http://localhost:8080/carbon/member/api/checkEmail',
+      url: 'http://localhost:8080/carbon/main/api/checkEmail',
       method: 'get',
       params: {
         'e': email
@@ -278,7 +291,7 @@ function checkGender() {
 function phoneAPI(phone) {
   return new Promise((resolve, reject) => {
     axios({
-      url: 'http://localhost:8080/carbon/member/api/checkPhone',
+      url: 'http://localhost:8080/carbon/main/api/checkPhone',
       method: 'get',
       params: {
         'p': phone
@@ -334,3 +347,24 @@ function classMaker(container, space, text, status) {
     space.innerText = text;
   }
 }
+
+////////////// autoInput ////////////////////// 
+
+$('#autoInput1').on('click', function () {
+  $("#email").val("XiaoMing123@gmail.com");
+  $("#password").val("XiaoMing123");
+  $("#email").focus();
+})
+
+
+$('#autoInput2').on('click', function (event) {
+	event.preventDefault();
+  $("#userId").val("XiaoMing").trigger("change");
+  $("#email").val("XiaoMing123@gmail.com").trigger("change");
+  $("#memberPwd").val("XiaoMing123").trigger("change");
+  $("#memberName").val("XiaoMing").trigger("change");
+  $("#birthday").val("2000-05-01").trigger("change");
+  $("#phone").val("0908666444").trigger("change");
+  $('input[name="gender"][value="1"]').prop('checked', true).trigger("change");
+})
+

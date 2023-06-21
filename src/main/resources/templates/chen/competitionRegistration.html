@@ -7,6 +7,7 @@
 </head>
 
 <body>
+<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
 	<div class="container">
 		<h1>賽事報名</h1>
 		<table>
@@ -24,7 +25,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<form method="post" th:action="@{/competition/registration/insert}">
+					<form method="post" th:action="@{/3/competition/registration/insert}">
 					<td class="sorting_1">
 						<select name="competitionId">
 							<th:block th:each=" competition : ${competitions} " >
