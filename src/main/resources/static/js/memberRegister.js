@@ -360,8 +360,6 @@ $('#autoInput1').on('click', function () {
 $('#autoInput2').on('click', function (event) {
 	event.preventDefault();
   $("#userId").val("XiaoMing").trigger("change");
-  $("#email").val("XiaoMing123@gmail.com").trigger("change");
-  $("#memberPwd").val("XiaoMing123").trigger("change");
   $("#memberName").val("XiaoMing").trigger("change");
   $("#birthday").val("2000-05-01").trigger("change");
   $("#phone").val("0908666444").trigger("change");

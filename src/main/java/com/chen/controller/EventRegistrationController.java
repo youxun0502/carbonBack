@@ -26,7 +26,7 @@ public class EventRegistrationController {
 	private EventRepository eRepo;
 	
 	//跳轉新增頁面
-	@GetMapping("/event/registration")
+	@GetMapping("/3/event/registration")
 	public String signupPage(Model m) {
 		List<Event> events = eRepo.findAll();
 		m.addAttribute("events", events);
