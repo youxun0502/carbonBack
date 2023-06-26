@@ -20,9 +20,9 @@
 					style="text-align: center; font-size: 40px; padding: 0; margin: 0">
 					<i class="fa-solid fa-circle-user" style="font-size: 80px;"></i> <br>會員登入
 				</div>
-				<span>帳號</span><input type="text" name="email" id=""
-					placeholder="請輸入電子郵件"></Input> <br> <span>密碼</span><input
-					type="password" name="memberPwd" id="" placeholder="請輸入密碼"></Input>
+				<span>帳號</span><input type="text" name="email" id="email"
+					placeholder="請輸入電子郵件" th:value="${email}?${email}:null"></Input> <br> <span>密碼</span><input
+					type="password" name="memberPwd" id="memberPwd" placeholder="請輸入密碼"></Input>
 				<br>
 				<div style="height: 40px">
 					<Input type="checkbox" name="rememberMe" id="rememberMe" value="1"
