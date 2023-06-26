@@ -1,0 +1,49 @@
+body{
+	background-color: rgb(10, 11, 15) !important;
+}
+.click {
+	width: 100px;
+	height: 100px;
+	transition: all 3s;
+}
+
+.triangle {
+	top: 43%;
+	width: 0;
+	height: 0;
+	border-left: 40px solid transparent;
+	border-right: 40px solid transparent;
+	border-bottom: 50px solid #FBAF00;
+
+}
+.bg-customize{
+background-image: radial-gradient(rgb(71, 71, 72,0.6) , rgb(0,0,0,0.9)),url(../img/rouletteBg.jpg);
+background-size: 100% 100%;
+background-repeat: no-repeat;
+
+}
+
+.rotate {
+	animation: rotation 2s 1;
+}
+
+.mt-100px {
+	margin-top: 100px
+}
+
+#title{
+
+	margin-top: 30px;
+}
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+		animation-timing-function: ease-in;
+	}
+
+	100% {
+		transform: rotate(1080deg);
+		animation-timing-function: linear;
+	}
+}
