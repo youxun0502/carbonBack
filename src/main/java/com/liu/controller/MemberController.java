@@ -23,7 +23,6 @@ public class MemberController {
 	@Autowired
 	MemberService mService;
 
-
 	@GetMapping("/member")
 	public String memberMain() {
 		return "/liu/memberDataTable";
@@ -90,7 +89,7 @@ public class MemberController {
 
 	@ResponseBody
 	@PutMapping("/member/api/delete")
-	public String delete(@RequestBody Map<String,Integer> deleteId) {
+	public String delete(@RequestBody Map<String, Integer> deleteId) {
 		boolean status = mService.deleteById(deleteId.get("id"));
 		if (status == true) {
 			return "finish";
@@ -99,10 +98,10 @@ public class MemberController {
 		}
 
 	}
-	
+
 	@ResponseBody
 	@PutMapping("/member/api/restore")
-	public String restore(@RequestBody Map<String,Integer> restoreId) {
+	public String restore(@RequestBody Map<String, Integer> restoreId) {
 		boolean status = mService.restoreById(restoreId.get("id"));
 		if (status == true) {
 			return "finish";
@@ -110,13 +109,13 @@ public class MemberController {
 			return "fail";
 		}
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/member/api/seachByName")
 	public List<MemberDto> findMemberByName(@RequestParam(name = "name") String name) {
 		List<MemberDto> memberDtos = new ArrayList<>();
 		List<Member> members = mService.findByName(name);
-		
+
 		for (Member member : members) {
 			MemberDto memberDto = new MemberDto();
 			memberDto.setInnerId(member.getId().toString());
@@ -134,7 +133,5 @@ public class MemberController {
 			memberDtos.add(memberDto);
 		}
 		return memberDtos;
-		
-
 	}
 }
