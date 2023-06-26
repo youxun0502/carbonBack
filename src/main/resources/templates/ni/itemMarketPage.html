@@ -96,7 +96,7 @@
         <div class="buyPage my-4 w-75" id="buyPage1">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Buy an item</h2>
-                <button type="button" class="btn-close closeBtn1" id="closeBtn1" aria-label="Close"></button>
+                <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
             </div>
             <div class="row col mt-5 d-none" id="pageMsg">
                 <h4>Congratulations on your purchase!</h4>
@@ -115,6 +115,18 @@
                 </div>
                 <div class="col p-0 g-2 mb-5" id="buyPageInfo">
                 </div>
+                <div class="card">
+                    <div class="card-body col d-flex">
+                        <div class="card-text col-9 d-flex gap-3">
+                            <span>account: </span>
+                            <span th:text="${session.memberBeans} ? ${session.memberBeans.userId} : ''"></span>
+                            <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="buyer1" class=" d-none"></span>
+                        </div>
+                        <div class="mt-5 col-3 justify-content-md-center">
+                            <button class="btn btn-info" id="submitBtn">PURCHASE</button>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="gap-2 row col d-flex justify-content-end d-none" id="btnGroup">
                     <button class="btn btn-info submitBtn col-3">VIEW INVENTORY</button>
@@ -124,12 +136,14 @@
         </div>
     </div>
     <script>
-            $('.closeBtn1', '.closeBtn2').click(function () {
+            $('.closeBtn1,.closeBtn2').click(function () {
                 $('#showPage1').removeClass('d-flex');
             })
 
 
         const buyBtn = document.getElementsByClassName('buyBtn');
+        let buyer = document.getElementById('buyer1').textContent;
+        console.log('buyer: ' + buyer);
         for (i = 0; i < buyBtn.length; i++) {
             buyBtn[i].addEventListener('click', function (e) {
                 e.preventDefault();
@@ -139,7 +153,11 @@
                 )
                     .then(response => {
                         // console.log('response: ' + JSON.stringify(response.data));
-                        showBuyInfo(response.data);
+                        if(buyer != ''){
+	                        showBuyInfo(response.data);
+                        } else {
+                        	loginPage();
+                        }
                     })
                     .catch(err => {
                         console.log('err: ' + err);
@@ -147,9 +165,9 @@
             })
         }
 
-
+		const show = document.getElementById('showPage1');
+        const buyPageInfo = document.getElementById('buyPageInfo');
         function showBuyInfo(order) {
-            let buyPageInfo = document.getElementById('buyPageInfo');
             let infoHtmlString = `
                 <div class="card mb-2">
                     <div class="card-body">
@@ -163,26 +181,13 @@
                             <div class="col-1">$ ${order.price}</div>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-body col d-flex">
-                        <div class="card-text col-9 d-flex gap-3">
-                            <span>account: </span>
-                            <span id="buyer1">{managerBeans.userId}</span>
-                        </div>
-                        <div class="mt-5 col-3 justify-content-md-center">
-                            <button class="btn btn-info" id="submitBtn">PURCHASE</button>
-                        </div>
-                    </div>
                 </div>`;
+                
             buyPageInfo.innerHTML = infoHtmlString;
-            let show = document.getElementById('showPage1');
             show.classList.add('d-flex');
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.addEventListener('click', function (e) {
-                let buyer = document.getElementById('buyer1').textContent
-                console.log(buyer);
                 console.log(order.itemId);
                 e.preventDefault();
                 axios({
@@ -190,7 +195,7 @@
                     method: 'post',
                     data: {
                         itemId: order.itemId,
-                        buyer: 1,
+                        buyer: buyer,
                         seller: order.seller,
                         amount: 1,
                         price: order.price,
@@ -264,6 +269,19 @@
                 </div>`;
             buyPageInfo.innerHTML = infoHtmlString;
             $('#pageMsg').removeClass('d-none');
+        }
+        
+        function loginPage(){
+        let page1 = document.getElementById('buyPage1');
+        	let loginHtmlString = `
+        		<div>您需要登入或建立帳戶才能進行相關動作。</div>
+        		<div class="gap-2 row col d-flex justify-content-center" id="btnGroup">
+                    <a class="btn btn-info submitBtn col-3" href="">SIGN IN</a>
+                    <a class="btn btn-info col-3" href="">CREATE AN ACCOUNT</a>
+                    <a class="btn btn-info closeBtn2 col-2" href="">CANCLE</a>
+                </div>`;
+            page1.innerHTML = loginHtmlString;
+            show.classList.add('d-flex');
         }
     </script>
 </body>

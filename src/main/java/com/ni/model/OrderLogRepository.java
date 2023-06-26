@@ -14,6 +14,7 @@ public interface OrderLogRepository extends JpaRepository<OrderLog, Integer> {
 	
 	@Query("SELECT o.itemId, i.itemName, i.itemImgName, g.gameId, MIN(o.price) price FROM OrderLog o "
 			+ "JOIN GameItem i ON o.itemId = i.itemId JOIN Game g ON i.gameId = g.gameId "
-			+ "WHERE o.status = 1 GROUP BY o.itemId, i.itemName, i.itemImgName, g.gameId")
+			+ "WHERE o.status = 1 AND buyer IS NULL AND seller IS NOT NULL "
+			+ "GROUP BY o.itemId, i.itemName, i.itemImgName, g.gameId")
 	public List<Object[]> countOrderList();
 }
