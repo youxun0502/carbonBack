@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.chen.model.Competition;
+import com.chen.model.Event;
+import com.ni.model.GameItem;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,6 +46,15 @@ public class Game {
 	private Set<GameType> gameTypes = new HashSet<>();
 	
 	public Game() {}
+	
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+	private List<Competition> competitions = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+	private List<Event> event = new ArrayList<>();
+
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+	private List<GameItem> gameItem = new ArrayList<>();
 
 	@Override
 	public String toString() {
