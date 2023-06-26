@@ -43,7 +43,7 @@ public class Member {
 	private String memberName;
 	
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "birthday")
 	private Date birthday;
 	
@@ -60,7 +60,7 @@ public class Member {
 	private String account;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")// 回傳到前端的格式
-	@DateTimeFormat(pattern = "yyyy/MM/dd") // java的格式
+	@DateTimeFormat(pattern = "yyyy-MM-dd") // java的格式
 	@Temporal(TemporalType.DATE)// 資料庫的型別
 	@Column(name = "registrationDate")
 	private Date registrationDate;
