@@ -35,7 +35,7 @@ public class Game {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "game", cascade = CascadeType.ALL)
 	private List<GamePhoto> gamePhotoLists= new ArrayList<>();
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "gametypelist", 
 		joinColumns = {@JoinColumn(name = "GAMEID")},
 		inverseJoinColumns = {@JoinColumn(name = "TYPEID")})

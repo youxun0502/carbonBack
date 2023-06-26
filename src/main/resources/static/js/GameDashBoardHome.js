@@ -373,6 +373,7 @@ function showGameContent(gamesInfos) {
 	let tbody = document.getElementById('showAllGame');
 	let today = document.getElementsByClassName('today');
 	today[0].setAttribute('min',gamesInfos[0].today);
+	today[0].setAttribute('value',gamesInfos[0].today);
 	today[1].setAttribute('min',gamesInfos[0].today);
 	console.log(gamesInfos);
 	tbody.innerHTML = '';
