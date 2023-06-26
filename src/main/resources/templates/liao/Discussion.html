@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -30,7 +30,10 @@
     <div class="list-group">
       <a href="#" class="list-group-item list-group-item-action">
         <div class="d-flex">
-          <img src="image.jpg" alt="圖片" class="post-image">
+          <img width="200px"
+		   th:src="@{'/downloadImage/' + ${discussion.articleId}}"
+		   class="img-fluid">
+							
           <div class="post-content">
             <h5 class="mb-1 text-center">帖子標題 1</h5>
             <p class="mb-1 text-center">帖子內容...</p>
