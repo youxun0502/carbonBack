@@ -97,7 +97,7 @@
 							<tr th:each="discussion : ${discussions}">
 								<td th:text="${discussion.articleId}"></td>
 								<td class="imgBox overflow-hidden"><img width="200px"
-								    th:src="@{'/downloadImage/' + ${discussion.articleId}}"
+								    th:src="@{'/discussionsdownloadImage/' + ${discussion.articleId}}"
 								    class="img-fluid">
 								</td>
 								<td th:text="${discussion.memberId}"></td>

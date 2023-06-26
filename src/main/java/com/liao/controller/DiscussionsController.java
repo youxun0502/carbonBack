@@ -32,7 +32,7 @@ public class DiscussionsController {
 	
 	
 	//顯示圖片
-	@GetMapping("/discussiondownloadImage/{articleId}")
+	@GetMapping("/discussionsdownloadImage/{articleId}")
 	public ResponseEntity<byte[]> downloadImage(@PathVariable Integer articleId){
 		Discussions discussion = dService.findById(articleId);
 		byte[] photoFile = discussion.getPhotoFile();
