@@ -9,6 +9,17 @@
 <body>
 <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
     <div class="container my-5">
+    	<div class="card col my-5">
+            <div class="card-body">
+	            <div class="d-flex justify-content-between">
+		            <div>
+		            	<a href="#" class="btn btn-info">My Active Listing</a>
+		            	<a href="#" class="btn btn-info">My Market History</a>
+		            </div>
+	            	<a href="#" class="btn btn-info sellBtn" id="sellPageBtn1">Sell an Item</a>
+	            </div>
+            </div>
+        </div>
         <div class="gx-3 d-flex justify-content-between">
             <div class="card col-8">
                 <div class="card-header d-flex">
@@ -46,7 +57,78 @@
                 </div>
             </div>
         </div>
+        
+        <!-- ----------- inventory page ----------- -->
+	    <div class="showPage justify-content-center align-items-center" id="showPage1">
+	        <div class="myPage my-4 w-75" id="myPage1">
+	            <div class="d-flex justify-content-between align-items-center">
+	                <h4>INVENTORY</h4>
+	                <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
+	            </div>
+	            <div class="row g-2">
+	                <div class="card mt-4 mb-1">
+	                    <div class="card-body col">
+	                    	<div class="card-text col mb-3">
+				               <h4 th:text="${session.memberBeans} ? ${session.memberBeans.userId} : ''"></h4>
+				               <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class="d-none"></span>
+				            </div>
+				            <div class="d-flex col mb-3">
+			                    <div class="card-text col-6 d-flex">
+		                        	<th:block th:each="order: ${orders}">
+				                        <div class="imgBox overflow-hidden col-4">
+				                            <img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.itemImgName}"
+				                                class="img-fluid" style="max-width: 120px">
+				                        </div>
+						        	</th:block>
+			                    </div>
+			                    <div class="card-text col-6 ">
+			                    	<div class="imgBox overflow-hidden col-4">
+			                            <img th:src="@{'/market/downloadImage/' + ${orders[0].itemId}}" alt="${orders[0].itemImgName}"
+			                                class="img-fluid" style="max-width: 120px">
+			                        </div>
+			                        <hr>
+			                    	<h3>${itemId}</h3>
+			                    	<div>${itemDesc}</div>
+			                    	<div class="mt-3 d-flex justify-content-md-end">
+			                            <button class="btn btn-info" id="sellBtn1">SELL</button>
+			                        </div>
+			                    </div>
+				            </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
     </div>
+    <div th:replace="~{layout/footer}"></div>
+    <script>
+    	const userId = document.getElementById('user1').textContent;
+    	console.log('userId: ' + userId);
+    	$('#sellPageBtn1').click(function(){
+    		console.log('click');
+    		
+    	
+    	})
+    	
+    	$('#sellBtn1').click(function(){
+    		console.log('click');
+    	})
+    	
+    	function loadInventoryAjax(){
+    		axios.get('/carbon/profiles/inventory/'+ userId)
+    		.then(response=>{
+    			inventoryPage(response.data);
+    		})
+    		.catch(err=>{
+    			console.log('err: ' + err);
+    		})
+    	}
+    	
+    	function inventoryPage(data){
+    		
+    	}
+    
+    </script>
 </body>
 
 </html>

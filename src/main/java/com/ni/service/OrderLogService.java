@@ -55,10 +55,6 @@ public class OrderLogService {
 		return null;
 	}
 	
-	public void delete(Integer logId) {
-		orderRepo.deleteById(logId);
-	}
-	
 	public List<OrderLog> findSellItemList(Integer gameId, String itemName) {
 		return orderRepo.findSellItemList(gameId, itemName);
 	}

@@ -58,13 +58,13 @@
 						<a class="nav-link" th:href="@{/gameitem/allGameitem}">ALL</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link" th:href="@{/gameitem/allOrder}">ORDER LOG</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link active" th:href="@{/gameitem/allItemLog}">ITEM LOG</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
 					</li>
 				</ul>
 			</div>
@@ -74,12 +74,11 @@
 						<thead>
 							<tr>
 								<th>編號</th>
-								<th>會員編號</th>
-								<th>會員名稱</th>
+								<th>會員</th>
 								<th>訂單編號</th>
-								<th>道具編號</th>
 								<th>道具</th>
 								<th>數量變化</th>
+								<th>總數量</th>
 								<th>時間</th>
 							</tr>
 						</thead>
@@ -88,13 +87,18 @@
 							<th:block th:each="log : ${logs}">
 								<tr>
 									<td class="tdCenter">[[${log.id}]]</td>
-									<td>[[${log.memberId}]]</td>
-									<td>[[${log.member.memberName}]]</td>
+									<td>
+										<span class="me-3">[[${log.memberId}]]</span>
+										<span>[[${log.member.memberName}]]</span>
+									</td>
 									<td>[[${log.ordId}]]</td>
-									<td>[[${log.itemId}]]</td>
-									<td>[[${log.gameItem.itemName}]]</td>
-									<td>[[${log.itemAmount}]]</td>
-									<td th:text="${log} ? ${#dates.format(log.time, 'yyyy/MM/dd HH:mm:ss')}">
+									<td>
+										<span class="me-3">[[${log.itemId}]]</span>
+										<span>[[${log.gameItem.itemName}]]</span>
+									</td>
+									<td>[[${log.quantity}]]</td>
+									<td>[[${log.total}]]</td>
+									<td th:text="${log} ? ${#dates.format(log.createTime, 'yyyy/MM/dd HH:mm:ss')}">
 									</td>
 								</tr>
 							</th:block>

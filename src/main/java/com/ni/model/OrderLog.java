@@ -38,11 +38,11 @@ public class OrderLog {
 	@ManyToOne
 	@JoinColumn(name = "SELLER", insertable = false, updatable = false)
 	private Member sell;
-	private Integer amount;
+	private Integer quantity;
 	private Long price;
+	private Integer status;
 	private Date createTime;
 	private Date updateTime;
-	private Integer status;
 	
 //	@JsonManagedReference(value = "orderLogs")
 	@ManyToOne

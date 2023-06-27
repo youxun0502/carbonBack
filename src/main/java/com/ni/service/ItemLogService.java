@@ -44,7 +44,8 @@ public class ItemLogService {
 			if(log.getOrdId() != null) log.setOrdId(itemLog.getOrdId());
 			if(log.getItemId() != null) log.setItemId(itemLog.getItemId());
 			if(log.getMember() != null) log.setMemberId(itemLog.getMemberId());
-			if(log.getItemAmount() != null) log.setItemAmount(itemLog.getItemAmount());
+			if(log.getQuantity() != null) log.setQuantity(itemLog.getQuantity());
+			if(log.getTotal() != null) log.setTotal(itemLog.getTotal());
 			return log;
 		}
 		System.out.println("no update data");
@@ -53,5 +54,13 @@ public class ItemLogService {
 	
 	public void delete(Integer id) {
 		itemLogRepo.deleteById(id);
+	}
+
+	public ItemLog findTotalById(Integer memberId, Integer itemId) {
+		return itemLogRepo.findByMemberIdAndItemId(memberId, itemId);
+	}
+	
+	public List<ItemLog> findByMemberId(Integer memberId) {
+		return itemLogRepo.findByMemberId(memberId);
 	}
 }

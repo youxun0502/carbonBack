@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,19 +45,25 @@ public class ItemLogController {
 		return "ni/itemLogInsert";
 	}
 	
-	@ResponseBody
-	@DeleteMapping("/gameitem/itemLogDelete")
-	public String deleteAjax(@RequestParam("id") Integer id) {
-		itemLogService.delete(id);
-		return "delete OK!";
-	}
-
-	
 //	-------------- gameItemMarket -----------------------------
 	@ResponseBody
 	@PostMapping("/market/newItemLog")
 	public ItemLog insert(@RequestBody ItemLog itemLog) {
+		ItemLog log = itemLogService.findTotalById(itemLog.getMemberId(), itemLog.getItemId());
+		if(log != null) {
+			itemLog.setTotal(log.getTotal() + itemLog.getQuantity()); 
+		} else {
+			itemLog.setTotal(itemLog.getQuantity());
+		}
 		return itemLogService.insert(itemLog);
 	}
 	
+	
+	
+//	-------------- profiles Inventory -----------------------------
+	@ResponseBody
+	@GetMapping("/profiles/inventory/{memberId}")
+	public List<ItemLog> findByMemberId(@RequestParam("memberId") Integer memberId) {
+		return itemLogService.findByMemberId();
+	}
 }

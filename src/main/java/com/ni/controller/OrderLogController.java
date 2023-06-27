@@ -68,14 +68,6 @@ public class OrderLogController {
 	}
 	
 	
-	@ResponseBody
-	@DeleteMapping("/gameitem/orderDelete")
-	public String delete(@RequestParam("logId") Integer logId) {
-		orderService.delete(logId);
-		return "delete OK!";
-	}
-	
-	
 //	-------------- gameItemMarket -----------------------------
 	@GetMapping("/market")
 	public String marketList(Model m) {
@@ -86,7 +78,15 @@ public class OrderLogController {
 	@GetMapping("/market/{gameId}/{itemName}")
 	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, Model m) {
 		m.addAttribute("orders", orderService.findSellItemList(gameId, itemName));
+//		show all item that it has any order 
+//		change findSellItemList to findGameitemById and orderList will loading by ajax
 		return "ni/itemMarketPage";
+	}
+	
+	@ResponseBody
+	@GetMapping("/market/orderLIst")
+	public List<OrderLog> orderList(@PathVariable Integer gameId, @PathVariable String itemName) {
+		return orderService.findSellItemList(gameId, itemName);
 	}
 	
 	@ResponseBody

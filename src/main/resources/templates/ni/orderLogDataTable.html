@@ -59,13 +59,13 @@
 						<a class="nav-link" th:href="@{/gameitem/allGameitem}">ALL</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link active" th:href="@{/gameitem/allOrder}">ORDER LOG</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/gameitem/allItemLog}">ITEM LOG</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
 					</li>
 				</ul>
 			</div>
@@ -92,24 +92,24 @@
 								<tr>
 									<td class="tdCenter">[[${order.logId}]]</td>
 									<td>
-										<span
-											class="me-3">[[${order.itemId}]]</span><span>[[${order.gameItem.itemName}]]</span>
+										<span class="me-3">[[${order.itemId}]]</span>
+										<span>[[${order.gameItem.itemName}]]</span>
 									</td>
 									<th:block th:switch="${order.buyer != null}">
 										<td th:case="true">
-											<span
-												class="me-3">[[${order.buyer}]]</span><span>[[${order.buy.memberName}]]</span>
+											<span class="me-3">[[${order.buyer}]]</span>
+											<span>[[${order.buy.memberName}]]</span>
 										</td>
 										<td th:case="false"></td>
 									</th:block>
 									<th:block th:switch="${order.seller != null}">
 										<td th:case="true">
-											<span
-												class="me-3">[[${order.seller}]]</span><span>[[${order.sell.memberName}]]</span>
+											<span class="me-3">[[${order.seller}]]</span>
+											<span>[[${order.sell.memberName}]]</span>
 										</td>
 										<td th:case="false"></td>
 									</th:block>
-									<td>[[${order.amount}]]</td>
+									<td>[[${order.quantity}]]</td>
 									<td>[[${order.price}]]</td>
 									<td th:if="${order.status == 1}" class="ps-3 ordStatus">
 										<span class="statusMsg">掛單</span>
@@ -350,7 +350,7 @@
 				} else {
 					tbody += `<td></td>`;
 				}
-				tbody += `<td>${order.amount}</td>
+				tbody += `<td>${order.quantity}</td>
 							<td>${order.price}</td>`;
 				if (order.status == 1) {
 					tbody += `<td class="ps-3 ordStatus">

@@ -27,8 +27,9 @@ public class ItemLog {
 	private Integer ordId;
 	private Integer itemId;
 	private Integer memberId;
-	private Integer itemAmount;
-	private Date time;
+	private Integer quantity;
+	private Integer total;
+	private Date createTime;
 	
 	@ManyToOne
 	@JoinColumn(name = "MEMBERID", insertable = false, updatable = false)
@@ -46,9 +47,9 @@ public class ItemLog {
 
 	@PrePersist
 	public void onCreate() {
-		if(time == null) {
+		if(createTime == null) {
 			System.out.println("create time");
-			time = new Date();
+			createTime = new Date();
 		}
 			
 	}

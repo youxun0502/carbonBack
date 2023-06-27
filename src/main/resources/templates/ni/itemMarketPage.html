@@ -25,7 +25,7 @@
 
 <body>
 <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
-    <div class="container">
+    <div class="container my-5">
         <div class="card my-5">
             <div class="card-body">
                 <div class="row d-flex me-2">
@@ -65,6 +65,7 @@
                 </div>
             </div>
         </div>
+        <!-- ----------- change to ajex ----------- -->
         <th:block th:each="order: ${orders}">
             <div class="card mb-2">
                 <div class="card-body">
@@ -93,7 +94,7 @@
 
     <!-- ----------- buy page ----------- -->
     <div class="showPage justify-content-center align-items-center" id="showPage1">
-        <div class="buyPage my-4 w-75" id="buyPage1">
+        <div class="buyPage my-4 w-50" id="buyPage1">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Buy an item</h2>
                 <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
@@ -115,7 +116,7 @@
                 </div>
                 <div class="col p-0 g-2 mb-5" id="buyPageInfo">
                 </div>
-                <div class="card">
+                <div class="card" id="userInfo1">
                     <div class="card-body col d-flex">
                         <div class="card-text col-9 d-flex gap-3">
                             <span>account: </span>
@@ -127,21 +128,15 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="gap-2 row col d-flex justify-content-end d-none" id="btnGroup">
-                    <button class="btn btn-info submitBtn col-3">VIEW INVENTORY</button>
-                    <button class="btn btn-info closeBtn2 col-3">CLOSE</button>
-                </div>
             </div>
         </div>
     </div>
+    <div th:replace="~{layout/footer}"></div>
     <script>
-            $('.closeBtn1,.closeBtn2').click(function () {
-                $('#showPage1').removeClass('d-flex');
-            })
-
-
         const buyBtn = document.getElementsByClassName('buyBtn');
+        const show = document.getElementById('showPage1');
+        const buyPageInfo = document.getElementById('buyPageInfo');
+        
         let buyer = document.getElementById('buyer1').textContent;
         console.log('buyer: ' + buyer);
         for (i = 0; i < buyBtn.length; i++) {
@@ -165,8 +160,6 @@
             })
         }
 
-		const show = document.getElementById('showPage1');
-        const buyPageInfo = document.getElementById('buyPageInfo');
         function showBuyInfo(order) {
             let infoHtmlString = `
                 <div class="card mb-2">
@@ -197,7 +190,7 @@
                         itemId: order.itemId,
                         buyer: buyer,
                         seller: order.seller,
-                        amount: 1,
+                        quantity: 1,
                         price: order.price,
                         status: 2,
                     }
@@ -231,7 +224,7 @@
                                     ordId: result.logId,
                                     itemId: result.itemId,
                                     memberId: result.buyer,
-                                    itemAmount: result.amount
+                                    quantity: result.quantity
                                 }
                             })
                                 .then(res => {
@@ -246,6 +239,12 @@
                         console.log('err: ' + err);
                     })
             })
+        }
+        
+        function listPage(){
+        	let itemList =`
+        	
+        	`;
         }
 
         function showSuccessPage(order) {
@@ -263,27 +262,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="gap-2 row col d-flex justify-content-end" id="btnGroup">
+                <div class="gap-2 col d-flex justify-content-end" id="btnGroup">
                     <button class="btn btn-info submitBtn col-3">VIEW INVENTORY</button>
                     <button class="btn btn-info closeBtn2 col-3">CLOSE</button>
                 </div>`;
             buyPageInfo.innerHTML = infoHtmlString;
             $('#pageMsg').removeClass('d-none');
+            $('#userInfo1').addClass('d-none');
+            closePage();
         }
         
         function loginPage(){
         let page1 = document.getElementById('buyPage1');
         	let loginHtmlString = `
-        		<div>您需要登入或建立帳戶才能進行相關動作。</div>
+        		<div class="text-center my-5">您需要登入或建立帳戶才能進行相關動作。</div>
         		<div class="gap-2 row col d-flex justify-content-center" id="btnGroup">
-                    <a class="btn btn-info submitBtn col-3" href="">SIGN IN</a>
-                    <a class="btn btn-info col-3" href="">CREATE AN ACCOUNT</a>
-                    <a class="btn btn-info closeBtn2 col-2" href="">CANCLE</a>
+                    <a class="btn btn-info submitBtn col-md-3" href="">SIGN IN</a>
+                    <a class="btn btn-info col-md-3" href="">CREATE AN ACCOUNT</a>
+                    <a class="btn btn-info closeBtn2 col-md-2">CANCLE</a>
                 </div>`;
             page1.innerHTML = loginHtmlString;
             show.classList.add('d-flex');
-            12121
+            closePage();
         }
+        
+        function closePage(){
+            $('.closeBtn1,.closeBtn2').click(function () {
+            	console.log('click');
+                $('#showPage1').removeClass('d-flex');
+            })
+        }
+
     </script>
 </body>
 
