@@ -26,32 +26,28 @@
 
 <body>
   <div class="container">
-    <h1>論壇</h1>
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex">
-          <img width="200px"
-		   th:src="@{'/downloadImage/' + ${discussion.articleId}}"
-		   class="img-fluid">
-							
-          <div class="post-content">
-            <h5 class="mb-1 text-center">帖子標題 1</h5>
-            <p class="mb-1 text-center">帖子內容...</p>
-            <small class="text-muted text-center">作者 1</small>
-          </div>
+    <div class="row">
+      <div class="col-10">
+        <h1>論壇</h1>
+        <div class="list-group">
+          <a th:each="discussion : ${discussions}" href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex">
+              <img width="200px"
+                   th:src="@{'/discussionsdownloadImage/' + ${discussion.articleId}}"
+                   class="img-fluid">
+
+              <div class="post-content">
+                <h5 class="mb-1 text-center" th:text="${discussion.title}">帖子標題</h5>
+                <p class="mb-1 text-center" th:text="${discussion.dcontent}">帖子內容...</p>
+                <small class="text-muted text-center" th:text="${discussion.userName}">作者</small>
+                <small class="text-muted text-center" th:text="${discussion.lastReplyTime}">最後回覆時間</small>
+              </div>
+            </div>
+          </a>
         </div>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex">
-          <img src="image.jpg" alt="圖片" class="post-image">
-          <div class="post-content">
-            <h5 class="mb-1 text-center">帖子標題 2</h5>
-            <p class="mb-1 text-center">帖子內容...</p>
-            <small class="text-muted text-center">作者 2</small>
-          </div>
-        </div>
-      </a>
-      <!-- 其他帖子項目 -->
+      </div>
+      <div class="col-2">
+      </div>
     </div>
   </div>
 

@@ -1,11 +1,13 @@
 package com.liao.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.liao.model.Discussions;
 import com.liao.model.DiscussionsReposity;
@@ -40,7 +42,7 @@ public class DiscussionsService {
 	}
 	
 	@Transactional
-	public Discussions updateDiscussionsById(Integer articleId, Integer memberId, Integer eventId, String userName, Integer gameId, String gameName, String title, String dcontent, String lastReplyTime, Integer d_views, String dcreated_at, Integer dlikes) {
+	public Discussions updateDiscussionsById(Integer articleId, Integer memberId, Integer eventId, String userName, Integer gameId, String gameName, String title, String dcontent, String lastReplyTime, Integer d_views, String dcreated_at, Integer dlikes , MultipartFile photoFile) throws IOException {
 		Optional<Discussions> optional = dRepo.findById(articleId);
 		
 		if(optional.isPresent()) {
@@ -56,6 +58,7 @@ public class DiscussionsService {
 			discussions.setD_views(d_views);
 			discussions.setDcreated_at(dcreated_at);
 			discussions.setDlikes(dlikes);
+			discussions.setPhotoFile(photoFile.getBytes());
 			return discussions;
 		}
 		
