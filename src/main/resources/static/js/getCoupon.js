@@ -13,6 +13,14 @@ function clickToRotate() {
 	const roulette = document.querySelector("#roulette");
 	const clickBtn = document.querySelector(".click");
 	clickBtn.addEventListener('click', function() {
+		
 		roulette.classList.add('rotate');
+		
 	})
+	
+	
+}
+
+function getCoupon(){
+	
 }
