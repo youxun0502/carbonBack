@@ -24,7 +24,7 @@ background-repeat: no-repeat;
 }
 
 .rotate {
-	animation: rotation 2s 1;
+	animation: rotation 3s 1;
 }
 
 .mt-100px {
@@ -43,7 +43,7 @@ background-repeat: no-repeat;
 	}
 
 	100% {
-		transform: rotate(1080deg);
+		transform: rotate(3160deg);
 		animation-timing-function: linear;
 	}
 }
