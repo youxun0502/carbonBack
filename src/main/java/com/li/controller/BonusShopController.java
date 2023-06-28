@@ -22,4 +22,10 @@ public class BonusShopController {
 		model.addAttribute("bonusitemList", list);
 		return "li/bonusshop";
 	}
+	@GetMapping("/profile")
+	public String goBackToProfile(Model model) {
+		List<BonusItem> list = bService.findAll();
+		model.addAttribute("bonusitemList", list);
+		return "li/profile";
+	}
 }
