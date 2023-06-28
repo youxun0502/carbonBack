@@ -1,5 +1,10 @@
 package com.ni.dto;
 
+import java.util.Date;
+
+import com.liu.model.Member;
+import com.ni.model.GameItem;
+
 import lombok.Data;
 
 @Data
@@ -7,14 +12,23 @@ public class OrderLogDTO {
 
 	private Integer logId;
 	private Integer itemId;
-	private String itemName;
-	private String itemImgName;
 	private Integer buyer;
 	private Integer seller;
-	private Integer amount;
-	private Long price;
+	private Integer quantity;
+	private Float price;
 	private Integer status;
-	private Integer gameId;
-	private String gameName;
-	private String userId;
+	private Date createTime;
+	private Date updateTime;
+	
+	private Member buy;
+	private Member sell;
+	private GameItem gameItem;
+	
+	private Float total;
+	
+	private Float getTotal() {
+		total = (float) 0;
+		total += price * quantity;
+		return total;
+	}
 }

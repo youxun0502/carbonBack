@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,25 +33,14 @@ public class OrderLogController {
 	
 	@GetMapping("/gameitem/allOrder")
 	public String getAllOrderLog(Model m) {
-		List<OrderLog> orders = orderService.findAll();
+		List<OrderLogDTO> orders = orderService.findAll();
 		m.addAttribute("orders", orders);
 		return "ni/orderLogDataTable";
 	}
 	@ResponseBody
 	@GetMapping("/gameitem/api/allOrder")
-	public List<OrderLog> getAllOrderLogAjax(Model m) {
+	public List<OrderLogDTO> getAllOrderLogAjax(Model m) {
 		return orderService.findAll();
-	}
-	
-	@GetMapping("/gameitem/getOrderByBuyer")
-	public String getOrderByBuyer() {
-		return "ni/orderDataTable";
-	}
-	
-	@GetMapping("/gameitem/orderLogUpdate")
-	public String updatePage(@RequestParam("logId") Integer logId, Model m) {
-		m.addAttribute("order", orderService.findById(logId));
-		return "ni/orderUpdate";
 	}
 	
 	@ResponseBody
@@ -61,14 +49,9 @@ public class OrderLogController {
 		OrderLog result = orderService.updateStatusById(order.getLogId(), order.getStatus());
 		return result != null;
 	}
+
 	
-	@GetMapping("/gameitem/newOrder")
-	public String insertPage(Model m) {
-		return "ni/orderInsert";
-	}
-	
-	
-//	-------------- gameItemMarket -----------------------------
+//	----------------------------- gameItemMarket -----------------------------
 	@GetMapping("/market")
 	public String marketList(Model m) {
 		m.addAttribute("orders", orderService.findOrderList());
@@ -85,23 +68,22 @@ public class OrderLogController {
 	
 	@ResponseBody
 	@GetMapping("/market/orderLIst")
-	public List<OrderLog> orderList(@PathVariable Integer gameId, @PathVariable String itemName) {
+	public List<OrderLogDTO> orderList(@PathVariable Integer gameId, @PathVariable String itemName) {
 		return orderService.findSellItemList(gameId, itemName);
 	}
 	
 	@ResponseBody
 	@GetMapping("/market/buyAnItem")
-	public OrderLog buyPage(@RequestParam("logId") Integer logId ,Model m) {
+	public OrderLogDTO buyPage(@RequestParam("logId") Integer logId ,Model m) {
 		m.addAttribute("order", orderService.findById(logId));
 		return orderService.findById(logId);
 	}
 	
 	@ResponseBody
 	@PostMapping("/market/newOrder")
-	public OrderLog insert(@RequestBody OrderLog order) {
-		OrderLog newOrder = orderService.insert(order);
+	public OrderLogDTO insert(@RequestBody OrderLogDTO orderDTO) {
+		OrderLog newOrder = orderService.insert(orderDTO);
 		return orderService.findById(newOrder.getLogId());
-//		return "ni/itemMarketList";
 	}
 	
 	@ResponseBody
@@ -109,6 +91,12 @@ public class OrderLogController {
 	public boolean updateStatus(@RequestBody OrderLogDTO order) {
 		orderService.updateStatusById(order.getLogId(), order.getStatus());
 		return true;
+	}
+	
+	@ResponseBody
+	@GetMapping("/market/itemPrices")
+	public List<OrderLogDTO> findByItemIdAndStatus(@RequestParam("itemId") Integer itemId) {
+		return orderService.findByItemIdAndStatus(itemId);
 	}
 	
 	@GetMapping("/market/downloadImage/{itemId}")

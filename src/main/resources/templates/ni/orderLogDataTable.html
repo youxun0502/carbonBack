@@ -182,58 +182,6 @@
 			})
 		})
 
-		//////////  Delete //////////
-		const deleteBtn = document.getElementsByClassName('delBtn');
-		for (i = 0; i < deleteBtn.length; i++) {
-			deleteBtn[i].addEventListener('click', function (e) {
-				let deleteId = this.getAttribute('data-id');
-				let thisRow = $(this).closest('tr');
-				e.preventDefault();
-
-				Swal.fire({
-					title: 'Are you sure?',
-					text: "You won't be able to revert this!",
-					icon: 'warning',
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, delete it!'
-				}).then((result) => {
-					if (result.isConfirmed) {
-						axios({
-							url: 'http://localhost:8080/group5/gameitem/orderDelete',
-							method: 'delete',
-							params: {
-								logId: deleteId
-							}
-						})
-							.then(function (response) {
-								console.log('response: ' + response.data);
-								var table = $('#orderLog_table').DataTable();
-								table
-									.row(thisRow)
-									.remove()
-									.draw()
-							})
-							.then(function () {
-								Swal.fire(
-									'Deleted!',
-									'Your file has been deleted.',
-									'success'
-								)
-							})
-							.catch(err => {
-								console.log('err: ' + err);
-								Swal.fire({
-									icon: 'error',
-									title: 'Oops...',
-									text: 'Something went wrong!',
-								})
-							})
-					}
-				})
-			})
-		}
 
 		////////// find by name //////////
 		// $('#orderLog_search').on('keyup change', function () {

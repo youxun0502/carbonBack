@@ -3,6 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
+    <style>
+        .showPage {
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #525252b4;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .myPage,
+        .mySalePage {
+            background-color: whitesmoke;
+            border-radius: 14px;
+            padding: 20px 50px;
+        }
+    </style>
     <title>GAME ITEM MARKET</title>
 </head>
 
@@ -16,7 +34,7 @@
 		            	<a href="#" class="btn btn-info">My Active Listing</a>
 		            	<a href="#" class="btn btn-info">My Market History</a>
 		            </div>
-	            	<a href="#" class="btn btn-info sellBtn" id="sellPageBtn1">Sell an Item</a>
+	            	<a href="#" class="btn btn-info sellPageBtn" id="sellPageBtn1">Sell an Item</a>
 	            </div>
             </div>
         </div>
@@ -30,7 +48,7 @@
                     <th:block th:each="order: ${orders}">
                         <li class="list-group-item">
                             <a th:href="@{'/market/'+ ${order.gameId} + '/' + ${order.itemName}}"
-                                class="col d-flex justify-content-between align-items-center link-dark">
+                                class="col d-flex justify-content-between align-items-center link-dark d-block">
                                 <div class="imgBox overflow-hidden row col-3" style="max-width: 150px">
                                     <img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.itemImgName}"
                                         class="img-fluid">
@@ -60,7 +78,7 @@
         
         <!-- ----------- inventory page ----------- -->
 	    <div class="showPage justify-content-center align-items-center" id="showPage1">
-	        <div class="myPage my-4 w-75" id="myPage1">
+	        <div class="myPage my-4 col-lg-6 col-11" id="myPage1">
 	            <div class="d-flex justify-content-between align-items-center">
 	                <h4>INVENTORY</h4>
 	                <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
@@ -72,28 +90,26 @@
 				               <h4 th:text="${session.memberBeans} ? ${session.memberBeans.userId} : ''"></h4>
 				               <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class="d-none"></span>
 				            </div>
-				            <div class="d-flex col mb-3">
-			                    <div class="card-text col-6 d-flex">
-		                        	<th:block th:each="order: ${orders}">
-				                        <div class="imgBox overflow-hidden col-4">
-				                            <img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.itemImgName}"
-				                                class="img-fluid" style="max-width: 120px">
-				                        </div>
-						        	</th:block>
-			                    </div>
-			                    <div class="card-text col-6 ">
-			                    	<div class="imgBox overflow-hidden col-4">
-			                            <img th:src="@{'/market/downloadImage/' + ${orders[0].itemId}}" alt="${orders[0].itemImgName}"
-			                                class="img-fluid" style="max-width: 120px">
-			                        </div>
-			                        <hr>
-			                    	<h3>${itemId}</h3>
-			                    	<div>${itemDesc}</div>
-			                    	<div class="mt-3 d-flex justify-content-md-end">
-			                            <button class="btn btn-info" id="sellBtn1">SELL</button>
-			                        </div>
-			                    </div>
+				            <div class="d-flex col mb-3 flex-wrap" id="inventoryList1"></div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        <!-- ----------- sale page ----------- -->
+	    <div class="showSalePage justify-content-center align-items-center" id="showSalePage1">
+	        <div class="mySalePage my-4 col-lg-6 col-11" id="mySalePage1">
+	            <div class="d-flex justify-content-between align-items-center">
+	                <h4>Put an item up for sale</h4>
+	                <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
+	            </div>
+	            <div class="row g-2">
+	                <div class="card mt-4 mb-1">
+	                    <div class="card-body col">
+	                    	<div class="card-text col mb-3">
+				               <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class="d-none"></span>
 				            </div>
+				            <div class="col mb-3" id="saleItem1"></div>
 	                    </div>
 	                </div>
 	            </div>
@@ -101,34 +117,7 @@
 	    </div>
     </div>
     <div th:replace="~{layout/footer}"></div>
-    <script>
-    	const userId = document.getElementById('user1').textContent;
-    	console.log('userId: ' + userId);
-    	$('#sellPageBtn1').click(function(){
-    		console.log('click');
-    		
-    	
-    	})
-    	
-    	$('#sellBtn1').click(function(){
-    		console.log('click');
-    	})
-    	
-    	function loadInventoryAjax(){
-    		axios.get('/carbon/profiles/inventory/'+ userId)
-    		.then(response=>{
-    			inventoryPage(response.data);
-    		})
-    		.catch(err=>{
-    			console.log('err: ' + err);
-    		})
-    	}
-    	
-    	function inventoryPage(data){
-    		
-    	}
-    
-    </script>
+    <script th:src="@{/js/itemMarket.js}"></script>
 </body>
 
 </html>

@@ -39,7 +39,7 @@ public class OrderLog {
 	@JoinColumn(name = "SELLER", insertable = false, updatable = false)
 	private Member sell;
 	private Integer quantity;
-	private Long price;
+	private Float price;
 	private Integer status;
 	private Date createTime;
 	private Date updateTime;
