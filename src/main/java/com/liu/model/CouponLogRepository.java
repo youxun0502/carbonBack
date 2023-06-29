@@ -6,8 +6,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface CouponLogRepository extends JpaRepository<CouponLog, Integer> {
 
-	@Query("SELECT c FROM CouponLog c WHERE c.memberId = :id ORDER BY c.acquisitionDate DESC")
-	public  CouponLog findFirstByOrderByAcquisitionDateDesc(@Param("id") Integer id);
+	@Query(nativeQuery = true, value = "select top 1 * from couponLog where memberId =:memberId  Order By  acquisitionDate DESC;")
+	public  CouponLog findFirstByMemberIdOrderByAcquisitionDateDesc(@Param("memberId") Integer memberId);
 	
 	
 }
