@@ -13,10 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-
-
 
 @Entity
 @Table(name = "couponLog")

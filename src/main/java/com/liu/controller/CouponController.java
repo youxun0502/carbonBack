@@ -38,7 +38,6 @@ public class CouponController {
 		return "liu/getCoupon";
 	}
 	
-
 	@ResponseBody
 	@GetMapping("/coupon/api/getCoupon")
 	public String getCoupon(@RequestParam(name = "memberId") int memberId) {
