@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>[[${gameDTO.gameName}]]</title>
+<link th:href="@{/css/goodgames.css}" rel="stylesheet" />
+
+<style>
+#apphub_NavLinks {
+	background-color: #6fb7d4;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+}
+
+#apphub_NavLinks .nav-item {
+	margin-right: 10px;
+}
+
+#apphub_NavLinks .nav-link {
+	color: #333;
+	text-decoration: none;
+	padding: 5px;
+}
+
+#apphub_NavLinks .search-bar {
+	flex-grow: 1;
+	background-color: #eaeaea;
+	padding: 5px;
+	display: flex;
+	align-items: center;
+}
+
+#apphub_NavLinks .search-bar input[type="text"] {
+	flex-grow: 1;
+	border: none;
+	background-color: #eaeaea;
+	padding: 5px;
+}
+
+#apphub_NavLinks .search-bar button {
+	background-color: #6fb7d4;
+	color: #fff;
+	border: none;
+	padding: 5px;
+}
+</style>
+</head>
+<body>
+	<div
+		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div class="container my-5">
+
+		<div id="apphub_NavLinks" class="mb-4">
+			<div class="nav-item">
+				<a class="nav-link" href="#">你的商店</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">矚目新品</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">類別</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">點數商店</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">新聞</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">實驗室</a>
+			</div>
+			<div class="search-bar">
+				<input type="text" placeholder="搜尋">
+				<button>搜尋</button>
+			</div>
+		</div>
+		<div class="row vertical-gap">
+			<div class="col-lg-8">
+				<div class="nk-store-product">
+					<div class="row vertical-gap align-items-center">
+						<div class="col-md-6">
+							<!-- START: Product Photos -->
+							<div class="nk-popup-gallery  ">
+								<div class="nk-gallery-item-box">
+									<img th:src="@{/game/getImg/5}" alt="">
+								</div>
+								<div class="nk-gap-1"></div>
+								<div class="row vertical-gap sm-gap">
+									<div class="col-6 col-md-4">
+										<div class="nk-gallery-item-box">
+											<img th:src="@{/game/getImg/6}" alt="">
+										</div>
+									</div>
+									<div class="col-6 col-md-4">
+										<div class="nk-gallery-item-box">
+											<img th:src="@{/game/getImg/7}" alt="">
+										</div>
+									</div>
+									<div class="col-6 col-md-4">
+										<div class="nk-gallery-item-box">
+											<img th:src="@{/game/getImg/8}" alt="">
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- END: Product Photos -->
+						</div>
+						<div class="col-md-6">
+
+							<h2 class="nk-product-title h3">[[${gameDTO.gameName}]]</h2>
+
+							<div><h5>[[${gameDTO.createDate}]]</h5></div>
+
+							<div class="nk-product-description">
+								<p style="color:#b9a5a5">[[${gameDTO.gameIntroduce}]]</p>
+							</div>
+
+							<!-- START: Add to Cart -->
+							<div class="nk-gap-2"></div>
+							<div class="d-flex justify-content-between align-items-center">
+							
+								<div class="nk-product-price">NT$[[${gameDTO.price}]]</div>
+								<div>
+									<button class="nk-btn nk-btn-rounded nk-btn-color-main-1">Add
+										to Cart</button>
+								</div>
+							</div>
+							<div class="nk-gap-3"></div>
+							<!-- END: Add to Cart -->
+
+							<!-- START: Meta -->
+							<div class="nk-product-meta">
+								<div>
+									<strong>Tags</strong>: 
+									<a href="#">[[${gameDTO.gameTypes.split(",")[0]}]]</a>, 
+									<a href="#">action</a>,
+									<a href="#">MMO</a>
+								</div>
+							</div>
+							<!-- END: Meta -->
+						</div>
+					</div>
+
+					<!-- START: Share -->
+					<div class="nk-gap-2"></div>
+					<div class="nk-post-share">
+						<span class="h5">Share Product:</span>
+						<ul class="nk-social-links-2">
+							<li><span class="nk-social-facebook"
+								title="Share page on Facebook" data-share="facebook"><span
+									class="fab fa-facebook"></span></span></li>
+							<li><span class="nk-social-google-plus"
+								title="Share page on Google+" data-share="google-plus"><span
+									class="fab fa-google-plus"></span></span></li>
+							<li><span class="nk-social-twitter"
+								title="Share page on Twitter" data-share="twitter"><span
+									class="fab fa-twitter"></span></span></li>
+							<li><span class="nk-social-pinterest"
+								title="Share page on Pinterest" data-share="pinterest"><span
+									class="fab fa-pinterest-p"></span></span></li>
+
+							<!-- Additional Share Buttons
+                            <li><span class="nk-social-linkedin" title="Share page on LinkedIn" data-share="linkedin"><span class="fab fa-linkedin"></span></span></li>
+                            <li><span class="nk-social-vk" title="Share page on VK" data-share="vk"><span class="fab fa-vk"></span></span></li>
+                        -->
+						</ul>
+					</div>
+					<!-- END: Share -->
+
+
+				</div>
+
+				<!-- START: Related Products -->
+				<div class="nk-gap-3"></div>
+				<h3 class="nk-decorated-h-2">
+					<span><span class="text-main-1">Related</span> Products</span>
+				</h3>
+				<div class="nk-gap"></div>
+				<div class="row vertical-gap">
+
+
+					<div class="col-md-6">
+						<div class="nk-product-cat">
+							<a class="nk-product-image" href="store-product.html"> <img
+								src="assets/images/product-11-xs.jpg" alt="She gave my mother">
+							</a>
+							<div class="nk-product-cont">
+								<h3 class="nk-product-title h5">
+									<a href="store-product.html">She gave my mother</a>
+								</h3>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-rating" data-rating="3">
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i> <i class="far fa-star"></i> <i
+										class="far fa-star"></i>
+								</div>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-price">€ 14.00</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-6">
+						<div class="nk-product-cat">
+							<a class="nk-product-image" href="store-product.html"> <img
+								src="assets/images/product-12-xs.jpg" alt="A hundred thousand">
+							</a>
+							<div class="nk-product-cont">
+								<h3 class="nk-product-title h5">
+									<a href="store-product.html">A hundred thousand</a>
+								</h3>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-rating" data-rating="4.5">
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fas fa-star-half"></i>
+								</div>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-price">€ 20.00</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-6">
+						<div class="nk-product-cat">
+							<a class="nk-product-image" href="store-product.html"> <img
+								src="assets/images/product-13-xs.jpg"
+								alt="So saying he unbuckled">
+							</a>
+							<div class="nk-product-cont">
+								<h3 class="nk-product-title h5">
+									<a href="store-product.html">So saying he unbuckled</a>
+								</h3>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-rating" data-rating="5">
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i>
+								</div>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-price">€ 23.00</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-6">
+						<div class="nk-product-cat">
+							<a class="nk-product-image" href="store-product.html"> <img
+								src="assets/images/product-14-xs.jpg"
+								alt="However, I have reason">
+							</a>
+							<div class="nk-product-cont">
+								<h3 class="nk-product-title h5">
+									<a href="store-product.html">However, I have reason</a>
+								</h3>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-rating" data-rating="1.5">
+									<i class="fa fa-star"></i> <i class="fas fa-star-half"></i> <i
+										class="far fa-star"></i> <i class="far fa-star"></i> <i
+										class="far fa-star"></i>
+								</div>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-price">€ 32.00</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-6">
+						<div class="nk-product-cat">
+							<a class="nk-product-image" href="store-product.html"> <img
+								src="assets/images/product-15-xs.jpg"
+								alt="At first, for some time">
+							</a>
+							<div class="nk-product-cont">
+								<h3 class="nk-product-title h5">
+									<a href="store-product.html">At first, for some time</a>
+								</h3>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-rating" data-rating="4">
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="far fa-star"></i>
+								</div>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-price">€ 14.00</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-6">
+						<div class="nk-product-cat">
+							<a class="nk-product-image" href="store-product.html"> <img
+								src="assets/images/product-16-xs.jpg"
+								alt="When the last &#39;natural&#39;">
+							</a>
+							<div class="nk-product-cont">
+								<h3 class="nk-product-title h5">
+									<a href="store-product.html">When the last
+										&#39;natural&#39;</a>
+								</h3>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-rating" data-rating="4.5">
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fas fa-star-half"></i>
+								</div>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-price">€ 20.00</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- END: Related Products -->
+			</div>
+			<div class="col-lg-4">
+				<aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
+
+					<div class="nk-widget nk-widget-highlighted">
+						<h4 class="nk-widget-title">
+							<span><span class="text-main-1">遊戲類別</span>目錄</span>
+						</h4>
+						<div class="nk-widget-content">
+							<ul class="nk-widget-categories">
+								<li><a href="#">[[${typeList.get(0).getTypeName}]]</a></li>
+								<li><a href="#">[[${typeList.get(1).getTypeName}]]</a></li>
+								<li><a href="#">[[${typeList.get(2).getTypeName}]]</a></li>
+								<li><a href="#">[[${typeList.get(3).getTypeName}]]</a></li>
+								<li><a href="#">[[${typeList.get(4).getTypeName}]]</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="nk-widget nk-widget-highlighted">
+						<h4 class="nk-widget-title">
+							<span><span class="text-main-1">Price</span> Filter</span>
+						</h4>
+						<div class="nk-widget-content">
+							<div class="nk-input-slider">
+								<input type="text" name="price-filter" data-slider-min="0"
+									data-slider-max="1800" data-slider-step="1"
+									data-slider-value="[200, 1200]" data-slider-tooltip="hide">
+								<div class="nk-gap"></div>
+								<div>
+									<div class="text-white mt-4 float-left">
+										PRICE: <strong class="text-main-1">€ <span
+											class="nk-input-slider-value-0"></span></strong> - <strong
+											class="text-main-1">€ <span
+											class="nk-input-slider-value-1"></span></strong>
+									</div>
+									<a href="#"
+										class="nk-btn nk-btn-rounded nk-btn-color-white float-right">Apply</a>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</div>
+					<div class="nk-widget nk-widget-highlighted">
+						<h4 class="nk-widget-title">
+							<span><span class="text-main-1">Most</span> Popular</span>
+						</h4>
+						<div class="nk-widget-content">
+
+							<div class="nk-widget-post">
+								<a href="store-product.html" class="nk-post-image"> <img
+									src="assets/images/product-1-xs.jpg"
+									alt="So saying he unbuckled">
+								</a>
+								<h3 class="nk-post-title">
+									<a href="store-product.html">So saying he unbuckled</a>
+								</h3>
+								<div class="nk-product-rating" data-rating="4">
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="far fa-star"></i>
+								</div>
+								<div class="nk-product-price">€ 23.00</div>
+							</div>
+
+							<div class="nk-widget-post">
+								<a href="store-product.html" class="nk-post-image"> <img
+									src="assets/images/product-2-xs.jpg"
+									alt="However, I have reason">
+								</a>
+								<h3 class="nk-post-title">
+									<a href="store-product.html">However, I have reason</a>
+								</h3>
+								<div class="nk-product-rating" data-rating="2.5">
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fas fa-star-half"></i> <i class="far fa-star"></i> <i
+										class="far fa-star"></i>
+								</div>
+								<div class="nk-product-price">€ 32.00</div>
+							</div>
+
+							<div class="nk-widget-post">
+								<a href="store-product.html" class="nk-post-image"> <img
+									src="assets/images/product-3-xs.jpg"
+									alt="It was some time before">
+								</a>
+								<h3 class="nk-post-title">
+									<a href="store-product.html">It was some time before</a>
+								</h3>
+								<div class="nk-product-rating" data-rating="5">
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i>
+								</div>
+								<div class="nk-product-price">€ 14.00</div>
+							</div>
+
+						</div>
+					</div>
+
+
+				</aside>
+				<!-- END: Sidebar -->
+			</div>
+		</div>
+
+	</div>
+	<footer class="py-5 bg-dark">
+		<div class="container">
+			<div class="row">
+				<div class="col-4 text-light h2">
+					<h3 class="">CARBON</h3>
+				</div>
+				<div class="col-6 col-md text-light">
+					<h5>STORE</h5>
+					<ul class="list-unstyled">
+						<li>HOME</li>
+						<li>GAME</li>
+						<li>BONUS SHOP</li>
+					</ul>
+				</div>
+				<div class="col-6 col-md text-light">
+					<h5>COMMUNITY</h5>
+					<ul class="list-unstyled">
+						<li>MARKET</li>
+						<li>BONUS SHOP</li>
+						<li>BONUS SHOP</li>
+					</ul>
+				</div>
+				<div class="col-6 col-md text-light">
+					<h5>CONNECT</h5>
+					<ul class="list-unstyled">
+						<li>Q&A</li>
+						<li>SUPPORT</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

@@ -34,6 +34,7 @@ public class SortChartJs {
 	private Float secondthirdTypeNum;
 	private Float firstsecondthirdTypeNum;
 	private Float allNum ;
+
 	private List<TypeDTO> typeList;
 
 	public  SortChartJs() {
@@ -43,6 +44,11 @@ public class SortChartJs {
 		this.typeList = typeList;
 		sortAndExtractTopThree(choose);
 		calculateOtherSalesRev(choose);
+	}
+	
+	public void sortAll(List<TypeDTO> typeList) {
+		this.typeList = typeList;
+		sortAndExtractTopThree(3);
 	}
 
 
@@ -288,6 +294,9 @@ public class SortChartJs {
 		this.allNum = allNum;
 	}
 	
-	
+	public List<TypeDTO> getTypeList() {
+		return typeList;
+	}
+
 	
 }
