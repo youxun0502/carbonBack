@@ -83,25 +83,17 @@
 							<!-- START: Product Photos -->
 							<div class="nk-popup-gallery  ">
 								<div class="nk-gallery-item-box">
-									<img th:src="@{/game/getImg/5}" alt="">
+									<img th:src="@{'/game/getImg/'+${gameDTO.gamePhotoLists[0]}}" alt="">
 								</div>
 								<div class="nk-gap-1"></div>
 								<div class="row vertical-gap sm-gap">
+									<th:block th:each="photoID,iterStat:${gameDTO.gamePhotoLists}" th:if="${iterStat.index} < 3">
 									<div class="col-6 col-md-4">
 										<div class="nk-gallery-item-box">
-											<img th:src="@{/game/getImg/6}" alt="">
+											<img th:src="@{'/game/getImg/'+${photoID}}" alt="">
 										</div>
 									</div>
-									<div class="col-6 col-md-4">
-										<div class="nk-gallery-item-box">
-											<img th:src="@{/game/getImg/7}" alt="">
-										</div>
-									</div>
-									<div class="col-6 col-md-4">
-										<div class="nk-gallery-item-box">
-											<img th:src="@{/game/getImg/8}" alt="">
-										</div>
-									</div>
+									</th:block>
 								</div>
 							</div>
 							<!-- END: Product Photos -->
@@ -110,16 +102,18 @@
 
 							<h2 class="nk-product-title h3">[[${gameDTO.gameName}]]</h2>
 
-							<div><h5>[[${gameDTO.createDate}]]</h5></div>
+							<div>
+								<h5 th:text="${#dates.format(gameDTO.createDate, 'yyyy-MM-dd')}"></h5>
+							</div>
 
 							<div class="nk-product-description">
-								<p style="color:#b9a5a5">[[${gameDTO.gameIntroduce}]]</p>
+								<p style="color: #b9a5a5">[[${gameDTO.gameIntroduce}]]</p>
 							</div>
 
 							<!-- START: Add to Cart -->
 							<div class="nk-gap-2"></div>
 							<div class="d-flex justify-content-between align-items-center">
-							
+
 								<div class="nk-product-price">NT$[[${gameDTO.price}]]</div>
 								<div>
 									<button class="nk-btn nk-btn-rounded nk-btn-color-main-1">Add
@@ -132,10 +126,12 @@
 							<!-- START: Meta -->
 							<div class="nk-product-meta">
 								<div>
-									<strong>Tags</strong>: 
-									<a href="#">[[${gameDTO.gameTypes.split(",")[0]}]]</a>, 
-									<a href="#">action</a>,
-									<a href="#">MMO</a>
+									<strong>Tags</strong>:
+									<th:block
+										th:each='type,iterStat:${gameDTO.gameTypes.split(",")}'>
+										<a href="#">[[${type}]]</a>
+										<span th:if="${!iterStat.last}">,</span>
+									</th:block>
 								</div>
 							</div>
 							<!-- END: Meta -->
@@ -145,7 +141,7 @@
 					<!-- START: Share -->
 					<div class="nk-gap-2"></div>
 					<div class="nk-post-share">
-						<span class="h5">Share Product:</span>
+						<span class="h5">社群分享</span>
 						<ul class="nk-social-links-2">
 							<li><span class="nk-social-facebook"
 								title="Share page on Facebook" data-share="facebook"><span
@@ -174,20 +170,20 @@
 				<!-- START: Related Products -->
 				<div class="nk-gap-3"></div>
 				<h3 class="nk-decorated-h-2">
-					<span><span class="text-main-1">Related</span> Products</span>
+					<span><span class="text-main-1">同類型</span> 遊戲列表</span>
 				</h3>
 				<div class="nk-gap"></div>
 				<div class="row vertical-gap">
-
-
+					
+					<th:block th:each="sixGame:${sixGames}">
 					<div class="col-md-6">
 						<div class="nk-product-cat">
-							<a class="nk-product-image" href="store-product.html"> <img
-								src="assets/images/product-11-xs.jpg" alt="She gave my mother">
+							<a class="nk-product-image" th:href="@{'/gameFront/'+${sixGame.gameName}}">
+							<img th:src="@{'/game/getImg/'+${sixGame.gamePhotoLists[0]}}" alt="作者很懶沒有提供圖片">
 							</a>
 							<div class="nk-product-cont">
 								<h3 class="nk-product-title h5">
-									<a href="store-product.html">She gave my mother</a>
+									<a th:href="@{'/gameFront/'+${sixGame.gameName}}">[[${sixGame.gameName}]]</a>
 								</h3>
 								<div class="nk-gap-1"></div>
 								<div class="nk-product-rating" data-rating="3">
@@ -196,125 +192,12 @@
 										class="far fa-star"></i>
 								</div>
 								<div class="nk-gap-1"></div>
-								<div class="nk-product-price">€ 14.00</div>
+								<div class="nk-product-price">NT$[[${sixGame.price}]]</div>
 							</div>
 						</div>
 					</div>
+					</th:block>
 
-
-					<div class="col-md-6">
-						<div class="nk-product-cat">
-							<a class="nk-product-image" href="store-product.html"> <img
-								src="assets/images/product-12-xs.jpg" alt="A hundred thousand">
-							</a>
-							<div class="nk-product-cont">
-								<h3 class="nk-product-title h5">
-									<a href="store-product.html">A hundred thousand</a>
-								</h3>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-rating" data-rating="4.5">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fas fa-star-half"></i>
-								</div>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-price">€ 20.00</div>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="col-md-6">
-						<div class="nk-product-cat">
-							<a class="nk-product-image" href="store-product.html"> <img
-								src="assets/images/product-13-xs.jpg"
-								alt="So saying he unbuckled">
-							</a>
-							<div class="nk-product-cont">
-								<h3 class="nk-product-title h5">
-									<a href="store-product.html">So saying he unbuckled</a>
-								</h3>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-rating" data-rating="5">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i>
-								</div>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-price">€ 23.00</div>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="col-md-6">
-						<div class="nk-product-cat">
-							<a class="nk-product-image" href="store-product.html"> <img
-								src="assets/images/product-14-xs.jpg"
-								alt="However, I have reason">
-							</a>
-							<div class="nk-product-cont">
-								<h3 class="nk-product-title h5">
-									<a href="store-product.html">However, I have reason</a>
-								</h3>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-rating" data-rating="1.5">
-									<i class="fa fa-star"></i> <i class="fas fa-star-half"></i> <i
-										class="far fa-star"></i> <i class="far fa-star"></i> <i
-										class="far fa-star"></i>
-								</div>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-price">€ 32.00</div>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="col-md-6">
-						<div class="nk-product-cat">
-							<a class="nk-product-image" href="store-product.html"> <img
-								src="assets/images/product-15-xs.jpg"
-								alt="At first, for some time">
-							</a>
-							<div class="nk-product-cont">
-								<h3 class="nk-product-title h5">
-									<a href="store-product.html">At first, for some time</a>
-								</h3>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-rating" data-rating="4">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="far fa-star"></i>
-								</div>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-price">€ 14.00</div>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="col-md-6">
-						<div class="nk-product-cat">
-							<a class="nk-product-image" href="store-product.html"> <img
-								src="assets/images/product-16-xs.jpg"
-								alt="When the last &#39;natural&#39;">
-							</a>
-							<div class="nk-product-cont">
-								<h3 class="nk-product-title h5">
-									<a href="store-product.html">When the last
-										&#39;natural&#39;</a>
-								</h3>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-rating" data-rating="4.5">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fas fa-star-half"></i>
-								</div>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-price">€ 20.00</div>
-							</div>
-						</div>
-					</div>
 
 				</div>
 				<!-- END: Related Products -->
@@ -328,11 +211,9 @@
 						</h4>
 						<div class="nk-widget-content">
 							<ul class="nk-widget-categories">
-								<li><a href="#">[[${typeList.get(0).getTypeName}]]</a></li>
-								<li><a href="#">[[${typeList.get(1).getTypeName}]]</a></li>
-								<li><a href="#">[[${typeList.get(2).getTypeName}]]</a></li>
-								<li><a href="#">[[${typeList.get(3).getTypeName}]]</a></li>
-								<li><a href="#">[[${typeList.get(4).getTypeName}]]</a></li>
+								<th:block th:each="type, iterStat : ${typeList}" th:if="${iterStat.index} &lt; 5">
+									<li><a href="#">[[${type.getTypeName}]]</a></li>
+								</th:block>
 							</ul>
 						</div>
 					</div>
@@ -362,59 +243,28 @@
 					</div>
 					<div class="nk-widget nk-widget-highlighted">
 						<h4 class="nk-widget-title">
-							<span><span class="text-main-1">Most</span> Popular</span>
+							<span><span class="text-main-1">熱門</span> 遊戲</span>
 						</h4>
+						<th:block th:each="hotGame,iterStat:${gameList}" th:if="${iterStat.index} &lt; 3">
 						<div class="nk-widget-content">
 
 							<div class="nk-widget-post">
-								<a href="store-product.html" class="nk-post-image"> <img
-									src="assets/images/product-1-xs.jpg"
-									alt="So saying he unbuckled">
+								<a th:href="@{'/gameFront/'+${hotGame.gameName}}" class="nk-post-image">
+								 <img th:src="@{'/game/getImg/'+${hotGame.gamePhotoLists[0]}}" alt="作者很懶沒有提供圖片">
 								</a>
 								<h3 class="nk-post-title">
-									<a href="store-product.html">So saying he unbuckled</a>
+									<a th:href="@{'/gameFront/'+${hotGame.gameName}}">[[${hotGame.getGameName}]]</a>
 								</h3>
 								<div class="nk-product-rating" data-rating="4">
 									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 										class="far fa-star"></i>
 								</div>
-								<div class="nk-product-price">€ 23.00</div>
-							</div>
-
-							<div class="nk-widget-post">
-								<a href="store-product.html" class="nk-post-image"> <img
-									src="assets/images/product-2-xs.jpg"
-									alt="However, I have reason">
-								</a>
-								<h3 class="nk-post-title">
-									<a href="store-product.html">However, I have reason</a>
-								</h3>
-								<div class="nk-product-rating" data-rating="2.5">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fas fa-star-half"></i> <i class="far fa-star"></i> <i
-										class="far fa-star"></i>
-								</div>
-								<div class="nk-product-price">€ 32.00</div>
-							</div>
-
-							<div class="nk-widget-post">
-								<a href="store-product.html" class="nk-post-image"> <img
-									src="assets/images/product-3-xs.jpg"
-									alt="It was some time before">
-								</a>
-								<h3 class="nk-post-title">
-									<a href="store-product.html">It was some time before</a>
-								</h3>
-								<div class="nk-product-rating" data-rating="5">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i>
-								</div>
-								<div class="nk-product-price">€ 14.00</div>
+								<div class="nk-product-price">NT$[[${hotGame.price}]]</div>
 							</div>
 
 						</div>
+						</th:block>
 					</div>
 
 

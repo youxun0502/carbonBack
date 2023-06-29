@@ -28,4 +28,5 @@ public class GameTypeService {
 	public List<GameDTO> findGameByTypeName(String typeName) {
 		return ctDTO.outputGameDTOList(gRespo.findByGameTypesTypeName(typeName));
 	}
+	
 }

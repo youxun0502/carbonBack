@@ -13,7 +13,7 @@ public class TypeDTO {
 	private String typeName;
 	@JsonIgnore
 	private Set<Game> games = new HashSet<>();
-	private Float totalSalesRev ;
+	private Integer totalSalesRev ;
 	private Integer gameNum;
 	private Integer typeBuyer;
 
@@ -43,8 +43,8 @@ public class TypeDTO {
 		return gameNum;
 	}
 
-	public Float getTotalSalesRev() {
-		totalSalesRev = (float) 0;
+	public Integer getTotalSalesRev() {
+		totalSalesRev = (Integer) 0;
 		for (Game game : games) {
 //			System.out.println(game.getPrice());
 			totalSalesRev += game.getPrice()*game.getBuyerCount();
