@@ -13,6 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 
 
@@ -31,9 +33,11 @@ public class CouponLog {
 	@Column(name = "couponId", insertable = false, updatable = false)
 	private Integer couponId;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "acquisitionDate")
 	private Date acquisitionDate;
-		
+	
+	@Temporal(TemporalType.DATE)
 	@Column(name="expirationDate")
 	private Date expirationDate;
 		

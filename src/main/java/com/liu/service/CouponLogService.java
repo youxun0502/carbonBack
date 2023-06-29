@@ -1,18 +1,14 @@
 package com.liu.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.liu.model.Coupon;
 import com.liu.model.CouponLog;
 import com.liu.model.CouponLogRepository;
 import com.liu.model.CouponRepository;
-import com.liu.model.Member;
 
 @Service
 public class CouponLogService {
@@ -24,17 +20,18 @@ public class CouponLogService {
 	CouponRepository couponRepository;
 	
 	public String insertCouponLog(CouponLog couponLog) {
-	CouponLog lastCouponLog= couponLogRepository.findFirstByOrderByAcquisitionDateDesc(couponLog.getMemberId());
-	System.out.println(lastCouponLog);
+	
+	CouponLog lastCouponLog= couponLogRepository.findFirstByMemberIdOrderByAcquisitionDateDesc(couponLog.getMember().getId());
 		if(lastCouponLog != null) {
-			System.out.println(lastCouponLog.getAcquisitionDate());
-			System.out.println(new Date());
-			System.out.println(lastCouponLog.getAcquisitionDate().compareTo(new Date()));
-			if(lastCouponLog.getAcquisitionDate().compareTo(new Date())!=0) {
+			
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String newDate = outputFormat.format(new Date());	//今天日期
+            String acquisitionDate = outputFormat.format(new Date());	//資料庫最新一筆日期      		
+			if(!newDate.equals(acquisitionDate)) {
 				Optional<Coupon> coupon = couponRepository.findById(1);
 				if(coupon.isPresent()) {
-					couponLog.setCouponId(coupon.get().getCouponId());
-					System.out.println("錯誤1");
+					couponLog.setCoupon(coupon.get());
+					couponLog.setStatus(1);
 					couponLogRepository.save(couponLog);
 					return coupon.get().getDesc();
 					
@@ -45,11 +42,11 @@ public class CouponLogService {
 				return "您今日已參加過抽獎了!!!";
 			}
 		}else {
+			//完全沒參加過抽獎的帳號
 			Optional<Coupon> coupon = couponRepository.findById(1);
 			if(coupon.isPresent()) {				
 				couponLog.setCoupon(coupon.get());
 				couponLog.setStatus(1);
-				System.out.println("--------------------------");
 				couponLogRepository.save(couponLog);
 				return coupon.get().getDesc();
 			}else {
