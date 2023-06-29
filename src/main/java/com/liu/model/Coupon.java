@@ -1,11 +1,14 @@
 package com.liu.model;
 
 
+
 import java.util.Set;
+
+
+import jakarta.persistence.CascadeType;
 
 import com.evan.model.GameType;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,8 +17,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
 
 
 
@@ -37,6 +42,7 @@ public class Coupon {
 	@Column(name = "[desc]")
 	private String desc;
 	
+
 	@Column(name="[weight]")
 	private Integer weight;
 	
@@ -123,9 +129,11 @@ public class Coupon {
 	}
 
 
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "typeId")
 	private GameType gameType;
+
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon", cascade = CascadeType.ALL)
 	private Set<CouponLog> couponLogs;

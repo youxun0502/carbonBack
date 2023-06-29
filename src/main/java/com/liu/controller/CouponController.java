@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.liu.config.MathRandom;
 import com.liu.model.Coupon;
 import com.liu.model.CouponLog;
@@ -15,6 +16,7 @@ import com.liu.model.Member;
 import com.liu.service.CouponLogService;
 import com.liu.service.CouponService;
 import com.liu.service.MemberService;
+
 
 @Controller
 public class CouponController {
@@ -36,6 +38,7 @@ public class CouponController {
 		return "liu/getCoupon";
 	}
 	
+
 	@ResponseBody
 	@GetMapping("/coupon/api/getCoupon")
 	public String getCoupon(@RequestParam(name = "memberId") int memberId) {
@@ -51,4 +54,5 @@ public class CouponController {
 		String result = couponLogService.insertCouponLog(couponLog);
 		return result;
 	}
+
 }

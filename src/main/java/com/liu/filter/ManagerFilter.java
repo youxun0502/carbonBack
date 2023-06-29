@@ -11,7 +11,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-//@WebFilter(urlPatterns = {"/member/*","/bonus/*","/discussions/*","/game/*","/gameitem/*","/competition/*","/event/*"})
+@WebFilter(urlPatterns = {"/member/*","/bonus/*","/discussions/*","/game/*","/gameitem/*","/competition/*","/event/*"})
 public class ManagerFilter implements Filter {
 
 	@Override
