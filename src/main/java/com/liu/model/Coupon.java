@@ -37,8 +37,44 @@ public class Coupon {
 	@Column(name = "[desc]")
 	private String desc;
 	
+	@Column(name="[weight]")
+	private Integer weight;
+	
+	@Column(name="[status]")
+	private Integer status;
+	
 	public Integer getCouponId() {
 		return couponId;
+	}
+
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+
+
+	public Integer getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+
+	public Set<CouponLog> getCouponLogs() {
+		return couponLogs;
+	}
+
+
+	public void setCouponLogs(Set<CouponLog> couponLogs) {
+		this.couponLogs = couponLogs;
 	}
 
 
