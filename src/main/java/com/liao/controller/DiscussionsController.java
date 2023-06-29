@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.liao.model.Discussions;
@@ -53,10 +54,17 @@ public class DiscussionsController {
 		return "liao/DiscussionsMain";
 	}
 	
+//	@GetMapping("/blog-list")
+//	public String go() {
+//		return "liao/blog-list";
+//	}
+	
 	@GetMapping("/goBackToHome")
 	public String goBackToHome() {
 		return "liao/home";
 	}
+	
+
 	
 	@GetMapping("/discussions/insertpage")
 	public String insertpage() {
@@ -102,6 +110,41 @@ public class DiscussionsController {
 	          model.addAttribute("discussions", discussions);
 	          return "liao/GetAllDiscussion";
 	  }
+	
+	@GetMapping("/getAllDiscussions")
+	  public String getAllDiscussion(Model model) throws SQLException {
+	          List<Discussions> discussions = dService.findAll();
+	          model.addAttribute("discussions", discussions);
+	          return "liao/GetAllDiscussion";
+	  }
+	
+	
+//	@GetMapping("/discussions/getAllDiscussions")
+//	@ResponseBody
+//	public  List<Discussions> getAllDiscussions(Model model) throws SQLException {
+//		List<Discussions> discussions = dService.findAll();
+//		model.addAttribute("discussions", discussions);
+//		return discussions;
+//	}
+	
+	@GetMapping("/discussions0/getfront")
+	  public String getfront(Model model) throws SQLException {
+	          List<Discussions> discussions = dService.findAll();
+	          model.addAttribute("discussions", discussions);
+	          return "liao/blog-list";
+	  }
+	
+	
+	
+//	
+//	@GetMapping("/discussions/getfront1")
+//	@ResponseBody
+//	public List<Discussions> getfront1(Model model) throws SQLException {
+//		List<Discussions> discussions = dService.findAll();
+//		model.addAttribute("discussions", discussions);
+//		return discussions;
+//	}
+	
 	
 //	@GetMapping("/GetDiscussion")
 //	public String selectById(@RequestParam("articleId") int articleId, Model model) {
