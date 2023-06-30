@@ -33,7 +33,7 @@ public class CouponController {
 
 	@GetMapping("/coupon/couponPage")
 	public String couponPage() {
-		return "liu/getCoupon";
+		return "liu/couponGetCoupon";
 	}
 	
 	@ResponseBody

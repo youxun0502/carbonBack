@@ -48,11 +48,12 @@ public class MainFunction {
 
 	@PostMapping("/main/memberLogin")
 	public String memberLogin(@RequestParam("email") String email, @RequestParam("memberPwd") String memberPwd,
-			@RequestParam(name="rememberMe",required = false) String rememberMe, Model m, HttpSession session, HttpServletResponse response,
-			HttpServletRequest request) {
+			@RequestParam(name = "rememberMe", required = false) String rememberMe, Model m, HttpSession session,
+			HttpServletResponse response, HttpServletRequest request) {
 
 		Member member = mService.isMember(email, memberPwd);
 		if (member == null) {
+			System.out.println("登入錯誤");
 			return "/liu/memberLoginError";
 		} else if (member.getStatus() == 2) {
 			return "/liu/memberCanNotLogin";
@@ -61,14 +62,25 @@ public class MainFunction {
 			session.setAttribute("character", "manager");
 			return "/liu/main";
 		} else {
-			if ("1".equals(rememberMe)) {
+			if ("1".equals(rememberMe)) { // 有rememberMe
 				Cookie[] cookies = request.getCookies();
 				Cookie cookie = null;
+				
 				if (cookies != null) {
 					for (Cookie cookie1 : cookies) {
 						if (cookie1.getName().equals("email")) {
 							cookie = cookie1;
+
 						}
+					}
+
+					if (cookie!=null &&cookie.getValue() != email) {
+						cookie.setMaxAge(0);
+						Cookie newCookie = new Cookie("email",email);
+						newCookie.setMaxAge(60*60*24);
+						newCookie.setHttpOnly(true);
+						response.addCookie(cookie);
+						response.addCookie(newCookie);
 					}
 
 				}
@@ -77,12 +89,13 @@ public class MainFunction {
 					cookie.setMaxAge(60 * 60 * 24);
 					cookie.setHttpOnly(true);
 					response.addCookie(cookie);
+					System.out.println("沒有cookie");
 				}
 				session.setAttribute("memberBeans", member);
 				session.setAttribute("character", "member");
 				return "/liu/home";
 
-			} else {
+			} else { // 沒有rememberMe 就刪掉cookie
 				Cookie[] cookies = request.getCookies();
 				Cookie cookie = null;
 				if (cookies != null) {
@@ -94,8 +107,8 @@ public class MainFunction {
 				}
 
 				if (cookie != null) {
-					cookie.setMaxAge(0);	   //清除cookie
-					response.addCookie(cookie);//清除cookie
+					cookie.setMaxAge(0); // 清除cookie
+					response.addCookie(cookie);// 清除cookie
 				}
 				session.setAttribute("memberBeans", member);
 				session.setAttribute("character", "member");
