@@ -13,49 +13,49 @@
     <meta name="keywords" content="game, gaming, template, HTML template, responsive, Bootstrap, premium">
     <meta name="author" content="_nK">
 
-    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="icon" type="image/png" th:href="@{/assets/images/favicon.png}">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- START: Styles -->
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet"
+    <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700}" rel="stylesheet"
         type="text/css">
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}">
 
     <!-- FontAwesome -->
-    <script defer src="assets/vendor/fontawesome-free/js/all.js"></script>
-    <script defer src="assets/vendor/fontawesome-free/js/v4-shims.js"></script>
+    <script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
+    <script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
 
     <!-- IonIcons -->
-    <link rel="stylesheet" href="assets/vendor/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" th:href="@{/assets/vendor/ionicons/css/ionicons.min.css}">
 
     <!-- Flickity -->
-    <link rel="stylesheet" href="assets/vendor/flickity/dist/flickity.min.css">
+    <link rel="stylesheet" th:href="@{/assets/vendor/flickity/dist/flickity.min.css}">
 
     <!-- Photoswipe -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/photoswipe.css">
-    <link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/default-skin/default-skin.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/photoswipe/dist/photoswipe.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/photoswipe/dist/default-skin/default-skin.css}">
 
     <!-- Seiyria Bootstrap Slider -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css">
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css}">
 
     <!-- Summernote -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/summernote/dist/summernote-bs4.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/summernote/dist/summernote-bs4.css}">
 
     <!-- GoodGames -->
-    <link rel="stylesheet" href="assets/css/goodgames.css">
+    <link rel="stylesheet" th:href="@{/assets/css/goodgames.css}">
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
     <!-- END: Styles -->
 
     <!-- jQuery -->
-    <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
 
 
 </head>
@@ -89,7 +89,8 @@
                         <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a></li>
                         <li><a class="nk-social-steam" href="#"><span class="fab fa-steam"></span></a></li>
                         <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a></li>
-                        <li><a class="nk-social-google-plus" href="#"><span class="fab fa-google-plus"></span></a></li>
+                        <li><a class="nk-social-google-plus" href="#"><span class="fab fa-google-plus"></span></a>
+                        </li>
                         <li><a class="nk-social-twitter" href="#" target="_blank"><span
                                     class="fab fa-twitter"></span></a></li>
                         <li><a class="nk-social-pinterest" href="#"><span class="fab fa-pinterest-p"></span></a></li>
@@ -145,26 +146,26 @@
                             <div class="nk-cart-dropdown">
 
                                 <div class="nk-widget-post">
-                                    <a href="store-product.html" class="nk-post-image">
-                                        <img src="assets/images/product-5-xs.jpg" alt="In all revolutions of">
+                                    <a th:href="@{store-product.html}" class="nk-post-image">
+                                        <img th:src="@{/assets/images/product-5-xs.jpg}" alt="In all revolutions of">
                                     </a>
                                     <h3 class="nk-post-title">
                                         <a href="#" class="nk-cart-remove-item"><span
                                                 class="ion-android-close"></span></a>
-                                        <a href="store-product.html">In all revolutions of</a>
+                                        <a th:href="@{store-product.html}">In all revolutions of</a>
                                     </h3>
                                     <div class="nk-gap-1"></div>
                                     <div class="nk-product-price">€ 23.00</div>
                                 </div>
 
                                 <div class="nk-widget-post">
-                                    <a href="store-product.html" class="nk-post-image">
-                                        <img src="assets/images/product-7-xs.jpg" alt="With what mingled joy">
+                                    <a th:href="@{store-product.html}" class="nk-post-image">
+                                        <img th:src="@{/assets/images/product-7-xs.jpg}" alt="With what mingled joy">
                                     </a>
                                     <h3 class="nk-post-title">
                                         <a href="#" class="nk-cart-remove-item"><span
                                                 class="ion-android-close"></span></a>
-                                        <a href="store-product.html">With what mingled joy</a>
+                                        <a th:href="@{store-product.html}">With what mingled joy</a>
                                     </h3>
                                     <div class="nk-gap-1"></div>
                                     <div class="nk-product-price">€ 14.00</div>
@@ -172,7 +173,7 @@
 
                                 <div class="nk-gap-2"></div>
                                 <div class="text-center">
-                                    <a href="store-checkout.html"
+                                    <a th:href="@{store-checkout.html}"
                                         class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">Proceed
                                         to Checkout</a>
                                 </div>
@@ -199,46 +200,46 @@
             <div class="container">
                 <div class="nk-nav-table">
 
-                    <a href="index.html" class="nk-nav-logo">
-                        <img src="assets/images/logo.png" alt="GoodGames" width="199">
+                    <a th:href="@{index.html}" class="nk-nav-logo">
+                        <img th:src="@{/assets/images/logo.png}" alt="GoodGames" width="199">
                     </a>
 
                     <ul class="nk-nav nk-nav-right d-none d-lg-table-cell" data-nav-mobile="#nk-nav-mobile">
 
                         <li class="active nk-drop-item">
-                            <a href="elements.html">
+                            <a th:href="@{elements.html}">
                                 Features
 
                             </a>
                             <ul class="dropdown">
 
                                 <li>
-                                    <a href="elements.html">
+                                    <a th:href="@{elements.html}">
                                         Elements (Shortcodes)
 
                                     </a>
                                 </li>
                                 <li class="active nk-drop-item">
-                                    <a href="forum.html">
+                                    <a th:href="@{forum.html}">
                                         Forum
 
                                     </a>
                                     <ul class="dropdown">
 
                                         <li>
-                                            <a href="forum.html">
+                                            <a th:href="@{forum.html}">
                                                 Forum
 
                                             </a>
                                         </li>
                                         <li class="active">
-                                            <a href="forum-topics.html">
+                                            <a th:href="@{forum-topics.html}">
                                                 Topics
 
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="forum-single-topic.html">
+                                            <a th:href="@{forum-single-topic.html}">
                                                 Single Topic
 
                                             </a>
@@ -246,25 +247,25 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="widgets.html">
+                                    <a th:href="@{widgets.html}">
                                         Widgets
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="coming-soon.html">
+                                    <a th:href="@{coming-soon.html}">
                                         Coming Soon
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="offline.html">
+                                    <a th:href="@{offline.html}">
                                         Offline
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="404.html">
+                                    <a th:href="@{404.html}">
                                         404
 
                                     </a>
@@ -272,33 +273,33 @@
                             </ul>
                         </li>
                         <li class=" nk-drop-item">
-                            <a href="blog-list.html">
+                            <a th:href="@{blog-list.html}">
                                 Blog
 
                             </a>
                             <ul class="dropdown">
 
                                 <li>
-                                    <a href="news.html">
+                                    <a th:href="@{news.html}">
                                         News
 
                                     </a>
                                 </li>
                                 <li class=" nk-drop-item">
-                                    <a href="blog-grid.html">
+                                    <a th:href="@{blog-grid.html}">
                                         Blog With Sidebar
 
                                     </a>
                                     <ul class="dropdown">
 
                                         <li>
-                                            <a href="blog-grid.html">
+                                            <a th:href="@{blog-grid.html}">
                                                 Blog Grid
 
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="blog-list.html">
+                                            <a th:href="@{blog-list.html}">
                                                 Blog List
 
                                             </a>
@@ -306,13 +307,13 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="blog-fullwidth.html">
+                                    <a th:href="@{blog-fullwidth.html}">
                                         Blog Fullwidth
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="blog-article.html">
+                                    <a th:href="@{blog-article.html}">
                                         Blog Article
 
                                     </a>
@@ -320,32 +321,32 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="gallery.html">
+                            <a th:href="@{gallery.html}">
                                 Gallery
 
                             </a>
                         </li>
                         <li class=" nk-drop-item">
-                            <a href="tournaments.html">
+                            <a th:href="@{tournaments.html}">
                                 Tournaments
 
                             </a>
                             <ul class="dropdown">
 
                                 <li>
-                                    <a href="tournaments.html">
+                                    <a th:href="@{tournaments.html}">
                                         Tournament
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="tournaments-teams.html">
+                                    <a th:href="@{tournaments-teams.html}">
                                         Teams
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="tournaments-teammate.html">
+                                    <a th:href="@{tournaments-teammate.html}">
                                         Teammate
 
                                     </a>
@@ -353,44 +354,44 @@
                             </ul>
                         </li>
                         <li class=" nk-drop-item">
-                            <a href="store.html">
+                            <a th:href="@{store.html}">
                                 Store
 
                             </a>
                             <ul class="dropdown">
 
                                 <li>
-                                    <a href="store.html">
+                                    <a th:href="@{store.html}">
                                         Store
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="store-product.html">
+                                    <a th:href="@{store-product.html}">
                                         Product
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="store-catalog.html">
+                                    <a th:href="@{store-catalog.html}">
                                         Catalog
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="store-catalog-alt.html">
+                                    <a th:href="@{store-catalog-alt.html}">
                                         Catalog Alt
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="store-checkout.html">
+                                    <a th:href="@{store-checkout.html}">
                                         Checkout
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="store-cart.html">
+                                    <a th:href="@{store-cart.html}">
                                         Cart
 
                                     </a>
@@ -433,8 +434,8 @@
     <div id="nk-nav-mobile" class="nk-navbar nk-navbar-side nk-navbar-right-side nk-navbar-overlay-content d-lg-none">
         <div class="nano">
             <div class="nano-content">
-                <a href="index.html" class="nk-nav-logo">
-                    <img src="assets/images/logo.png" alt="" width="120">
+                <a th:href="@{index.html}" class="nk-nav-logo">
+                    <img th:src="@{/assets/images/logo.png}" alt="" width="120">
                 </a>
                 <div class="nk-navbar-mobile-content">
                     <ul class="nk-nav">
@@ -456,12 +457,12 @@
             <ul class="nk-breadcrumbs">
 
 
-                <li><a href="index.html">Home</a></li>
+                <li><a th:href="@{index.html}">Home</a></li>
 
 
                 <li><span class="fa fa-angle-right"></span></li>
 
-                <li><a href="forum.html">Forum</a></li>
+                <li><a th:href="@{forum.html}">Forum</a></li>
 
 
                 <li><span class="fa fa-angle-right"></span></li>
@@ -496,15 +497,15 @@
                         <span class="ion-pin"></span>
                     </div>
                     <div class="nk-forum-title">
-                        <h3><a href="forum-single-topic.html">Suggestions</a></h3>
+                        <h3><a th:href="@{forum-single-topic.html}">Suggestions</a></h3>
                         <div class="nk-forum-title-sub">Started by <a href="#">nK</a> on January 17, 2018</div>
                     </div>
                     <div class="nk-forum-count">
                         178 posts
                     </div>
                     <div class="nk-forum-activity-avatar">
-                        <a href="forum-single-topic.html">
-                            <img src="assets/images/avatar-1.jpg" alt="Hitman">
+                        <a th:href="@{forum-single-topic.html}">
+                            <img th:src="@{/assets/images/avatar-1.jpg}" alt="Hitman">
                         </a>
                     </div>
                     <div class="nk-forum-activity">
@@ -521,15 +522,15 @@
                         <span class="ion-locked"></span>
                     </div>
                     <div class="nk-forum-title">
-                        <h3><a href="forum-single-topic.html">Are you ready for 2.0 release?</a></h3>
+                        <h3><a th:href="@{forum-single-topic.html}">Are you ready for 2.0 release?</a></h3>
                         <div class="nk-forum-title-sub">Started by <a href="#">Hitman</a> on August 23, 2018</div>
                     </div>
                     <div class="nk-forum-count">
                         3 posts
                     </div>
                     <div class="nk-forum-activity-avatar">
-                        <a href="forum-single-topic.html">
-                            <img src="assets/images/avatar-2.jpg" alt="Witch Murder">
+                        <a th:href="@{forum-single-topic.html}">
+                            <img th:src="@{/assets/images/avatar-2.jpg}" alt="Witch Murder">
                         </a>
                     </div>
                     <div class="nk-forum-activity">
@@ -546,15 +547,15 @@
                         <span class="ion-chatboxes"></span>
                     </div>
                     <div class="nk-forum-title">
-                        <h3><a href="forum-single-topic.html">When will be next closed beta?</a></h3>
+                        <h3><a th:href="@{forum-single-topic.html}">When will be next closed beta?</a></h3>
                         <div class="nk-forum-title-sub">Started by <a href="#">Hitman</a> on August 9, 2018</div>
                     </div>
                     <div class="nk-forum-count">
                         4 posts
                     </div>
                     <div class="nk-forum-activity-avatar">
-                        <a href="forum-single-topic.html">
-                            <img src="assets/images/avatar-3.jpg" alt="Wolfenstein">
+                        <a th:href="@{forum-single-topic.html}">
+                            <img th:src="@{/assets/images/avatar-3.jpg}" alt="Wolfenstein">
                         </a>
                     </div>
                     <div class="nk-forum-activity">
@@ -571,15 +572,16 @@
                         <span class="ion-chatboxes"></span>
                     </div>
                     <div class="nk-forum-title">
-                        <h3><a href="forum-single-topic.html">Add new post types</a></h3>
-                        <div class="nk-forum-title-sub">Started by <a href="#">Witch Murder</a> on Jule 28, 2018</div>
+                        <h3><a th:href="@{forum-single-topic.html}">Add new post types</a></h3>
+                        <div class="nk-forum-title-sub">Started by <a href="#">Witch Murder</a> on Jule 28, 2018
+                        </div>
                     </div>
                     <div class="nk-forum-count">
                         1 post
                     </div>
                     <div class="nk-forum-activity-avatar">
-                        <a href="forum-single-topic.html">
-                            <img src="assets/images/avatar-2.jpg" alt="Witch Murder">
+                        <a th:href="@{forum-single-topic.html}">
+                            <img th:src="@{/assets/images/avatar-2.jpg}" alt="Witch Murder">
                         </a>
                     </div>
                     <div class="nk-forum-activity">
@@ -596,15 +598,15 @@
                         <span class="ion-chatboxes"></span>
                     </div>
                     <div class="nk-forum-title">
-                        <h3><a href="forum-single-topic.html">Clan Wars functionality</a></h3>
+                        <h3><a th:href="@{forum-single-topic.html}">Clan Wars functionality</a></h3>
                         <div class="nk-forum-title-sub">Started by <a href="#">Hitman</a> on June 17, 2018</div>
                     </div>
                     <div class="nk-forum-count">
                         8 posts
                     </div>
                     <div class="nk-forum-activity-avatar">
-                        <a href="forum-single-topic.html">
-                            <img src="assets/images/avatar-1.jpg" alt="Hitman">
+                        <a th:href="@{forum-single-topic.html}">
+                            <img th:src="@{assets/images/avatar-1.jpg}" alt="Hitman">
                         </a>
                     </div>
                     <div class="nk-forum-activity">
@@ -621,15 +623,15 @@
                         <span class="ion-chatboxes"></span>
                     </div>
                     <div class="nk-forum-title">
-                        <h3><a href="forum-single-topic.html">Some questions before start</a></h3>
+                        <h3><a th:href="@{forum-single-topic.html}">Some questions before start</a></h3>
                         <div class="nk-forum-title-sub">Started by <a href="#">Hitman</a> on June 28, 2018</div>
                     </div>
                     <div class="nk-forum-count">
                         1 post
                     </div>
                     <div class="nk-forum-activity-avatar">
-                        <a href="forum-single-topic.html">
-                            <img src="assets/images/avatar-1.jpg" alt="Hitman">
+                        <a th:href="@{forum-single-topic.html}">
+                            <img th:src="@{/assets/images/avatar-1.jpg}" alt="Hitman">
                         </a>
                     </div>
                     <div class="nk-forum-activity">
@@ -720,10 +722,11 @@
 
                                     <div class="col-lg-6">
                                         <div class="nk-widget-post-2">
-                                            <a href="blog-article.html" class="nk-post-image">
-                                                <img src="assets/images/post-1-sm.jpg" alt="">
+                                            <a th:href="@{blog-article.html}" class="nk-post-image">
+                                                <img th:src="@{/assets/images/post-1-sm.jpg}" alt="">
                                             </a>
-                                            <div class="nk-post-title"><a href="blog-article.html">Smell magic in the
+                                            <div class="nk-post-title"><a th:href="@{blog-article.html}">Smell magic in
+                                                    the
                                                     air. Or maybe barbecue</a></div>
                                             <div class="nk-post-date">
                                                 <span class="fa fa-calendar"></span> Sep 18, 2018
@@ -734,10 +737,11 @@
 
                                     <div class="col-lg-6">
                                         <div class="nk-widget-post-2">
-                                            <a href="blog-article.html" class="nk-post-image">
-                                                <img src="assets/images/post-2-sm.jpg" alt="">
+                                            <a th:href="@{blog-article.html}" class="nk-post-image">
+                                                <img th:src="@{/assets/images/post-2-sm.jpg}" alt="">
                                             </a>
-                                            <div class="nk-post-title"><a href="blog-article.html">Grab your sword and
+                                            <div class="nk-post-title"><a th:href="@{blog-article.html}">Grab your sword
+                                                    and
                                                     fight the Horde</a></div>
                                             <div class="nk-post-date">
                                                 <span class="fa fa-calendar"></span> Sep 5, 2018
@@ -763,7 +767,7 @@
             <div class="nk-copyright">
                 <div class="container">
                     <div class="nk-copyright-left">
-                        <a target="_blank" href="https://www.templateshub.net">Templates Hub</a>
+                        <a target="_blank" th:href="@{https://www.templateshub.net}">Templates Hub</a>
                     </div>
                     <div class="nk-copyright-right">
                         <ul class="nk-social-links-2">
@@ -817,8 +821,8 @@
 
     <!-- START: Page Background -->
 
-    <img class="nk-page-background-top" src="assets/images/bg-top.png" alt="">
-    <img class="nk-page-background-bottom" src="assets/images/bg-bottom.png" alt="">
+    <img class="nk-page-background-top" th:src="@{/assets/images/bg-top.png}" alt="">
+    <img class="nk-page-background-bottom" th:src="@{/assets/images/bg-bottom.png}" alt="">
 
     <!-- END: Page Background -->
 
@@ -916,64 +920,64 @@
     <!-- START: Scripts -->
 
     <!-- Object Fit Polyfill -->
-    <script src="assets/vendor/object-fit-images/dist/ofi.min.js"></script>
+    <!-- <script th:src="assets/vendor/object-fit-images/dist/ofi.min.js"></script> -->
 
     <!-- GSAP -->
-    <script src="assets/vendor/gsap/src/minified/TweenMax.min.js"></script>
-    <script src="assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js"></script>
+    <!-- <script th:src="assets/vendor/gsap/th:src/minified/TweenMax.min.js"></script>
+    <script th:src="assets/vendor/gsap/th:src/minified/plugins/ScrollToPlugin.min.js"></script> -->
 
     <!-- Popper -->
-    <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+    <script th:src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
 
     <!-- Bootstrap -->
-    <script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script th:src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Sticky Kit -->
-    <script src="assets/vendor/sticky-kit/dist/sticky-kit.min.js"></script>
+    <!-- <script th:src="assets/vendor/sticky-kit/dist/sticky-kit.min.js"></script> -->
 
     <!-- Jarallax -->
-    <script src="assets/vendor/jarallax/dist/jarallax.min.js"></script>
-    <script src="assets/vendor/jarallax/dist/jarallax-video.min.js"></script>
+    <!-- <script th:src="assets/vendor/jarallax/dist/jarallax.min.js"></script>
+    <script th:src="assets/vendor/jarallax/dist/jarallax-video.min.js"></script> -->
 
     <!-- imagesLoaded -->
-    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <!-- <script th:src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script> -->
 
     <!-- Flickity -->
-    <script src="assets/vendor/flickity/dist/flickity.pkgd.min.js"></script>
+    <!-- <script th:src="assets/vendor/flickity/dist/flickity.pkgd.min.js"></script> -->
 
     <!-- Photoswipe -->
-    <script src="assets/vendor/photoswipe/dist/photoswipe.min.js"></script>
-    <script src="assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js"></script>
+    <!-- <script th:src="assets/vendor/photoswipe/dist/photoswipe.min.js"></script>
+    <script th:src="assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js"></script> -->
 
     <!-- Jquery Validation -->
-    <script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <!-- <script th:src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script> -->
 
     <!-- Jquery Countdown + Moment -->
-    <script src="assets/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
-    <script src="assets/vendor/moment/min/moment.min.js"></script>
-    <script src="assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+    <!-- <script th:src="assets/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
+    <script th:src="assets/vendor/moment/min/moment.min.js"></script>
+    <script th:src="assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script> -->
 
     <!-- Hammer.js -->
-    <script src="assets/vendor/hammerjs/hammer.min.js"></script>
+    <!-- <script th:src="assets/vendor/hammerjs/hammer.min.js"></script> -->
 
     <!-- NanoSroller -->
-    <script src="assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
+    <!-- <script th:src="assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script> -->
 
     <!-- SoundManager2 -->
-    <script src="assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js"></script>
+    <!-- <script th:src="assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js"></script> -->
 
     <!-- Seiyria Bootstrap Slider -->
-    <script src="assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+    <!-- <script th:src="assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js"></script> -->
 
     <!-- Summernote -->
-    <script src="assets/vendor/summernote/dist/summernote-bs4.min.js"></script>
+    <!-- <script th:src="assets/vendor/summernote/dist/summernote-bs4.min.js"></script> -->
 
     <!-- nK Share -->
-    <script src="assets/plugins/nk-share/nk-share.js"></script>
+    <!-- <script th:src="assets/plugins/nk-share/nk-share.js"></script> -->
 
     <!-- GoodGames -->
-    <script src="assets/js/goodgames.min.js"></script>
-    <script src="assets/js/goodgames-init.js"></script>
+    <!-- <script th:src="assets/js/goodgames.min.js"></script>
+    <script th:src="assets/js/goodgames-init.js"></script> -->
     <!-- END: Scripts -->
 
 

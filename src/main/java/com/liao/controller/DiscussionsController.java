@@ -54,6 +54,7 @@ public class DiscussionsController {
 		return "liao/DiscussionsMain";
 	}
 	
+	
 //	@GetMapping("/blog-list")
 //	public String go() {
 //		return "liao/blog-list";
@@ -127,13 +128,17 @@ public class DiscussionsController {
 //		return discussions;
 //	}
 	
-	@GetMapping("/discussions0/getfront")
+	@GetMapping("/forum/getfront")
 	  public String getfront(Model model) throws SQLException {
 	          List<Discussions> discussions = dService.findAll();
 	          model.addAttribute("discussions", discussions);
 	          return "liao/blog-list";
 	  }
 	
+	@GetMapping("/forum/DiabloIV")
+	public String goDiabloIV() {
+		return "liao/DiabloIV";
+	}
 	
 	
 //	
