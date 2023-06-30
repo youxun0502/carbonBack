@@ -25,7 +25,7 @@ public class CouponLogService {
 
 			SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String newDate = outputFormat.format(new Date()); // 今天日期
-			String acquisitionDate = outputFormat.format(new Date()); // 資料庫最新一筆日期
+			String acquisitionDate = outputFormat.format(lastCouponLog.getAcquisitionDate()); // 資料庫最新一筆日期
 			if (!newDate.equals(acquisitionDate)) {
 				couponLog.setStatus(1);
 				couponLogRepository.save(couponLog);
