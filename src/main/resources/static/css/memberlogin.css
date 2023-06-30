@@ -1,44 +1,27 @@
-body {
-    height: 100vh;
-}
-
-.loginContainer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-image: url("../img/memberlogin2.jpg");
-    background-size: cover;
+.fa-circle-user {
+	font-size: 120px;
 }
 
 .formContainer {
-    width: 400px;
-    height: 500px;
-    background-color: #91C4F2;
-    border: 2px solid rgba(0, 0, 0, 0);
-    position: absolute;
-    top: 25%;
-    left: 65%;
-    padding: 3px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
+	color: #000 !important;
+	min-width: 440px;
+	background-color: #91C4F2;
 }
 
-.loginForm {
-    padding-top: 50px;
+body {
+	height: 90vh;
+	background-image: url("../img/memberlogin2.jpg");
+	background-size: cover;
 }
 
-.loginForm input {
-    margin-top: 15px;
-    width: 300px;
-    margin-bottom: 15px;
+.nextStep {
+	background-color: #6495ED !important;
 }
 
-.loginForm span {
-    border: 1px solid #5a6cb9cb;
-    padding: 5px;
-    border-radius: 2px;
-    background-color: cornflowerblue;
+.registrationPage {
+	background-color: #8CA0D7 !important;
+}
+
+.oneClick {
+	background-color: rgb(159, 209, 236) !important;
 }

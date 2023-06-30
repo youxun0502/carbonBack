@@ -76,4 +76,9 @@ public class GameService {
 		return false;
 	}
 
+	public List<GameDTO> getGameInfoByGameName(String gameName) {
+		List<GameDTO> gameDTOS = gRepo.SearchUserByName(gameName)!=null?ctDTO.outputGameDTOList(gRepo.SearchUserByName(gameName)):null;
+		return gameDTOS;
+	}
+
 }

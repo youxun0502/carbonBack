@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CKEditor 5 Demo</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .editor-container {
+            width: 50%;
+        }
+
+        #editor {
+            height: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="editor-container">
+            <textarea id="editor"></textarea>
+        </div>
+    </div>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error('無法創建 CKEditor 實例', error);
+            });
+    </script>
+</body>
+
+</html>

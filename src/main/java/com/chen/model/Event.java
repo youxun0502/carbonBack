@@ -1,11 +1,15 @@
 package com.chen.model;
 
+import com.evan.model.Game;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -18,6 +22,10 @@ public class Event {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventId")
 	private Integer eventId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "GAMEID", insertable = false, updatable = false)
+	private Game game;
 	
 	@Column(name = "gameId")
 	private Integer gameId;

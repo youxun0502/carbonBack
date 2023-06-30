@@ -11,7 +11,7 @@
 //import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpSession;
 //
-//@WebFilter()
+//@WebFilter(urlPatterns = {"/member/*","/bonus/*","/discussions/*","/game/*","/gameitem/*","/competition/*","/event/*"})
 //public class MemberFilter implements Filter {
 //
 //	@Override

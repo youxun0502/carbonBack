@@ -70,16 +70,16 @@ public class BonusItemController {
 		return "li/listAll";
 	}
 	
-	@GetMapping("/downloadImage/{id}")
-	public ResponseEntity<byte[]> downloadImage(@PathVariable Integer id){
-		BonusItem photo1 = bService.getBonusItemById(id);
-		byte[] photoFile = photo1.getImg_file();
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_JPEG);
-		                                // 檔案, header, HttpStatus
-		return new ResponseEntity<byte[]>(photoFile, headers, HttpStatus.OK);
-	}
+//	@GetMapping("/downloadImage/{id}")
+//	public ResponseEntity<byte[]> downloadImage(@PathVariable Integer id){
+//		BonusItem photo1 = bService.getBonusItemById(id);
+//		byte[] photoFile = photo1.getImg_file();
+//		
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.setContentType(MediaType.IMAGE_JPEG);
+//		                                // 檔案, header, HttpStatus
+//		return new ResponseEntity<byte[]>(photoFile, headers, HttpStatus.OK);
+//	}
 	
 	@GetMapping("/bonus/edit")
 	public String editPage(@RequestParam("id") Integer id, Model model) {
