@@ -20,6 +20,11 @@ public class Discussions {
 	@Column(name = "articleId")
 	private Integer articleId;
 	
+	@Lob
+	@Column(name="photoFile")
+	private byte[] photoFile;
+	
+	
 	@Column(name = "memberId")
 	private Integer memberId;
 	
@@ -53,10 +58,7 @@ public class Discussions {
 	@Column(name = "dlikes")
 	private Integer dlikes;
 	
-//	@Lob
-//	@Column(name="photoFile")
-//	private byte[] photoFile;
-	
+
 	
 	public Discussions() {
 	}
