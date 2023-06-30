@@ -3,78 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <title>[[${gameDTO.gameName}]]</title>
-<link th:href="@{/css/goodgames.css}" rel="stylesheet" />
 
-<style>
-#apphub_NavLinks {
-	background-color: #6fb7d4;
-	padding: 10px;
-	display: flex;
-	align-items: center;
-}
+<!-- START: Styles -->
 
-#apphub_NavLinks .nav-item {
-	margin-right: 10px;
-}
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700"
+	rel="stylesheet" type="text/css">
 
-#apphub_NavLinks .nav-link {
-	color: #333;
-	text-decoration: none;
-	padding: 5px;
-}
+<!-- Bootstrap -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}">
 
-#apphub_NavLinks .search-bar {
-	flex-grow: 1;
-	background-color: #eaeaea;
-	padding: 5px;
-	display: flex;
-	align-items: center;
-}
+<!-- FontAwesome -->
+<script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
+<script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
 
-#apphub_NavLinks .search-bar input[type="text"] {
-	flex-grow: 1;
-	border: none;
-	background-color: #eaeaea;
-	padding: 5px;
-}
+<!-- IonIcons -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/ionicons/css/ionicons.min.css}">
 
-#apphub_NavLinks .search-bar button {
-	background-color: #6fb7d4;
-	color: #fff;
-	border: none;
-	padding: 5px;
-}
-</style>
+<!-- Flickity -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/flickity/dist/flickity.min.css}">
+
+<!-- Photoswipe -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/photoswipe/dist/photoswipe.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/photoswipe/dist/default-skin/default-skin.css}">
+
+<!-- Seiyria Bootstrap Slider -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css}">
+
+<!-- Summernote -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/summernote/dist/summernote-bs4.css}">
+
+<!-- GoodGames -->
+<link rel="stylesheet" th:href="@{/assets/css/goodgames.css}">
+
+<!-- Custom Styles -->
+<link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+<!-- END: Styles -->
+
+<!-- jQuery -->
+<script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
+
 </head>
 <body>
 	<div
 		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
-	<div class="container my-5">
+	<div class="container ">
 
-		<div id="apphub_NavLinks" class="mb-4">
-			<div class="nav-item">
-				<a class="nav-link" href="#">你的商店</a>
-			</div>
-			<div class="nav-item">
-				<a class="nav-link" href="#">矚目新品</a>
-			</div>
-			<div class="nav-item">
-				<a class="nav-link" href="#">類別</a>
-			</div>
-			<div class="nav-item">
-				<a class="nav-link" href="#">點數商店</a>
-			</div>
-			<div class="nav-item">
-				<a class="nav-link" href="#">新聞</a>
-			</div>
-			<div class="nav-item">
-				<a class="nav-link" href="#">實驗室</a>
-			</div>
-			<div class="search-bar">
-				<input type="text" placeholder="搜尋">
-				<button>搜尋</button>
-			</div>
-		</div>
+            <!-- START: Breadcrumbs -->
+<div class="nk-gap-1"></div>
+<div class="container">
+    <ul class="nk-breadcrumbs">
+        
+        
+        <li>Home</li>
+        
+        
+        <li><span class="fa fa-angle-right"></span></li>
+        
+        <li>Store</li>
+        
+        
+        <li><span class="fa fa-angle-right"></span></li>
+        
+        <li>Games</a></li>
+        
+        
+        <li><span class="fa fa-angle-right"></span></li>
+        
+        <li><span>[[${gameDTO.gameName}]] </span></li>
+        
+    </ul>
+</div>
+<div class="nk-gap-1"></div>
+<!-- END: Breadcrumbs -->
 		<div class="row vertical-gap">
 			<div class="col-lg-8">
 				<div class="nk-store-product">
@@ -349,30 +359,33 @@
 							</ul>
 						</div>
 					</div>
-					<div class="nk-widget nk-widget-highlighted">
-						<h4 class="nk-widget-title">
-							<span><span class="text-main-1">Price</span> Filter</span>
-						</h4>
-						<div class="nk-widget-content">
-							<div class="nk-input-slider">
-								<input type="text" name="price-filter" data-slider-min="0"
-									data-slider-max="1800" data-slider-step="1"
-									data-slider-value="[200, 1200]" data-slider-tooltip="hide">
-								<div class="nk-gap"></div>
-								<div>
-									<div class="text-white mt-4 float-left">
-										PRICE: <strong class="text-main-1">€ <span
-											class="nk-input-slider-value-0"></span></strong> - <strong
-											class="text-main-1">€ <span
-											class="nk-input-slider-value-1"></span></strong>
-									</div>
-									<a href="#"
-										class="nk-btn nk-btn-rounded nk-btn-color-white float-right">Apply</a>
-								</div>
-								<div class="clearfix"></div>
-							</div>
-						</div>
-					</div>
+				<div class="nk-widget nk-widget-highlighted">
+    <h4 class="nk-widget-title"><span><span class="text-main-1">Price</span> Filter</span></h4>
+    <div class="nk-widget-content">
+        <div class="nk-input-slider">
+            <input
+                type="text"
+                name="price-filter"
+                data-slider-min="0"
+                data-slider-max="1800"
+                data-slider-step="1"
+                data-slider-value="[200, 1200]"
+                data-slider-tooltip="hide"
+            >
+            <div class="nk-gap"></div>
+            <div>
+                <div class="text-white mt-4 float-left">
+                    PRICE:
+                    <strong class="text-main-1">€ <span class="nk-input-slider-value-0"></span></strong>
+                    -
+                    <strong class="text-main-1">€ <span class="nk-input-slider-value-1"></span></strong>
+                </div>
+                <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white float-right">Apply</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
 					<div class="nk-widget nk-widget-highlighted">
 						<h4 class="nk-widget-title">
 							<span><span class="text-main-1">熱門</span> 遊戲</span>
@@ -442,7 +455,6 @@
 			</div>
 		</div>
 	</footer>
-
 	<!-- START: Scripts -->
 
 	<!-- Object Fit Polyfill -->
@@ -512,7 +524,6 @@
 	<script th:src="@{/assets/plugins/nk-share/nk-share.js}"></script>
 
 	<!-- GoodGames -->
-
 	<script th:src="@{/assets/js/goodgames.min.js}"></script>
 	<script th:src="@{/assets/js/goodgames-init.js}"></script>
 	<!-- END: Scripts -->
