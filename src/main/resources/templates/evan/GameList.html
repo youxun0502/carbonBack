@@ -4,51 +4,60 @@
 <meta charset="UTF-8">
 <title>Game List</title>
 
-    <!-- START: Styles -->
+<!-- START: Styles -->
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet"
-        type="text/css">
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700"
+	rel="stylesheet" type="text/css">
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}">
+<!-- Bootstrap -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}">
 
-    <!-- FontAwesome -->
-    <script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
-    <script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
+<!-- FontAwesome -->
+<script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
+<script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
 
-    <!-- IonIcons -->
-    <link rel="stylesheet" th:href="@{/assets/vendor/ionicons/css/ionicons.min.css}">
+<!-- IonIcons -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/ionicons/css/ionicons.min.css}">
 
-    <!-- Flickity -->
-    <link rel="stylesheet" th:href="@{/assets/vendor/flickity/dist/flickity.min.css}">
+<!-- Flickity -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/flickity/dist/flickity.min.css}">
 
-    <!-- Photoswipe -->
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/photoswipe/dist/photoswipe.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/photoswipe/dist/default-skin/default-skin.css}">
+<!-- Photoswipe -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/photoswipe/dist/photoswipe.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/photoswipe/dist/default-skin/default-skin.css}">
 
-    <!-- Seiyria Bootstrap Slider -->
-    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css}">
+<!-- Seiyria Bootstrap Slider -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css}">
 
-    <!-- Summernote -->
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/summernote/dist/summernote-bs4.css}">
+<!-- Summernote -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/summernote/dist/summernote-bs4.css}">
 
-    <!-- GoodGames -->
-    <link rel="stylesheet" th:href="@{/assets/css/goodgames.css}">
+<!-- GoodGames -->
+<link rel="stylesheet" th:href="@{/assets/css/goodgames.css}">
 
-    <!-- Custom Styles -->
-    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+<!-- Custom Styles -->
+<link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
-    <!-- END: Styles -->
+<!-- END: Styles -->
 
-    <!-- jQuery -->
-    <script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
+<!-- jQuery -->
+<script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
 
 </head>
 <body>
 	<div
 		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
 	<div class="container ">
+	
 		<div class="nk-gap-1"></div>
 		<ul class="nk-breadcrumbs">
 			<li>Home</li>
@@ -58,60 +67,145 @@
 			<li>Games</li>
 		</ul>
 		<div class="nk-gap-1"></div>
-		  <!-- START: Products Filter -->
-    <div class="nk-gap-2"></div>
-    <div class="row vertical-gap">
-        <div class="col-lg-8">
-            <div class="row vertical-gap">
-                <div class="col-md-4">
-                    <select class="form-control">
-                        <option value="" disabled selected>Select Platform</option>
-                        <option value="ps4">PS4</option>
-                        <option value="xbox">Xbox 1</option>
-                        <option value="pc">PC</option>
-                    </select>
-                </div>
-                <div class="col-md-8">
-                    <div class="nk-input-slider-inline">
-                        <div class="nk-input-slider">
-                            <div class="nk-input-slider-content text-white">
-                                PRICE:
-                                <strong class="text-main-1">€ <span class="nk-input-slider-value-0"></span></strong>
-                                -
-                                <strong class="text-main-1">€ <span class="nk-input-slider-value-1"></span></strong>
-                            </div>
-                            <div class="nk-input-slider-input">
-                                <input
-                                        type="text"
-                                        name="price-filter"
-                                        data-slider-min="0"
-                                        data-slider-max="1800"
-                                        data-slider-step="1"
-                                        data-slider-value="[200, 1200]"
-                                        data-slider-tooltip="hide"
-                                >
-                            </div>
-                        </div>
-                        <div>
-                            <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white">Apply</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <form action="#" class="nk-form" novalidate="novalidate">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Type something...">
-                    <button class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- END: Products Filter -->
-		
-		
+		<!-- START: Products Filter -->
+				<!-- START: Tabs  -->
+		<div class="nk-tabs">
+			<!--
+                    Additional Classes:
+                        .nav-tabs-fill
+                -->
+			<ul class="nav nav-tabs nav-tabs-fill" role="tablist">
+				<li class="nav-item"><a class="nav-link active"
+					href="#tabs-1-1" role="tab" data-toggle="tab">Action</a></li>
+				<li class="nav-item"><a class="nav-link" href="#tabs-1-2"
+					role="tab" data-toggle="tab">MMO</a></li>
+				<li class="nav-item"><a class="nav-link" href="#tabs-1-3"
+					role="tab" data-toggle="tab">Strategy</a></li>
+				<li class="nav-item"><a class="nav-link" href="#tabs-1-4"
+					role="tab" data-toggle="tab">Adventure</a></li>
+				<li class="nav-item"><a class="nav-link" href="#tabs-1-5"
+					role="tab" data-toggle="tab">Racing</a></li>
+				<li class="nav-item"><a class="nav-link" href="#tabs-1-6"
+					role="tab" data-toggle="tab">Indie</a></li>
+			</ul>
+
+		</div>
+		<div class="nk-gap-2"></div>
+		<div class="row vertical-gap">
+			<div class="col-lg-8">
+				<div class="row vertical-gap">
+
+					<div class="col-md-8">
+						<div class="nk-input-slider-inline">
+							<div class="nk-input-slider">
+								<div class="nk-input-slider-content text-white" style="min-width:200px">
+									PRICE: <strong class="text-main-1">NT$ <span
+										class="nk-input-slider-value-0"></span></strong> - <strong
+										class="text-main-1">NT$ <span
+										class="nk-input-slider-value-1"></span></strong>
+								</div>
+								<div class="nk-input-slider-input">
+									<input type="text" name="price-filter" data-slider-min="0"
+										data-slider-max="1800" data-slider-step="1"
+										data-slider-value="[200, 1200]" data-slider-tooltip="hide">
+								</div>
+							</div>
+							<div>
+								<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white">Apply</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<form action="#" class="nk-form" novalidate="novalidate">
+					<div class="input-group">
+						<input type="text" class="form-control"
+							placeholder="Type something...">
+						<button class="nk-btn nk-btn-color-main-1">
+							<span class="ion-search"></span>
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- START: Top 10 Best Sellers -->
+		<div class="nk-gap-2"></div>
+		<h3 class="nk-decorated-h-2">
+			<span><span class="text-main-1">Top 10</span> Best Sellers</span>
+		</h3>
+		<div class="nk-gap"></div>
+		<div class="nk-carousel nk-carousel-x4" data-autoplay="5000"
+			data-dots="false" data-cell-align="left" data-arrows="true">
+			<div class="nk-carousel-inner">
+			<th:block th:each="TopGame:${gameList}">
+				<div>
+					<div class="pl-5 pr-5">
+						<div class="nk-product-cat-3" style="max-width:140px">
+							<a class="nk-product-image" th:href="@{'/gameFront/'+${TopGame.gameName}}"> <img
+								th:src="@{'/game/getImg/'+${TopGame.gamePhotoLists[0]}}"
+								alt="我是圖片喔" >
+							</a>
+							<div class="nk-product-cont">
+								<div class="nk-gap-1"></div>
+								<h3 class="nk-product-title h5">
+									<a href="store-product.html">[[${TopGame.gameName}]]</a>
+								</h3>
+								<div class="nk-gap-1"></div>
+								<div class="nk-product-price">NT$[[${TopGame.price}]]</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+		<!-- END: Top 10 Best Sellers -->
+
+		<!-- START: Featured Games -->
+		<div class="nk-gap-3"></div>
+		<h3 class="nk-decorated-h-2">
+			<span><span class="text-main-1">Featured</span> Games</span>
+		</h3>
+		<div class="nk-gap"></div>
+		<div class="row vertical-gap">
+			
+			<th:block th:each="game:${gameAll}">
+			<div class="col-lg-6">
+				<div class="nk-product-cat-2">
+					<a class="nk-product-image" th:href="@{'/gameFront/'+${game.gameName}}"> <img
+						th:src="@{'/game/getImg/'+${game.gamePhotoLists[0]}}" alt="With what mingled joy">
+					</a>
+					<div class="nk-product-cont" style="color: #b9a5a5">
+						<h3 class="nk-product-title h5">
+							<a th:href="@{'/gameFront/'+${game.gameName}}">[[${game.gameName}]]</a>
+						</h3>
+						<div class="nk-gap-1"></div>
+						<div class="nk-product-rating" data-rating="3.5">
+							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+								class="fa fa-star"></i> <i class="fas fa-star-half"></i> <i
+								class="far fa-star"></i>
+						</div>
+						<div class="nk-gap-1" ></div>
+						[[${game.gameIntroduce}]]
+						<div class="nk-gap-2"></div>
+						<div class="nk-product-price">NT$[[${game.price}]]</div>
+						<div class="nk-gap-1"></div>
+						<a href="#"
+							class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Add
+							to Cart</a>
+					</div>
+				</div>
+			</div>
+
+
+
+
+		</div>
+		<!-- END: Featured Games -->
 	</div>
+	<div class="nk-gap-3"></div>
 	<footer class="py-5 bg-dark">
 		<div class="container">
 			<div class="row">
@@ -146,65 +240,75 @@
 	</footer>
 	<!-- START: Scripts -->
 
-    <!-- Object Fit Polyfill -->
-    <script th:src="@{/assets/vendor/object-fit-images/dist/ofi.min.js}"></script>
+	<!-- Object Fit Polyfill -->
+	<script th:src="@{/assets/vendor/object-fit-images/dist/ofi.min.js}"></script>
 
-    <!-- GSAP -->
-    <script th:src="@{/assets/vendor/gsap/src/minified/TweenMax.min.js}"></script>
-    <script th:src="@{/assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js}"></script>
+	<!-- GSAP -->
+	<script th:src="@{/assets/vendor/gsap/src/minified/TweenMax.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js}"></script>
 
-    <!-- Popper -->
-    <script th:src="@{/assets/vendor/popper.js/dist/umd/popper.min.js}"></script>
+	<!-- Popper -->
+	<script th:src="@{/assets/vendor/popper.js/dist/umd/popper.min.js}"></script>
 
-    <!-- Bootstrap -->
-    <script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<!-- Bootstrap -->
+	<script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
 
-    <!-- Sticky Kit -->
-    <script th:src="@{/assets/vendor/sticky-kit/dist/sticky-kit.min.js}"></script>
+	<!-- Sticky Kit -->
+	<script th:src="@{/assets/vendor/sticky-kit/dist/sticky-kit.min.js}"></script>
 
-    <!-- Jarallax -->
-    <script th:src="@{/assets/vendor/jarallax/dist/jarallax.min.js}"></script>
-    <script th:src="@{/assets/vendor/jarallax/dist/jarallax-video.min.js}"></script>
+	<!-- Jarallax -->
+	<script th:src="@{/assets/vendor/jarallax/dist/jarallax.min.js}"></script>
+	<script th:src="@{/assets/vendor/jarallax/dist/jarallax-video.min.js}"></script>
 
-    <!-- imagesLoaded -->
-    <script th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+	<!-- imagesLoaded -->
+	<script
+		th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
 
-    <!-- Flickity -->
-    <script th:src="@{/assets/vendor/flickity/dist/flickity.pkgd.min.js}"></script>
+	<!-- Flickity -->
+	<script th:src="@{/assets/vendor/flickity/dist/flickity.pkgd.min.js}"></script>
 
-    <!-- Photoswipe -->
-    <script th:src="@{/assets/vendor/photoswipe/dist/photoswipe.min.js}"></script>
-    <script th:src="@{/assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js}"></script>
+	<!-- Photoswipe -->
+	<script th:src="@{/assets/vendor/photoswipe/dist/photoswipe.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js}"></script>
 
-    <!-- Jquery Validation -->
-    <script th:src="@{/assets/vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
+	<!-- Jquery Validation -->
+	<script
+		th:src="@{/assets/vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
 
-    <!-- Jquery Countdown + Moment -->
-    <script th:src="@{/assets/vendor/jquery-countdown/dist/jquery.countdown.min.js}"></script>
-    <script th:src="@{/assets/vendor/moment/min/moment.min.js}"></script>
-    <script th:src="@{/assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js}"></script>
+	<!-- Jquery Countdown + Moment -->
+	<script
+		th:src="@{/assets/vendor/jquery-countdown/dist/jquery.countdown.min.js}"></script>
+	<script th:src="@{/assets/vendor/moment/min/moment.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js}"></script>
 
-    <!-- Hammer.js -->
-    <script th:src="@{/assets/vendor/hammerjs/hammer.min.js}"></script>
+	<!-- Hammer.js -->
+	<script th:src="@{/assets/vendor/hammerjs/hammer.min.js}"></script>
 
-    <!-- NanoSroller -->
-    <script th:src="@{/assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js}"></script>
+	<!-- NanoSroller -->
+	<script
+		th:src="@{/assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js}"></script>
 
-    <!-- SoundManager2 -->
-    <script th:src="@{/assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js}"></script>
+	<!-- SoundManager2 -->
+	<script
+		th:src="@{/assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js}"></script>
 
-    <!-- Seiyria Bootstrap Slider -->
-    <script th:src="@{/assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js}"></script>
+	<!-- Seiyria Bootstrap Slider -->
+	<script
+		th:src="@{/assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js}"></script>
 
-    <!-- Summernote -->
-    <script th:src="@{/assets/vendor/summernote/dist/summernote-bs4.min.js}"></script>
+	<!-- Summernote -->
+	<script
+		th:src="@{/assets/vendor/summernote/dist/summernote-bs4.min.js}"></script>
 
-    <!-- nK Share -->
-    <script th:src="@{/assets/plugins/nk-share/nk-share.js}"></script>
+	<!-- nK Share -->
+	<script th:src="@{/assets/plugins/nk-share/nk-share.js}"></script>
 
-    <!-- GoodGames -->
-    <script th:src="@{/assets/js/goodgames.min.js}"></script>
-    <script th:src="@{/assets/js/goodgames-init.js}"></script>
-    <!-- END: Scripts -->
+	<!-- GoodGames -->
+	<script th:src="@{/assets/js/goodgames.min.js}"></script>
+	<script th:src="@{/assets/js/goodgames-init.js}"></script>
+	<!-- END: Scripts -->
 </body>
 </html>
