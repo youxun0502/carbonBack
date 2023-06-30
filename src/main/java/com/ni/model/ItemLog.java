@@ -43,7 +43,7 @@ public class ItemLog {
 //	@JsonManagedReference
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ORDID", insertable = false, updatable = false)
-	private OrderLog orderLog;
+	private ItemOrder itemOrder;
 
 	@PrePersist
 	public void onCreate() {

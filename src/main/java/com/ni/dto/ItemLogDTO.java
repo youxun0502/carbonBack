@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.liu.model.Member;
 import com.ni.model.GameItem;
-import com.ni.model.OrderLog;
+import com.ni.model.ItemOrder;
 
 import lombok.Data;
 
@@ -21,5 +21,5 @@ public class ItemLogDTO {
 	
 	private Member member;
 	private GameItem gameItem;
-	private OrderLog orderLog;
+	private ItemOrder itemOrder;
 }

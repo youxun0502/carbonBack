@@ -17,36 +17,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ni.dto.OrderLogDTO;
+import com.ni.dto.ItemOrderDTO;
 import com.ni.model.GameItem;
-import com.ni.model.OrderLog;
+import com.ni.model.ItemOrder;
 import com.ni.service.GameItemService;
-import com.ni.service.OrderLogService;
+import com.ni.service.OrderService;
 
 @Controller
-public class OrderLogController {
+public class OrderController {
 
 	@Autowired
-	private OrderLogService orderService;
+	private OrderService orderService;
 	@Autowired
 	private GameItemService itemService;
 	
 	@GetMapping("/gameitem/allOrder")
-	public String getAllOrderLog(Model m) {
-		List<OrderLogDTO> orders = orderService.findAll();
+	public String getAllOrder(Model m) {
+		List<ItemOrderDTO> orders = orderService.findAll();
 		m.addAttribute("orders", orders);
-		return "ni/orderLogDataTable";
+		return "ni/orderDataTable";
 	}
 	@ResponseBody
 	@GetMapping("/gameitem/api/allOrder")
-	public List<OrderLogDTO> getAllOrderLogAjax(Model m) {
+	public List<ItemOrderDTO> getAllOrderAjax(Model m) {
 		return orderService.findAll();
 	}
 	
 	@ResponseBody
-	@PutMapping("/gameitem/orderLogUpdate")
-	public boolean update(@RequestBody OrderLogDTO order) {
-		OrderLog result = orderService.updateStatusById(order.getLogId(), order.getStatus());
+	@PutMapping("/gameitem/orderUpdate")
+	public boolean update(@RequestBody ItemOrderDTO order) {
+		ItemOrder result = orderService.updateStatusById(order.getOrdId(), order.getStatus());
 		return result != null;
 	}
 
@@ -68,34 +68,34 @@ public class OrderLogController {
 	
 	@ResponseBody
 	@GetMapping("/market/orderLIst")
-	public List<OrderLogDTO> orderList(@PathVariable Integer gameId, @PathVariable String itemName) {
+	public List<ItemOrderDTO> orderList(@PathVariable Integer gameId, @PathVariable String itemName) {
 		return orderService.findSellItemList(gameId, itemName);
 	}
 	
 	@ResponseBody
 	@GetMapping("/market/buyAnItem")
-	public OrderLogDTO buyPage(@RequestParam("logId") Integer logId ,Model m) {
-		m.addAttribute("order", orderService.findById(logId));
-		return orderService.findById(logId);
+	public ItemOrderDTO buyPage(@RequestParam("ordId") Integer ordId ,Model m) {
+		m.addAttribute("order", orderService.findById(ordId));
+		return orderService.findById(ordId);
 	}
 	
 	@ResponseBody
 	@PostMapping("/market/newOrder")
-	public OrderLogDTO insert(@RequestBody OrderLogDTO orderDTO) {
-		OrderLog newOrder = orderService.insert(orderDTO);
-		return orderService.findById(newOrder.getLogId());
+	public ItemOrderDTO insert(@RequestBody ItemOrderDTO orderDTO) {
+		ItemOrder newOrder = orderService.insert(orderDTO);
+		return orderService.findById(newOrder.getOrdId());
 	}
 	
 	@ResponseBody
-	@PutMapping("/market/orderLogUpdate")
-	public boolean updateStatus(@RequestBody OrderLogDTO order) {
-		orderService.updateStatusById(order.getLogId(), order.getStatus());
+	@PutMapping("/market/orderUpdate")
+	public boolean updateStatus(@RequestBody ItemOrderDTO order) {
+		orderService.updateStatusById(order.getOrdId(), order.getStatus());
 		return true;
 	}
 	
 	@ResponseBody
 	@GetMapping("/market/itemPrices")
-	public List<OrderLogDTO> findByItemIdAndStatus(@RequestParam("itemId") Integer itemId) {
+	public List<ItemOrderDTO> findByItemIdAndStatus(@RequestParam("itemId") Integer itemId) {
 		return orderService.findByItemIdAndStatus(itemId);
 	}
 	

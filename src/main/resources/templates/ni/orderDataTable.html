@@ -48,9 +48,9 @@
 						<a class="navbar-brand link-light" th:href="@{/gameitem}" style="font-size: 30px;">GAME ITEM</a>
 						<div class="d-flex" role="search">
 							<input class="form-control me-2" type="search" placeholder="道具名稱查詢" aria-label="Search"
-								name="itemName" id="orderLog_search">
+								name="itemName" id="order_search">
 							<button class="btn btn-outline-warning" type="submit"
-								id="orderLog_search_btn">Search</button>
+								id="order_search_btn">Search</button>
 						</div>
 					</div>
 				</nav>
@@ -59,10 +59,10 @@
 						<a class="nav-link" th:href="@{/gameitem/allGameitem}">ALL</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" th:href="@{/gameitem/allOrder}">ORDER LOG</a>
+						<a class="nav-link active" th:href="@{/gameitem/allOrder}">ORDER</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/allItemLog}">ITEM LOG</a>
+						<a class="nav-link" th:href="@{/gameitem/allItemLog}">INVENTORY</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
@@ -71,7 +71,7 @@
 			</div>
 			<div class="container-fluid">
 				<div class="row my-3">
-					<table id="orderLog_table" class="hover row-border" style="width:100%">
+					<table id="order_table" class="hover row-border" style="width:100%">
 						<thead>
 							<tr>
 								<th>編號</th>
@@ -90,7 +90,7 @@
 						<tbody id="showSeachItem">
 							<th:block th:each="order : ${orders}">
 								<tr>
-									<td class="tdCenter">[[${order.logId}]]</td>
+									<td class="tdCenter">[[${order.ordId}]]</td>
 									<td>
 										<span class="me-3">[[${order.itemId}]]</span>
 										<span>[[${order.gameItem.itemName}]]</span>
@@ -146,7 +146,7 @@
 										<button class="btn btn-info updateBtn" id="updateBtn1"><i
 												class="fa-solid fa-pen"></i>
 										</button>
-										<button type="submit" th:data-id="${order.logId}"
+										<button type="submit" th:data-id="${order.ordId}"
 											class="btn btn-success submitBtn d-none" id="submitBtn1"><i
 												class="fa-solid fa-check"></i>
 										</button>
@@ -162,7 +162,7 @@
 	<script>
 		$(function () {
 			////////// dataTable //////////
-			$('#orderLog_table').DataTable({
+			$('#order_table').DataTable({
 				scrollX: true,
 				"dom": 'lrtip'
 			});
@@ -173,10 +173,10 @@
 			});
 
 			////////// Datatables find by name  //////////
-			$('#orderLog_search').on('keyup', function () {
+			$('#order_search').on('keyup', function () {
 				console.log($(this).val());
 				let thisval = $(this).val()
-				$('#orderLog_table').DataTable()
+				$('#order_table').DataTable()
 					.search(thisval)
 					.draw();
 			})
@@ -184,7 +184,7 @@
 
 
 		////////// find by name //////////
-		// $('#orderLog_search').on('keyup change', function () {
+		// $('#order_search').on('keyup change', function () {
 		// 	let searchVal = $(this).val();
 		// 	axios({
 		// 		url: 'http://localhost:8080/group5/gameitem/api/getGameitemByName',
@@ -215,14 +215,14 @@
 					let updateBtn = $(this).addClass('d-none');
 
 					submitBtn.on('click', function () {
-						let logId = $(this).attr('data-id');
-						console.log(logId);
+						let ordId = $(this).attr('data-id');
+						console.log(ordId);
 						console.log(select.val());
 						axios({
-							url: '/carbon/gameitem/orderLogUpdate',
+							url: '/carbon/gameitem/orderUpdate',
 							method: 'put',
 							data: {
-								logId: logId,
+								ordId: ordId,
 								status: select.val()
 							}
 						})
@@ -259,7 +259,7 @@
 
 		////////// table for ajax //////////
 		function htmlMaker(data) {
-			$('#orderLog_table').DataTable().destroy();
+			$('#order_table').DataTable().destroy();
 			let tbody = document.getElementById('showSeachItem');
 			tbody.innerHTML = ``;
 			tbody = '<tbody>';
@@ -277,7 +277,7 @@
 				const updateTime = new Date(order.updateTime).toLocaleString('zh', options);
 
 				tbody += `<tr>`;
-				tbody += `<td class="tdCenter">${order.logId}</td>
+				tbody += `<td class="tdCenter">${order.ordId}</td>
 							<td>
 								<span
 									class="me-3">${order.itemId}</span><span>${order.gameItem.itemName}</span>
@@ -341,7 +341,7 @@
 								<button class="btn btn-info updateBtn" id="updateBtn1"><i
 										class="fa-solid fa-pen"></i>
 								</button>
-								<button type="submit" data-id="${order.logId}"
+								<button type="submit" data-id="${order.ordId}"
 									class="btn btn-success submitBtn d-none" id="submitBtn1"><i
 										class="fa-solid fa-check"></i>
 								</button>
@@ -349,12 +349,12 @@
 				tbody += `</tr>`;
 			})
 			tbody += '</tbody>';
-			const itemTable = document.getElementById('orderLog_table');
+			const itemTable = document.getElementById('order_table');
 			itemTable.getElementsByTagName('tbody')[0].innerHTML = tbody;
 
 			updateAjex();
 
-			$('#orderLog_table').DataTable({
+			$('#order_table').DataTable({
 				scrollX: true,
 				"dom": 'lrtip'
 			});

@@ -22,11 +22,11 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Entity @Table(name = "orderLog")
-public class OrderLog {
+@Entity @Table(name = "itemOrder")
+public class ItemOrder {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer logId;
+	private Integer ordId;
 	private Integer itemId;
 	private Integer buyer;
 	private Integer seller;
@@ -44,13 +44,13 @@ public class OrderLog {
 	private Date createTime;
 	private Date updateTime;
 	
-//	@JsonManagedReference(value = "orderLogs")
+//	@JsonManagedReference(value = "orders")
 	@ManyToOne
 	@JoinColumn(name = "ITEMID", insertable = false, updatable = false)
 	private GameItem gameItem;
 	@JsonIgnore
 //	@JsonBackReference
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "orderLog", cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "itemOrder", cascade = CascadeType.ALL)
 	private ItemLog itemLog;
 	
 	@PrePersist

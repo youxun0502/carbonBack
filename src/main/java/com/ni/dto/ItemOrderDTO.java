@@ -8,9 +8,9 @@ import com.ni.model.GameItem;
 import lombok.Data;
 
 @Data
-public class OrderLogDTO {
+public class ItemOrderDTO {
 
-	private Integer logId;
+	private Integer ordId;
 	private Integer itemId;
 	private Integer buyer;
 	private Integer seller;

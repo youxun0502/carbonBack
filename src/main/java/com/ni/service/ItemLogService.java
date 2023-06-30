@@ -76,7 +76,7 @@ public class ItemLogService {
 			if(itemLog.getCreateTime() != null) itemLogDTO.setCreateTime(itemLog.getCreateTime());
 			if(itemLog.getMember() != null) itemLogDTO.setMember(itemLog.getMember());
 			if(itemLog.getGameItem() != null) itemLogDTO.setGameItem(itemLog.getGameItem());
-			if(itemLog.getOrderLog() != null) itemLogDTO.setOrderLog(itemLog.getOrderLog());
+			if(itemLog.getItemOrder() != null) itemLogDTO.setItemOrder(itemLog.getItemOrder());
 			itemLogDTOList.add(itemLogDTO);
 		}
 		return itemLogDTOList;
@@ -93,7 +93,7 @@ public class ItemLogService {
 		if(itemLog.getCreateTime() != null) itemLogDTO.setCreateTime(itemLog.getCreateTime());
 		if(itemLog.getMember() != null) itemLogDTO.setMember(itemLog.getMember());
 		if(itemLog.getGameItem() != null) itemLogDTO.setGameItem(itemLog.getGameItem());
-		if(itemLog.getOrderLog() != null) itemLogDTO.setOrderLog(itemLog.getOrderLog());
+		if(itemLog.getItemOrder() != null) itemLogDTO.setItemOrder(itemLog.getItemOrder());
 		return itemLogDTO;
 	}
 	
@@ -108,7 +108,7 @@ public class ItemLogService {
 		if(itemLogDTO.getCreateTime() != null) itemLog.setCreateTime(itemLogDTO.getCreateTime());
 		if(itemLogDTO.getMember() != null) itemLog.setMember(itemLogDTO.getMember());
 		if(itemLogDTO.getGameItem() != null) itemLog.setGameItem(itemLogDTO.getGameItem());
-		if(itemLogDTO.getOrderLog() != null) itemLog.setOrderLog(itemLogDTO.getOrderLog());
+		if(itemLogDTO.getItemOrder() != null) itemLog.setItemOrder(itemLogDTO.getItemOrder());
 		return itemLog;
 	}
 }
