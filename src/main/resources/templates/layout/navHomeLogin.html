@@ -50,14 +50,14 @@
 							<li><a class="dropdown-item text-light" href="#">My game</a></li>
 							<li><a class="dropdown-item text-light" href="#">My item</a></li>
 							<li><a class="dropdown-item text-light" href="#">Something else here</a></li>
-								<li><a class="dropdown-item text-light" th:href="@{/coupon/couponPage}">Get Coupon</a></li>
+								<li><a class="dropdown-item text-light" th:href="@{/coupon/couponPage}">抽取優惠</a></li>
 							<li>
 								<hr class="dropdown-divider text-light">
 							</li>
 							<li>
 								<form class="dropdown-item" th:action="@{/main/logout}" method="GET" id="logoutForm">
 									<input type="text" th:value="${session.memberBeans.id}" name="id"  hidden="true" />
-									<div class="logout_btn text-light">logout</div>
+									<div class="logout_btn text-light">登 出</div>
 								</form>
 							</li>
 						</ul>

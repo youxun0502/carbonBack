@@ -4,7 +4,7 @@ logoutBtn.addEventListener('click', function () {
 	Swal.fire({
 		position: 'center',
 		icon: 'success',
-		title: 'logout success',
+		title: '登出成功',
 		showConfirmButton: false,
 		timer: 1000
 	})
