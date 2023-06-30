@@ -1,11 +1,10 @@
 package com.liu.model;
 
 
+
 import java.util.Set;
-
-import com.evan.model.GameType;
-
 import jakarta.persistence.CascadeType;
+import com.evan.model.GameType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -129,7 +128,6 @@ public class Coupon {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon", cascade = CascadeType.ALL)
 	private Set<CouponLog> couponLogs;
-	
 	
 	public Coupon() {}
 

@@ -7,6 +7,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.chen.model.Competition;
+import com.chen.model.Event;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ni.model.GameItem;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,7 +31,7 @@ public class Game {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer gameId;
 	private String gameName;
-	private Float price;
+	private Integer price;
 	private Date createDate;
 	private String gameIntroduce;
 	private Integer buyerCount;
@@ -35,13 +40,22 @@ public class Game {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "game", cascade = CascadeType.ALL)
 	private List<GamePhoto> gamePhotoLists= new ArrayList<>();
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "gametypelist", 
 		joinColumns = {@JoinColumn(name = "GAMEID")},
 		inverseJoinColumns = {@JoinColumn(name = "TYPEID")})
 	private Set<GameType> gameTypes = new HashSet<>();
 	
 	public Game() {}
+	
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+	private List<Competition> competitions = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+	private List<Event> event = new ArrayList<>();
+
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+	private List<GameItem> gameItem = new ArrayList<>();
 
 	@Override
 	public String toString() {
@@ -62,10 +76,10 @@ public class Game {
 	public void setGameName(String gameName) {
 		this.gameName = gameName;
 	}
-	public Float getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
-	public void setPrice(float price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 	public Date getCreateDate() {

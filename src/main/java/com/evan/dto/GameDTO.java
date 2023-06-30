@@ -17,7 +17,7 @@ public class GameDTO {
 
 	private Integer gameId;
 	private String gameName;
-	private Float price;
+	private Integer price;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;
 	private String gameIntroduce;
