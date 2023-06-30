@@ -3,25 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <title>[[${gameDTO.gameName}]]</title>
-<link th:href="@{/assets/css/goodgames.css}" rel="stylesheet" />
+<link th:href="@{/css/goodgames.css}" rel="stylesheet" />
+
+<style>
+#apphub_NavLinks {
+	background-color: #6fb7d4;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+}
+
+#apphub_NavLinks .nav-item {
+	margin-right: 10px;
+}
+
+#apphub_NavLinks .nav-link {
+	color: #333;
+	text-decoration: none;
+	padding: 5px;
+}
+
+#apphub_NavLinks .search-bar {
+	flex-grow: 1;
+	background-color: #eaeaea;
+	padding: 5px;
+	display: flex;
+	align-items: center;
+}
+
+#apphub_NavLinks .search-bar input[type="text"] {
+	flex-grow: 1;
+	border: none;
+	background-color: #eaeaea;
+	padding: 5px;
+}
+
+#apphub_NavLinks .search-bar button {
+	background-color: #6fb7d4;
+	color: #fff;
+	border: none;
+	padding: 5px;
+}
+</style>
 </head>
 <body>
-	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
-	<div class="container ">
-	<div class="nk-gap-1"></div>
-		<ul class="nk-breadcrumbs">
-        
-        
-        <li>Home</li>
-        <li><span class="fa fa-angle-right"></span></li>
-        <li>Store</li>
-        <li><span class="fa fa-angle-right"></span></li>
-        <li>Games</li>
-        <li><span class="fa fa-angle-right"></span></li>
-        <li><span>[[${gameDTO.gameName}]]</span></li>
-        
-    </ul>
-    <div class="nk-gap-1"></div>
+	<div
+		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div class="container my-5">
+
+		<div id="apphub_NavLinks" class="mb-4">
+			<div class="nav-item">
+				<a class="nav-link" href="#">你的商店</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">矚目新品</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">類別</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">點數商店</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">新聞</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#">實驗室</a>
+			</div>
+			<div class="search-bar">
+				<input type="text" placeholder="搜尋">
+				<button>搜尋</button>
+			</div>
+		</div>
 		<div class="row vertical-gap">
 			<div class="col-lg-8">
 				<div class="nk-store-product">
@@ -30,7 +83,11 @@
 							<!-- START: Product Photos -->
 							<div class="nk-popup-gallery  ">
 								<div class="nk-gallery-item-box">
+<<<<<<< HEAD
 										<img th:src="@{'/game/getImg/'+${gameDTO.gamePhotoLists[0]}}" alt="" >
+=======
+									<img th:src="@{'/game/getImg/'+${gameDTO.gamePhotoLists[0]}}" alt="">
+>>>>>>> a2d5c88cc0d8928ce9cfa9929c13e43720621142
 								</div>
 								<div class="nk-gap-1"></div>
 								<div class="row vertical-gap sm-gap">
@@ -253,8 +310,11 @@
 			</div>
 		</div>
 	</footer>
+<<<<<<< HEAD
 	<script th:src="@{/assets/js/goodgames-init.js}"></script>
 	<script th:src="@{/assets/js/goodgames.min.js}"></script>
 
+=======
+>>>>>>> a2d5c88cc0d8928ce9cfa9929c13e43720621142
 </body>
 </html>

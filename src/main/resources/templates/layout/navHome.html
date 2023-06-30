@@ -29,12 +29,16 @@
 			<div class="collapse navbar-collapse justify-content-end" id="navbarText">
 				<ul class="navbar-nav mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" href="#">GAME</a></li>
-					<li class="nav-item"><a class="nav-link " href="#">MARKET</a>
-					</li>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+							href="#" aria-expanded="false">MARKET</a>
+					<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" th:href="@{/bonus-shop/main}">Bonus Shop</a></li>
+							
+					</ul>
 					<li class="nav-item"><a class="nav-link" href="#">EVENT</a>
 					<li class="nav-item"><a class="nav-link" href="#">DISCUSSIONS</a>
 					</li>
-					<li class="nav-item"><a class="nav-link loginBtn" th:href="@{/main/loginPage}">LOG IN</a></li>
+					<li class="nav-item"><a class="nav-link loginBtn" th:href="@{/main/loginPage}">登 入</a></li>
 				</ul>
 			</div>
 		</div>

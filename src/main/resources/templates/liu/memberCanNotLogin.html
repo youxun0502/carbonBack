@@ -24,10 +24,11 @@
 						<input type="email" class="form-control" name="email" id="email" placeholder="請輸入電子郵件"
 							th:value="${email}?${email}:null"></Input>
 					</div>
-					<div class="mb-3 col-12">
+					<div class="col-12">
 						<label for="memberPwd" class="form-label fs-4">密碼</label>
 						<input type="password" class="form-control" name="memberPwd" id="memberPwd" placeholder="請輸入密碼"></Input>
 					</div>
+					<div class="text-danger ms-2 fs-5" id="error">此帳號已被凍結!!!</div>
 					<div class="mb-3 col-12 d-flex">
 						<div class="col-6">
 							<Input type="checkbox" class="form-check-input ms-2" name="rememberMe" id="rememberMe" value="1"
@@ -47,7 +48,12 @@
 				<button class="btn col-12 mb-2 oneClick" id="oneClick">一鍵登入</button>
 			</div>
 		</div>
-	</div>
+	</div>	
+	<script>
+		$("#email").on("focus", function () {
+			$("#error").css("visibility", "hidden");
+		})
+	</script>
 	<script th:src="@{/js/memberLogin.js}"></script>
 
 
@@ -55,3 +61,4 @@
 
 
 </html>
+
