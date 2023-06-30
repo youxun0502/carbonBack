@@ -47,9 +47,9 @@ public class GameItem {
 	@JoinColumn(name = "GAMEID", insertable = false, updatable = false)
 	private Game game;
 	@JsonIgnore
-//	@JsonBackReference(value = "orderLogs")
+//	@JsonBackReference(value = "itemOrders")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gameItem", cascade = CascadeType.ALL)
-	private List<OrderLog> orderLogs = new ArrayList<>();
+	private List<ItemOrder> itemOrders = new ArrayList<>();
 	@JsonIgnore
 //	@JsonBackReference(value = "itemLogs")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gameItem", cascade = CascadeType.ALL)

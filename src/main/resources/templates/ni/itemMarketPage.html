@@ -14,7 +14,7 @@
             display: none;
         }
 
-        .buyPage {
+        .myPage {
             background-color: whitesmoke;
             border-radius: 14px;
             padding: 20px 50px;
@@ -25,7 +25,7 @@
 
 <body>
 <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
-    <div class="container">
+    <div class="container my-5">
         <div class="card my-5">
             <div class="card-body">
                 <div class="row d-flex me-2">
@@ -65,6 +65,7 @@
                 </div>
             </div>
         </div>
+        <!-- ----------- change to ajex ----------- -->
         <th:block th:each="order: ${orders}">
             <div class="card mb-2">
                 <div class="card-body">
@@ -83,7 +84,7 @@
                             $ [[${order.price}]]
                         </div>
                         <div class="col-1">
-                            <button class="btn btn-info buyBtn" th:data-id="${order.logId}">Buy Now</button>
+                            <button class="btn btn-info buyBtn" th:data-id="${order.ordId}">Buy Now</button>
                         </div>
                     </div>
                 </div>
@@ -93,7 +94,7 @@
 
     <!-- ----------- buy page ----------- -->
     <div class="showPage justify-content-center align-items-center" id="showPage1">
-        <div class="buyPage my-4 w-75" id="buyPage1">
+        <div class="myPage my-4 col col-md-6" id="myPage1">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Buy an item</h2>
                 <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
@@ -115,175 +116,23 @@
                 </div>
                 <div class="col p-0 g-2 mb-5" id="buyPageInfo">
                 </div>
-                <div class="card">
+                <div class="card" id="userInfo1">
                     <div class="card-body col d-flex">
                         <div class="card-text col-9 d-flex gap-3">
                             <span>account: </span>
                             <span th:text="${session.memberBeans} ? ${session.memberBeans.userId} : ''"></span>
-                            <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="buyer1" class=" d-none"></span>
+                            <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class=" d-none"></span>
                         </div>
                         <div class="mt-5 col-3 justify-content-md-center">
                             <button class="btn btn-info" id="submitBtn">PURCHASE</button>
                         </div>
                     </div>
                 </div>
-
-                <div class="gap-2 row col d-flex justify-content-end d-none" id="btnGroup">
-                    <button class="btn btn-info submitBtn col-3">VIEW INVENTORY</button>
-                    <button class="btn btn-info closeBtn2 col-3">CLOSE</button>
-                </div>
             </div>
         </div>
     </div>
-    <script>
-            $('.closeBtn1,.closeBtn2').click(function () {
-                $('#showPage1').removeClass('d-flex');
-            })
-
-
-        const buyBtn = document.getElementsByClassName('buyBtn');
-        let buyer = document.getElementById('buyer1').textContent;
-        console.log('buyer: ' + buyer);
-        for (i = 0; i < buyBtn.length; i++) {
-            buyBtn[i].addEventListener('click', function (e) {
-                e.preventDefault();
-                let buyId = this.getAttribute('data-id');
-                axios.get('/carbon/market/buyAnItem',
-                    { params: { logId: buyId } }
-                )
-                    .then(response => {
-                        // console.log('response: ' + JSON.stringify(response.data));
-                        if(buyer != ''){
-	                        showBuyInfo(response.data);
-                        } else {
-                        	loginPage();
-                        }
-                    })
-                    .catch(err => {
-                        console.log('err: ' + err);
-                    })
-            })
-        }
-
-		const show = document.getElementById('showPage1');
-        const buyPageInfo = document.getElementById('buyPageInfo');
-        function showBuyInfo(order) {
-            let infoHtmlString = `
-                <div class="card mb-2">
-                    <div class="card-body">
-                        <div class="card-text col d-flex justify-content-between align-items-center">
-                            <div class="imgBox overflow-hidden col-2">
-                                <img src="/carbon/market/downloadImage/${order.itemId}"
-                                    alt="${order.gameItem.itemImgName}" class="img-fluid" style="max-width: 120px">
-                            </div>
-                            <div class="col-6">${order.gameItem.itemName}</div>
-                            <div class="col-2">${order.sell.memberName}</div>
-                            <div class="col-1">$ ${order.price}</div>
-                        </div>
-                    </div>
-                </div>`;
-                
-            buyPageInfo.innerHTML = infoHtmlString;
-            show.classList.add('d-flex');
-
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.addEventListener('click', function (e) {
-                console.log(order.itemId);
-                e.preventDefault();
-                axios({
-                    url: '/carbon/market/newOrder',
-                    method: 'post',
-                    data: {
-                        itemId: order.itemId,
-                        buyer: buyer,
-                        seller: order.seller,
-                        amount: 1,
-                        price: order.price,
-                        status: 2,
-                    }
-                })
-                    .then(response => {
-                        console.log('response: ' + JSON.stringify(response.data));
-                        showSuccessPage(response.data);
-                        return response.data;
-                    })
-                    .then(result => {
-                        if (result != null) {
-                            console.log(JSON.stringify(result));
-                            axios({
-                                url: '/carbon/market/orderLogUpdate',
-                                method: 'put',
-                                data: {
-                                    logId: order.logId,
-                                    status: 2
-                                }
-                            })
-                                .then(res => {
-                                    console.log(res.data);
-                                })
-                                .catch(err => {
-                                    console.log('err: ' + err);
-                                })
-                            axios({
-                                url: '/carbon/market/newItemLog',
-                                method: 'post',
-                                data: {
-                                    ordId: result.logId,
-                                    itemId: result.itemId,
-                                    memberId: result.buyer,
-                                    itemAmount: result.amount
-                                }
-                            })
-                                .then(res => {
-                                    console.log(JSON.stringify(res.data));
-                                })
-                                .catch(err => {
-                                    console.log('err: ' + err);
-                                })
-                        }
-                    })
-                    .catch(err => {
-                        console.log('err: ' + err);
-                    })
-            })
-        }
-
-        function showSuccessPage(order) {
-            let infoHtmlString = `
-                <div class="card mb-2">
-                    <div class="card-body">
-                        <div class="card-text col d-flex justify-content-between align-items-center">
-                            <div class="imgBox overflow-hidden col-2">
-                                <img src="/carbon/market/downloadImage/${order.itemId}"
-                                    alt="" class="img-fluid" style="max-width: 120px">
-                            </div>
-                            <div class="col-6">{order.gameItem.itemName}</div>
-                            <div class="col-2">${order.seller}</div>
-                            <div class="col-1">$ ${order.price}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="gap-2 row col d-flex justify-content-end" id="btnGroup">
-                    <button class="btn btn-info submitBtn col-3">VIEW INVENTORY</button>
-                    <button class="btn btn-info closeBtn2 col-3">CLOSE</button>
-                </div>`;
-            buyPageInfo.innerHTML = infoHtmlString;
-            $('#pageMsg').removeClass('d-none');
-        }
-        
-        function loginPage(){
-        let page1 = document.getElementById('buyPage1');
-        	let loginHtmlString = `
-        		<div>您需要登入或建立帳戶才能進行相關動作。</div>
-        		<div class="gap-2 row col d-flex justify-content-center" id="btnGroup">
-                    <a class="btn btn-info submitBtn col-3" href="">SIGN IN</a>
-                    <a class="btn btn-info col-3" href="">CREATE AN ACCOUNT</a>
-                    <a class="btn btn-info closeBtn2 col-2" href="">CANCLE</a>
-                </div>`;
-            page1.innerHTML = loginHtmlString;
-            show.classList.add('d-flex');
-        }
-    </script>
+    <div th:replace="~{layout/footer}"></div>
+    <script th:src="@{/js/itemMarket.js}"></script>
 </body>
 
 </html>

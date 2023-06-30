@@ -5,14 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ni.dto.ItemLogDTO;
 import com.ni.model.ItemLog;
 import com.ni.service.ItemLogService;
 
@@ -24,21 +23,9 @@ public class ItemLogController {
 	
 	@GetMapping("/gameitem/allItemLog")
 	public String getAllItemLog(Model m) {
-		List<ItemLog> logs = itemLogService.findAll();
+		List<ItemLogDTO> logs = itemLogService.findAll();
 		m.addAttribute("logs", logs);
 		return "ni/itemLogDataTable";
-	}
-	
-	@GetMapping("/gameitem/itemLogUpdate")
-	public String updatePage() {
-		return "ni/itemLogUpdate";
-	}
-	
-	@PutMapping("/gameitem/itemLogUpdate")
-	public String update(@RequestBody ItemLog itemLog) {
-		itemLogService.findById(itemLog.getId());
-		itemLogService.updateById(itemLog);
-		return "redirect:/gameitem/allItemLog";
 	}
 	
 	@GetMapping("/gameitem/newItemLog")
@@ -46,19 +33,25 @@ public class ItemLogController {
 		return "ni/itemLogInsert";
 	}
 	
-	@ResponseBody
-	@DeleteMapping("/gameitem/itemLogDelete")
-	public String deleteAjax(@RequestParam("id") Integer id) {
-		itemLogService.delete(id);
-		return "delete OK!";
-	}
-
-	
 //	-------------- gameItemMarket -----------------------------
 	@ResponseBody
 	@PostMapping("/market/newItemLog")
-	public ItemLog insert(@RequestBody ItemLog itemLog) {
+	public ItemLog insert(@RequestBody ItemLogDTO itemLog) {
+		ItemLog log = itemLogService.findTotalById(itemLog.getMemberId(), itemLog.getItemId());
+		if(log != null) {
+			itemLog.setTotal(log.getTotal() + itemLog.getQuantity()); 
+		} else {
+			itemLog.setTotal(itemLog.getQuantity());
+		}
 		return itemLogService.insert(itemLog);
 	}
 	
+	
+	
+//	-------------- profiles Inventory -----------------------------
+	@ResponseBody
+	@GetMapping("/profiles/inventory/{memberId}")
+	public List<ItemLogDTO> findByMemberId(@PathVariable Integer memberId) {
+		return itemLogService.findByMemberId(memberId);
+	}
 }
