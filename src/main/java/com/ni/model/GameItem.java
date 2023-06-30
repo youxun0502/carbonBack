@@ -42,7 +42,7 @@ public class GameItem {
 	private Integer status;
 	private Date createTime;
 	private Date updateTime;
-	@JsonIgnore
+	
 	@ManyToOne
 	@JoinColumn(name = "GAMEID", insertable = false, updatable = false)
 	private Game game;

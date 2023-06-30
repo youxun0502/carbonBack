@@ -126,8 +126,8 @@ function newItemLog(result) {
         data: {
             ordId: result.ordId,
             itemId: result.itemId,
-            memberId: result.buyer,
-            quantity: result.quantity
+            memberId: result.buyer ? result.buyer : result.seller,
+            quantity: result.buyer ? result.quantity : '-'+result.quantity
         }
     })
         .then(res => {
@@ -192,15 +192,10 @@ function loadInventoryAjax() {
     axios.get('/carbon/profiles/inventory/' + userId)
         .then(response => {
 			//console.log('response: '+ JSON.stringify(response))
-			if(response.data != ''){
+			if(response.data != '' && response.data[0].total >= 1){
 	            inventoryPage(response.data);
 			} else{
-				let itemMsgHtml = `
-					<div class="card-text col-xl-7 col-12 d-flex flex-wrap">
-						<span>物品庫中無道具</span>
-					</div>
-				`;
-				inventoryList.innerHTML = itemMsgHtml;
+				$('#noItem1').removeClass('d-none');
 				show.classList.add('d-flex');
 			    closePage();
 			}
@@ -319,13 +314,13 @@ function showSaleInfo(order) {
         <hr>
         <form class="row g-3 needs-validation" novalidate>
             <div class="my-3 row">
-                <label class="col-sm-2 col-form-label">You receive:</label>
-                <div class="col-4">
-                	<input type="text" value="$" id="salePrice" class="form-control col-4" required>
+                <label class="col-sm-3 col-form-label">You receive:</label>
+                <div class="col-3">
+                	<input type="text" id="salePrice" class="form-control col-4" value="NT$" required>
                 </div>
-                <label class="col-sm-2 col-form-label">Buyer pays:</label>
-                <div class="col-4">
-	                <input type="text" value="$" id="buyPrice" class="form-control" readonly><span>(includes fees)</span>
+                <label class="col-sm-3 col-form-label">Buyer pays:</label>
+                <div class="col-3">
+	                <input type="text" id="buyPrice" class="form-control" value="NT$" readonly><span>(includes fees)</span>
                 </div>
                 <div class="invalid-feedback">
                         You must agree before submitting.
@@ -349,9 +344,10 @@ function showSaleInfo(order) {
     `;
     saleItem.innerHTML = saleHtmlString;
     salePage.classList.add('d-flex');
+    let salePrice;
     
     $('#salePrice').on('keyup change', function () {
-        let salePrice = $(this).val();
+        salePrice = $(this).val();
         console.log(salePrice);
         $('#buyPrice').val(salePrice);
     })
@@ -373,27 +369,28 @@ function showSaleInfo(order) {
 
       form.classList.add('was-validated')
       
+	  let price=salePrice.replace('NT$', '');
+	  console.log(price)
       axios({
         url: '/carbon/market/newOrder',
         method: 'post',
         data: {
-            itemId: order.itemId,
+            itemId: order[0].itemId,
             seller: userId,
             quantity: 1,
-            price: salePrice,
+            price: price,
             status: 1,
         }
     })
         .then(response => {
-            if (response != null) {
-                orderUpdate(order);
+            if (response.data != '') {
                 newItemLog(response.data);
             }
             return response.data;
         })
         .then(result => {
             if (result != null) {
-                showSuccessPage(result);
+               // showSuccessPage(result);
             }
         })
         .catch(err => {
