@@ -42,6 +42,7 @@ public class Coupon {
 	@Column(name="[status]")
 	private Integer status;
 	
+	
 	public Integer getCouponId() {
 		return couponId;
 	}
@@ -122,7 +123,7 @@ public class Coupon {
 	}
 
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "typeId")
 	private GameType gameType;
 	
