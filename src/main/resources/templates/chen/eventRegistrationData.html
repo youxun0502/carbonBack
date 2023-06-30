@@ -48,34 +48,30 @@
 					<table id="example" class="hover row-border" style="width:100%">
 						<thead>
 							<tr>
-								<th>報名ID
 								<th>真實姓名
 								<th>電子信箱
 								<th>聯絡電話
-								<th>通訊地址
 								<th>報名日期
-								<th>更新
+								<th>編輯
 								<th>刪除
 							</tr>
 						</thead>
 						<tbody>
 							<th:block th:each=" registration : ${registrations} ">
 								<tr>
-									<td th:text="${registration.signupId}"></td>
 									<td th:text="${registration.realName}"></td>
 									<td th:text="${registration.email}"></td>
 									<td th:text="${registration.phone}"></td>
-									<td th:text="${registration.address}"></td>
 									<td th:text="${#dates.format(registration.signupDate, 'yyyy-MM-dd')}"></td>
 									<td>
 										<form th:action="@{/event/registration/update}" method="get">
 											<input type="hidden" name="signupId" th:value="${registration.signupId}" />
-											<button type="submit">更新</button>
+											<button class="btn" type="submit"><i class="fa-sharp fa-solid fa-pen-to-square fa-xl" style="color: #0043b8;"></i></button>
 										</form>
 									<td>
 										<form th:action="@{/event/registration/delete}" th:method="delete">
 											<input type="hidden" name="signupId" th:value="${registration.signupId}" />
-											<button class="delete-btn" type="submit">刪除</button>
+											<button class="btn delete-btn" type="submit"><i class="fa-solid fa-trash fa-xl" style="color: #ff0505;"></i></button>
 										</form>
 								</tr>
 							</th:block>

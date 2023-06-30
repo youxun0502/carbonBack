@@ -9,4 +9,7 @@ public interface EventRegistrationRepository extends JpaRepository<EventRegistra
 
 	@Query("from EventRegistration where realName like %:realName%")
 	public List<EventRegistration> findByNamelike(String realName);
+	
+	@Query("from Event where gameId = :gameId order by startDate asc")
+	public List<Event> findByGameId(Integer gameId);
 }

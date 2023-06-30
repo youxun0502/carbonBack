@@ -21,50 +21,27 @@ public class CompetitionRegistrationController {
 
 	@Autowired
 	private CompetitionRegistrationService crService;
-	
+
 	@Autowired
 	private CompetitionRepository cRepo;
 	
-	//跳轉新增頁面
-	@GetMapping("/3/competition/registration")
+	//////////    前台管理    //////////
+
+	// 跳轉新增頁面
+	@GetMapping("/competitionRegistration")
 	public String signupPage(Model m) {
 		List<Competition> competitions = cRepo.findAll();
 		m.addAttribute("competitions", competitions);
 		return "chen/competitionRegistration";
 	}
-	
-	//跳轉單筆頁面
-	@GetMapping("/competition/registration/update")
-	public String processUpdate(@RequestParam("signupId")Integer id, Model m) {
-		CompetitionRegistration registration = crService.findById(id);
-		m.addAttribute("registration", registration);
-		
-		List<Competition> competitions = cRepo.findAll();
-		m.addAttribute("competitions", competitions);
-		return "chen/updateCompetitionRegistration";
-	}
-	
-	//查詢全部
-	@GetMapping("/competition/registration/data")
-	public String findALL(Model m) {
-		List<CompetitionRegistration> registrations = crService.findAll();
-		m.addAttribute("registrations", registrations);
-		return "chen/competitionRegistrationData";
-	}
-	
-	//透過姓名搜尋
-	@PostMapping("/competition/registration/data")
-	public String findDataByName(@RequestParam("realName")String realName,Model m) {
-		List<CompetitionRegistration> registrations = crService.findByName(realName);
-		m.addAttribute("registrations", registrations);
-		return "chen/competitionRegistrationData";
-	}
-	
-	//新增資料
-	@PostMapping("/3/competition/registration/insert")
-	public String inserData(@RequestParam("competitionId")Integer id,@RequestParam("gameNickname")String gameNickname,@RequestParam(value = "teamName", required = false)String teamName,
-							@RequestParam("realName")String realName,@RequestParam("email")String email,@RequestParam("phone")String phone,
-							@RequestParam("address")String address) {
+
+	// 新增資料
+	@PostMapping("/competitionRegistration/insert")
+	public String inserData(@RequestParam("competitionId") Integer id,
+			@RequestParam("gameNickname") String gameNickname,
+			@RequestParam(value = "teamName", required = false) String teamName,
+			@RequestParam("realName") String realName, @RequestParam("email") String email,
+			@RequestParam("phone") String phone, @RequestParam(value = "address", required = false) String address) {
 		CompetitionRegistration cr = new CompetitionRegistration();
 		cr.setCompetitionId(id);
 		cr.setGameNickname(gameNickname);
@@ -74,22 +51,57 @@ public class CompetitionRegistrationController {
 		cr.setPhone(phone);
 		cr.setAddress(address);
 		crService.insert(cr);
-		return "redirect:/competition/registration";
+		return "redirect:/competitionRegistration";
 	}
 	
-	//修改資料
+	
+	
+	//////////    後台管理    //////////
+	
+	// 跳轉單筆頁面
+	@GetMapping("/competition/registration/update")
+	public String processUpdate(@RequestParam("signupId") Integer id, Model m) {
+		CompetitionRegistration registration = crService.findById(id);
+		m.addAttribute("registration", registration);
+
+		List<Competition> competitions = cRepo.findAll();
+		m.addAttribute("competitions", competitions);
+		return "chen/updateCompetitionRegistration";
+	}
+
+	// 查詢全部
+	@GetMapping("/competition/registration/data")
+	public String findALL(Model m) {
+		List<CompetitionRegistration> registrations = crService.findAll();
+		m.addAttribute("registrations", registrations);
+		return "chen/competitionRegistrationData";
+	}
+
+	// 透過姓名搜尋
+	@PostMapping("/competition/registration/data")
+	public String findDataByName(@RequestParam("realName") String realName, Model m) {
+		List<CompetitionRegistration> registrations = crService.findByName(realName);
+		m.addAttribute("registrations", registrations);
+		return "chen/competitionRegistrationData";
+	}
+
+	// 修改資料
 	@PutMapping("/competition/registration/update")
-	public String updatePost(@RequestParam("signupId")Integer signupId,@RequestParam("competitionId")Integer competitionId,@RequestParam("gameNickname")String gameNickname,
-							@RequestParam(value = "teamName", required = false)String teamName,@RequestParam("realName")String realName,@RequestParam("email")String email,
-							@RequestParam("phone")String phone,@RequestParam("address")String address) {
-		crService.updateRegistrationById(signupId, competitionId, gameNickname, teamName, realName, email, phone, address);
+	public String updatePost(@RequestParam("signupId") Integer signupId,
+			@RequestParam("competitionId") Integer competitionId, @RequestParam("gameNickname") String gameNickname,
+			@RequestParam(value = "teamName", required = false) String teamName,
+			@RequestParam("realName") String realName, @RequestParam("email") String email,
+			@RequestParam("phone") String phone, @RequestParam(value = "address", required = false) String address) {
+		crService.updateRegistrationById(signupId, competitionId, gameNickname, teamName, realName, email, phone,
+				address);
 		return "redirect:/competition/registration/data";
 	}
-	
-	//刪除資料
+
+	// 刪除資料
 	@DeleteMapping("/competition/registration/delete")
-	public String deletePost(@RequestParam("signupId")Integer id) {
+	public String deletePost(@RequestParam("signupId") Integer id) {
 		crService.deleteById(id);
 		return "redirect:/competition/registration/data";
 	}
+	
 }

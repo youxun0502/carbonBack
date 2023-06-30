@@ -122,7 +122,7 @@
                 <div class="card mt-3">
                     <div class="card-body">
                         <h2 class="card-title text-dark">修改文章資料</h2>
-                        <form th:action="@{/discussions/update}" th:method="PUT" id="newDiscussionForm" class="d-inline-block">
+                        <form th:action="@{/discussions/update}" th:method="PUT"  id="newDiscussionForm" class="d-inline-block" enctype="multipart/form-data">
                         	<div class="mb-3">
                                 <label class="form-label text-dark">文章編號</label>
                                 <input class="form-control" type="text" name="articleId" th:value="${discussions.articleId}" th:readonly="true">
@@ -171,6 +171,10 @@
                                 <label class="form-label text-dark">按讚次數</label>
                                 <input class="form-control" type="text" name="dlikes" th:value="${discussions.dlikes}">
                             </div>
+                             <div class="mb-3">
+							    <label class="form-label text-dark">圖片</label>
+							    <input class="form-control" type="file" name="photoFile">
+							</div>
                             <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
                         </form>
                         <button class="btn btn-success" id="generateDataBtn" style="display: inline-block;">一鍵修改</button>

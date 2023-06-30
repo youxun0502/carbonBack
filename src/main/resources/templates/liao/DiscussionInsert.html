@@ -124,7 +124,7 @@
                 <div class="card mt-3">
                     <div class="card-body">
                         <h2 class="card-title text-dark">新增文章資料</h2>
-                        <form th:action="@{/discussions/insertDiscussion}" method="POST" id="newDiscussionForm" class="d-inline-block">
+                        <form th:action="@{/discussions/insertDiscussion}" method="POST" id="newDiscussionForm" class="d-inline-block" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label class="form-label text-dark">會員編號</label>
                                 <input class="form-control" type="text" name="memberId">
@@ -169,6 +169,10 @@
                                 <label class="form-label text-dark">按讚次數</label>
                                 <input class="form-control" type="text" name="dlikes">
                             </div>
+                            <div class="mb-3">
+							    <label class="form-label text-dark">圖片</label>
+							    <input class="form-control" type="file" name="photoFile">
+							</div>
                              
 							    <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
 							    

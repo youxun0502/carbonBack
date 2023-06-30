@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+<title>MESSAGE BY USERNAME</title>
+<style>
+.area1 {
+	position: absolute;
+	width: 80%;
+	margin: 180px 250px;
+}
+
+table {
+	background-color: rgb(33, 37, 41);
+}
+</style>
+</head>
+
+<body>
+	<div th:replace="~{layout/navMain}"></div>
+	<div class="d-flex">
+		<div th:replace="~{layout/asideMain}"></div>
+		<div class="w-100 section section-big">
+			<div class="content mt-3">
+				<nav class="navbar navColor">
+					<div class="container-fluid">
+						<a class="navbar-brand link-light" style="font-size: 30px;">MESSAGE BY USERNAME</a>
+						<div class="d-flex" role="search">
+							<form th:action="@{/messages/findByUserName}" method="GET">
+							    <div class="row">
+							        <div class="col-8">
+							            <input class="form-control me-2" type="search" placeholder="會員名稱查詢" aria-label="Search" name="userName" id="discussionsitem_search">
+							        </div>
+							        <div class="col-4">
+							            <button class="btn btn-outline-warning" type="submit" id="name_search_btn">Search</button>
+							        </div>
+							    </div>
+							</form>
+						</div>
+					</div>
+				</nav>
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" th:href="@{/messages/getAllMessages}">ALL</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/messages/insertpage}">CREATE</a>
+					</li>
+					
+				</ul>
+			</div>
+			<div class="container-fluid">
+				<div class="row my-3">
+					<table id="example" class="hover row-border" style="width:100%">
+						<thead>
+							<tr>
+								<th>留言編號</th>
+								<th>圖片</th>
+								<th>文章編號</th>
+								<th>會員編號</th>
+								<th>會員名稱</th>
+								<th>創建日期</th>
+								<th>按讚次數</th>
+								<th>文章內容</th>
+								<th>更新</th>
+								<th>刪除</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr th:each="message : ${msg}">
+								<td th:text="${message.messageId}"></td>
+								<td class="imgBox overflow-hidden"><img width="200px"
+								    th:src="@{'/messagesdownloadImage/' + ${message.messageId}}"
+								    class="img-fluid">
+								</td>
+								<td th:text="${message.articleId}"></td>
+								<td th:text="${message.memberId}"></td>
+								<td th:text="${message.userName}"></td>
+								<td th:text="${message.mcreated_at}"></td>
+								<td th:text="${message.mlikes}"></td>
+								<td th:text="${message.mcontent}"></td>
+								
+								<td>
+									<form th:action="@{/messages/update}" method="GET">
+										<button type="submit" name="messageId"
+											th:value="${message.messageId}">更新</button>
+									</form>
+								</td>
+								<td>
+									<form th:action="@{/messages/delete}" th:method="DELETE">
+										<button type="submit" name="messageId" th:value="${message.messageId}"
+											onclick="return confirm('確定要刪除嗎？')">刪除</button>
+									</form>
+								</td>
+							</tr>
+						</tbody>
+					 </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script>
+        $(function () {
+            $.extend(true, $.fn.dataTable.defaults, {
+                searching: false,
+                // ordering: true,
+            });
+            
+            $(document).ready(function () {
+                $('#example').DataTable();
+
+                $.ajax({
+                    url: 'MessagesMain.html',
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#example tbody').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -4,10 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.chen.model.Event;
 import com.chen.model.EventRegistration;
 import com.chen.model.EventRegistrationRepository;
+import com.chen.model.EventRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -16,6 +22,14 @@ public class EventRegistrationService {
 
 	@Autowired
 	private EventRegistrationRepository erRepo;
+	
+	@Autowired
+	private EventRepository eRepo;
+	
+	//透過遊戲ID分類
+	public List<Event> findByGameId(Integer gameId){
+		return erRepo.findByGameId(gameId);
+	}
 	
 	//新增資料
 	public void insert(EventRegistration er) {
@@ -62,5 +76,23 @@ public class EventRegistrationService {
 	//刪除資料
 	public void deleteById(Integer id) {
 		erRepo.deleteById(id);
+	}
+	
+	//總覽分頁
+	public Page<Event> findByPageAll(Integer pageNumber){
+		Pageable pgb = PageRequest.of(pageNumber-1, 4, Sort.Direction.DESC, "startDate");
+		
+		Page<Event> page = eRepo.findAll(pgb);
+		
+		return page;
+	}
+	
+	//分類分頁
+	public Page<Event> findByPageOne(Integer pageNumber){
+		Pageable pgb = PageRequest.of(pageNumber-1, 2, Sort.Direction.DESC, "startDate");
+		
+		Page<Event> page = eRepo.findAll(pgb);
+		
+		return page;
 	}
 }
