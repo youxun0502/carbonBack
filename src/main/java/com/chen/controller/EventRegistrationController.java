@@ -3,6 +3,7 @@ package com.chen.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,12 +16,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chen.model.Event;
 import com.chen.model.EventRegistration;
 import com.chen.model.EventRepository;
 import com.chen.service.EventRegistrationService;
 import com.chen.service.EventService;
+import com.evan.dao.GameRepository;
+import com.evan.model.Game;
 
 @Controller
 public class EventRegistrationController {
@@ -33,21 +37,30 @@ public class EventRegistrationController {
 	
 	@Autowired
 	private EventService eService;
+	
+	@Autowired
+	private GameRepository gRepo;
 
 	//////////    前台管理    //////////
 	
 	
 	// 跳轉活動總覽頁面
 	@GetMapping("/eventPageAll")
-	public String eventFrontPageAll(Model m) {
-		List<Event> events = eRepo.findAll();
-		m.addAttribute("events", events);
+	public String eventFrontPageAll(@RequestParam(name="p", defaultValue = "1") Integer pageNumber, Model m) {
+		List<Game> games = gRepo.findAll();
+		m.addAttribute("games", games);
+		
+		Page<Event> page = erService.findByPageAll(pageNumber);
+		m.addAttribute("page", page);
 		return "chen/eventFrontPageAll";
 	}
 	
 	// 跳轉活動分類頁面
 	@GetMapping("/eventPageOne")
 	public String eventFrontPageOne(@RequestParam("gameId")Integer gameId,Model m) {
+		List<Game> games = gRepo.findAll();
+		m.addAttribute("games", games);
+		
 		List<Event> events = erService.findByGameId(gameId);
 		m.addAttribute("events", events);
 		return "chen/eventFrontPageOne";
@@ -94,6 +107,14 @@ public class EventRegistrationController {
 		headers.setContentType(MediaType.IMAGE_JPEG);
 		return new ResponseEntity<byte[]>(imgFile, headers, HttpStatus.OK);
 		
+	}
+	
+	//前台換頁Ajax
+	@ResponseBody
+	@GetMapping("/messages/api/page")
+	public Page<Event> showMessagesApi(@RequestParam(name="p",defaultValue = "1") Integer pageNumber){
+		Page<Event> page = erService.findByPageAll(pageNumber);
+		return page;
 	}
 
 	
