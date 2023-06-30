@@ -71,6 +71,14 @@ public class OrderService {
 		return convertToDTOList(orderRepo.findByItemIdAndStatus(itemId));
 	}
 	
+	public List<ItemOrderDTO> checkBuysPrice(Integer itemId) {
+		return convertToDTOList(orderRepo.findBuysByIdAndStatus(itemId));
+	}
+	
+	public List<ItemOrderDTO> checkSalesPrice(Integer itemId) {
+		return convertToDTOList(orderRepo.findSalesByIdAndStatus(itemId));
+	}
+	
 	
 //	======================= 轉換 DTO 和 Entity =======================
 	public List<ItemOrderDTO> convertToDTOList(List<ItemOrder> orders) {

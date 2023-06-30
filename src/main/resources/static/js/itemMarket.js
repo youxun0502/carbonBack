@@ -228,9 +228,21 @@ function inventoryPage(data) {
                 <hr>
                 <h3>${data[0].gameItem.itemName}</h3>
                 <div>${data[0].gameItem.itemDesc}</div>
-            <div class="mt-3 d-flex justify-content-end">
-                <button class="btn btn-info sellBtn" id="sellBtn1" data-itemId="${data[0].itemId}">SELL</button>
-            </div>
+        `;
+    if(data[0].gameItem.status !=0 ){
+		itemListHtml += ` 
+			<div class="mt-3 d-flex justify-content-end">           
+	            <button class="btn btn-info sellBtn" id="sellBtn1" data-itemId="${data[0].itemId}">SELL</button>
+	        </div>`;
+	} else {
+		itemListHtml += ` 
+			<div class="mt-3 d-flex justify-content-between">           
+		        <div>此道具不可買賣</div>
+	            <button class="btn btn-secondary sellBtn" id="sellBtn1" disabled>SELL</button>
+	        </div>
+	        	`;
+	}
+    itemListHtml += `
         </div>
     `;
 
@@ -256,11 +268,20 @@ function showItemInfo(data) {
                 </div>
                 <hr>
                 <h3>${data[id].gameItem.itemName}</h3>
-                <div>${data[id].gameItem.itemDesc}</div>
-                <div class="mt-3 d-flex justify-content-end">
-                	<button class="btn btn-info sellBtn" id="sellBtn1" data-itemId="${data[id].itemId}">SELL</button>
-            	</div>
-            `;
+                <div>${data[id].gameItem.itemDesc}</div>`;
+            if(data[0].gameItem.status !=0 ){
+				itemListHtml += `            
+	                <div class="mt-3 d-flex justify-content-end">
+		                <button class="btn btn-info sellBtn" id="sellBtn1" data-itemId="${data[0].itemId}">SELL</button>
+		            </div>`;
+			} else {
+				itemListHtml += `  
+					 <div class="mt-3 d-flex justify-content-between">          
+				         <div>此道具不可買賣</div>
+			             <button class="btn btn-secondary sellBtn" id="sellBtn1" disabled>SELL</button>
+			         </div>
+			        	`;
+	}
             oneItem.innerHTML = oneItemHtml;
             showSalePage()
         })
@@ -367,6 +388,7 @@ function showSaleInfo(order) {
         event.stopPropagation()
       }
 
+        event.preventDefault()
       form.classList.add('was-validated')
       
 	  let price=salePrice.replace('NT$', '');
@@ -385,12 +407,49 @@ function showSaleInfo(order) {
         .then(response => {
             if (response.data != '') {
                 newItemLog(response.data);
-            }
+                console.log('itemId: '+ response.data.itemId)
+				axios({
+					method: 'get',
+					url: '/carbon/market/checkBuys',
+					params:{itemId: response.data.itemId}
+				})
+				.then(res => {
+					if(res.data != '' && res.data.price >= price ){
+					console.log('price: '+ res.data.price)
+						axios({
+					        url: '/carbon/market/newOrder',
+					        method: 'post',
+					        data: {
+					            itemId: res.data.itemId,
+					            buyer: res.data.buyer,
+					            seller: userId,
+					            quantity: 1,
+					            price: price,
+					            status: 2,
+					        }
+					    })
+					        .then(result => {
+								console.log('ordId: '+ response.data.ordId)
+								console.log('result: '+ result.data)
+					            if (result != null) {
+					                orderUpdate(response.data.ordId);
+					                newItemLog(result.data);
+					            }
+					            return result.data;
+					        })
+					        .catch(err => {
+					            console.log('err: ' + err);
+					        })	
+					}
+				})
+	            }
             return response.data;
         })
         .then(result => {
             if (result != null) {
                // showSuccessPage(result);
+              
+			  
             }
         })
         .catch(err => {

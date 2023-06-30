@@ -99,6 +99,18 @@ public class OrderController {
 		return orderService.findByItemIdAndStatus(itemId);
 	}
 	
+	@ResponseBody
+	@GetMapping("/market/checkBuys")
+	public List<ItemOrderDTO> checkBuysPrice(@RequestParam("itemId") Integer itemId) {
+		return orderService.checkBuysPrice(itemId);
+	}
+	
+	@ResponseBody
+	@GetMapping("/market/checkSales")
+	public List<ItemOrderDTO> checkSalesPrice(@RequestParam("itemId") Integer itemId) {
+		return orderService.checkSalesPrice(itemId);
+	}
+	
 	@GetMapping("/market/downloadImage/{itemId}")
 	private ResponseEntity<byte[]> downloadImage(@PathVariable Integer itemId) {
 		GameItem img1 = itemService.findById(itemId);
