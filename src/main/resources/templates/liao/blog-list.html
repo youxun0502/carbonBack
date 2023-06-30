@@ -486,9 +486,9 @@
                             <div class="nk-blog-post">
                                 <div class="row vertical-gap">
                                     <div class="col-md-5 col-lg-6">
-                                        <a th:href="@{'/gameforum?gameNme='+${discussion.gameName}}"
-                                            class="nk-post-img">
-                                            <!-- <a th:href="@{'/forum/' +  ${discussion.gameName}}" class="nk-post-img"> -->
+                                        <!-- <a th:href="@{'/gameforum?gameNme='+${discussion.gameName}}"
+                                            class="nk-post-img"> -->
+                                        <a th:href="@{'/forum/' +  ${discussion.gameName}}" class="nk-post-img">
                                             <!-- <a th:href="@{blog-article.html}" class="nk-post-img"> -->
                                             <img th:src="@{'/discussionsdownloadImage/' + ${discussion.articleId}}"
                                                 class="img-fluid">

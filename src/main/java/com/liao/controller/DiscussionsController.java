@@ -135,10 +135,16 @@ public class DiscussionsController {
 	          return "liao/blog-list";
 	  }
 	
-//	@GetMapping("/forum/DiabloIV")
-//	public String goDiabloIV() {
-//		return "liao/DiabloIV";
-//	}
+	@GetMapping("/forum/DiabloIV")
+	public String goDiabloIV() {
+		return "liao/DiabloIV";
+	}
+	
+	@GetMapping("/forum/maplestory")
+	public String gomaplestory() {
+		return "liao/maplestory";
+	}
+	
 	
 	@GetMapping("/gameforum")
 	public String goDiabloIV(Model model) throws SQLException {
