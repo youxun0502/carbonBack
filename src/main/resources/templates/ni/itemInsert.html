@@ -47,14 +47,14 @@
                         <a class="nav-link" th:href="@{/gameitem/allGameitem}">ALL</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
-                    </li>
-                    <li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/allOrder}">ORDER LOG</a>
+						<a class="nav-link" th:href="@{/gameitem/allOrder}">ORDER</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/allItemLog}">ITEM LOG</a>
+						<a class="nav-link" th:href="@{/gameitem/allItemLog}">INVENTORY</a>
 					</li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
+                    </li>
                 </ul>
             </div>
             <div class="d-flex justify-content-center">
@@ -143,16 +143,20 @@
                         event.preventDefault();
                         let itemName = document.getElementById('itemName1').value;
                         let gameId = document.getElementById('gameId1').value;
+                        let msg = document.getElementById('errMsg');
                         checkItemName(itemName, gameId)
                             .then(function (result) {
                                 console.log('result: ' + result);
                                 if (result) {
                                     console.log('stop');
                                     event.stopPropagation();
-                                    document.getElementById('errMsg').style.display = 'block';
+                                    msg.style.display = 'block';
+                                    $('#itemName1,.gameId1').on('keyup change', function(){
+                                    	msg.style.display = null;
+                                    })
                                 } else {
                                     console.log('next');
-                                    document.getElementById('errMsg').style.display = null;
+                                    msg.style.display = null;
                                     form.submit();
                                 }
                             })

@@ -6,15 +6,13 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <style>
-table {
-	background-color: rgb(33, 37, 41);
-}
 .btn-group{
 	border:0.25px solid gray;	
 }
-.table-dark td, th{
+.text1 td, th{
 	max-width:200px;
 	text-align: center;
+	background-color: rgb(33, 37, 41)
 }
 
 * td {
@@ -119,7 +117,7 @@ table {
 			<div class="container-fluid ">
 				<div class="row my-3">
 					<table id="example"
-						class="hover row-border" style="width:100%">
+						class="hover row-border text1" style="width:100%">
 						<thead>
 							<tr >
 								<th scope="col" style="width: 60px;">遊戲編號
@@ -177,7 +175,7 @@ table {
 										 </span>
 								<tr>
 									<td>上架時間
-									<td><input type="date" name="CreateDate" value="2002-01-01" class="form-control today" />
+									<td><input type="date" name="CreateDate" class="form-control today" />
 										<div class="valid-feedback" style="color: rgb(114, 245, 132);">
 											<em>Looks good!</em>
 										</div>

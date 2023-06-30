@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Carbon</title>
+	<link th:href="@{/css/couponGetCoupon.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-12 vh-100 bg-customize">
+				<div class="img d-flex position-relative mt-100px animate__animated d-none" id="animate">
+					<img class="mx-auto col-6" th:src="@{/img/roulette1.png}" id="roulette">	
+					<div class="triangle position-absolute start-50 translate-middle "></div>
+					<button
+						class="position-absolute top-50 start-50 translate-middle rounded-circle btn btn-danger click" >點擊</button>
+					<div class="text-light fs-3 animate__animated d-none position-absolute start-50 translate-middle top-100" id="title" >抽取您專屬的優惠</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/js/couponGetCoupon.js}">
+
+	</script>
+</body>
+
+</html>

@@ -34,7 +34,7 @@ public class GetInfoFromReq {
 
 			// 資料處理---------------------------------------------
 			if (formData.get("GameName") != null)game.setGameName((String) formData.get("GameName"));
-			if (formData.get("Price") != null)game.setPrice(Float.parseFloat((String) formData.get("Price")));
+			if (formData.get("Price") != null)game.setPrice(Integer.parseInt((String) formData.get("Price")));
 			if (formData.get("CreateDate") != null)game.setCreateDate(Date.valueOf((String) formData.get("CreateDate")));
 			if (formData.get("GameIntroduce") != null)game.setGameIntroduce((String) formData.get("GameIntroduce"));
 			if (formData.get("BuyerCount") != null)game.setBuyerCount(Integer.parseInt((String) formData.get("BuyerCount")));

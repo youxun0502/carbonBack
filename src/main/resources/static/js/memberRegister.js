@@ -20,6 +20,10 @@ pwdContainer.addEventListener('input', function () {
   let pwd = pwdContainer.value;
   checkPwd(pwd);
 })
+pwdContainer.addEventListener('change', function () {
+  let pwd = pwdContainer.value;
+  checkPwd(pwd);
+})
 
 emailContainer.addEventListener('blur', function () {
   let email = emailContainer.value;
@@ -84,6 +88,10 @@ let gender = '';
 userIdContainer.addEventListener('input', function () {
   checkUserId(userIdContainer.value);
 })
+userIdContainer.addEventListener('change', function () {
+  checkUserId(userIdContainer.value);
+  userId = userIdContainer.value;
+})
 
 userIdContainer.addEventListener('blur', function () {
   if (userIdContainer.value == '') {
@@ -95,6 +103,11 @@ userIdContainer.addEventListener('blur', function () {
 //////////////////memberName//////////////////
 memberNameContainer.addEventListener('input', function () {
   checkMemberName(memberNameContainer.value);
+})
+
+memberNameContainer.addEventListener('change', function () {
+  checkMemberName(memberNameContainer.value);
+  memberName = memberNameContainer.value;
 })
 
 memberNameContainer.addEventListener('blur', function () {
@@ -113,6 +126,8 @@ birthdayContainer.addEventListener('change', function () {
 phoneContainer.addEventListener('input', function () {
   checkPhone(phoneContainer.value);
 });
+
+
 phoneContainer.addEventListener('blur', function () {
   let phone = phoneContainer.value;
   if (checkPhone(phone) == true) {
@@ -350,19 +365,37 @@ function classMaker(container, space, text, status) {
 
 ////////////// autoInput ////////////////////// 
 
-$('#autoInput1').on('click', function () {
-  $("#email").val("XiaoMing123@gmail.com");
-  $("#password").val("XiaoMing123");
-  $("#email").focus();
+
+const autoInput1 = document.querySelector('#autoInput1');
+autoInput1.addEventListener('click', function(){
+	emailContainer.value = 'XiaoMing123@gmail.com';
+	emailContainer.dispatchEvent(new Event('blur'));
+	
+	pwdContainer.value = 'XiaoMing123';
+	pwdContainer.dispatchEvent(new Event('change'));
 })
 
 
-$('#autoInput2').on('click', function (event) {
+
+const autoInput2 = document.querySelector('#autoInput2');
+autoInput2.addEventListener('click',function(event){
 	event.preventDefault();
-  $("#userId").val("XiaoMing").trigger("change");
-  $("#memberName").val("XiaoMing").trigger("change");
-  $("#birthday").val("2000-05-01").trigger("change");
-  $("#phone").val("0908666444").trigger("change");
-  $('input[name="gender"][value="1"]').prop('checked', true).trigger("change");
+	userIdContainer.value='XiaoMing';
+	userIdContainer.dispatchEvent(new Event('change'));
+	
+	memberNameContainer.value='XiaoMing';
+	memberNameContainer.dispatchEvent(new Event('change'));
+	
+	birthdayContainer.value='2000-05-01';
+	birthdayContainer.dispatchEvent(new Event('change'));
+	
+	phoneContainer.value='0908666444';
+	phoneContainer.dispatchEvent(new Event('blur'));
+	
+	let genderContainer = document.querySelector('input[name="gender"][value="1"]');
+	genderContainer.checked = true;
+	
+	genderContainer.dispatchEvent(new Event('change'));
 })
+
 
