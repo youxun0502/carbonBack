@@ -9,4 +9,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
 	@Query("from Event where name like %:name%")
 	public List<Event> findByNamelike(String name);
+
+	
 }

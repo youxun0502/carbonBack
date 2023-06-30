@@ -106,6 +106,11 @@
 			});
 			*/
 			
+			$('#example').DataTable({
+				scrollX: true,
+				"dom": 'lrtip'
+			});
+			
 			$('.event').click(function () {
 				window.location.href = 'http://localhost:8080/carbon/event/data';
 			});
@@ -115,17 +120,20 @@
 			});
 			
 			if (window.location.href === 'http://localhost:8080/carbon/competition/data') {
-			    $('.all1').addClass('active');
+			    $('.all1').css('background-color', 'red');
+			    $('.all1').css('color', 'black');
 			    $('.cList').show();
 			    $('.competition').css('background-color', 'red');
 			    $('#search_input1').show();
 			    $('#search_btn1').show();
 			  }else if(window.location.href === 'http://localhost:8080/carbon/competition/add'){
-				$('.cre1').addClass('active'); 
+				$('.cre1').css('background-color', 'red');
+				$('.cre1').css('color', 'black');
 				$('.cList').show();
 			    $('.competition').css('background-color', 'red'); 
 			  }else if(window.location.href === 'http://localhost:8080/carbon/competition/registration/data'){
-				$('.reg1').addClass('active');  
+				$('.reg1').css('background-color', 'red');
+				$('.reg1').css('color', 'black');
 				$('.cList').show();
 			    $('.competition').css('background-color', 'red');
 			    $('#search_input3').show();
@@ -133,17 +141,20 @@
 			  }
 			  
 			if(window.location.href === 'http://localhost:8080/carbon/event/data'){
-				$('.all2').addClass('active');
+				$('.all2').css('background-color', 'red');
+				$('.all2').css('color', 'black');
 				$('.eList').show();
 				$('.event').css('background-color', 'red');
 				$('#search_input2').show();
 			    $('#search_btn2').show();
 			}else if(window.location.href === 'http://localhost:8080/carbon/event/add'){
-				$('.cre2').addClass('active');
+				$('.cre2').css('background-color', 'red');
+				$('.cre2').css('color', 'black');
 				$('.eList').show();
 				$('.event').css('background-color', 'red');
 			}else if(window.location.href === 'http://localhost:8080/carbon/event/registration/data'){
-				$('.reg2').addClass('active');
+				$('.reg2').css('background-color', 'red');
+				$('.reg2').css('color', 'black');
 				$('.eList').show();
 				$('.event').css('background-color', 'red');
 				$('#search_input4').show();

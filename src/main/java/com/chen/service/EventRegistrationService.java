@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.chen.model.Event;
 import com.chen.model.EventRegistration;
 import com.chen.model.EventRegistrationRepository;
 
@@ -16,6 +17,11 @@ public class EventRegistrationService {
 
 	@Autowired
 	private EventRegistrationRepository erRepo;
+	
+	//透過遊戲ID分類
+	public List<Event> findByGameId(Integer gameId){
+		return erRepo.findByGameId(gameId);
+	}
 	
 	//新增資料
 	public void insert(EventRegistration er) {

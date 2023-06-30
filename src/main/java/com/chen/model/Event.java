@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -20,6 +21,10 @@ public class Event {
 	
 	@Column(name = "gameId")
 	private Integer gameId;
+	
+	@Lob
+	@Column(name = "photo")
+	private byte[] photo;
 	
 	@Column(name = "name")
 	private String name;

@@ -48,40 +48,44 @@
 					<table id="example" class="hover row-border" style="width:100%">
 						<thead>
 							<tr>
-								<th>賽事ID
 								<th>賽事名稱
 								<th>對戰模式
+								<th>賽事說明
 								<th>開始日期
 								<th>結束日期
 								<th>賽事地點
 								<th>獎金
 								<th>名額限制
 								<th>報名截止日期
-								<th>更新
+								<th>報名費
+								<th>編輯
 								<th>刪除
 							</tr>
 						</thead>
 						<tbody>
 							<th:block th:each=" competition : ${competitionList} ">
 								<tr>
-									<td th:text="${competition.competitionId}"></td>
 									<td th:text="${competition.name}"></td>
 									<td th:text="${competition.mode}"></td>
+									<td th:text="${competition.description}"></td>
 									<td th:text="${competition.startDate}"></td>
 									<td th:text="${competition.endDate}"></td>
 									<td th:text="${competition.location}"></td>
 									<td th:text="${competition.prize}"></td>
 									<td th:text="${competition.quotaLimited}"></td>
 									<td th:text="${competition.deadline}"></td>
+									<td th:text="${competition.fee}"></td>
 									<td>
 										<form th:action="@{/competition/update}" method="get">
-											<input type="hidden" name="competitionId" th:value="${competition.competitionId}" />
-											<button type="submit">更新</button>
+											<input type="hidden" name="competitionId"
+												th:value="${competition.competitionId}" />
+											<button class="btn" type="submit"><i class="fa-sharp fa-solid fa-pen-to-square fa-xl" style="color: #0043b8;"></i></button>
 										</form>
 									<td>
 										<form th:action="@{/competition/delete}" th:method="delete">
-											<input type="hidden" name="competitionId" th:value="${competition.competitionId}" />
-											<button class="delete-btn" type="submit">刪除</button>
+											<input type="hidden" name="competitionId"
+												th:value="${competition.competitionId}" />
+											<button class="btn delete-btn" type="submit"><i class="fa-solid fa-trash fa-xl" style="color: #ff0505;"></i></button>
 										</form>
 								</tr>
 							</th:block>
@@ -93,9 +97,19 @@
 	</div>
 
 	<script>
-
 		$(function () {
-			//$('#example').DataTable().destroy();
+			$.extend(true, $.fn.dataTable.defaults, {
+				searching: false,
+				ordering: true,
+			});
+
+			$(document).ready(function () {
+				$('#example').DataTable();
+			});
+
+		})
+		
+		
 			$('.delete-btn').click(function (event) {
 				event.preventDefault();
 				Swal.fire({
@@ -109,18 +123,11 @@
 					cancelButtonText: '取消'
 				}).then((result) => {
 					if (result.isConfirmed) {
-						$(this).closest('form').find('input[name="competitionId"]').val();
+						$(this).closest('form').find('input[name="eventId"]').val();
 						$(this).closest('form').submit();
 					}
 				})
 			});
-
-			 $('#example').DataTable({
-				scrollX: true,
-				"dom": 'lrtip'
-			});
-
-		}) 
 	</script>
 </body>
 

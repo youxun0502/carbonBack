@@ -33,6 +33,11 @@
 		.section-small {
 			max-width: calc(100% - 200px);
 		}
+		
+		.imgBox{
+			width: 100px;
+			height: 100px;
+		}
 	</style>
 	<title>活動列表</title>
 </head>
@@ -48,7 +53,7 @@
 					<table id="example" class="hover row-border" style="width:100%">
 						<thead>
 							<tr>
-								<th>活動ID
+								<th>圖片
 								<th>活動名稱
 								<th>活動說明
 								<th>開始日期
@@ -58,14 +63,14 @@
 								<th>名額限制
 								<th>報名截止日期
 								<th>報名費
-								<th>更新
+								<th>編輯
 								<th>刪除
 							</tr>
 						</thead>
 						<tbody>
 							<th:block th:each=" event : ${events} ">
 								<tr>
-									<td th:text="${event.eventId}"></td>
+									<td class="imgBox overflow-hidden"><img th:src="@{'/event/showImage/'+${event.eventId}}" alt="找不到圖片" class="img-fluid"></td>
 									<td th:text="${event.name}"></td>
 									<td th:text="${event.description}"></td>
 									<td th:text="${event.startDate}"></td>
@@ -78,12 +83,12 @@
 									<td>
 										<form th:action="@{/event/update}" method="get">
 											<input type="hidden" name="eventId" th:value="${event.eventId}" />
-											<button type="submit">更新</button>
+											<button class="btn" type="submit"><i class="fa-sharp fa-solid fa-pen-to-square fa-xl" style="color: #0043b8;"></i></button>
 										</form>
 									<td>
 										<form th:action="@{/event/delete}" th:method="delete">
 											<input type="hidden" name="eventId" th:value="${event.eventId}" />
-											<button class="delete-btn" type="submit">刪除</button>
+											<button class="btn delete-btn" type="submit"><i class="fa-solid fa-trash fa-xl" style="color: #ff0505;"></i></button>
 										</form>
 								</tr>
 							</th:block>
@@ -96,6 +101,15 @@
 
 	<script>
 		$(function () {
+
+			$.extend(true, $.fn.dataTable.defaults, {
+				searching: false,
+				ordering: true,
+			});
+
+			$(document).ready(function () {
+				$('#example').DataTable();
+			});
 
 			$('.delete-btn').click(function (event) {
 				event.preventDefault();
@@ -116,10 +130,7 @@
 				})
 			});
 
-			$('#example').DataTable({
-				scrollX: true,
-				"dom": 'lrtip'
-			});
+			
 
 
 
