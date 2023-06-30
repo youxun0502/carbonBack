@@ -28,4 +28,5 @@ public class BonusShopController {
 		model.addAttribute("bonusitemList", list);
 		return "li/profile";
 	}
+	
 }
