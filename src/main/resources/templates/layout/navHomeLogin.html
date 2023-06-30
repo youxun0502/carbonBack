@@ -23,7 +23,8 @@
 	<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark" data-bs-theme="dark">
 		<div class="container">
 			<form method="GET" th:action="@{/main/goBackToHome}">
-				<button class="navbar-brand" type="submit" style="background-color: transparent; border-color: transparent;">
+				<button class="navbar-brand" type="submit"
+					style="background-color: transparent; border-color: transparent;">
 					<i class="d-inline-block align-text-top fa-solid fa-gamepad"
 						style="color: #6fb7d4; font-size: 1.5em;">CARBON</i>
 				</button>
@@ -35,32 +36,34 @@
 			<div class="collapse navbar-collapse justify-content-end" id="navbarText">
 				<ul class="navbar-nav mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" href="#">GAME</a></li>
-					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-							href="#" aria-expanded="false">MARKET</a>
-					<ul class="dropdown-menu bg-dark text-light">
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" href="#" aria-expanded="false">MARKET</a>
+						<ul class="dropdown-menu bg-dark text-light">
 							<li><a class="dropdown-item text-light" th:href="@{/bonus-shop/main}">Bonus Shop</a></li>
-							
-					</ul>
-					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-							href="#" aria-expanded="false">EVENT</a>
-					<ul class="dropdown-menu bg-dark text-light">
-							<li><a class="dropdown-item text-light" th:href="@{/competitionRegistration}">CompetitinoRegistration</a></li>
+
+						</ul>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" href="#" aria-expanded="false">EVENT</a>
+						<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light"
+									th:href="@{/competitionRegistration}">CompetitinoRegistration</a></li>
 							<li><a class="dropdown-item text-light" th:href="@{/eventPageAll}">EventPage</a></li>
-					</ul>
-					<li class="nav-item"><a class="nav-link" href="#">DISCUSSIONS</a>
-					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-							href="#" aria-expanded="false" th:text="${session.memberBeans.userId}"></a>
+						</ul>
+					<li class="nav-item"><a class="nav-link" th:href="@{/forum/getfront}">DISCUSSIONS</a>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" href="#" aria-expanded="false"
+							th:text="${session.memberBeans.userId}"></a>
 						<ul class="dropdown-menu bg-dark text-light">
 							<li><a class="dropdown-item text-light" href="#">My game</a></li>
 							<li><a class="dropdown-item text-light" href="#">My item</a></li>
 							<li><a class="dropdown-item text-light" href="#">Something else here</a></li>
-								<li><a class="dropdown-item text-light" th:href="@{/coupon/couponPage}">抽取優惠</a></li>
+							<li><a class="dropdown-item text-light" th:href="@{/coupon/couponPage}">抽取優惠</a></li>
 							<li>
 								<hr class="dropdown-divider text-light">
 							</li>
 							<li>
 								<form class="dropdown-item" th:action="@{/main/logout}" method="GET" id="logoutForm">
-									<input type="text" th:value="${session.memberBeans.id}" name="id"  hidden="true" />
+									<input type="text" th:value="${session.memberBeans.id}" name="id" hidden="true" />
 									<div class="logout_btn text-light">登 出</div>
 								</form>
 							</li>

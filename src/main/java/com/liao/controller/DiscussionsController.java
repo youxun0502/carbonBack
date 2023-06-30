@@ -135,8 +135,15 @@ public class DiscussionsController {
 	          return "liao/blog-list";
 	  }
 	
-	@GetMapping("/forum/DiabloIV")
-	public String goDiabloIV() {
+//	@GetMapping("/forum/DiabloIV")
+//	public String goDiabloIV() {
+//		return "liao/DiabloIV";
+//	}
+	
+	@GetMapping("/gameforum")
+	public String goDiabloIV(Model model) throws SQLException {
+		List<Discussions> discussions = dService.findAll();
+        model.addAttribute("discussions", discussions);
 		return "liao/DiabloIV";
 	}
 	
