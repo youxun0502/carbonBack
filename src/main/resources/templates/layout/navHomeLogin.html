@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+	<script th:src="@{/js/axios.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+	<script th:src="@{/js/jquery-ui.min.js}"></script>
+	<script src="https://kit.fontawesome.com/f3a13d5fed.js" crossorigin="anonymous"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
+	<link rel="stylesheet" th:href="@{/css/home.css}">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<title>Carbon</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark" data-bs-theme="dark">
+		<div class="container">
+			<form method="GET" th:action="@{/main/goBackToHome}">
+				<button class="navbar-brand" type="submit" style="background-color: transparent; border-color: transparent;">
+					<i class="d-inline-block align-text-top fa-solid fa-gamepad"
+						style="color: #6fb7d4; font-size: 1.5em;">CARBON</i>
+				</button>
+			</form>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+				aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="navbarText">
+				<ul class="navbar-nav mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link" href="#">GAME</a></li>
+					<li class="nav-item"><a class="nav-link " href="#">MARKET</a>
+					</li>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+							href="#" aria-expanded="false">EVENT</a>
+					<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" th:href="@{/3/competition/registration}">CompetitinoRegistration</a></li>
+							<li><a class="dropdown-item text-light" th:href="@{/3/event/registration}">EventRegistration</a></li>
+					</ul>
+					<li class="nav-item"><a class="nav-link" href="#">DISCUSSIONS</a>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+							href="#" aria-expanded="false" th:text="${session.memberBeans.userId}"></a>
+						<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" href="#">My game</a></li>
+							<li><a class="dropdown-item text-light" href="#">My item</a></li>
+							<li><a class="dropdown-item text-light" href="#">Something else here</a></li>
+								<li><a class="dropdown-item text-light" th:href="@{/coupon/couponPage}">Get Coupon</a></li>
+							<li>
+								<hr class="dropdown-divider text-light">
+							</li>
+							<li>
+								<form class="dropdown-item" th:action="@{/main/logout}" method="GET" id="logoutForm">
+									<input type="text" th:value="${session.memberBeans.id}" name="id"  hidden="true" />
+									<div class="logout_btn text-light">logout</div>
+								</form>
+							</li>
+						</ul>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<script th:src="@{/js/home.js}"></script>
+</body>
+
+</html>

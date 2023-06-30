@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .light_mode {
+            background-color: #fff;
+            color: rgb(22, 22, 24);
+        }
+
+        .fontcolor_light {
+            color: rgb(22, 22, 24);
+        }
+
+        .lm_aside {
+            background-color: #e5e0cdb0;
+        }
+
+        .dm_aside {
+            background-color: rgb(33, 37, 41);
+        }
+
+        .lm_table {
+            background-color: whitesmoke;
+            color: rgb(22, 22, 24);
+        }
+    </style>
+    <title></title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <form method="get" th:action="@{/main/goBackToMain}">
+                <button class="navbar-brand" type="submit"
+                    style=" background-color: transparent;border-color: transparent;">
+                    <i class="d-inline-block align-text-top fa-solid fa-gamepad"
+                        style="color: #ffc107; font-size:1.5em;">CARBON</i>
+                </button>
+            </form>
+            <div class="d-flex" id="navbarText">
+                <div class="navbar-nav me-auto mb-2 mb-lg-0"> </div>
+
+                <a class="nav-link active link-light" href="#">
+                    <i class="fa-solid fa-user d-inline-block"></i>
+                    <span th:text="${session.managerBeans.userId}"></span>
+                </a>
+                <form class="d-flex" method="get" th:action="@{/main/logout}" id="logoutForm">
+                    <input th:value="${session.managerBeans.id}" hidden="true" name="id" />
+                    <button type="submit" class="btn btn-secondary btn-sm ms-1">
+                        <i class="fa-solid fa-right-from-bracket" style="color: white;"></i>
+                    </button>
+                </form>
+                <div class="d-flex">
+                    <button class="change_mode btn btn-outline-warning btn-sm ms-1"><i
+                            class="fa-solid fa-lightbulb"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/jquery-ui.min.js}"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/f3a13d5fed.js" crossorigin="anonymous"></script>
+    <script>
+
+        const logoutForm = document.querySelector('#logoutForm');
+
+        logoutForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            swal.fire({
+                title: 'Logout successful',
+                text: "You have successfully logged out",
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            setTimeout(function () {
+                logoutForm.submit();
+            }, 1500)
+
+        })
+
+        $(function () {
+            // dataTable
+            //			$('#example').DataTable({
+            //				scrollX: true,
+            //				"dom": 'lrtip'
+            //			});
+
+            // change mode
+            var mode = localStorage.getItem('mode');
+            console.log(mode);
+
+            if (mode == 'light') {
+                lightMode();
+            } else {
+                darkMode();
+            }
+
+            $('.change_mode').on('click', function () {
+                if ($('body').hasClass('light_mode')) {
+                    darkMode();
+                    localStorage.setItem('mode', 'dark');
+                } else {
+                    lightMode();
+                    localStorage.setItem('mode', 'light');
+                }
+            })
+
+            function darkMode() {
+                $('body').removeClass('light_mode');
+                $('.change_mode').addClass('btn-warning');
+                $('.change_mode').removeClass('btn-outline-warning');
+                $('.aside').removeClass('lm_aside');
+                $('.aside').addClass('dm_aside');
+                $('.navColor a').addClass('link-light');
+                $('.navColor a').removeClass('link-dark');
+                $('table').removeClass('lm_table');
+                $('.searchBar').removeClass('fontcolor_light');
+            }
+
+            function lightMode() {
+                $('body').addClass('light_mode');
+                $('.change_mode').removeClass('btn-warning');
+                $('.change_mode').addClass('btn-outline-warning');
+                $('.aside').addClass('lm_aside');
+                $('.aside').removeClass('dm_aside');
+                $('.navColor a').removeClass('link-light');
+                $('.navColor a').addClass('link-dark');
+                $('table').addClass('lm_table');
+                $('.searchBar').addClass('fontcolor_light');
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Game List</title>
+<link th:href="@{/assets/css/goodgames.css}" rel="stylesheet" />
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet" />
+<link th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet" />
+<!-- IonIcons -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/ionicons/css/ionicons.min.css}">
+
+    <!-- Flickity -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/flickity/dist/flickity.min.css}">
+
+    <!-- Photoswipe -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/photoswipe/dist/photoswipe.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/photoswipe/dist/default-skin/default-skin.css}">
+
+    <!-- Seiyria Bootstrap Slider -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css}">
+
+    <!-- Summernote -->
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/summernote/dist/summernote-bs4.css}">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+    
+        <script  th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
+    
+    
+
+<style>
+</style>
+</head>
+<body>
+	<div
+		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div class="container ">
+		<div class="nk-gap-1"></div>
+		<ul class="nk-breadcrumbs">
+			<li>Home</li>
+			<li><span class="fa fa-angle-right"></span></li>
+			<li>Store</li>
+			<li><span class="fa fa-angle-right"></span></li>
+			<li>Games</li>
+		</ul>
+		<div class="nk-gap-1"></div>
+		  <!-- START: Products Filter -->
+    <div class="nk-gap-2"></div>
+    <div class="row vertical-gap">
+        <div class="col-lg-8">
+            <div class="row vertical-gap">
+                <div class="col-md-4">
+                    <select class="form-control">
+                        <option value="" disabled selected>Select Platform</option>
+                        <option value="ps4">PS4</option>
+                        <option value="xbox">Xbox 1</option>
+                        <option value="pc">PC</option>
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    <div class="nk-input-slider-inline">
+                        <div class="nk-input-slider">
+                            <div class="nk-input-slider-content text-white">
+                                PRICE:
+                                <strong class="text-main-1">€ <span class="nk-input-slider-value-0"></span></strong>
+                                -
+                                <strong class="text-main-1">€ <span class="nk-input-slider-value-1"></span></strong>
+                            </div>
+                            <div class="nk-input-slider-input">
+                                <input
+                                        type="text"
+                                        name="price-filter"
+                                        data-slider-min="0"
+                                        data-slider-max="1800"
+                                        data-slider-step="1"
+                                        data-slider-value="[200, 1200]"
+                                        data-slider-tooltip="hide"
+                                >
+                            </div>
+                        </div>
+                        <div>
+                            <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white">Apply</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <form action="#" class="nk-form" novalidate="novalidate">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Type something...">
+                    <button class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- END: Products Filter -->
+		
+		
+	</div>
+	<footer class="py-5 bg-dark">
+		<div class="container">
+			<div class="row">
+				<div class="col-4 text-light h2">
+					<h3 class="">CARBON</h3>
+				</div>
+				<div class="col-6 col-md text-light">
+					<h5>STORE</h5>
+					<ul class="list-unstyled">
+						<li>HOME</li>
+						<li>GAME</li>
+						<li>BONUS SHOP</li>
+					</ul>
+				</div>
+				<div class="col-6 col-md text-light">
+					<h5>COMMUNITY</h5>
+					<ul class="list-unstyled">
+						<li>MARKET</li>
+						<li>BONUS SHOP</li>
+						<li>BONUS SHOP</li>
+					</ul>
+				</div>
+				<div class="col-6 col-md text-light">
+					<h5>CONNECT</h5>
+					<ul class="list-unstyled">
+						<li>Q&A</li>
+						<li>SUPPORT</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script th:src="@{/assets/js/goodgames-init.js}"></script>
+	<script th:src="@{/assets/js/goodgames.min.js}"></script>
+	<script th:src="@{/assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js}"></script>
+
+	<!-- FontAwesome -->
+    <script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
+    <script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
+    <script  th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
+</body>
+</html>

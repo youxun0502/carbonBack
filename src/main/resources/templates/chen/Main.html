@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+
+</head>
+
+<body>
+	<nav class="navbar navColor">
+		<div class="container-fluid">
+			<div>
+				<button class="navbar-brand competition" style="font-size: 30px">賽事</button>
+				<button class="navbar-brand event" style="font-size: 30px;">活動</button>
+			</div>
+			<div class="d-flex" role="search">
+				<form class="d-flex" role="search" method="post" th:action="@{/competition/data}">
+					<input class="form-control me-2" type="search" placeholder="請輸入賽事名稱" aria-label="Search"
+						name="gameName" id="search_input1" autocomplete="off" style="display: none;" >
+					<button class="btn btn-outline-warning" type="submit" id="search_btn1" style="display: none;" >Search</button>
+				</form>
+				<form class="d-flex" role="search" method="post" th:action="@{/event/data}">
+					<input class="form-control me-2" type="search" placeholder="請輸入活動名稱" aria-label="Search"
+						name="eventName" id="search_input2" autocomplete="off" style="display: none;" >
+					<button class="btn btn-outline-warning" type="submit" id="search_btn2" style="display: none;" >Search</button>
+				</form>
+				<form class="d-flex" role="search" method="post" th:action="@{/competition/registration/data}">	
+					<input class="form-control me-2" type="search" placeholder="請輸入姓名" aria-label="Search"
+						name="realName" id="search_input3" autocomplete="off" style="display: none;" >
+					<button class="btn btn-outline-warning" type="submit" id="search_btn3" style="display: none;" >Search</button>
+				</form>
+				<form class="d-flex" role="search" method="post" th:action="@{/event/registration/data}">
+					<input class="form-control me-2" type="search" placeholder="請輸入姓名" aria-label="Search"
+						name="realName" id="search_input4" autocomplete="off" style="display: none;" >
+					<button class="btn btn-outline-warning" type="submit" id="search_btn4" style="display: none;" >Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	<ul class="nav nav-tabs cList" style="display: none;">
+		<li class="nav-item">
+			<a class="nav-link all1" th:href="@{/competition/data}">ALL</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link cre1" th:href="@{/competition/add}">Create</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link reg1" th:href="@{/competition/registration/data}">Registration</a>
+		</li>
+	</ul>
+	<ul class="nav nav-tabs eList" style="display: none;">
+		<li class="nav-item">
+			<a class="nav-link all2" th:href="@{/event/data}">ALL</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link cre2" th:href="@{/event/add}">Create</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link reg2" th:href="@{/event/registration/data}">Registration</a>
+		</li>
+	</ul>
+
+	<script>
+		$(function () {
+			/*
+			var competitionState = localStorage.getItem('competitionState');
+			if (competitionState === 'active') {
+				$('.cList').show();
+				$('.competition').css('background-color', 'red');
+			} else {
+				$('.cList').hide();
+				$('.competition').css('background-color', '#F0F0F0');
+			}
+
+			var eventState = localStorage.getItem('eventState');
+			if (eventState === 'active') {
+				$('.eList').show();
+				$('.event').css('background-color', 'red');
+			} else {
+				$('.eList').hide();
+				$('.event').css('background-color', '#F0F0F0');
+			}
+
+			$('.competition').click(function () {
+				$('.cList').show();
+				window.location.href = 'http://localhost:8081/competition/data';
+				$('.competition').css('background-color', 'red');
+				$('.event').css('background-color', '#F0F0F0');
+				$('.eList').hide();
+				var currentState1 = $('.cList').is(':visible') ? 'active' : 'inactive';
+				localStorage.setItem('competitionState', currentState1);
+				var currentState2 = $('.eList').is(':visible') ? 'active' : 'inactive';
+				localStorage.setItem('eventState', currentState2);
+			});
+
+			$('.event').click(function () {
+				$('.eList').show();
+				window.location.href = 'http://localhost:8081/event/data';
+				$('.event').css('background-color', 'red');
+				$('.competition').css('background-color', '#F0F0F0');
+				$('.cList').hide();
+				var currentState2 = $('.eList').is(':visible') ? 'active' : 'inactive';
+				localStorage.setItem('eventState', currentState2);
+				var currentState1 = $('.cList').is(':visible') ? 'active' : 'inactive';
+				localStorage.setItem('competitionState', currentState1);
+			});
+			*/
+			
+			$('.event').click(function () {
+				window.location.href = 'http://localhost:8080/carbon/event/data';
+			});
+			
+			$('.competition').click(function () {
+				window.location.href = 'http://localhost:8080/carbon/competition/data';
+			});
+			
+			if (window.location.href === 'http://localhost:8080/carbon/competition/data') {
+			    $('.all1').addClass('active');
+			    $('.cList').show();
+			    $('.competition').css('background-color', 'red');
+			    $('#search_input1').show();
+			    $('#search_btn1').show();
+			  }else if(window.location.href === 'http://localhost:8080/carbon/competition/add'){
+				$('.cre1').addClass('active'); 
+				$('.cList').show();
+			    $('.competition').css('background-color', 'red'); 
+			  }else if(window.location.href === 'http://localhost:8080/carbon/competition/registration/data'){
+				$('.reg1').addClass('active');  
+				$('.cList').show();
+			    $('.competition').css('background-color', 'red');
+			    $('#search_input3').show();
+			    $('#search_btn3').show();
+			  }
+			  
+			if(window.location.href === 'http://localhost:8080/carbon/event/data'){
+				$('.all2').addClass('active');
+				$('.eList').show();
+				$('.event').css('background-color', 'red');
+				$('#search_input2').show();
+			    $('#search_btn2').show();
+			}else if(window.location.href === 'http://localhost:8080/carbon/event/add'){
+				$('.cre2').addClass('active');
+				$('.eList').show();
+				$('.event').css('background-color', 'red');
+			}else if(window.location.href === 'http://localhost:8080/carbon/event/registration/data'){
+				$('.reg2').addClass('active');
+				$('.eList').show();
+				$('.event').css('background-color', 'red');
+				$('#search_input4').show();
+			    $('#search_btn4').show();
+			}
+			  
+			  
+			  
+			  
+			  
+			
+		
+
+		})
+	</script>
+</body>
+
+</html>

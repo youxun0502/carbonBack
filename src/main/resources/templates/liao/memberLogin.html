@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<link rel="stylesheet" th:href="@{/css/memberlogin.css}">
+<script src="https://kit.fontawesome.com/f3a13d5fed.js"
+	crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<title>Member Login</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark"
+		data-bs-theme="dark">
+		<div class="container">
+			<a class="navbar-brand" th:href="@{/main/goBackToHome}"> <i
+				class="d-inline-block align-t
+                ext-top fa-solid fa-gamepad"
+				style="color: #6fb7d4; font-size: 1.5em;">Carbon</i>
+			</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarText"
+				aria-controls="navbarText" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<div class="navbar-nav me-auto mb-2 mb-lg-0"></div>
+				<!-- <a class="nav-link active" href="#">
+                    <i class="fa-solid fa-user d-inline-block"></i>
+                    Login</a> -->
+			</div>
+		</div>
+	</nav>
+	<div class="loginContainer">
+		<div class="formContainer">
+			<!-- 更改位置 -->
+			<form method="post" th:action="@{/main/memberLogin}"
+				class="loginForm">
+				<div
+					style="text-align: center; font-size: 40px; padding: 0; margin: 0">
+					<i class="fa-solid fa-circle-user" style="font-size: 80px;"></i> <br>會員登入
+				</div>
+				<span>帳號</span><input type="text" name="email" id=""
+					placeholder="請輸入電子郵件"></Input> <br> <span>密碼</span><input
+					type="password" name="memberPwd" id="" placeholder="請輸入密碼"></Input>
+				<br>
+				<div style="height: 40px">
+					<Input type="checkbox" name="rememberMe" id="rememberMe" value="1"
+						style="width: 20px" checked></Input> <label style="margin: 0;"
+						for="rememberMe">記住我</label>
+					<button type="submit" class="btn btn-info"
+						style="margin-left: 193px; background-color: cornflowerblue; border: none;">下一步</button>
+				</div>
+				<hr>
+				<a href="../Main/Register"><button type="button"
+						class="btn btn-info" data-bs-toggle="modal"
+						data-bs-target="#register"
+						style="margin-left: 0px; padding-left: 140px; padding-right: 140px; background-color: #8CA0D7; border: none;">註冊帳號</button></a>
+				<br>
+				<button type="button" class="btn btn-info"
+					style="margin-top: 20px; margin-left: 0px; padding-left: 140px; padding-right: 140px; background-color: rgb(159, 209, 236); border: none;">忘記密碼</button>
+			</form>
+		</div>
+	</div>
+
+	<script>
+		const params = new URLSearchParams(window.location.search);
+		const register = params.get('register');
+		if (register == 'success') {
+			Swal.fire({
+				position : 'top-center',
+				icon : 'success',
+				title : 'Registration successful',
+				showConfirmButton : true,
+			//timer: 1500
+
+			})
+			$(".swal2-height-auto").removeClass("swal2-height-auto");
+		}
+		if (register == 'unsuccess') {
+			Swal.fire({
+				position : 'top-center',
+				icon : 'error',
+				title : 'Email or phone number already exists',
+				showConfirmButton : true,
+			//timer: 1500
+
+			})
+			$(".swal2-height-auto").removeClass("swal2-height-auto");
+		}
+
+		const logout = params.get('logout');
+		if (logout == 'success') {
+			Swal.fire({
+				position : 'top-center',
+				icon : 'success',
+				title : 'Logout successful',
+				showConfirmButton : true,
+
+			})
+		}$(".swal2-height-auto").removeClass("swal2-height-auto");
+	</script>
+</body>
+
+</html>

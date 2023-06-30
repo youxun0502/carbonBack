@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		table {
+			background-color: rgb(33, 37, 41);
+		}
+
+		table td,
+		table th {
+			max-width: 170px;
+		}
+
+		.tdCenter {
+			text-align: center;
+		}
+
+		.imgBox {
+			width: 100px;
+			height: 100px;
+		}
+
+		.showDesc {
+			cursor: pointer;
+		}
+
+		.section-big {
+			max-width: calc(100% - 42px);
+		}
+
+		.section-small {
+			max-width: calc(100% - 200px);
+		}
+	</style>
+	<title>賽事列表</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navMain}"></div>
+	<div class="d-flex">
+		<div th:replace="~{layout/asideMain}"></div>
+		<div class="w-100 section section-big">
+			<div class="content mt-3" th:replace="~{chen/Main}"></div>
+			<div class="container-fluid">
+				<div class="row my-3">
+					<table id="example" class="hover row-border" style="width:100%">
+						<thead>
+							<tr>
+								<th>報名ID
+								<th>真實姓名
+								<th>電子信箱
+								<th>聯絡電話
+								<th>通訊地址
+								<th>報名日期
+								<th>更新
+								<th>刪除
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each=" registration : ${registrations} ">
+								<tr>
+									<td th:text="${registration.signupId}"></td>
+									<td th:text="${registration.realName}"></td>
+									<td th:text="${registration.email}"></td>
+									<td th:text="${registration.phone}"></td>
+									<td th:text="${registration.address}"></td>
+									<td th:text="${#dates.format(registration.signupDate, 'yyyy-MM-dd')}"></td>
+									<td>
+										<form th:action="@{/event/registration/update}" method="get">
+											<input type="hidden" name="signupId" th:value="${registration.signupId}" />
+											<button type="submit">更新</button>
+										</form>
+									<td>
+										<form th:action="@{/event/registration/delete}" th:method="delete">
+											<input type="hidden" name="signupId" th:value="${registration.signupId}" />
+											<button class="delete-btn" type="submit">刪除</button>
+										</form>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(function () {
+
+			$.extend(true, $.fn.dataTable.defaults, {
+				searching: false,
+				ordering: true,
+			});
+
+			$(document).ready(function () {
+				$('#example').DataTable();
+			});
+
+			$('.delete-btn').click(function (event) {
+				event.preventDefault();
+				Swal.fire({
+					title: '確定要刪除嗎?',
+					text: "刪除後就找不回資料嘍",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '確定',
+					cancelButtonText: '取消'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$(this).closest('form').find('input[name="signupId"]').val();
+						$(this).closest('form').submit();
+					}
+				})
+			});
+
+			
+
+
+
+		})
+	</script>
+</body>
+
+</html>

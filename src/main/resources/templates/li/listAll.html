@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		table {
+			background-color: rgb(33, 37, 41);
+		}
+
+		table td,
+		table th {
+			max-width: 170px;
+		}
+
+		.tdCenter {
+			text-align: center;
+		}
+
+		.imgBox {
+			width: 100px;
+			height: 100px;
+		}
+
+		.showDesc {
+			cursor: pointer;
+		}
+
+		.section-big {
+			max-width: calc(100% - 42px);
+		}
+
+		.section-small {
+			max-width: calc(100% - 200px);
+		}
+	</style>
+	<title>Bonus Shop</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navMain}"></div>
+	<div class="d-flex">
+		<div th:replace="~{layout/asideMain}"></div>
+		<div class="w-100 section section-big">
+			<div class="content mt-3">
+				<nav class="navbar navColor">
+					<div class="container-fluid">
+						<a class="navbar-brand link-light" th:href="@{/bonus/main}" style="font-size: 30px;">Bonus
+							Shop</a>
+						<div class="d-flex" role="search">
+
+							<input class="form-control me-2" type="search" placeholder="商品名稱查詢" aria-label="Search"
+								name="bonusName" id="bonusitem_search">
+							<button class="btn btn-outline-warning" type="submit" id="name_search_btn">Search</button>
+
+						</div>
+					</div>
+				</nav>
+				<ul class="nav nav-tabs">
+					<li class="nav-item"><a class="nav-link active" th:href="@{/bonus/listAll}">ALL</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/insert}">NEW ITEM</a></li>
+				</ul>
+			</div>
+			<div class="container-fluid">
+				<div class="row my-3">
+					<table id="example" class="hover row-border" style="width: 100%">
+						<thead>
+							<tr>
+								<th>商品編號</th>
+								<th>圖片</th>
+								<th>商品名稱</th>
+								<th>商品價格</th>
+								<th>商品描述</th>
+								<th>上架狀況</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+
+						<tbody id="showSeachItem">
+							<th:block th:each="oneBonusitem : ${bonusitemList}">
+								<tr>
+									<td class="tdCenter">[[${oneBonusitem.bonusId}]]</td>
+
+									<td class="imgBox overflow-hidden"><img width="200px"
+											th:src="@{'/downloadImage/' + ${oneBonusitem.bonusId}}"></td>
+									<td>[[${oneBonusitem.bonusName}]]</td>
+
+									<td class="text-truncate">[[${oneBonusitem.bonusPrice}]]</td>
+									<td class="showDesc text-truncate">[[${oneBonusitem.bonusDes}]]</td>
+
+									<th:block th:switch="${oneBonusitem.status == true}">
+										<td th:case="true" class="ps-3"><i class="fa-regular fa-circle-check fa-2xl"
+												style="color: #31dd39;"></i></td>
+										<td th:case="false" class="ps-3"><i class="fa-solid fa-ban fa-2xl"
+												style="color: #ff0000;"></i></td>
+									</th:block>
+
+									<td>
+										<form method="get" th:action="@{/bonus/edit}">
+											<button type="submit" th:value="${oneBonusitem.bonusId}" name="id"
+												class="btn btn-info">
+												<i class="fa-solid fa-pen"></i>
+											</button>
+
+										</form>
+									</td>
+									<td>
+										<!-- <form method="post" th:action="@{/gameitem/gameitemDelete}" class="delForm">
+											<input type="hidden" th:value="${item.itemId}" name="itemId">
+											<input type="hidden" value="delete" name="_method"> -->
+										<button type="submit" class="delBtn btn btn-secondary"
+											th:data-id="${oneBonusitem.bonusId}">
+											<i class=" fa-solid fa-trash-can"></i>
+										</button> <!-- </form> -->
+									</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/js/bonusitem-ajax.js}"></script>
+	<script>
+	$(function () {
+			////////// dataTable ////////// 
+			$('#example').DataTable({
+				scrollX: true,
+				"dom": 'lrtip'
+			});
+	})
+	</script>
+
+
+</body>
+
+</html>

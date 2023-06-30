@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		table {
+			background-color: rgb(33, 37, 41);
+		}
+
+		table td,
+		table th {
+			max-width: 170px;
+		}
+
+		.tdCenter {
+			text-align: center;
+		}
+
+		.imgBox {
+			width: 100px;
+			height: 100px;
+		}
+
+		.showDesc {
+			cursor: pointer;
+		}
+
+		.section-big {
+			max-width: calc(100% - 42px);
+		}
+
+		.section-small {
+			max-width: calc(100% - 200px);
+		}
+	</style>
+	<title>活動列表</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navMain}"></div>
+	<div class="d-flex">
+		<div th:replace="~{layout/asideMain}"></div>
+		<div class="w-100 section section-big">
+			<div class="content mt-3" th:replace="~{chen/Main}"></div>
+			<div class="container-fluid">
+				<div class="row my-3">
+					<table id="example" class="hover row-border" style="width:100%">
+						<thead>
+							<tr>
+								<th>活動ID
+								<th>活動名稱
+								<th>活動說明
+								<th>開始日期
+								<th>結束日期
+								<th>限時優惠
+								<th>地點
+								<th>名額限制
+								<th>報名截止日期
+								<th>報名費
+								<th>更新
+								<th>刪除
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each=" event : ${events} ">
+								<tr>
+									<td th:text="${event.eventId}"></td>
+									<td th:text="${event.name}"></td>
+									<td th:text="${event.description}"></td>
+									<td th:text="${event.startDate}"></td>
+									<td th:text="${event.endDate}"></td>
+									<td th:text="${event.timeLimitedDiscount}"></td>
+									<td th:text="${event.location}"></td>
+									<td th:text="${event.quotaLimited}"></td>
+									<td th:text="${event.deadline}"></td>
+									<td th:text="${event.fee}"></td>
+									<td>
+										<form th:action="@{/event/update}" method="get">
+											<input type="hidden" name="eventId" th:value="${event.eventId}" />
+											<button type="submit">更新</button>
+										</form>
+									<td>
+										<form th:action="@{/event/delete}" th:method="delete">
+											<input type="hidden" name="eventId" th:value="${event.eventId}" />
+											<button class="delete-btn" type="submit">刪除</button>
+										</form>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(function () {
+
+			$('.delete-btn').click(function (event) {
+				event.preventDefault();
+				Swal.fire({
+					title: '確定要刪除嗎?',
+					text: "刪除後就找不回資料嘍",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: '確定',
+					cancelButtonText: '取消'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$(this).closest('form').find('input[name="eventId"]').val();
+						$(this).closest('form').submit();
+					}
+				})
+			});
+
+			$('#example').DataTable({
+				scrollX: true,
+				"dom": 'lrtip'
+			});
+
+
+
+		})
+	</script>
+</body>
+
+</html>

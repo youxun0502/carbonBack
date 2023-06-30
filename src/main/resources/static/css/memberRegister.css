@@ -1,0 +1,45 @@
+body {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  background-size: cover;
+  background-image: linear-gradient(to right, rgb(0, 0, 0), rgba(102, 102, 102, 0.589)), url("../img/test1.jpg");
+}
+
+
+.mt-120 {
+  margin-top: 120px;
+}
+
+
+.w-60 {
+  width: 60%;
+}
+
+.formInputbg {
+  background-color: rgba(57, 56, 56, 0.8) !important;
+}
+
+.bg-gray {
+  background-color: rgba(28, 28, 28) !important;
+}
+
+.space {
+  visibility: hidden;
+}
+
+
+@media (max-width: 600px) {
+  body {
+    background-image: none;
+    background-color: rgb(39, 39, 39) !important;
+  }
+}
+
+@media (min-width: 601px) {
+  body {
+
+    background-color: black !important;
+  }
+
+}

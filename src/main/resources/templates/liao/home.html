@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Carbon</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navHome}"></div>
+
+	<section class="my-4">
+		<div class="container">
+			<div class="row">
+				<div class="col text-light">
+					<h2>精選遊戲</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="imgContainer col pb-2 h-auto">
+					<ul id="imageGallery">
+						<li class="py-3"><a href="#" class="d-flex justify-content-center"> <img class="w-75"
+									th:src="@{/img/homegame1.jpg}" /></a></li>
+						<li class="py-3"><a href="#" class="d-flex justify-content-center"> <img class="w-75"
+									th:src="@{/img/homegame2.jpg}" /></a></li>
+						<li class="py-3"><a href="#" class="d-flex justify-content-center"> <img class="w-75"
+									th:src="@{/img/homegame3.jpg}" /></a></li>
+						<li class="py-3"><a href="#" class="d-flex justify-content-center"> <img class="w-75"
+									th:src="@{/img/homegame4.jpg}" /></a></li>
+						<li class="py-3"><a href="#" class="d-flex justify-content-center"> <img class="w-75"
+									th:src="@{/img/homegame5.jpg}" />
+							</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="my-4">
+		<div class="container">
+			<div class="row">
+				<div class="col text-light">
+					<h2 class="display-6">依類別瀏覽</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="gameSelectorContainer">
+					<ul id="gameclass">
+						<li><a href="#" class="position-relative d-block h-auto">
+								<img class="img-fluid" th:src="@{/img/gameclass2.jpg}" alt="">
+								<div class="gameselect gameSelect2 position-absolute top-0 h-100 w-100"></div>
+								<div class="text-light position-absolute bottom-0 start-50 translate-middle-x fs-4">冒險
+								</div>
+							</a></li>
+						<li><a href="#" class="position-relative d-block h-auto">
+								<img class="img-fluid" th:src="@{/img/gameclass3.jpg}" alt="">
+								<div class="gameselect gameSelect3 position-absolute top-0 h-100 w-100"></div>
+								<div class="text-light position-absolute bottom-0 start-50 translate-middle-x fs-4">博弈
+								</div>
+							</a></li>
+						<li><a href="#" class="position-relative d-block h-auto">
+								<img class="img-fluid" th:src="@{/img/gameclass4.jpg}" alt="">
+								<div class="gameselect gameSelect4 position-absolute top-0 h-100 w-100"></div>
+								<div class="text-light position-absolute bottom-0 start-50 translate-middle-x fs-4">益智
+								</div>
+							</a></li>
+						<li><a href="#" class="position-relative d-block h-auto">
+								<img class="img-fluid" th:src="@{/img/gameclass5.jpg}" alt="">
+								<div class="gameselect gameSelect5 position-absolute top-0 h-100 w-100"></div>
+								<div class="text-light position-absolute bottom-0 start-50 translate-middle-x fs-4">趣味
+								</div>
+							</a></li>
+						<li><a href="#" class="position-relative d-block h-auto">
+								<img class="img-fluid" th:src="@{/img/gameclass5.jpg}" alt="">
+								<div class="gameselect gameSelect5 position-absolute top-0 h-100 w-100"></div>
+								<div class="text-light position-absolute bottom-0 start-50 translate-middle-x fs-4">經典
+								</div>
+							</a></li>
+						<li><a href="#" class="position-relative d-block h-auto">
+								<img class="img-fluid" th:src="@{/img/gameclass5.jpg}" alt="">
+								<div class="gameselect gameSelect5 position-absolute top-0 h-100 w-100"></div>
+								<div class="text-light position-absolute bottom-0 start-50 translate-middle-x fs-4">趣味
+								</div>
+							</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer class="py-5 bg-dark">
+		<div class="container">
+			<div class="row">
+				<div class="col-4 text-light h2">
+					<h3 class="">CARBON</h3>
+				</div>
+				<div class="col-6 col-md text-light">
+					<h5>STORE</h5>
+					<ul class="list-unstyled">
+						<li>HOME</li>
+						<li>GAME</li>
+						<li>BONUS SHOP</li>
+					</ul>
+				</div>
+				<div class="col-6 col-md text-light">
+					<h5>COMMUNITY</h5>
+					<ul class="list-unstyled">
+						<li>MARKET</li>
+						<li>BONUS SHOP</li>
+						<li>BONUS SHOP</li>
+					</ul>
+				</div>
+				<div class="col-6 col-md text-light">
+					<h5>CONNECT</h5>
+					<ul class="list-unstyled">
+						<li>Q&A</li>
+						<li>SUPPORT</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+
+	<script>
+		$("#imageGallery").lightSlider({
+			// 參數設定[註1]
+			slideWidth: 600, // 物件寬度
+			speed: 400, // 切換速度
+			pause: 2000, // 當等待時間超過此時，則自動切換
+			auto: true, // 自動切換
+			item: 1, // 顯示數量
+			loop: true,
+			responsive: [
+				{
+					breakpoint: 960, // 當螢幕大於此寬度時，則啟用此設定值
+					settings: {
+						item: 1, // 顯示數量
+						slideMove: 1 // 一次切換數量
+					}
+				},
+				{
+					breakpoint: 640, // 當螢幕大於此寬度時，則啟用此設定值
+					settings: {
+						item: 1, // 顯示張數
+						slideMove: 1 // 一次切換數量
+					}
+				}
+			]
+
+		});
+
+		$("#gameclass").lightSlider({
+			// 參數設定[註1]
+			// slideWidth: 600, // 物件寬度
+			speed: 400, // 切換速度
+			pause: 2000, // 當等待時間超過此時，則自動切換
+			auto: false, // 自動切換
+			item: 5, // 顯示數量
+			responsive: [
+				{
+					breakpoint: 960, // 當螢幕大於此寬度時，則啟用此設定值
+					settings: {
+						item: 3, // 顯示數量
+						slideMove: 1 // 一次切換數量
+					}
+				},
+				{
+					breakpoint: 640, // 當螢幕大於此寬度時，則啟用此設定值
+					settings: {
+						item: 2, // 顯示張數
+						slideMove: 1 // 一次切換數量
+					}
+				}
+			]
+
+		});
+
+	</script>
+</body>
+
+
+
+</html>

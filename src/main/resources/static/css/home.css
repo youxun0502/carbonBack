@@ -1,0 +1,86 @@
+body {
+	background-color:#171e22;
+	color:#7f8b9223
+}
+
+.loginBtn {
+	background-color: #6fb7d4;
+}
+
+.imgContainer {
+	background-color: rgba(255, 255, 255, 0.452);
+}
+
+.gameSelect1 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(235, 88, 88));
+}
+
+.gameSelect2 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(201, 35, 252));
+}
+
+.gameSelect3 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(255, 201, 54));
+}
+
+.gameSelect4 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(172, 168, 168));
+}
+
+.gameSelect5 {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(114, 231, 247));
+}
+
+.gameSelect1:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(248, 67, 67));
+}
+
+.gameSelect2:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(170, 13, 218));
+}
+
+.gameSelect3:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(252, 189, 16));
+}
+
+.gameSelect4:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(121, 118, 118));
+}
+
+.gameSelect5:hover {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
+		rgb(28, 206, 230));
+}
+
+.gameSelectorContainer {
+	height: 400px;
+}
+
+.srotByCLass {
+	font-size: 40px;
+	color: azure;
+	top: 645px;
+	left: 200px;
+}
+
+.dropdown-menu li:hover a {
+	color: rgb(84, 83, 83) !important;
+}
+
+.dropdown-menu li:hover form .logout_btn {
+	color: rgb(84, 83, 83) !important;
+}
+
+
+.logout_btn:hover {
+	cursor: pointer;
+}

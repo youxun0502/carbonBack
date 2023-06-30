@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+
+<link rel="stylesheet" th:href="@{/css/memberlogin.css}">
+<style>
+	.loginForm input{
+	margin-bottom: 0;
+	}
+</style>
+<title>Member Login</title>
+</head>
+
+<body>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div class="loginContainer">
+		<div class="formContainer">
+			<!-- 更改位置 -->
+			<form method="post" th:action="@{/main/memberLogin}"
+				class="loginForm">
+				<div
+					style="text-align: center; font-size: 40px; padding: 0; margin: 0">
+					<i class="fa-solid fa-circle-user" style="font-size: 80px;"></i> <br>會員登入
+				</div>
+				<span>帳號</span><input type="text" name="email" id="email"
+					placeholder="請輸入電子郵件"></Input> <br> <span>密碼</span><input
+					type="password" name="memberPwd" id="" placeholder="請輸入密碼"></Input>
+				<br> <span style="all: unset; color: red; margin-left: 10px"
+					id="error">帳號或密碼錯誤，請重新輸入！</span>
+				<div style="height: 40px">
+					<Input type="checkbox" name="rememberMe" id="rememberMe" value="1"
+						style="width: 20px" checked></Input> <label style="margin: 0;"
+						for="rememberMe">記住我</label>
+					<button type="submit" class="btn btn-info"
+						style="margin-left: 193px; background-color: cornflowerblue; border: none;">下一步</button>
+				</div>
+				<hr>
+				<a th:href="@{/main/registerPage}"><button type="button"
+						class="btn btn-info" data-bs-toggle="modal"
+						data-bs-target="#register"
+						style="margin-left: 0px; padding-left: 140px; padding-right: 140px; background-color: #8CA0D7; border: none;">註冊帳號</button></a>
+				<br>
+				<button type="button" class="btn btn-info"
+					style="margin-top: 20px; margin-left: 0px; padding-left: 140px; padding-right: 140px; background-color: rgb(159, 209, 236); border: none;">忘記密碼</button>
+			</form>
+		</div>
+	</div>
+	<script>		$("#email").on("focus", function() {
+			$("#error").css("visibility", "hidden");
+		})</script>
+</body>
+
+</html>
