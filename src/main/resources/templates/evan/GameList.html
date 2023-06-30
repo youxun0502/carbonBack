@@ -3,11 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Game List</title>
-<link th:href="@{/assets/css/goodgames.css}" rel="stylesheet" />
-<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
-<link th:href="@{/css/jquery-ui.min.css}" rel="stylesheet" />
-<link th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet" />
-<!-- IonIcons -->
+
+    <!-- START: Styles -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet"
+        type="text/css">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}">
+
+    <!-- FontAwesome -->
+    <script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
+    <script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
+
+    <!-- IonIcons -->
     <link rel="stylesheet" th:href="@{/assets/vendor/ionicons/css/ionicons.min.css}">
 
     <!-- Flickity -->
@@ -23,15 +33,17 @@
     <!-- Summernote -->
     <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/summernote/dist/summernote-bs4.css}">
 
+    <!-- GoodGames -->
+    <link rel="stylesheet" th:href="@{/assets/css/goodgames.css}">
+
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
-    
-        <script  th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
-    
-    
 
-<style>
-</style>
+    <!-- END: Styles -->
+
+    <!-- jQuery -->
+    <script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
+
 </head>
 <body>
 	<div
@@ -132,13 +144,67 @@
 			</div>
 		</div>
 	</footer>
-	<script th:src="@{/assets/js/goodgames-init.js}"></script>
-	<script th:src="@{/assets/js/goodgames.min.js}"></script>
-	<script th:src="@{/assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js}"></script>
+	<!-- START: Scripts -->
 
-	<!-- FontAwesome -->
-    <script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
-    <script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
-    <script  th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
+    <!-- Object Fit Polyfill -->
+    <script th:src="@{/assets/vendor/object-fit-images/dist/ofi.min.js}"></script>
+
+    <!-- GSAP -->
+    <script th:src="@{/assets/vendor/gsap/src/minified/TweenMax.min.js}"></script>
+    <script th:src="@{/assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js}"></script>
+
+    <!-- Popper -->
+    <script th:src="@{/assets/vendor/popper.js/dist/umd/popper.min.js}"></script>
+
+    <!-- Bootstrap -->
+    <script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+    <!-- Sticky Kit -->
+    <script th:src="@{/assets/vendor/sticky-kit/dist/sticky-kit.min.js}"></script>
+
+    <!-- Jarallax -->
+    <script th:src="@{/assets/vendor/jarallax/dist/jarallax.min.js}"></script>
+    <script th:src="@{/assets/vendor/jarallax/dist/jarallax-video.min.js}"></script>
+
+    <!-- imagesLoaded -->
+    <script th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+
+    <!-- Flickity -->
+    <script th:src="@{/assets/vendor/flickity/dist/flickity.pkgd.min.js}"></script>
+
+    <!-- Photoswipe -->
+    <script th:src="@{/assets/vendor/photoswipe/dist/photoswipe.min.js}"></script>
+    <script th:src="@{/assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js}"></script>
+
+    <!-- Jquery Validation -->
+    <script th:src="@{/assets/vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
+
+    <!-- Jquery Countdown + Moment -->
+    <script th:src="@{/assets/vendor/jquery-countdown/dist/jquery.countdown.min.js}"></script>
+    <script th:src="@{/assets/vendor/moment/min/moment.min.js}"></script>
+    <script th:src="@{/assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js}"></script>
+
+    <!-- Hammer.js -->
+    <script th:src="@{/assets/vendor/hammerjs/hammer.min.js}"></script>
+
+    <!-- NanoSroller -->
+    <script th:src="@{/assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js}"></script>
+
+    <!-- SoundManager2 -->
+    <script th:src="@{/assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js}"></script>
+
+    <!-- Seiyria Bootstrap Slider -->
+    <script th:src="@{/assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js}"></script>
+
+    <!-- Summernote -->
+    <script th:src="@{/assets/vendor/summernote/dist/summernote-bs4.min.js}"></script>
+
+    <!-- nK Share -->
+    <script th:src="@{/assets/plugins/nk-share/nk-share.js}"></script>
+
+    <!-- GoodGames -->
+    <script th:src="@{/assets/js/goodgames.min.js}"></script>
+    <script th:src="@{/assets/js/goodgames-init.js}"></script>
+    <!-- END: Scripts -->
 </body>
 </html>
