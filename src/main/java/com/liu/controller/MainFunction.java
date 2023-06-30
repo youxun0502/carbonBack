@@ -51,9 +51,9 @@ public class MainFunction {
 			@RequestParam(name = "rememberMe", required = false) String rememberMe, Model m, HttpSession session,
 			HttpServletResponse response, HttpServletRequest request) {
 
+
 		Member member = mService.isMember(email, memberPwd);
 		if (member == null) {
-			System.out.println("登入錯誤");
 			return "/liu/memberLoginError";
 		} else if (member.getStatus() == 2) {
 			return "/liu/memberCanNotLogin";
@@ -61,7 +61,7 @@ public class MainFunction {
 			session.setAttribute("managerBeans", member);
 			session.setAttribute("character", "manager");
 			return "/liu/main";
-		} else {
+		} else {		
 			if ("1".equals(rememberMe)) { // 有rememberMe
 				Cookie[] cookies = request.getCookies();
 				Cookie cookie = null;
