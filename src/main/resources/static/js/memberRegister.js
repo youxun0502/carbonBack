@@ -20,13 +20,10 @@ pwdContainer.addEventListener('input', function () {
   let pwd = pwdContainer.value;
   checkPwd(pwd);
 })
-<<<<<<< HEAD
-=======
 pwdContainer.addEventListener('change', function () {
   let pwd = pwdContainer.value;
   checkPwd(pwd);
 })
->>>>>>> a2d5c88cc0d8928ce9cfa9929c13e43720621142
 
 emailContainer.addEventListener('blur', function () {
   let email = emailContainer.value;
@@ -91,13 +88,10 @@ let gender = '';
 userIdContainer.addEventListener('input', function () {
   checkUserId(userIdContainer.value);
 })
-<<<<<<< HEAD
-=======
 userIdContainer.addEventListener('change', function () {
   checkUserId(userIdContainer.value);
   userId = userIdContainer.value;
 })
->>>>>>> a2d5c88cc0d8928ce9cfa9929c13e43720621142
 
 userIdContainer.addEventListener('blur', function () {
   if (userIdContainer.value == '') {
@@ -111,14 +105,11 @@ memberNameContainer.addEventListener('input', function () {
   checkMemberName(memberNameContainer.value);
 })
 
-<<<<<<< HEAD
-=======
 memberNameContainer.addEventListener('change', function () {
   checkMemberName(memberNameContainer.value);
   memberName = memberNameContainer.value;
 })
 
->>>>>>> a2d5c88cc0d8928ce9cfa9929c13e43720621142
 memberNameContainer.addEventListener('blur', function () {
   if (memberNameContainer.value == '') {
     classMaker(memberNameContainer, memberNameSpace, 'null', 'null');
@@ -135,11 +126,8 @@ birthdayContainer.addEventListener('change', function () {
 phoneContainer.addEventListener('input', function () {
   checkPhone(phoneContainer.value);
 });
-<<<<<<< HEAD
-=======
 
 
->>>>>>> a2d5c88cc0d8928ce9cfa9929c13e43720621142
 phoneContainer.addEventListener('blur', function () {
   let phone = phoneContainer.value;
   if (checkPhone(phone) == true) {
@@ -377,24 +365,6 @@ function classMaker(container, space, text, status) {
 
 ////////////// autoInput ////////////////////// 
 
-<<<<<<< HEAD
-$('#autoInput1').on('click', function () {
-  $("#email").val("XiaoMing123@gmail.com");
-  $("#password").val("XiaoMing123");
-  $("#email").focus();
-})
-
-
-$('#autoInput2').on('click', function (event) {
-	event.preventDefault();
-  $("#userId").val("XiaoMing").trigger("change");
-  $("#memberName").val("XiaoMing").trigger("change");
-  $("#birthday").val("2000-05-01").trigger("change");
-  $("#phone").val("0908666444").trigger("change");
-  $('input[name="gender"][value="1"]').prop('checked', true).trigger("change");
-})
-
-=======
 
 const autoInput1 = document.querySelector('#autoInput1');
 autoInput1.addEventListener('click', function(){
@@ -429,4 +399,3 @@ autoInput2.addEventListener('click',function(event){
 })
 
 
->>>>>>> a2d5c88cc0d8928ce9cfa9929c13e43720621142
