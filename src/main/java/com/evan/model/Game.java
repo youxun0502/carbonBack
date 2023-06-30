@@ -48,12 +48,15 @@ public class Game {
 	
 	public Game() {}
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private List<Competition> competitions = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private List<Event> event = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private List<GameItem> gameItem = new ArrayList<>();
 

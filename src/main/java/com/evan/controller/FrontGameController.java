@@ -33,8 +33,11 @@ public class FrontGameController {
 	@Autowired
 	private GetInfoToGameFront gifToGameFront;
 	
-	@GetMapping("/gameFront1")
-	public String GameMain() {
+	@GetMapping("/gameFront")
+	public String GameList(Model model) {
+		sortChartJs.sortGameDTOAll(gService.getAllGameInfo());
+		model.addAttribute("gameAll",gService.getAllGameInfo());
+		model.addAttribute("gameList",sortChartJs.getGameList());
 		return "evan/GameList";
 	}
 	
