@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,15 +41,18 @@ public class TypeListController {
 	}
 	
 	// ----------------sortAjex
+	@Transactional
 	@GetMapping("/game/type/sort")
 	@ResponseBody
 	public SortChartJs TypeSort(@RequestParam Map<String, Object> formData) {
 		int choose = Integer.parseInt((String) formData.get("choose"));
 		List<TypeDTO> allTypeInfo = gtService.getAllTypeInfo();
+		System.out.println(allTypeInfo);
 		sortChartJs.init(allTypeInfo, choose);
 		return sortChartJs;
 	}
 	// ----------------tpyeNameList Ajax
+	@Transactional
 	@GetMapping("/game/type/findGameListByType")
 	@ResponseBody
 	public List<GameDTO> findGameByType(@RequestParam Map<String, Object> formData) {

@@ -35,8 +35,12 @@
 			<div class="collapse navbar-collapse justify-content-end" id="navbarText">
 				<ul class="navbar-nav mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" href="#">GAME</a></li>
-					<li class="nav-item"><a class="nav-link " href="#">MARKET</a>
-					</li>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+							href="#" aria-expanded="false">MARKET</a>
+					<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" th:href="@{/bonus-shop/main}">Bonus Shop</a></li>
+							
+					</ul>
 					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
 							href="#" aria-expanded="false">EVENT</a>
 					<ul class="dropdown-menu bg-dark text-light">
@@ -50,20 +54,21 @@
 							<li><a class="dropdown-item text-light" href="#">My game</a></li>
 							<li><a class="dropdown-item text-light" href="#">My item</a></li>
 							<li><a class="dropdown-item text-light" href="#">Something else here</a></li>
-								<li><a class="dropdown-item text-light" th:href="@{/coupon/couponPage}">Get Coupon</a></li>
+								<li><a class="dropdown-item text-light" th:href="@{/coupon/couponPage}">抽取優惠</a></li>
 							<li>
 								<hr class="dropdown-divider text-light">
 							</li>
 							<li>
 								<form class="dropdown-item" th:action="@{/main/logout}" method="GET" id="logoutForm">
 									<input type="text" th:value="${session.memberBeans.id}" name="id"  hidden="true" />
-									<div class="logout_btn text-light">logout</div>
+									<div class="logout_btn text-light">登 出</div>
 								</form>
 							</li>
 						</ul>
 				</ul>
 			</div>
 		</div>
+		<div class="d-none" id="memberId">[[${session.memberBeans.id}]]</div>
 	</nav>
 	<script th:src="@{/js/home.js}"></script>
 </body>
