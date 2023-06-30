@@ -38,6 +38,8 @@ public class BonusItem {
 	
 	@Column(name = "status")
 	private boolean status;
+	
+
 
 	public BonusItem() {
 	}
