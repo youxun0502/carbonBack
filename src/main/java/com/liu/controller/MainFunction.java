@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.liu.config.PreviousPage;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
 import com.liu.service.MemberService;
@@ -23,23 +24,36 @@ import jakarta.servlet.http.HttpSession;
 public class MainFunction {
 
 	@Autowired
+	private PreviousPage previousPage;
+
+	@Autowired
 	private MemberService mService;
 
 	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
 		return "liu/main";
 	}
+
 	@GetMapping("/main/goBackToHome")
 	public String goBackToHome() {
 		return "liu/home";
 	}
+
 	@GetMapping("/")
 	public String homePage() {
 		return "liu/home";
 	}
 
 	@GetMapping("/main/loginPage")
-	public String loginPage(@CookieValue(value = "email", required = false) String cookieValue, Model m) {
+	public String loginPage(@CookieValue(value = "email", required = false) String cookieValue, Model m,
+			HttpServletRequest request) {
+		String url = request.getHeader("Referer");
+		String subUrl = url.substring(28, url.length());
+		String[] splitUrl = subUrl.split("\\?");		
+		String returnUrl = splitUrl[0];
+		
+		previousPage.setPreviousPage(returnUrl);
+		
 		m.addAttribute("email", cookieValue);
 		return "/liu/memberLogin";
 	}
@@ -48,7 +62,6 @@ public class MainFunction {
 	public String memberLogin(@RequestParam("email") String email, @RequestParam("memberPwd") String memberPwd,
 			@RequestParam(name = "rememberMe", required = false) String rememberMe, Model m, HttpSession session,
 			HttpServletResponse response, HttpServletRequest request) {
-
 
 		Member member = mService.isMember(email, memberPwd);
 		if (member == null) {
@@ -59,11 +72,11 @@ public class MainFunction {
 			session.setAttribute("managerBeans", member);
 			session.setAttribute("character", "manager");
 			return "/liu/main";
-		} else {		
+		} else {
 			if ("1".equals(rememberMe)) { // 有rememberMe
 				Cookie[] cookies = request.getCookies();
 				Cookie cookie = null;
-				
+
 				if (cookies != null) {
 					for (Cookie cookie1 : cookies) {
 						if (cookie1.getName().equals("email")) {
@@ -72,10 +85,10 @@ public class MainFunction {
 						}
 					}
 
-					if (cookie!=null &&cookie.getValue() != email) {
+					if (cookie != null && cookie.getValue() != email) {
 						cookie.setMaxAge(0);
-						Cookie newCookie = new Cookie("email",email);
-						newCookie.setMaxAge(60*60*24);
+						Cookie newCookie = new Cookie("email", email);
+						newCookie.setMaxAge(60 * 60 * 24);
 						newCookie.setHttpOnly(true);
 						response.addCookie(cookie);
 						response.addCookie(newCookie);
@@ -91,7 +104,14 @@ public class MainFunction {
 				}
 				session.setAttribute("memberBeans", member);
 				session.setAttribute("character", "member");
-				return "/liu/home";
+
+				if (previousPage.getPreviousPage() == null
+						|| previousPage.getPreviousPage().equals("/main/registerPage")
+						|| previousPage.getPreviousPage().equals("/main/logout")) {
+					return "/liu/home";
+				} else {
+					return "redirect:"+previousPage.getPreviousPage();
+				}
 
 			} else { // 沒有rememberMe 就刪掉cookie
 				Cookie[] cookies = request.getCookies();
@@ -110,7 +130,13 @@ public class MainFunction {
 				}
 				session.setAttribute("memberBeans", member);
 				session.setAttribute("character", "member");
-				return "/liu/home";
+				if (previousPage.getPreviousPage() == null
+						|| previousPage.getPreviousPage().equals("/main/registerPage")
+						|| previousPage.getPreviousPage().equals("/main/memberLogin")) {
+					return "/liu/home";
+				} else {
+					return "redirect:"+previousPage.getPreviousPage();
+				}
 			}
 
 		}
@@ -121,11 +147,13 @@ public class MainFunction {
 		m.addAttribute("memberDto", new MemberDto());
 		return "/liu/memberRegister";
 	}
+
 	@GetMapping("/main/logout")
 	public String memberLogout(@RequestParam(name = "id") Integer id, HttpSession session, Model m) {
 		session.invalidate();
 		return "/liu/home";
 	}
+
 	@PostMapping("/main/register")
 	public String memberRegister(@ModelAttribute("memberDto") MemberDto memberDto, Model m) {
 		Member member = new Member();
@@ -141,6 +169,7 @@ public class MainFunction {
 		m.addAttribute("registration", "success");
 		return "/liu/memberLogin";
 	}
+
 	@ResponseBody
 	@GetMapping("/main/api/checkEmail")
 	public String checkEmail(@RequestParam(name = "e") String email) {
