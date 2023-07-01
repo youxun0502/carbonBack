@@ -46,13 +46,17 @@ public class MainFunction {
 
 	@GetMapping("/main/loginPage")
 	public String loginPage(@CookieValue(value = "email", required = false) String cookieValue, Model m,
-			HttpServletRequest request) {
+			HttpServletRequest request, HttpSession session) {
+		if (session.getAttribute("character") != null) {
+			return "redirect:/";
+		}
 		String url = request.getHeader("Referer");
 		String subUrl = url.substring(28, url.length());
 		String[] splitUrl = subUrl.split("\\?");		
 		String returnUrl = splitUrl[0];
-		
 		previousPage.setPreviousPage(returnUrl);
+		
+
 		
 		m.addAttribute("email", cookieValue);
 		return "/liu/memberLogin";
