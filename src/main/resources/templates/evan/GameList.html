@@ -74,20 +74,15 @@
                     Additional Classes:
                         .nav-tabs-fill
                 -->
-			<ul class="nav nav-tabs nav-tabs-fill" role="tablist">
-				<li class="nav-item"><a class="nav-link active"
-					href="#tabs-1-1" role="tab" data-toggle="tab">Action</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-2"
-					role="tab" data-toggle="tab">MMO</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-3"
-					role="tab" data-toggle="tab">Strategy</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-4"
-					role="tab" data-toggle="tab">Adventure</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-5"
-					role="tab" data-toggle="tab">Racing</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-6"
-					role="tab" data-toggle="tab">Indie</a></li>
-			</ul>
+		<ul class="nav nav-tabs nav-tabs-fill" role="tablist">
+		    <th:block th:each="tag,iterStat:${popularTag}" th:if="${iterStat.index} < 8">
+		        <li class="nav-item">
+		            <a class="nav-link " href="#tabs-1-1" role="tab" data-toggle="tab">
+		                [[${tag.typeName}]]
+		            </a>
+		        </li>
+		    </th:block>
+		</ul>
 
 		</div>
 		<div class="nk-gap-2"></div>
@@ -143,7 +138,7 @@
 					<div class="pl-5 pr-5">
 						<div class="nk-product-cat-3" style="max-width:140px">
 							<a class="nk-product-image" th:href="@{'/gameFront/'+${TopGame.gameName}}"> <img
-								th:src="@{'/game/getImg/'+${TopGame.gamePhotoLists[0]}}"
+								th:src="@{'/gameFront/getImg/'+${TopGame.gamePhotoLists[0]}}"
 								alt="我是圖片喔" >
 							</a>
 							<div class="nk-product-cont">
@@ -175,7 +170,7 @@
 			<div class="col-lg-6">
 				<div class="nk-product-cat-2">
 					<a class="nk-product-image" th:href="@{'/gameFront/'+${game.gameName}}"> <img
-						th:src="@{'/game/getImg/'+${game.gamePhotoLists[0]}}" alt="With what mingled joy">
+						th:src="@{'/gameFront/getImg/'+${game.gamePhotoLists[0]}}" alt="With what mingled joy">
 					</a>
 					<div class="nk-product-cont" style="color: #b9a5a5">
 						<h3 class="nk-product-title h5">

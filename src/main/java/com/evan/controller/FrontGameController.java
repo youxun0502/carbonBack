@@ -35,9 +35,13 @@ public class FrontGameController {
 	
 	@GetMapping("/gameFront")
 	public String GameList(Model model) {
+		List<TypeDTO> allTypeInfo = gtService.getAllTypeInfo();
+		sortChartJs.sortAll(allTypeInfo);
 		sortChartJs.sortGameDTOAll(gService.getAllGameInfo());
+		model.addAttribute("popularTag",sortChartJs.getTypeList());
 		model.addAttribute("gameAll",gService.getAllGameInfo());
 		model.addAttribute("gameList",sortChartJs.getGameList());
+		System.out.println(sortChartJs.getTypeList());
 		return "evan/GameList";
 	}
 	
