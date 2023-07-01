@@ -74,20 +74,20 @@
                     Additional Classes:
                         .nav-tabs-fill
                 -->
-			<ul class="nav nav-tabs nav-tabs-fill" role="tablist">
-				<li class="nav-item"><a class="nav-link active"
-					href="#tabs-1-1" role="tab" data-toggle="tab">Action</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-2"
-					role="tab" data-toggle="tab">MMO</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-3"
-					role="tab" data-toggle="tab">Strategy</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-4"
-					role="tab" data-toggle="tab">Adventure</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-5"
-					role="tab" data-toggle="tab">Racing</a></li>
-				<li class="nav-item"><a class="nav-link" href="#tabs-1-6"
-					role="tab" data-toggle="tab">Indie</a></li>
-			</ul>
+		<ul class="nav nav-tabs nav-tabs-fill" role="tablist">
+		    <th:block th:each="tag, iterStat:${popularTag}">
+		        <li class="nav-item" th:if="${iterStat.index == 0}">
+		            <a class="nav-link active" href="#tabs-1-1" role="tab" data-toggle="tab">
+		                [[${tag.typeName}]]
+		            </a>
+		        </li>
+		        <li class="nav-item" th:unless="${iterStat.index == 0}">
+		            <a class="nav-link" href="#tabs-1-2" role="tab" data-toggle="tab">
+		                [[${tag.typeName}]]
+		            </a>
+		        </li>
+		    </th:block>
+		</ul>
 
 		</div>
 		<div class="nk-gap-2"></div>
