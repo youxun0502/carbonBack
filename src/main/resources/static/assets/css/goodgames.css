@@ -8805,7 +8805,7 @@ div.nk-error {
 .nk-cart-dropdown {
     position: absolute;
     top: 100%;
-    right: 20px;
+/*   right: 20px;*/
     width: 315px;
     padding: 18px;
     padding-bottom: 30px;
