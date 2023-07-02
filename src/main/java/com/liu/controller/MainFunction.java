@@ -1,5 +1,7 @@
 package com.liu.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.liu.config.PreviousPage;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
+import com.liu.service.GmailService;
 import com.liu.service.MemberService;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +33,9 @@ public class MainFunction {
 
 	@Autowired
 	private MemberService mService;
+
+	@Autowired
+	private GmailService gService;
 
 	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
@@ -47,17 +55,18 @@ public class MainFunction {
 	@GetMapping("/main/loginPage")
 	public String loginPage(@CookieValue(value = "email", required = false) String cookieValue, Model m,
 			HttpServletRequest request, HttpSession session) {
+		// 有登入就不能進去登入頁面
 		if (session.getAttribute("character") != null) {
 			return "redirect:/";
 		}
 		String url = request.getHeader("Referer");
-		String subUrl = url.substring(28, url.length());
-		String[] splitUrl = subUrl.split("\\?");		
-		String returnUrl = splitUrl[0];
-		previousPage.setPreviousPage(returnUrl);
-		
+		if (url != null) {
+			String subUrl = url.substring(28, url.length());
+			String[] splitUrl = subUrl.split("\\?");
+			String returnUrl = splitUrl[0];
+			previousPage.setPreviousPage(returnUrl);
+		}
 
-		
 		m.addAttribute("email", cookieValue);
 		return "/liu/memberLogin";
 	}
@@ -114,7 +123,7 @@ public class MainFunction {
 						|| previousPage.getPreviousPage().equals("/main/logout")) {
 					return "/liu/home";
 				} else {
-					return "redirect:"+previousPage.getPreviousPage();
+					return "redirect:" + previousPage.getPreviousPage();
 				}
 
 			} else { // 沒有rememberMe 就刪掉cookie
@@ -139,7 +148,7 @@ public class MainFunction {
 						|| previousPage.getPreviousPage().equals("/main/memberLogin")) {
 					return "/liu/home";
 				} else {
-					return "redirect:"+previousPage.getPreviousPage();
+					return "redirect:" + previousPage.getPreviousPage();
 				}
 			}
 
@@ -159,7 +168,8 @@ public class MainFunction {
 	}
 
 	@PostMapping("/main/register")
-	public String memberRegister(@ModelAttribute("memberDto") MemberDto memberDto, Model m) {
+	public String memberRegister(@ModelAttribute("memberDto") MemberDto memberDto, Model m)
+			throws AddressException, MessagingException, IOException {
 		Member member = new Member();
 		member.setUserId(memberDto.getId());
 		member.setEmail(memberDto.getEmail());
@@ -170,6 +180,7 @@ public class MainFunction {
 		member.setPhone(memberDto.getPhone());
 		member.setAccount(null);
 		mService.insert(member);
+		gService.sendMessage(memberDto.getEmail(),"lys7744110@gmail.com", "Carbon邀請您驗證您的信箱", memberDto.getId()+"您好:\n"+"\n"+"點選以下連結驗證信箱\n"+"\n"+"Carbon lys7744110@gmail.com");
 		m.addAttribute("registration", "success");
 		return "/liu/memberLogin";
 	}
