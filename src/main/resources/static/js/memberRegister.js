@@ -368,10 +368,10 @@ function classMaker(container, space, text, status) {
 
 const autoInput1 = document.querySelector('#autoInput1');
 autoInput1.addEventListener('click', function(){
-	emailContainer.value = 'XiaoMing123@gmail.com';
+	emailContainer.value = 'lys0088552@gmail.com';
 	emailContainer.dispatchEvent(new Event('blur'));
 	
-	pwdContainer.value = 'XiaoMing123';
+	pwdContainer.value = 'lys0088552';
 	pwdContainer.dispatchEvent(new Event('change'));
 })
 
@@ -380,10 +380,10 @@ autoInput1.addEventListener('click', function(){
 const autoInput2 = document.querySelector('#autoInput2');
 autoInput2.addEventListener('click',function(event){
 	event.preventDefault();
-	userIdContainer.value='XiaoMing';
+	userIdContainer.value='lys0088552';
 	userIdContainer.dispatchEvent(new Event('change'));
 	
-	memberNameContainer.value='XiaoMing';
+	memberNameContainer.value='lys';
 	memberNameContainer.dispatchEvent(new Event('change'));
 	
 	birthdayContainer.value='2000-05-01';

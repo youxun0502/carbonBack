@@ -125,7 +125,7 @@ public class MemberService {
 
 		Set<Member> members = new HashSet<>();
 		member.setMemberPwd(pwdEncoder.encode(member.getMemberPwd()));
-		member.setStatus(1);
+		member.setStatus(3);
 		members.add(member);
 
 		Optional<Level> optional = levelRepository.findById(1);

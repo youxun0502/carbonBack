@@ -78,10 +78,15 @@ public class MainFunction {
 
 		Member member = mService.isMember(email, memberPwd);
 		if (member == null) {
+			m.addAttribute("status","帳號或密碼輸入錯誤");
 			return "/liu/memberLoginError";
 		} else if (member.getStatus() == 2) {
-			return "/liu/memberCanNotLogin";
-		} else if (member.getLevelId() == 100) {
+			m.addAttribute("status","此帳戶已被凍結");
+			return "/liu/memberLoginError";
+		}else if(member.getStatus() == 3) {
+			m.addAttribute("status","此帳戶尚未通過驗證");
+			return "/liu/memberLoginError";
+		}else if (member.getLevelId() == 100) {
 			session.setAttribute("managerBeans", member);
 			session.setAttribute("character", "manager");
 			return "/liu/main";
