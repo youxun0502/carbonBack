@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Carbon</title>
+</head>
+
+<body>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h5>[[${status}]]</h5>
+			</div>
+		</div>			
+	</div>
+</body>
+
+</html>

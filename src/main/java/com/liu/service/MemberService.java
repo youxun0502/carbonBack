@@ -47,6 +47,35 @@ public class MemberService {
 	}
 
 	@Transactional
+	public boolean updateStatus(Member member) {
+		Optional<Member> optional = mRepository.findById(member.getId());
+
+		if (optional.isPresent()) {
+			Member updateMember = optional.get();
+			updateMember.setMemberPwd(member.getMemberPwd());
+			updateMember.setMemberName(member.getMemberName());
+			updateMember.setBirthday(member.getBirthday());
+			updateMember.setGender(member.getGender());
+			updateMember.setPhone(member.getPhone());
+			if (member.getLevelId() == 100) {
+				Optional<Level> level = levelRepository.findById(100);
+				if (level.isPresent()) {
+					updateMember.setLevel(level.get());
+				}
+
+			} else {
+				Optional<Level> level = levelRepository.findById(1);
+				if (level.isPresent()) {
+					updateMember.setLevel(level.get());
+				}
+			}
+			updateMember.setAccount(member.getAccount());
+			return true;
+		}
+		return false;
+	}
+	
+	@Transactional
 	public boolean update(Member member) {
 		Optional<Member> optional = mRepository.findById(member.getId());
 

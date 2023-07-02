@@ -1,6 +1,10 @@
 package com.liu.controller;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -75,18 +79,20 @@ public class MainFunction {
 	public String memberLogin(@RequestParam("email") String email, @RequestParam("memberPwd") String memberPwd,
 			@RequestParam(name = "rememberMe", required = false) String rememberMe, Model m, HttpSession session,
 			HttpServletResponse response, HttpServletRequest request) {
-
+		System.out.println(email);
+		System.out.println(memberPwd);
 		Member member = mService.isMember(email, memberPwd);
+		
 		if (member == null) {
-			m.addAttribute("status","帳號或密碼輸入錯誤");
+			m.addAttribute("status", "帳號或密碼輸入錯誤");
 			return "/liu/memberLoginError";
 		} else if (member.getStatus() == 2) {
-			m.addAttribute("status","此帳戶已被凍結");
+			m.addAttribute("status", "此帳戶已被凍結");
 			return "/liu/memberLoginError";
-		}else if(member.getStatus() == 3) {
-			m.addAttribute("status","此帳戶尚未通過驗證");
+		} else if (member.getStatus() == 3) {
+			m.addAttribute("status", "此帳戶尚未通過驗證");
 			return "/liu/memberLoginError";
-		}else if (member.getLevelId() == 100) {
+		} else if (member.getLevelId() == 100) {
 			session.setAttribute("managerBeans", member);
 			session.setAttribute("character", "manager");
 			return "/liu/main";
@@ -125,7 +131,8 @@ public class MainFunction {
 
 				if (previousPage.getPreviousPage() == null
 						|| previousPage.getPreviousPage().equals("/main/registerPage")
-						|| previousPage.getPreviousPage().equals("/main/logout")) {
+						|| previousPage.getPreviousPage().equals("/main/logout")
+						|| previousPage.getPreviousPage().equals("/main/emailVerification")) {
 					return "/liu/home";
 				} else {
 					return "redirect:" + previousPage.getPreviousPage();
@@ -185,9 +192,45 @@ public class MainFunction {
 		member.setPhone(memberDto.getPhone());
 		member.setAccount(null);
 		mService.insert(member);
-		gService.sendMessage(memberDto.getEmail(),gService.getMyEmail(), "Carbon邀請您驗證您的信箱", memberDto.getId()+"您好:\n"+"\n"+"點選以下連結驗證信箱\n"+"\n"+"Carbon lys7744110@gmail.com");
+		
+		LocalDateTime nowTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+		String nowStringTime = nowTime.format(formatter);
+		String url = "http://localhost:8080/carbon/main/emailVerification?id="+member.getId()+"&t="+nowStringTime;
+		gService.sendMessage(memberDto.getEmail(), gService.getMyEmail(), "Carbon邀請您驗證您的信箱", "此為系統發送郵件，請勿直接回覆！！！\n"
+				+ "\n" + memberDto.getId() + "您好:\n" + "\n" + "點選以下連結驗證信箱\n" + "\n" +url+"\n\n"+"Carbon lys7744110@gmail.com");
 		m.addAttribute("registration", "success");
 		return "/liu/memberLogin";
+	}
+
+	@GetMapping("/main/emailVerification")
+	public String emailVerification(@RequestParam(name = "id") Integer id, @RequestParam("t") String time, Model m ) {
+
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+		LocalDateTime getVerificationTime = LocalDateTime.parse(time, formatter);
+		LocalDateTime nowTime = LocalDateTime.now();
+
+		Duration duration = Duration.between(getVerificationTime, nowTime);
+
+		long minutes = duration.toMinutes();
+
+		if (minutes < 5) {
+			Member member = mService.findById(id);
+			member.setStatus(1);
+			boolean result = mService.updateStatus(member);
+			
+			if(result == true) {
+				m.addAttribute("status", "信箱驗證成功");
+				return "/liu/emailVerification";
+			}else {
+				m.addAttribute("status", "信箱驗證失敗，請聯繫客服");
+				return "/liu/emailVerification";
+			}
+		}else {
+			m.addAttribute("status", "驗證網址過期，請重新取得驗證網址");
+			return "/liu/emailVerification";
+		}
+
 	}
 
 	@ResponseBody
