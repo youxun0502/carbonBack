@@ -25,6 +25,12 @@ public class GmailService {
 
 	@Autowired
 	private Gmail gService;
+	
+	private String myEmail = "lys7744110@gmail.com";
+
+	public String getMyEmail() {
+		return myEmail;
+	}
 
 	public MimeMessage createEmail(String toEmailAddress, String fromEmailAddress, String subject, String bodyText)
 			throws AddressException, MessagingException, UnsupportedEncodingException {

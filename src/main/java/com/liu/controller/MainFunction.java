@@ -180,7 +180,7 @@ public class MainFunction {
 		member.setPhone(memberDto.getPhone());
 		member.setAccount(null);
 		mService.insert(member);
-		gService.sendMessage(memberDto.getEmail(),"lys7744110@gmail.com", "Carbon邀請您驗證您的信箱", memberDto.getId()+"您好:\n"+"\n"+"點選以下連結驗證信箱\n"+"\n"+"Carbon lys7744110@gmail.com");
+		gService.sendMessage(memberDto.getEmail(),gService.getMyEmail(), "Carbon邀請您驗證您的信箱", memberDto.getId()+"您好:\n"+"\n"+"點選以下連結驗證信箱\n"+"\n"+"Carbon lys7744110@gmail.com");
 		m.addAttribute("registration", "success");
 		return "/liu/memberLogin";
 	}
