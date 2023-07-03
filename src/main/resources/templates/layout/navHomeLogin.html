@@ -177,8 +177,9 @@
 				</ul>
 			</div>
 		</div>
-		<div class="d-none" id="memberId">[[${session.memberBeans.id}]]</div>
+		<div class="d-none" id="memberId" th:data-user-id="${session.memberBeans.id}">[[${session.memberBeans.id}]]</div>
 	</nav>
+	<script th:src="@{/js/cart_game.js}"></script>
 	<script th:src="@{/js/home.js}"></script>
 		<!-- START: Scripts -->
 

@@ -141,8 +141,12 @@
 
 									<div class="nk-product-price">NT$[[${gameDTO.price}]]</div>
 									<div>
-										<button class="nk-btn nk-btn-rounded nk-btn-color-main-1">Add
-											to Cart</button>
+										<button
+											class="nk-btn nk-btn-rounded nk-btn-color-main-1 add-to-cart-button"
+											th:data-game-name="${gameDTO.gameName}"
+											th:data-price="${gameDTO.price}"
+											th:data-photo="${gameDTO.gamePhotoLists[0]}" onclick="addToCart(event)">Add to
+											Cart</button>
 									</div>
 								</div>
 								<div class="nk-gap-3"></div>
@@ -424,7 +428,7 @@
 	<div class="nk-gap-3"></div>
 
 
-<div th:replace="~{layout/footer}"></div>
+	<div th:replace="~{layout/footer}"></div>
 	<!-- START: Scripts -->
 
 	<!-- Object Fit Polyfill -->

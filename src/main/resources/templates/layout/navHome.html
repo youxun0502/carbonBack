@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
 <!-- START: Styles -->
 
 <!-- Google Fonts -->
@@ -51,16 +51,21 @@
 <!-- jQuery -->
 <script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
 
-	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-	<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css" rel="stylesheet" />
-	<link rel="stylesheet" th:href="@{/css/home.css}">
-	<title>Carbon</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css"
+	rel="stylesheet" />
+<link rel="stylesheet" th:href="@{/css/home.css}">
+<title>Carbon</title>
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark" data-bs-theme="dark">
+	<nav
+		class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark"
+		data-bs-theme="dark">
 		<div class="container">
 			<form method="GET" th:action="@{/main/goBackToHome}">
 				<button class="navbar-brand" type="submit"
@@ -69,74 +74,68 @@
 						style="color: #6fb7d4; font-size: 1.5em;">CARBON</i>
 				</button>
 			</form>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-				aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarText"
+				aria-controls="navbarText" aria-expanded="false"
+				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse justify-content-end" id="navbarText">
+			<div class="collapse navbar-collapse justify-content-end"
+				id="navbarText">
 				<ul class="navbar-nav mb-2 mb-lg-0">
-					<li class="nav-item d-flex"  style="align-items:center"> 
+					<li class="nav-item d-flex" style="align-items: center">
 						<div class="nk-cart-toggle ">
-	                        <span class="fa fa-shopping-cart" style="color:#fff"></span>
-	                        <span class="nk-badge" style="color:#fff">0</span>
-	                    </div>
-	                    <div class="nk-cart-dropdown" >
-	                        
-	                        <div class="nk-widget-post">
-	                            <a href="store-product.html" class="nk-post-image">
-	                                <img src="assets/images/product-5-xs.jpg" alt="In all revolutions of">
-	                            </a>
-	                            <h3 class="nk-post-title">
-	                                <a href="#" class="nk-cart-remove-item"><span class="ion-android-close"></span></a>
-	                                <a href="store-product.html">In all revolutions of</a>
-	                            </h3>
-	                            <div class="nk-gap-1"></div>
-	                            <div class="nk-product-price">€ 23.00</div>
-	                        </div>
-	                        
-	                        <div class="nk-widget-post">
-	                            <a href="store-product.html" class="nk-post-image">
-	                                <img src="assets/images/product-7-xs.jpg" alt="With what mingled joy">
-	                            </a>
-	                            <h3 class="nk-post-title">
-	                                <a href="#" class="nk-cart-remove-item"><span class="ion-android-close"></span></a>
-	                                <a href="store-product.html">With what mingled joy</a>
-	                            </h3>
-	                            <div class="nk-gap-1"></div>
-	                            <div class="nk-product-price">€ 14.00</div>
-	                        </div>
-	                        
-	                        <div class="nk-gap-2"></div>
-	                        <div class="text-center">
-	                            <a href="store-checkout.html" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">Proceed to Checkout</a>
-	                        </div>
-	                    </div>
-                    </li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/gameFront}">GAME</a></li>
-					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-							href="#" aria-expanded="false">MARKET</a>
-					<ul class="dropdown-menu bg-dark text-light">
-							<li><a class="dropdown-item text-light" th:href="@{/bonus-shop/main}">Bonus Shop</a></li>
-							
-					</ul>
+							<span class="fa fa-shopping-cart" style="color: #fff"></span> <span
+								class="nk-badge" style="color: #fff" id="cartItemCount">0</span>
+						</div>
+						<div class="nk-cart-dropdown">
+
+							<!-- 購物車區塊 -->
+							<div id="cartItems"></div>
+
+
+							<div class="nk-gap-2"></div>
+							<div class="text-center">
+								<a href="store-checkout.html"
+									class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">Proceed
+									to Checkout</a>
+							</div>
+						</div>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/gameFront}">GAME</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" role="button"
+						data-bs-toggle="dropdown" href="#" aria-expanded="false">MARKET</a>
+						<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light"
+								th:href="@{/bonus-shop/main}">Bonus Shop</a></li>
+
+						</ul>
 					<li class="nav-item"><a class="nav-link" href="#">EVENT</a>
 					<li class="nav-item"><a class="nav-link" href="#">DISCUSSIONS</a>
 					</li>
-					<li class="nav-item"><a class="nav-link loginBtn" th:href="@{/main/loginPage}">登 入</a></li>
+					<li class="nav-item"><a class="nav-link loginBtn"
+						th:href="@{/main/loginPage}">登 入</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+
 	
-		<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+	<script th:src="@{/js/cart_game.js}"></script>
+	<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
 	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
 	<script th:src="@{/js/axios.min.js}"></script>
 	<script th:src="@{/js/jquery-ui.min.js}"></script>
-	<script src="https://kit.fontawesome.com/f3a13d5fed.js" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
+	<script src="https://kit.fontawesome.com/f3a13d5fed.js"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-		<!-- START: Scripts -->
+	<!-- START: Scripts -->
 
 	<!-- Object Fit Polyfill -->
 	<script th:src="@{/assets/vendor/object-fit-images/dist/ofi.min.js}"></script>

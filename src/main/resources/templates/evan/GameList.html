@@ -57,7 +57,7 @@
 	<div
 		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
 	<div class="container ">
-	
+
 		<div class="nk-gap-1"></div>
 		<ul class="nk-breadcrumbs">
 			<li>Home</li>
@@ -68,21 +68,19 @@
 		</ul>
 		<div class="nk-gap-1"></div>
 		<!-- START: Products Filter -->
-				<!-- START: Tabs  -->
+		<!-- START: Tabs  -->
 		<div class="nk-tabs">
 			<!--
                     Additional Classes:
                         .nav-tabs-fill
                 -->
-		<ul class="nav nav-tabs nav-tabs-fill" role="tablist">
-		    <th:block th:each="tag,iterStat:${popularTag}" th:if="${iterStat.index} < 8">
-		        <li class="nav-item">
-		            <a class="nav-link " href="#tabs-1-1" role="tab" data-toggle="tab">
-		                [[${tag.typeName}]]
-		            </a>
-		        </li>
-		    </th:block>
-		</ul>
+			<ul class="nav nav-tabs nav-tabs-fill" role="tablist">
+				<th:block th:each="tag,iterStat:${popularTag}"
+					th:if="${iterStat.index} < 8">
+					<li class="nav-item"><a class="nav-link " href="#tabs-1-1"
+						role="tab" data-toggle="tab"> [[${tag.typeName}]] </a></li>
+				</th:block>
+			</ul>
 
 		</div>
 		<div class="nk-gap-2"></div>
@@ -93,7 +91,8 @@
 					<div class="col-md-8">
 						<div class="nk-input-slider-inline">
 							<div class="nk-input-slider">
-								<div class="nk-input-slider-content text-white" style="min-width:200px">
+								<div class="nk-input-slider-content text-white"
+									style="min-width: 200px">
 									PRICE: <strong class="text-main-1">NT$ <span
 										class="nk-input-slider-value-0"></span></strong> - <strong
 										class="text-main-1">NT$ <span
@@ -133,27 +132,26 @@
 		<div class="nk-carousel nk-carousel-x4" data-autoplay="5000"
 			data-dots="false" data-cell-align="left" data-arrows="true">
 			<div class="nk-carousel-inner">
-			<th:block th:each="TopGame:${gameList}">
-				<div>
-					<div class="pl-5 pr-5">
-						<div class="nk-product-cat-3" style="max-width:140px">
-							<a class="nk-product-image" th:href="@{'/gameFront/'+${TopGame.gameName}}"> <img
-								th:src="@{'/gameFront/getImg/'+${TopGame.gamePhotoLists[0]}}"
-								alt="我是圖片喔" >
-							</a>
-							<div class="nk-product-cont">
-								<div class="nk-gap-1"></div>
-								<h3 class="nk-product-title h5">
-									<a th:href="@{'/gameFront/'+${TopGame.gameName}}">[[${TopGame.gameName}]]</a>
-								</h3>
-								<div class="nk-gap-1"></div>
-								<div class="nk-product-price">NT$[[${TopGame.price}]]</div>
+				<th:block th:each="TopGame:${gameList}">
+					<div>
+						<div class="pl-5 pr-5">
+							<div class="nk-product-cat-3" style="max-width: 140px">
+								<a class="nk-product-image"
+									th:href="@{'/gameFront/'+${TopGame.gameName}}"> <img
+									th:src="@{'/gameFront/getImg/'+${TopGame.gamePhotoLists[0]}}"
+									alt="我是圖片喔">
+								</a>
+								<div class="nk-product-cont">
+									<div class="nk-gap-1"></div>
+									<h3 class="nk-product-title h5">
+										<a th:href="@{'/gameFront/'+${TopGame.gameName}}">[[${TopGame.gameName}]]</a>
+									</h3>
+									<div class="nk-gap-1"></div>
+									<div class="nk-product-price">NT$[[${TopGame.price}]]</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-
-
 			</div>
 		</div>
 		<!-- END: Top 10 Best Sellers -->
@@ -165,38 +163,39 @@
 		</h3>
 		<div class="nk-gap"></div>
 		<div class="row vertical-gap">
-			
+
 			<th:block th:each="game:${gameAll}">
-			<div class="col-lg-6">
-				<div class="nk-product-cat-2">
-					<a class="nk-product-image" th:href="@{'/gameFront/'+${game.gameName}}"> <img
-						th:src="@{'/gameFront/getImg/'+${game.gamePhotoLists[0]}}" alt="With what mingled joy">
-					</a>
-					<div class="nk-product-cont" style="color: #b9a5a5">
-						<h3 class="nk-product-title h5">
-							<a th:href="@{'/gameFront/'+${game.gameName}}">[[${game.gameName}]]</a>
-						</h3>
-						<div class="nk-gap-1"></div>
-						<div class="nk-product-rating" data-rating="3.5">
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-								class="fa fa-star"></i> <i class="fas fa-star-half"></i> <i
-								class="far fa-star"></i>
+				<div class="col-lg-6">
+					<div class="nk-product-cat-2">
+						<a class="nk-product-image"
+							th:href="@{'/gameFront/'+${game.gameName}}"> <img
+							th:src="@{'/gameFront/getImg/'+${game.gamePhotoLists[0]}}"
+							alt="With what mingled joy">
+						</a>
+						<div class="nk-product-cont" style="color: #b9a5a5">
+							<h3 class="nk-product-title h5">
+								<a th:href="@{'/gameFront/'+${game.gameName}}">[[${game.gameName}]]</a>
+							</h3>
+							<div class="nk-gap-1"></div>
+							<div class="nk-product-rating" data-rating="3.5">
+								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+									class="fa fa-star"></i> <i class="fas fa-star-half"></i> <i
+									class="far fa-star"></i>
+							</div>
+							<div class="nk-gap-1"></div>
+							[[${game.gameIntroduce}]]
+							<div class="nk-gap-2"></div>
+							<div class="nk-product-price">NT$[[${game.price}]]</div>
+							<div class="nk-gap-1"></div>
+							<a href="#"
+								class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1 add-to-cart-button"
+								th:data-game-name="${game.gameName}"
+								th:data-price="${game.price}"
+								th:data-photo="${game.gamePhotoLists[0]}"
+								onclick="addToCart(event)">Add to Cart</a>
 						</div>
-						<div class="nk-gap-1" ></div>
-						[[${game.gameIntroduce}]]
-						<div class="nk-gap-2"></div>
-						<div class="nk-product-price">NT$[[${game.price}]]</div>
-						<div class="nk-gap-1"></div>
-						<a href="#"
-							class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Add
-							to Cart</a>
 					</div>
 				</div>
-			</div>
-
-
-
-
 		</div>
 		<!-- END: Featured Games -->
 	</div>
