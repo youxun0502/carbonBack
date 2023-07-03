@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.li.service.BonusPointService;
 import com.liu.config.PreviousPage;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
@@ -40,6 +41,9 @@ public class MainFunction {
 
 	@Autowired
 	private GmailService gService;
+	
+	@Autowired
+	private BonusPointService bpService;
 
 	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
@@ -192,6 +196,7 @@ public class MainFunction {
 		member.setPhone(memberDto.getPhone());
 		member.setAccount(null);
 		mService.insert(member);
+		bpService.newPointLog("register", member.getId(), 0);
 		
 		LocalDateTime nowTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;

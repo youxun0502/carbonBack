@@ -33,9 +33,8 @@ public class BonusPointService {
 	}
 	
 	public BonusPointLog newPointLog(String logtype,Integer memberId,Integer changePoint) {
-		BonusPointLog theLastPoint = bpRepo.theLastPoint(memberId);
 		BonusPointLog newLog = new BonusPointLog();
-		if(theLastPoint.getPoint()+changePoint>=0) {
+
 			switch (logtype) {
 			case "register": {
 				newLog.setLogtype(logtype);
@@ -44,44 +43,54 @@ public class BonusPointService {
 				newLog.setChangepoint(changePoint);
 				newLog.setPoint(0+changePoint);
 				
-				insertPointLog(newLog);
-				break;
+				return insertPointLog(newLog);
+				
 			}
 			case "buygame": {
+				BonusPointLog theLastPoint = bpRepo.theLastPoint(memberId);
+				Integer chp=changePoint/10;
 				newLog.setLogtype(logtype);
 				newLog.setMemberId(memberId);
 				newLog.setPrepoint(theLastPoint.getPoint());
-				newLog.setChangepoint(changePoint);
-				newLog.setPoint(theLastPoint.getPoint()+changePoint);
+				newLog.setChangepoint(chp);
+				newLog.setPoint(theLastPoint.getPoint()+chp);
 				
-				insertPointLog(newLog);
-				break;
+				return insertPointLog(newLog);
+				
 			}
 			case "buybonusitem": {
+				BonusPointLog theLastPoint = bpRepo.theLastPoint(memberId);
 				newLog.setLogtype(logtype);
 				newLog.setMemberId(memberId);
 				newLog.setPrepoint(theLastPoint.getPoint());
 				newLog.setChangepoint(changePoint);
 				newLog.setPoint(theLastPoint.getPoint()+changePoint);
 				
-				insertPointLog(newLog);
-				break;
+				return insertPointLog(newLog);
+				
 			}
 			case "sendmessage": {
+				BonusPointLog theLastPoint = bpRepo.theLastPoint(memberId);
 				newLog.setLogtype(logtype);
 				newLog.setMemberId(memberId);
 				newLog.setPrepoint(theLastPoint.getPoint());
 				newLog.setChangepoint(changePoint);
 				newLog.setPoint(theLastPoint.getPoint()+changePoint);
 				
-				insertPointLog(newLog);
-				break;
+				return insertPointLog(newLog);
+				
 			}
 			default:
-				return null;
+				BonusPointLog theLastPoint = bpRepo.theLastPoint(memberId);
+				newLog.setLogtype(logtype);
+				newLog.setMemberId(memberId);
+				newLog.setPrepoint(theLastPoint.getPoint());
+				newLog.setChangepoint(changePoint);
+				newLog.setPoint(theLastPoint.getPoint()+changePoint);
+				
+				return insertPointLog(newLog);
 			}
-		}
-		return null;
+	
 		
 	}
 	
