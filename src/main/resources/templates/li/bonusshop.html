@@ -367,6 +367,7 @@
 
 <body>
 	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<input type="hidden" id="userinfo" th:data-id="${session.memberBeans} ? ${session.memberBeans}">
 	<section class="my-4">
 		<div class="container">
 
@@ -633,6 +634,10 @@
 
 
 	<script>
+		const userinfo=document.getElementById('memberId');
+		console.log("userinfo:" + userinfo.innerText);
+		
+	
 		const selectItem = document.getElementsByClassName('sc_item_box');
 		for (i = 0; i < selectItem.length; i++) {
 			selectItem[i].addEventListener('click', function (e) {

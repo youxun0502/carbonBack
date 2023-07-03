@@ -4,14 +4,13 @@ package com.li.dto;
 import lombok.Data;
 
 @Data
-public class BonusShopDto {
-	
-
+public class BonusShopDto {	
 		private Integer logId;
+		
 		private Integer BonusId;
-		private Integer userId;		
+		private Integer memberId;		
 		private String bonusName;
 		private Integer bonusprice;
+		private String bonusDes;
 		private Boolean status;
-	    private String bonusDes;
 }
