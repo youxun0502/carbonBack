@@ -7,10 +7,11 @@ import lombok.Data;
 public class BonusShopDto {	
 		private Integer logId;
 		
-		private Integer BonusId;
+		private Integer bonusId;
 		private Integer memberId;		
 		private String bonusName;
 		private Integer bonusprice;
+		
 		private String bonusDes;
 		private Boolean status;
 		private Integer point;

@@ -28,6 +28,7 @@ public class BonusPointService {
 		return bpRepo.findByMemberId(memberId);
 	}
 	
+	@Transactional
 	public BonusPointLog insertPointLog(BonusPointLog bpl) {
 		return bpRepo.save(bpl);
 	}

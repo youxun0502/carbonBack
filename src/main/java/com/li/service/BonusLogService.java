@@ -9,11 +9,14 @@ import com.li.model.BonusItem;
 import com.li.model.BonusLog;
 import com.li.model.BonusLogRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class BonusLogService {
 
 	@Autowired
 	private BonusLogRepository blRepo;
+	
 	
 	public BonusLog newBonusLog(BonusLog bl) {
 		return blRepo.save(bl);
