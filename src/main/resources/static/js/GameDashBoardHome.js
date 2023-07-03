@@ -192,7 +192,7 @@ function printGameListonType(gamesInfo) {
 		let img = document.createElement('img');
 		img.setAttribute('alt', '');
 		img.setAttribute('src',
-			game.gamePhotoLists.length === 0 ? 'https://ps.w.org/404page/assets/icon.svg?rev=2451324' : '/carbon/game/getImg/' + game.gamePhotoLists[0]);
+			game.gamePhotoLists.length === 0 ? 'https://ps.w.org/404page/assets/icon.svg?rev=2451324' : '/carbon/gameFront/getImg/' + game.gamePhotoLists[0]);
 		img.setAttribute('style', 'width:80px;height:60px');
 		gamPic.appendChild(img);
 
@@ -267,7 +267,7 @@ function printCarousel(response, gameId) {
 			let div2 = $('<div>').addClass('delete-icon').attr({ 'value': `${e}`, 'name': `${gameId}` });
 			let i = $('<i>').addClass('fas fa-trash');
 			let img = $("<img>").attr({
-				'src': `/carbon/game/getImg/${e}`,
+				'src': `/carbon/gameFront/getImg/${e}`,
 				'class': 'd-block w-100 ',
 				'style': 'height:350px'
 			});
@@ -410,7 +410,7 @@ function showGameContent(gamesInfos) {
 		let img = document.createElement('img');
 		img.setAttribute('alt', '');
 		img.setAttribute('src',
-			game.gamePhotoLists.length === 0 ? 'https://ps.w.org/404page/assets/icon.svg?rev=2451324' : '/carbon/game/getImg/' + game.gamePhotoLists[0]);
+			game.gamePhotoLists.length === 0 ? 'https://ps.w.org/404page/assets/icon.svg?rev=2451324' : '/carbon/gameFront/getImg/' + game.gamePhotoLists[0]);
 		img.setAttribute('style', 'width:80px;height:60px');
 		gamPic.appendChild(img);
 

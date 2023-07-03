@@ -8,6 +8,14 @@
 	background-color: #91C4F2;
 }
 
+.form-label{
+	color: #000 !important;
+}
+
+.form-check-label{
+	color: #000 !important;
+}
+
 body {
 	height: 90vh;
 	background-image: url("../img/memberlogin2.jpg");

@@ -123,7 +123,7 @@ public class GameAdminController {
 	}
 
 	// ---------------圖片controller建置
-	@GetMapping("game/getImg/{id}")
+	@GetMapping("gameFront/getImg/{id}")
 	public ResponseEntity<byte[]> downloadImage(@PathVariable Integer id) {
 		GamePhoto photo1 = gpService.getPhotoById(id);
 		byte[] pImg = photo1.getPhotoFile();

@@ -28,15 +28,15 @@
 						<label for="memberPwd" class="form-label fs-4">密碼</label>
 						<input type="password" class="form-control" name="memberPwd" id="memberPwd" placeholder="請輸入密碼"></Input>
 					</div>
-					<div class="text-danger ms-2 fs-5" id="error">帳號或密碼輸入錯誤!!!</div>
+					<div class="text-danger ml-20 fs-5" id="error">[[${status}]]</div>
 					<div class="mb-3 col-12 d-flex">
-						<div class="col-6">
-							<Input type="checkbox" class="form-check-input ms-2" name="rememberMe" id="rememberMe" value="1"
+						<div class="col-6 ml-10">
+							<Input type="checkbox" class="form-check-input mt-2" name="rememberMe" id="rememberMe" value="1"
 								checked></Input>
-							<label for=" form-check-label fs-5 rememberMe">記住我</label>
+							<label for="rememberMe" class="form-check-label fs-5">記住我</label>
 						</div>
 						<div class="col-6 d-flex justify-content-end">
-							<button type="submit" class="btn col-8 me-3 nextStep">下一步</button>
+							<button type="submit" class="btn col-8 nextStep">下一步</button>
 						</div>
 					</div>
 

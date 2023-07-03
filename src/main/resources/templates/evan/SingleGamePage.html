@@ -82,7 +82,7 @@
         <li><span>[[${gameDTO.gameName}]] </span></li>
         
     </ul>
-</div>
+
 <div class="nk-gap-1"></div>
 <!-- END: Breadcrumbs -->
 		<div class="row vertical-gap">
@@ -93,13 +93,11 @@
 							<!-- START: Product Photos -->
 							<div class="nk-popup-gallery  ">
 								<div class="nk-gallery-item-box">
-										<img th:src="@{'/game/getImg/'+${gameDTO.gamePhotoLists[0]}}" alt="" >
-
-									<a th:href="@{'/game/getImg/'+${gameDTO.gamePhotoLists[0]}}"
+									<a th:href="@{'/gameFront/getImg/'+${gameDTO.gamePhotoLists[0]}}"
 										class="nk-gallery-item" data-size="1200x554">
 										<div class="nk-gallery-item-overlay">
 											<span class="ion-eye"></span>
-										</div> <img th:src="@{'/game/getImg/'+${gameDTO.gamePhotoLists[0]}}"
+										</div> <img th:src="@{'/gameFront/getImg/'+${gameDTO.gamePhotoLists[0]}}"
 										alt="">
 									</a>
 								</div>
@@ -109,11 +107,11 @@
 										th:if="${iterStat.index} < 3">
 										<div class="col-6 col-md-4">
 											<div class="nk-gallery-item-box">
-												<a th:href="@{'/game/getImg/'+${photoID}}"
+												<a th:href="@{'/gameFront/getImg/'+${photoID}}"
 													class="nk-gallery-item" data-size="1200x554">
 													<div class="nk-gallery-item-overlay">
 														<span class="ion-eye"></span>
-													</div> <img th:src="@{'/game/getImg/'+${photoID}}" alt="">
+													</div> <img th:src="@{'/gameFront/getImg/'+${photoID}}" alt="">
 												</a>
 											</div>
 										</div>
@@ -319,7 +317,7 @@
 							<div class="nk-product-cat">
 								<a class="nk-product-image"
 									th:href="@{'/gameFront/'+${sixGame.gameName}}"> <img
-									th:src="@{'/game/getImg/'+${sixGame.gamePhotoLists[0]}}"
+									th:src="@{'/gameFront/getImg/'+${sixGame.gamePhotoLists[0]}}"
 									alt="作者很懶沒有提供圖片">
 								</a>
 								<div class="nk-product-cont">
@@ -397,7 +395,7 @@
 								<div class="nk-widget-post">
 									<a th:href="@{'/gameFront/'+${hotGame.gameName}}"
 										class="nk-post-image"> <img
-										th:src="@{'/game/getImg/'+${hotGame.gamePhotoLists[0]}}"
+										th:src="@{'/gameFront/getImg/'+${hotGame.gamePhotoLists[0]}}"
 										alt="作者很懶沒有提供圖片">
 									</a>
 									<h3 class="nk-post-title">
