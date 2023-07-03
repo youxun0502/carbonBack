@@ -12,8 +12,8 @@ managerLogin.addEventListener('click', function() {
 })
 
 oneClick.addEventListener('click', function() {
-	email.value = 'lys0088552@gmail.com';
-	memberPwd.value = 'lys0088552';
+	email.value = 'xiaoming20230703@gmail.com';
+	memberPwd.value = 'Carbon123';
 	rememberMe.checked=true;
 	loginForm.submit();
 })
