@@ -634,8 +634,14 @@
 
 
 	<script>
-		const userinfo=document.getElementById('memberId');
-		console.log("userinfo:" + userinfo.innerText);
+		let userlogin=document.getElementById('memberId');
+		let userid=0;
+		if(userlogin==null){ 
+		userid=-9999;
+		}else{
+		userid=userlogin.innerText;
+		}
+		console.log("userinfo:" + userid);
 		
 	
 		const selectItem = document.getElementsByClassName('sc_item_box');
@@ -663,7 +669,8 @@
 							cancelButtonColor: '#d33',
 							confirmButtonText: reponse.data.bonusprice + ' Coins'
 						}).then((result) => {
-
+						console.log("BUY");
+						console.log("userinfo:" + selectId);
 						})
 					})
 					.catch(err => {

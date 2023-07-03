@@ -13,4 +13,5 @@ public class BonusShopDto {
 		private Integer bonusprice;
 		private String bonusDes;
 		private Boolean status;
+		private Integer point;
 }
