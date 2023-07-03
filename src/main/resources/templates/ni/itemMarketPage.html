@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        .showPage {
+        .showPage,
+        .showOrderPage {
             position: fixed;
             left: 0;
             top: 0;
@@ -14,7 +15,8 @@
             display: none;
         }
 
-        .myPage {
+        .myPage,
+        .myOrderPage {
             background-color: whitesmoke;
             border-radius: 14px;
             padding: 20px 50px;
@@ -47,7 +49,7 @@
                     <div class="col-7"></div>
                     <div class="col-2"></div>
                     <div class="col-2">
-                        <button class="btn btn-outline-info" id="${orders[0].itemId}">Place Buy Order</button>
+                        <button class="btn btn-outline-info" id="buyOrder1" th:data-buyId="${orders[0].itemId}">Place Buy Order</button>
                     </div>
                 </div>
             </div>
@@ -92,6 +94,75 @@
         </th:block>
     </div>
 
+	<!-- ----------- buy order page ----------- -->
+    <div class="showOrderPage justify-content-center align-items-center" id="showOrderPage1">
+        <div class="myOrderPage my-4 col col-md-6" id="myOrderPage1">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Buy - [[${orders[0].gameItem.itemName}]]</h2>
+                <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
+            </div>
+            <div class="row g-2">
+                <div class="card mt-5 mb-1">
+                    <div class="card-body">
+                        <div class="card-text col d-flex justify-content-between">
+					        <form class="row g-3 needs-validation" novalidate>
+	                        	<div class="d-flex col-6">
+						            <div class="imgBox overflow-hidden col-4 d-flex justify-content-center">
+						                <img th:src="@{'/market/downloadImage/' + ${orders[0].itemId}}" th:alt="${orders[0].gameItem.itemImgName}"
+						                    class="img-fluid" style="max-width: 120px">
+						            </div>
+						            <div class="col-8">
+						                <h3>[[${orders[0].gameItem.itemName}]]</h3>
+						                <span>[[${orders[0].gameItem.game.gameName}]]</span>
+						            </div>
+						        </div>
+						        <div class="col-6">
+						        	<div class="my-3 row">
+						                <label class="col-sm-7 col-form-label">What price do you want to pay: </label>
+						                <div class="col-3">
+						                	<input type="text" id="buyPrice1" class="form-control" value="NT$" required>
+						                </div>
+					                	<span class="col-2">(per item)</span>
+					                </div>
+						            <div class="my-3 row">
+						                <label class="col-sm-7 col-form-label">How many do you want to buy: </label>
+						                <div class="col-3">
+							                <input type="number" id="buyQuantity1" class="form-control" value="1" required>
+						                </div>
+						            </div>
+						            <div class="my-3 row">
+						            	<label for="maxPrice1" class="col-sm-7 col-form-label">Maximum price: </label>
+									    <div class="col-sm-3">
+									      <input type="text" readonly class="form-control-plaintext" id="maxPrice1" value=" NT$ ">
+									    </div>
+						            </div>
+					                <div class="invalid-feedback">
+					                        You must enter a valid price..
+					                </div>
+						        </div>
+						        <hr>
+						        <div>
+					                <div class="form-check">
+					                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+					                    <label class="form-check-label" for="invalidCheck">
+					                        I agree to the terms of the Steam Subscriber Agreement
+					                    </label>
+					                    <div class="invalid-feedback">
+					                        You must agree before submitting.
+					                    </div>
+					                </div>
+					            </div>
+					            <div class="mt-3 d-flex justify-content-end">
+					                <button class="btn btn-info buyOrderBtn" id="buyOrderBtn1">PLACE ORDER</button>
+					            </div>
+			                </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
     <!-- ----------- buy page ----------- -->
     <div class="showPage justify-content-center align-items-center" id="showPage1">
         <div class="myPage my-4 col col-md-6" id="myPage1">

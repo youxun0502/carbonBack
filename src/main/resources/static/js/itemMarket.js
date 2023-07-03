@@ -127,7 +127,7 @@ function newItemLog(result) {
             ordId: result.ordId,
             itemId: result.itemId,
             memberId: result.buyer ? result.buyer : result.seller,
-            quantity: result.buyer ? result.quantity : '-'+result.quantity
+            quantity: result.buyer ? result.quantity : '-' + result.quantity
         }
     })
         .then(res => {
@@ -166,6 +166,122 @@ function showSuccessPage(order) {
 }
 
 
+// --------------------------- buy order ---------------------------  
+$('#buyOrder1').on('click', function () {
+    if (userId != '') {
+        $('#showOrderPage1').addClass('d-flex');
+    } else {
+        loginPage();
+    }
+    var buyPrice;
+    var buyQuantity;
+    $('#buyPrice1,#buyQuantity1').on('keyup change', function () {
+        buyPrice = Number($('#buyPrice1').val().replace('NT$', ''));
+        buyQuantity = Number($('#buyQuantity1').val());
+        if($('#buyPrice1').val().indexOf('NT$') < 0 ){
+	        $('#buyPrice1').val('NT$ 0');
+		}
+        if(buyPrice * buyQuantity == 0 || isNaN(buyPrice * buyQuantity)){
+			$('#maxPrice1').val('NT$  --');
+		} else{
+        	$('#maxPrice1').val('NT$ ' + buyPrice * buyQuantity);
+		}
+    })
+    let buyId = $(this).attr('data-buyId');
+    console.log(buyId);
+
+    // ------------- Validation -------------  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+
+            event.preventDefault()
+            console.log(buyPrice);
+            console.log(buyQuantity);
+            axios({
+                url: '/carbon/market/newOrder',
+                method: 'post',
+                data: {
+                    itemId: buyId,
+                    buyer: userId,
+                    quantity: buyQuantity,
+                    price: buyPrice,
+                    status: 1,
+                }
+            })
+                .then(response => {
+                    if (response.data != '') {
+                        let orders = response.data;
+                        console.log('itemId: ' + orders.itemId)
+                        axios({
+                            method: 'get',
+                            url: '/carbon/market/checkSales',
+                            params: { itemId: buyId }
+                        })
+                            .then(res => {
+                                let sales = res.data;
+                                console.log('sales: ' + JSON.stringify(sales));
+                                if (sales != '' && buyPrice >= sales[0].price) {
+                                    console.log('res: ' + JSON.stringify(sales[0].price))
+                                    console.log('price: ' + buyPrice)
+                                    axios({
+                                        url: '/carbon/market/newOrder',
+                                        method: 'post',
+                                        data: {
+                                            itemId: sales[0].itemId,
+                                            buyer: userId,
+                                            seller: sales[0].seller,
+                                            quantity: 1,
+                                            price: sales[0].price,
+                                            status: 2,
+                                        }
+                                    })
+                                        .then(result => {
+                                            console.log('result: ' + JSON.stringify(result.data))
+                                            if (result.data != '') {
+                                                orderUpdate(orders);
+                                                orderUpdate(sales[0]);
+                                                newItemLog(result.data);
+                                            }
+                                            return result.data;
+                                        })
+                                        .catch(err => {
+                                            console.log('err: ' + err);
+                                        })
+                                }
+                            })
+                    }
+                    return response.data;
+                })
+                .then(result => {
+                    if (result != null) {
+                        // showSuccessPage(result);
+
+
+                    }
+                })
+                .catch(err => {
+                    console.log('err: ' + err);
+                })
+
+
+        }, false)
+    })
+
+
+    $('.closeBtn1').click(function () {
+        $('#showOrderPage1').removeClass('d-flex');
+    })
+})
+
 // --------------------------- sell list ajax ---------------------------          
 function listPage() {
     let itemList = `
@@ -191,14 +307,14 @@ $('#sellPageBtn1').click(function () {
 function loadInventoryAjax() {
     axios.get('/carbon/profiles/inventory/' + userId)
         .then(response => {
-			//console.log('response: '+ JSON.stringify(response))
-			if(response.data != '' && response.data[0].total >= 1){
-	            inventoryPage(response.data);
-			} else{
-				$('#noItem1').removeClass('d-none');
-				show.classList.add('d-flex');
-			    closePage();
-			}
+            //console.log('response: '+ JSON.stringify(response))
+            if (response.data != '' && response.data[0].total >= 1) {
+                inventoryPage(response.data);
+            } else {
+                $('#noItem1').removeClass('d-none');
+                show.classList.add('d-flex');
+                closePage();
+            }
         })
         .catch(err => {
             console.log('err: ' + err);
@@ -210,13 +326,16 @@ function loadInventoryAjax() {
 function inventoryPage(data) {
     let itemListHtml = `<div class="card-text col-xl-7 col-12 d-flex flex-wrap">`;
     data.forEach((item, index) => {
-        itemListHtml += `    
+        for (i = 0; i < item.total; i++) {
+            itemListHtml += `    
             <div class="imgBox overflow-hidden col-3">
                 <a class="itemCards d-block h-auto position-relative" href="#" data-index="${index}">
                     <img src="/carbon/market/downloadImage/${item.itemId}" alt="${item.gameItem.itemImgName}"
                         class="img-fluid" style="max-width: 110px">
                 </a>
             </div>`;
+
+        }
     });
     itemListHtml += `
         </div>
@@ -229,19 +348,19 @@ function inventoryPage(data) {
                 <h3>${data[0].gameItem.itemName}</h3>
                 <div>${data[0].gameItem.itemDesc}</div>
         `;
-    if(data[0].gameItem.status !=0 ){
-		itemListHtml += ` 
+    if (data[0].gameItem.status != 0) {
+        itemListHtml += ` 
 			<div class="mt-3 d-flex justify-content-end">           
 	            <button class="btn btn-info sellBtn" id="sellBtn1" data-itemId="${data[0].itemId}">SELL</button>
 	        </div>`;
-	} else {
-		itemListHtml += ` 
+    } else {
+        itemListHtml += ` 
 			<div class="mt-3 d-flex justify-content-between">           
 		        <div>此道具不可買賣</div>
 	            <button class="btn btn-secondary sellBtn" id="sellBtn1" disabled>SELL</button>
 	        </div>
 	        	`;
-	}
+    }
     itemListHtml += `
         </div>
     `;
@@ -269,19 +388,19 @@ function showItemInfo(data) {
                 <hr>
                 <h3>${data[id].gameItem.itemName}</h3>
                 <div>${data[id].gameItem.itemDesc}</div>`;
-            if(data[0].gameItem.status !=0 ){
-				itemListHtml += `            
+            if (data[id].gameItem.status != 0) {
+                oneItemHtml += `            
 	                <div class="mt-3 d-flex justify-content-end">
-		                <button class="btn btn-info sellBtn" id="sellBtn1" data-itemId="${data[0].itemId}">SELL</button>
+		                <button class="btn btn-info sellBtn" id="sellBtn1" data-itemId="${data[id].itemId}">SELL</button>
 		            </div>`;
-			} else {
-				itemListHtml += `  
+            } else {
+                oneItemHtml += `  
 					 <div class="mt-3 d-flex justify-content-between">          
 				         <div>此道具不可買賣</div>
 			             <button class="btn btn-secondary sellBtn" id="sellBtn1" disabled>SELL</button>
 			         </div>
 			        	`;
-	}
+            }
             oneItem.innerHTML = oneItemHtml;
             showSalePage()
         })
@@ -337,14 +456,14 @@ function showSaleInfo(order) {
             <div class="my-3 row">
                 <label class="col-sm-3 col-form-label">You receive:</label>
                 <div class="col-3">
-                	<input type="text" id="salePrice" class="form-control col-4" value="NT$" required>
+                	<input type="text" id="salePrice" class="form-control" value="NT$" required>
                 </div>
                 <label class="col-sm-3 col-form-label">Buyer pays:</label>
                 <div class="col-3">
 	                <input type="text" id="buyPrice" class="form-control" value="NT$" readonly><span>(includes fees)</span>
                 </div>
                 <div class="invalid-feedback">
-                        You must agree before submitting.
+                        You must enter a valid price..
                 </div>
             </div>
             <div>
@@ -366,7 +485,7 @@ function showSaleInfo(order) {
     saleItem.innerHTML = saleHtmlString;
     salePage.classList.add('d-flex');
     let salePrice;
-    
+
     $('#salePrice').on('keyup change', function () {
         salePrice = $(this).val();
         console.log(salePrice);
@@ -375,88 +494,91 @@ function showSaleInfo(order) {
     $('.closeBtn-sale').click(function () {
         $('#showSalePage1').removeClass('d-flex');
     })
-    
-    // =========================== Validation ===========================  
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
 
-  // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-
-        event.preventDefault()
-      form.classList.add('was-validated')
-      
-	  let price=salePrice.replace('NT$', '');
-	  console.log(price)
-      axios({
-        url: '/carbon/market/newOrder',
-        method: 'post',
-        data: {
-            itemId: order[0].itemId,
-            seller: userId,
-            quantity: 1,
-            price: price,
-            status: 1,
-        }
-    })
-        .then(response => {
-            if (response.data != '') {
-                newItemLog(response.data);
-                console.log('itemId: '+ response.data.itemId)
-				axios({
-					method: 'get',
-					url: '/carbon/market/checkBuys',
-					params:{itemId: response.data.itemId}
-				})
-				.then(res => {
-					if(res.data != '' && res.data.price >= price ){
-					console.log('price: '+ res.data.price)
-						axios({
-					        url: '/carbon/market/newOrder',
-					        method: 'post',
-					        data: {
-					            itemId: res.data.itemId,
-					            buyer: res.data.buyer,
-					            seller: userId,
-					            quantity: 1,
-					            price: price,
-					            status: 2,
-					        }
-					    })
-					        .then(result => {
-								console.log('ordId: '+ response.data.ordId)
-								console.log('result: '+ result.data)
-					            if (result != null) {
-					                orderUpdate(response.data.ordId);
-					                newItemLog(result.data);
-					            }
-					            return result.data;
-					        })
-					        .catch(err => {
-					            console.log('err: ' + err);
-					        })	
-					}
-				})
-	            }
-            return response.data;
-        })
-        .then(result => {
-            if (result != null) {
-               // showSuccessPage(result);
-              
-			  
+    // ------------- Validation -------------   
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
             }
-        })
-        .catch(err => {
-            console.log('err: ' + err);
-        })
-    }, false)
-  })
+
+            event.preventDefault()
+            form.classList.add('was-validated')
+
+            let price = salePrice.replace('NT$', '');
+            console.log(price)
+            axios({
+                url: '/carbon/market/newOrder',
+                method: 'post',
+                data: {
+                    itemId: order[0].itemId,
+                    seller: userId,
+                    quantity: 1,
+                    price: price,
+                    status: 1,
+                }
+            })
+                .then(response => {
+                    if (response.data != '') {
+                        let sales = response.data;
+                        newItemLog(sales);
+                        console.log('itemId: ' + sales.itemId)
+                        axios({
+                            method: 'get',
+                            url: '/carbon/market/checkBuys',
+                            params: { itemId: sales.itemId }
+                        })
+                            .then(res => {
+                                let sales = res.data;
+                                console.log(JSON.stringify(sales));
+                                if (sales != '' && sales[0].price >= price) {
+                                    console.log('res: ' + JSON.stringify(sales[0].price))
+                                    console.log('price: ' + price)
+                                    axios({
+                                        url: '/carbon/market/newOrder',
+                                        method: 'post',
+                                        data: {
+                                            itemId: sales[0].itemId,
+                                            buyer: sales[0].buyer,
+                                            seller: userId,
+                                            quantity: 1,
+                                            price: price,
+                                            status: 2,
+                                        }
+                                    })
+                                        .then(result => {
+                                            console.log('result: ' + JSON.stringify(result.data))
+                                            if (result.data != '') {
+                                                orderUpdate(sales[0]);
+                                                orderUpdate(sales);
+                                                newItemLog(result.data);
+                                            }
+                                            return result.data;
+                                        })
+                                        .catch(err => {
+                                            console.log('err: ' + err);
+                                        })
+                                }
+                            })
+                    }
+                    return response.data;
+                })
+                .then(result => {
+                    if (result != null) {
+                        // showSuccessPage(result);
+
+
+                    }
+                })
+                .catch(err => {
+                    console.log('err: ' + err);
+                })
+        }, false)
+    })
 
 }
 
@@ -488,20 +610,20 @@ function closePage() {
 
 // =========================== Validation ===========================  
 (() => {
-  'use strict'
+    'use strict'
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
 
-  // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
 
-      form.classList.add('was-validated')
-    }, false)
-  })
+            form.classList.add('was-validated')
+        }, false)
+    })
 })()

@@ -55,16 +55,19 @@ public class OrderService {
 	public List<Map<String, Object>> findOrderList() {
 		List<Object[]> results = orderRepo.countOrderList();
 	    List<Map<String, Object>> orderList = new ArrayList<>();
-	    for (Object[] result : results) {
-	    	Map<String, Object> order = new HashMap<>();
-	        order.put("itemId", result[0]);
-	        order.put("itemName", result[1]);
-	        order.put("itemImgName", result[2]);
-	        order.put("gameId", result[3]);
-	        order.put("price", result[4]);
-	        orderList.add(order);
+	    if(results != null) {
+	    	for (Object[] result : results) {
+	    		Map<String, Object> order = new HashMap<>();
+	    		order.put("itemId", result[0]);
+	    		order.put("itemName", result[1]);
+	    		order.put("itemImgName", result[2]);
+	    		order.put("gameId", result[3]);
+	    		order.put("price", result[4]);
+	    		orderList.add(order);
+	    	}
+	    	return orderList;
 	    }
-		return orderList;
+	    return null;
 	}
 	
 	public List<ItemOrderDTO> findByItemIdAndStatus(Integer itemId) {

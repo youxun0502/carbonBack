@@ -60,6 +60,7 @@ public class MainFunction {
 	public String loginPage(@CookieValue(value = "email", required = false) String cookieValue, Model m,
 			HttpServletRequest request, HttpSession session) {
 		// 有登入就不能進去登入頁面
+		System.out.println(session.getAttribute("character"));
 		if (session.getAttribute("character") != null) {
 			return "redirect:/";
 		}
