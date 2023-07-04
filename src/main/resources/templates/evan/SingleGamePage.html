@@ -143,6 +143,7 @@
 									<div>
 										<button
 											class="nk-btn nk-btn-rounded nk-btn-color-main-1 add-to-cart-button"
+											th:data-game-id="${gameDTO.gameId}"
 											th:data-game-name="${gameDTO.gameName}"
 											th:data-price="${gameDTO.price}"
 											th:data-photo="${gameDTO.gamePhotoLists[0]}" onclick="addToCart(event)">Add to

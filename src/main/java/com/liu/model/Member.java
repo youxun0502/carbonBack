@@ -1,10 +1,12 @@
 package com.liu.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.evan.model.Game;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -16,6 +18,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
@@ -66,6 +70,12 @@ public class Member {
 	@Temporal(TemporalType.DATE)// 資料庫的型別
 	@Column(name = "registrationDate")
 	private Date registrationDate;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "membercart", 
+	    joinColumns = {@JoinColumn(name = "MEMBERID")},
+	    inverseJoinColumns = {@JoinColumn(name = "GAMEID")})
+	private Set<Game> games = new HashSet<>();
 	
 	// 物件轉換成 Persistent 狀態以前做以下事情
 	@PrePersist
@@ -192,6 +202,12 @@ public class Member {
 	public void setLevel(Level level) {
 		this.level = level;
 	}
-	
+
+	public Set<Game> getGames() {
+		return games;
+	}
+
+
+
 
 }

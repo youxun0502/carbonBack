@@ -37,6 +37,8 @@ window.addEventListener('DOMContentLoaded', check);
 
 // 更新購物車項目數量
 function updateCartItemCount() {
+	
+	
   var cartItems = localStorage.getItem('cartItems');
   var itemCount = 0;
   
@@ -53,11 +55,14 @@ function updateCartItemCount() {
 function addToCart(event) {
 	event.preventDefault();
 
+	var gameId = event.target.getAttribute("data-game-id");
 	var gameName = event.target.getAttribute("data-game-name");
 	var price = event.target.getAttribute("data-price");
 	var photo = '/carbon/gameFront/getImg/' + event.target.getAttribute("data-photo");
+	
 	// 建立購物車物件
 	const item = {
+		gameId:gameId,
 		gameName: gameName,
 		price: price,
 		photo: photo
@@ -109,8 +114,7 @@ function updateCartItems() {
 	// 獲取購物車資料
 	let cartItems = localStorage.getItem('cartItems');
 	console.log(memberId);
-	console.log(1);
-	
+	console.log(memberId==null?1:0)	
 	if (!cartItems) {
 		// 若購物車資料不存在，清空購物車區塊的內容
 		document.getElementById('cartItems').innerHTML = '';

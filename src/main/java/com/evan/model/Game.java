@@ -10,6 +10,7 @@ import java.util.Set;
 import com.chen.model.Competition;
 import com.chen.model.Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.liu.model.Member;
 import com.ni.model.GameItem;
 
 import jakarta.persistence.CascadeType;
@@ -45,6 +46,13 @@ public class Game {
 		joinColumns = {@JoinColumn(name = "GAMEID")},
 		inverseJoinColumns = {@JoinColumn(name = "TYPEID")})
 	private Set<GameType> gameTypes = new HashSet<>();
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "membercart", 
+	    joinColumns = {@JoinColumn(name = "GAMEID")},
+	    inverseJoinColumns = {@JoinColumn(name = "MEMBERID")})
+	private Set<Member> members = new HashSet<>();
+
 	
 	public Game() {}
 	

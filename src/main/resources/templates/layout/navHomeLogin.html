@@ -97,33 +97,13 @@
 					<li class="nav-item d-flex"  style="align-items:center"> 
 						<div class="nk-cart-toggle ">
 	                        <span class="fa fa-shopping-cart" style="color:#fff"></span>
-	                        <span class="nk-badge" style="color:#fff">0</span>
+	                        <span class="nk-badge" style="color:#fff" id="cartItemCount">0</span>
 	                    </div>
 	                    <div class="nk-cart-dropdown" >
 	                        
-	                        <div class="nk-widget-post">
-	                            <a href="store-product.html" class="nk-post-image">
-	                                <img src="assets/images/product-5-xs.jpg" alt="In all revolutions of">
-	                            </a>
-	                            <h3 class="nk-post-title">
-	                                <a href="#" class="nk-cart-remove-item"><span class="ion-android-close"></span></a>
-	                                <a href="store-product.html">In all revolutions of</a>
-	                            </h3>
-	                            <div class="nk-gap-1"></div>
-	                            <div class="nk-product-price">€ 23.00</div>
-	                        </div>
-	                        
-	                        <div class="nk-widget-post">
-	                            <a href="store-product.html" class="nk-post-image">
-	                                <img src="assets/images/product-7-xs.jpg" alt="With what mingled joy">
-	                            </a>
-	                            <h3 class="nk-post-title">
-	                                <a href="#" class="nk-cart-remove-item"><span class="ion-android-close"></span></a>
-	                                <a href="store-product.html">With what mingled joy</a>
-	                            </h3>
-	                            <div class="nk-gap-1"></div>
-	                            <div class="nk-product-price">€ 14.00</div>
-	                        </div>
+	                      		<!-- 購物車區塊 -->
+							<div id="cartItems"></div>
+	                      	
 	                        
 	                        <div class="nk-gap-2"></div>
 	                        <div class="text-center">
@@ -179,7 +159,7 @@
 		</div>
 		<div class="d-none" id="memberId" th:data-user-id="${session.memberBeans.id}">[[${session.memberBeans.id}]]</div>
 	</nav>
-	<script th:src="@{/js/cart_game.js}"></script>
+	<script th:src="@{/js/cart_game_login.js}"></script>
 	<script th:src="@{/js/home.js}"></script>
 		<!-- START: Scripts -->
 
