@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<!-- START: Styles -->
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700"
+	rel="stylesheet" type="text/css">
+
+<!-- Bootstrap -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}">
+
+<!-- FontAwesome -->
+<script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
+<script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
+
+<!-- IonIcons -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/ionicons/css/ionicons.min.css}">
+
+<!-- Flickity -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/flickity/dist/flickity.min.css}">
+
+<!-- Photoswipe -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/photoswipe/dist/photoswipe.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/photoswipe/dist/default-skin/default-skin.css}">
+
+<!-- Seiyria Bootstrap Slider -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css}">
+
+<!-- Summernote -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/summernote/dist/summernote-bs4.css}">
+
+<!-- GoodGames -->
+<link rel="stylesheet" th:href="@{/assets/css/goodgames.css}">
+
+<!-- Custom Styles -->
+<link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css"
+	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" th:href="@{/css/home.css}">
+<!-- END: Styles -->
+
+<!-- jQuery -->
+<script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
+
+<title>Carbon</title>
+</head>
+
+<body>
+<header class="nk-header nk-header-opaque">
+	<nav class="nk-navbar nk-navbar-top nk-navbar-sticky nk-navbar-autohide">
+		<div class="container">
+		<div class="nk-nav-table">
+			<a th:href="@{/main/goBackToHome}" class="nk-nav-logo">
+                <i class="d-inline-block align-text-top fa-solid fa-gamepad"
+						style="color: #6fb7d4; font-size: 2.5em;">CARBON</i>
+            </a>
+            	<ul class="nk-nav nk-nav-right d-none d-lg-table-cell">
+					<li> 
+						<div class="nk-cart-toggle me-4">
+	                        <span class="fa fa-shopping-cart"></span>
+	                        <span class="nk-badge">0</span>
+	                    </div>
+	                    <div class="nk-cart-dropdown" >
+	                        
+	                        <div class="nk-widget-post">
+	                            <a href="store-product.html" class="nk-post-image">
+	                                <img src="assets/images/product-5-xs.jpg" alt="In all revolutions of">
+	                            </a>
+	                            <h3 class="nk-post-title">
+	                                <a href="#" class="nk-cart-remove-item"><span class="ion-android-close"></span></a>
+	                                <a href="store-product.html">In all revolutions of</a>
+	                            </h3>
+	                            <div class="nk-gap-1"></div>
+	                            <div class="nk-product-price">€ 23.00</div>
+	                        </div>
+	                        
+	                        <div class="nk-widget-post">
+	                            <a href="store-product.html" class="nk-post-image">
+	                                <img src="assets/images/product-7-xs.jpg" alt="With what mingled joy">
+	                            </a>
+	                            <h3 class="nk-post-title">
+	                                <a href="#" class="nk-cart-remove-item"><span class="ion-android-close"></span></a>
+	                                <a href="store-product.html">With what mingled joy</a>
+	                            </h3>
+	                            <div class="nk-gap-1"></div>
+	                            <div class="nk-product-price">€ 14.00</div>
+	                        </div>
+	                        
+	                        <div class="nk-gap-2"></div>
+	                        <div class="text-center">
+	                            <a href="store-checkout.html" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">Proceed to Checkout</a>
+	                        </div>
+	                    </div>
+                    </li>
+                </ul>
+				<ul class="nk-nav nk-nav-right d-none d-lg-table-cell" data-nav-mobile="#nk-nav-mobile">
+					
+					<li><a th:href="@{/gameFront}">遊 戲</a></li>
+					<li class="nk-drop-item">
+						<a href="#" aria-expanded="false">市 集</a>
+						<ul class="dropdown">
+							<li><a th:href="@{/market}">虛寶交易</a></li>
+							<li><a th:href="@{/bonus-shop/main}">獎勵商城</a></li>
+						</ul>
+					</li>
+					<li class="nk-drop-item">
+						<a href="#">活 動</a>
+						<ul class="dropdown">
+							<li><a th:href="@{/competitionRegistration}">賽事報名</a></li>
+							<li><a th:href="@{/eventPageAll}">活 動</a></li>
+						</ul>
+					</li>
+					<li><a href="#">論 壇</a></li>
+					<li class="nk-drop-item">
+						<a href="#" th:text="${session.memberBeans.userId}"></a>
+						<ul class="dropdown">
+							<li><a href="#">My game</a></li>
+							<li><a href="#">My item</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li><a th:href="@{/coupon/couponPage}">抽取優惠</a></li>
+							<li>
+								<hr class="nk-decorated-h"></hr>
+							</li>
+							<li>
+								<form class="dropdown-item" th:action="@{/main/logout}"
+									method="GET" id="logoutForm">
+									<input type="text" th:value="${session.memberBeans.id}"
+										name="id" hidden="true" />
+									<div class="logout_btn text-light">登 出</div>
+								</form>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nk-nav nk-nav-right nk-nav-icons">
+                    
+                        <li class="single-icon d-lg-none">
+                            <a href="#" class="no-link-effect" data-nav-toggle="#nk-nav-mobile">
+                                <span class="nk-icon-burger">
+                                    <span class="nk-t-1"></span>
+                                    <span class="nk-t-2"></span>
+                                    <span class="nk-t-3"></span>
+                                </span>
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+			</div>
+		</div>
+		<div class="d-none" id="memberId">[[${session.memberBeans.id}]]</div>
+	</nav>
+</header>
+
+        <!--
+    START: Navbar Mobile
+
+    Additional Classes:
+        .nk-navbar-left-side
+        .nk-navbar-right-side
+        .nk-navbar-lg
+        .nk-navbar-overlay-content
+-->
+<div id="nk-nav-mobile" class="nk-navbar nk-navbar-side nk-navbar-right-side nk-navbar-overlay-content d-lg-none">
+    <div class="nano">
+        <div class="nano-content">
+            <div class="d-flex">
+	            <a th:href="@{/main/goBackToHome}" class="nk-nav-logo">
+	                <i class="d-inline-block align-text-top fa-solid fa-gamepad"
+							style="color: #6fb7d4; font-size: 1.5em;">CARBON</i>
+	            </a>
+				<a href="#" class="d-flex align-items-center me-2">
+	                <span class="fa fa-shopping-cart"></span>
+	                <span class="nk-badge">0</span>
+	            </a>
+	        </div>
+            <div class="nk-navbar-mobile-content">
+                <ul class="nk-nav">
+                    <!-- Here will be inserted menu from [data-mobile-menu="#nk-nav-mobile"] -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: Navbar Mobile -->
+
+	<script th:src="@{/js/home.js}"></script>
+		<!-- START: Scripts -->
+	<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+	<script th:src="@{/js/axios.min.js}"></script>
+	<script th:src="@{/js/jquery-ui.min.js}"></script>
+	<script src="https://kit.fontawesome.com/f3a13d5fed.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<!-- Object Fit Polyfill -->
+	<script th:src="@{/assets/vendor/object-fit-images/dist/ofi.min.js}"></script>
+
+	<!-- GSAP -->
+	<script th:src="@{/assets/vendor/gsap/src/minified/TweenMax.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js}"></script>
+
+	<!-- Popper -->
+	<script th:src="@{/assets/vendor/popper.js/dist/umd/popper.min.js}"></script>
+
+	<!-- Bootstrap -->
+	<script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+	<!-- Sticky Kit -->
+	<script th:src="@{/assets/vendor/sticky-kit/dist/sticky-kit.min.js}"></script>
+
+	<!-- Jarallax -->
+	<script th:src="@{/assets/vendor/jarallax/dist/jarallax.min.js}"></script>
+	<script th:src="@{/assets/vendor/jarallax/dist/jarallax-video.min.js}"></script>
+
+	<!-- imagesLoaded -->
+	<script
+		th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+
+	<!-- Flickity -->
+	<script th:src="@{/assets/vendor/flickity/dist/flickity.pkgd.min.js}"></script>
+
+	<!-- Photoswipe -->
+	<script th:src="@{/assets/vendor/photoswipe/dist/photoswipe.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js}"></script>
+
+	<!-- Jquery Validation -->
+	<script
+		th:src="@{/assets/vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
+
+	<!-- Jquery Countdown + Moment -->
+	<script
+		th:src="@{/assets/vendor/jquery-countdown/dist/jquery.countdown.min.js}"></script>
+	<script th:src="@{/assets/vendor/moment/min/moment.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js}"></script>
+
+	<!-- Hammer.js -->
+	<script th:src="@{/assets/vendor/hammerjs/hammer.min.js}"></script>
+
+	<!-- NanoSroller -->
+	<script
+		th:src="@{/assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js}"></script>
+
+	<!-- SoundManager2 -->
+	<script
+		th:src="@{/assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js}"></script>
+
+	<!-- Seiyria Bootstrap Slider -->
+	<script
+		th:src="@{/assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js}"></script>
+
+	<!-- Summernote -->
+	<script
+		th:src="@{/assets/vendor/summernote/dist/summernote-bs4.min.js}"></script>
+
+	<!-- nK Share -->
+	<script th:src="@{/assets/plugins/nk-share/nk-share.js}"></script>
+
+	<!-- GoodGames -->
+	<script th:src="@{/assets/js/goodgames.min.js}"></script>
+	<script th:src="@{/assets/js/goodgames-init.js}"></script>
+	<!-- END: Scripts -->
+</body>
+
+</html>

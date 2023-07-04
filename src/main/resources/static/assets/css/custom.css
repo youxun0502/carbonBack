@@ -1,1 +1,6 @@
 /* PLACE YOU CUSTOM STYLES IN THIS FILE */
+.nk-blog-post:not(.nk-blog-post-single):hover {
+    -webkit-transform: translateY(-10px);
+        -ms-transform: translateY(-10px);
+            transform: translateY(-10px);
+}

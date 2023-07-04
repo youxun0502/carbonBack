@@ -55,7 +55,7 @@ public class OrderController {
 	@GetMapping("/market")
 	public String marketList(Model m) {
 		m.addAttribute("orders", orderService.findOrderList());
-		return "ni/itemMarketList";
+		return "ni/itemMarketList-gg";
 	}
 	
 	@GetMapping("/market/{gameId}/{itemName}")
@@ -63,7 +63,7 @@ public class OrderController {
 		m.addAttribute("orders", orderService.findSellItemList(gameId, itemName));
 //		show all item that it has any order 
 //		change findSellItemList to findGameitemById and orderList will loading by ajax
-		return "ni/itemMarketPage";
+		return "ni/itemMarketPage-gg";
 	}
 	
 	@ResponseBody

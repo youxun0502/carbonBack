@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .showPage,
+        .showSalePage {
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: #525252b4;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .myPage,
+        .mySalePage {
+            background-color: whitesmoke;
+            border-radius: 14px;
+            padding: 20px 50px;
+        }
+    </style>
+    <title>Carbon | MARKET</title>
+</head>
+
+<body>
+<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin-gg} : ~{layout/navHome-gg} "></div>
+
+<div class="nk-main">
+        
+            <!-- START: Breadcrumbs -->
+<div class="nk-gap-1"></div>
+<div class="container">
+    <ul class="nk-breadcrumbs">
+        
+        <li><a th:href="@{/main/goBackToHome}">首頁</a></li>
+        <li><span class="fa fa-angle-right"></span></li>
+        
+        <li><span>市集</span></li>
+        
+    </ul>
+</div>
+<div class="nk-gap-1"></div>
+<!-- END: Breadcrumbs -->
+
+    <div class="container">
+    	<div class="row vertical-gap">
+    	
+		    <div class="nk-gap-2"></div>
+    		<div class="nk-tabs">
+			    <!--
+			        Additional Classes:
+			            .nav-tabs-fill
+			    -->
+			    <div class="d-flex justify-content-between align-items-center">
+				    <ul class="nav nav-tabs" role="tablist">
+				        <li class="nav-item">
+				            <a class="nav-link active" href="#tabs-1-1" role="tab" data-toggle="tab">我的上架物品</a>
+				        </li>
+				        <li class="nav-item">
+				            <a class="nav-link" href="#tabs-1-2" role="tab" data-toggle="tab">交易歷史紀錄</a>
+				        </li>
+				    </ul>
+			        <div class="me-3">
+			            <a href="#" class="btn btn-info sellPageBtn" id="sellPageBtn1">販賣物品</a>
+			        </div>
+			    </div>
+				    <div class="tab-content">
+				        <div role="tabpanel" class="tab-pane fade show active" id="tabs-1-1">
+				            <div class="nk-gap"></div>
+				            <!-- START: Forums List -->
+				            <div>販賣訂單</div>
+					        <ul class="nk-forum">
+					            <li class="p-10">
+					                <div class="nk-forum-icon"></div>
+					                <div class="nk-forum-title border-end">
+					                	名稱
+					                </div>
+					                <div class="nk-forum-activity border-end">
+					                    <div class="nk-forum-activity-title text-center">
+					                        上架日期
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity border-end">
+					                    <div class="nk-forum-activity-title text-center">
+					                        價格
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity text-center">
+					                    <a href="#">棄單</a>
+					                </div>
+					            </li>
+					        </ul>
+					        <div class="nk-gap"></div>
+					        <ul class="nk-forum">
+					            <li class="p-10">
+					                <div class="nk-forum-icon">
+					                    <span class="ion-ios-game-controller-b"></span>
+					                </div>
+					                <div class="nk-forum-title">
+					                    <h3><a href="#"></a></h3>
+					                    <div class="nk-forum-title-sub">名稱</div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <div class="nk-forum-activity-title" title="GodLike the only game that I want to play!">
+					                        <a href="forum-single-topic.html"></a>
+					                    </div>
+					                        上架日期
+					                    <div class="nk-forum-activity-date">
+					                    </div>
+					                </div>
+					                <div class="nk-forum-count">
+					                    價格
+					                </div>
+					                <div class="nk-forum-activity-avatar">
+					                    <a href="#">
+					                        <img src="" alt="Hitman">
+					                    </a>
+					                </div>
+					            </li>
+					        </ul>
+				            <div class="nk-gap"></div>
+				            
+				            <div>購買訂單</div>
+					        <ul class="nk-forum">
+					            <li class="p-10">
+					                <div class="nk-forum-icon"></div>
+					                <div class="nk-forum-title">
+					                	名稱
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <div class="nk-forum-activity-title">
+					                        上架日期
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <div class="nk-forum-activity-title">
+					                        數量
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <div class="nk-forum-activity-title">
+					                        出價
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <a href="#">棄單</a>
+					                </div>
+					            </li>
+					        </ul>
+					        <div class="nk-gap"></div>
+					        <ul class="nk-forum">
+					            <li class="p-10">
+					                <div class="nk-forum-icon">
+					                    <span class="ion-ios-game-controller-b"></span>
+					                </div>
+					                <div class="nk-forum-title">
+					                    <h3><a href="#"></a></h3>
+					                    <div class="nk-forum-title-sub">名稱</div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <div class="nk-forum-activity-title" title="GodLike the only game that I want to play!">
+					                        <a href="forum-single-topic.html"></a>
+					                    </div>
+					                        上架日期
+					                    <div class="nk-forum-activity-date">
+					                    </div>
+					                </div>
+					                <div class="nk-forum-count">
+					                    價格
+					                </div>
+					                <div class="nk-forum-activity-avatar">
+					                    <a href="#">
+					                        <img src="" alt="Hitman">
+					                    </a>
+					                </div>
+					            </li>
+					        </ul>
+				            <div class="nk-gap"></div>
+				        </div>
+				        <div role="tabpanel" class="tab-pane fade" id="tabs-1-2">
+				            <div class="nk-gap"></div>
+				            
+				            <div>歷史紀錄</div>
+					        <ul class="nk-forum">
+					            <li class="p-10">
+					                <div class="nk-forum-icon"></div>
+					                <div class="nk-forum-title">
+					                	名稱
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <div class="nk-forum-activity-title">
+					                        上架日期
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <div class="nk-forum-activity-title">
+					                        成交日期
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <div class="nk-forum-activity-title">
+					                        價格
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <a href="#">對象</a>
+					                </div>
+					            </li>
+					        </ul>
+					        <div class="nk-gap"></div>
+					        <ul class="nk-forum">
+					            <li class="p-10">
+					                <div class="nk-forum-icon">
+					                    <span class="ion-ios-game-controller-b"></span>
+					                </div>
+					                <div class="nk-forum-title">
+					                    <h3><a href="#"></a></h3>
+					                    <div class="nk-forum-title-sub">名稱</div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <div class="nk-forum-activity-title" title="GodLike the only game that I want to play!">
+					                        <a href="forum-single-topic.html"></a>
+					                    </div>
+					                        上架日期
+					                    <div class="nk-forum-activity-date">
+					                    </div>
+					                </div>
+					                <div class="nk-forum-count">
+					                    價格
+					                </div>
+					                <div class="nk-forum-activity-avatar">
+					                    <a href="#">
+					                        <img src="" alt="Hitman">
+					                    </a>
+					                </div>
+					            </li>
+					        </ul>
+				            <div class="nk-gap"></div>
+				        </div>
+				    </div>
+			</div>
+			<!-- END: Tabs -->
+                
+	        <div class="col-lg-8">
+	        
+	    		
+	    		
+			    <div class="nk-gap-2"></div>
+	            <div class="row vertical-gap">
+	            <th:block th:each="order: ${orders}">
+	                <div class="col-md-3 col-4">
+	                   <div class="nk-gallery-item-group border border-secondary">
+	                        <a th:href="@{'/market/'+ ${order.gameId} + '/' + ${order.itemName}}" class="nk-gallery-item">
+	                            <img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.itemImgName}">
+	                        </a>
+	                        <div class="nk-gallery-item-description">
+	                            <h4 class="nk-gallery-item-description-title h5">[[${order.itemName}]]</h4>
+	                            <div class="nk-gallery-item-description-info">
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </th:block>
+	            </div>	
+	            
+	            
+			    <div class="nk-gap-2"></div>	            
+	            <div class="nk-blog-grid">
+	                <div class="row">
+	                    <th:block th:each="order: ${orders}">
+		                    <div class="col-md-4 col-6">
+		                        <div class="nk-blog-post border border-secondary px-3">
+		                            <a th:href="@{'/market/'+ ${order.gameId} + '/' + ${order.itemName}}" class="nk-post-img">
+		                                <img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.itemImgName}">
+		                            </a>
+		                            <h2 class="nk-post-title h4" style="height: 45px"><a th:href="@{'/market/'+ ${order.gameId} + '/' + ${order.itemName}}">[[${order.itemName}]]</a></h2>
+		                            <span class="text-main-1">起跳價格: </span>
+		                            <h3 class="nk-post-title h4 text-end">NT$ [[${order.price}]]</h3>
+		                            <div class="nk-post-by">
+		                                <img th:src="@{'/gameFront/getImg/' + ${order.gameId}}" alt="Hitman" class="rounded-circle" width="35">  <a href="#">${gameName}</a>
+		                            </div>
+		                            <div class="nk-gap"></div>
+		                        </div>
+		                    </div>
+	                    </th:block>
+			        </div>	
+		        </div>	
+	        </div>	
+        </div>
+        	
+        <div class="gx-3 d-flex justify-content-between">
+            <div class="card col-3">
+                <div class="card-body">
+                    <div class="card-title">SEARCH</div>
+                    <div class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="道具名稱查詢" aria-label="Search"
+                            name="itemName" id="order_search">
+                        <button class="btn btn-outline-warning" type="submit" id="order_search_btn">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ----------- inventory page ----------- -->
+	    <div class="showPage justify-content-center align-items-center" id="showPage1">
+	        <div class="myPage my-4 col-lg-6 col-11" id="myPage1">
+	            <div class="d-flex justify-content-between align-items-center">
+	                <h4>INVENTORY</h4>
+	                <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
+	            </div>
+	            <div class="row g-2">
+	                <div class="card mt-4 mb-1">
+	                    <div class="card-body col">
+	                    	<div class="card-text col mb-3">
+				               <h4 th:text="${session.memberBeans} ? ${session.memberBeans.userId} : ''"></h4>
+				               <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class="d-none"></span>
+				            </div>
+				            <div class="d-flex col mb-3 flex-wrap" id="inventoryList1"></div>
+				            <div class="card-text col-xl-7 col-12 d-flex flex-wrap d-none" id="noItem1">
+								<span>物品庫中無道具</span>
+							</div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        <!-- ----------- sale page ----------- -->
+	    <div class="showSalePage justify-content-center align-items-center" id="showSalePage1">
+	        <div class="mySalePage my-4 col-lg-6 col-11" id="mySalePage1">
+	            <div class="d-flex justify-content-between align-items-center">
+	                <h4>Put an item up for sale</h4>
+	                <button type="button" class="btn-close closeBtn-sale" aria-label="Close"></button>
+	            </div>
+	            <div class="row g-2">
+	                <div class="card mt-4 mb-1">
+	                    <div class="card-body col">
+	                    	<div class="card-text col mb-3">
+				               <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class="d-none"></span>
+				            </div>
+				            <div class="col mb-3" id="saleItem1"></div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+    </div>
+    <div th:replace="~{layout/footer}"></div>
+    <script th:src="@{/js/itemMarket.js}"></script>
+</body>
+
+</html>
