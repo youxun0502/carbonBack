@@ -88,7 +88,7 @@
 								<tr>
 									<td th:id="id + ${member.id}">[[${member.id}]]</td>
 									<td>[[${member.userId}]]</td>
-									<td>[[${member.email}]]</td>
+									<td style="overflow:hidden;">[[${member.email}]]</td>
 									<td style="overflow:hidden;">[[${member.memberPwd}]]</td>
 									<td>[[${member.memberName}]]</td>
 									<td th:text="${member} ? ${#dates.format(member.birthday, 'yyyy-MM-dd')}">
