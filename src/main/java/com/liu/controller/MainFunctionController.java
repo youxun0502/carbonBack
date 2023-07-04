@@ -5,7 +5,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -132,7 +131,8 @@ public class MainFunctionController {
 				if (previousPage.getPreviousPage() == null
 						|| previousPage.getPreviousPage().equals("/main/registerPage")
 						|| previousPage.getPreviousPage().equals("/main/logout")
-						|| previousPage.getPreviousPage().equals("/main/emailVerification")) {
+						|| previousPage.getPreviousPage().equals("/main/emailVerification")
+						|| previousPage.getPreviousPage().equals("/main/memberLogin")) {
 					return "/liu/home";
 				} else {
 					return "redirect:" + previousPage.getPreviousPage();
@@ -192,19 +192,22 @@ public class MainFunctionController {
 		member.setPhone(memberDto.getPhone());
 		member.setAccount(null);
 		mService.insert(member);
-		
+
 		LocalDateTime nowTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 		String nowStringTime = nowTime.format(formatter);
-		String url = "http://localhost:8080/carbon/main/emailVerification?c=12edf@af"+"&t="+nowStringTime+"&userId="+member.getId();
-		gService.sendMessage(memberDto.getEmail(), gService.getMyEmail(), "Carbon邀請您驗證您的信箱", "此為系統發送郵件，請勿直接回覆！！！\n"
-				+ "\n" + memberDto.getId() + "您好:\n" + "\n" + "點選以下連結驗證信箱\n" + "\n" +url+"\n\n"+"Carbon lys7744110@gmail.com");
+		String url = "http://localhost:8080/carbon/main/emailVerification?c=12edf@af" + "&t=" + nowStringTime
+				+ "&userId=" + member.getId();
+		gService.sendMessage(memberDto.getEmail(), gService.getMyEmail(), "Carbon邀請您驗證您的信箱",
+				"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + memberDto.getId() + "您好:\n" + "\n" + "點選以下連結驗證信箱\n" + "\n" + url
+						+ "\n\n" + "Carbon lys7744110@gmail.com");
 		m.addAttribute("registration", "success");
 		return "/liu/memberLogin";
 	}
 
 	@GetMapping("/main/emailVerification")
-	public String emailVerification(@RequestParam(name = "userId") Integer id, @RequestParam("t") String time, Model m ) {
+	public String emailVerification(@RequestParam(name = "userId") Integer id, @RequestParam("t") String time,
+			Model m) {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 		LocalDateTime getVerificationTime = LocalDateTime.parse(time, formatter);
@@ -218,15 +221,15 @@ public class MainFunctionController {
 			Member member = mService.findById(id);
 			member.setStatus(1);
 			boolean result = mService.updateStatus(member);
-			
-			if(result == true) {
+
+			if (result == true) {
 				m.addAttribute("status", "信箱驗證成功");
 				return "/liu/emailVerification";
-			}else {
+			} else {
 				m.addAttribute("status", "信箱驗證失敗，請聯繫客服");
 				return "/liu/emailVerification";
 			}
-		}else {
+		} else {
 			m.addAttribute("status", "驗證網址過期，請重新取得驗證網址");
 			return "/liu/emailVerification";
 		}
@@ -254,10 +257,11 @@ public class MainFunctionController {
 			return "isNotExist";
 		}
 	}
-	
+
 	@GetMapping("/main/api/getEmail")
 	@ResponseBody
-	public String getVerifyEmail(@RequestParam("id") Integer id) throws AddressException, MessagingException, IOException {
+	public String getVerifyEmail(@RequestParam("id") Integer id)
+			throws AddressException, MessagingException, IOException {
 		System.out.println(id);
 		Member member = mService.findById(id);
 		String email = member.getEmail();
@@ -265,11 +269,11 @@ public class MainFunctionController {
 		LocalDateTime nowTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 		String nowStringTime = nowTime.format(formatter);
-		String url = "http://localhost:8080/carbon/main/emailVerification?c=12edf@af"+"&t="+nowStringTime+"&userId="+member.getId();
-		gService.sendMessage(email, gService.getMyEmail(), "Carbon邀請您驗證您的信箱", "此為系統發送郵件，請勿直接回覆！！！\n"
-				+ "\n" + userId+ "您好:\n" + "\n" + "點選以下連結驗證信箱\n" + "\n" +url+"\n\n"+"Carbon lys7744110@gmail.com");
-	return "success";
+		String url = "http://localhost:8080/carbon/main/emailVerification?c=12edf@af" + "&t=" + nowStringTime
+				+ "&userId=" + member.getId();
+		gService.sendMessage(email, gService.getMyEmail(), "Carbon邀請您驗證您的信箱", "此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + userId
+				+ "您好:\n" + "\n" + "點選以下連結驗證信箱\n" + "\n" + url + "\n\n" + "Carbon lys7744110@gmail.com");
+		return "success";
 	}
-	
 
 }

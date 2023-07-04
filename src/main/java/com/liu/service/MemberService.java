@@ -83,10 +83,8 @@ public class MemberService {
 		if (optional.isPresent()) {
 			Member updateMember = optional.get();
 			if(!member.getPwd().equals(optional.get().getMemberPwd())) {
-				System.out.println("有進");
 				updateMember.setMemberPwd(pwdEncoder.encode(member.getPwd()));
 			}
-			System.out.println("沒有進");
 			updateMember.setMemberName(member.getName());
 			updateMember.setBirthday(member.getBirthday());
 			updateMember.setGender(member.getGender());
