@@ -65,7 +65,7 @@
 -->
 <body>
     
-        
+    <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>    
 
 
 
@@ -78,7 +78,7 @@
     
     
 <!-- START: Top Contacts -->
-<div class="nk-contacts-top">
+<!-- <div class="nk-contacts-top">
     <div class="container">
         <div class="nk-contacts-left">
             <ul class="nk-social-links">
@@ -88,7 +88,7 @@
                 <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a></li>
                 <li><a class="nk-social-google-plus" href="#"><span class="fab fa-google-plus"></span></a></li>
                 <li><a class="nk-social-twitter" href="#" target="_blank"><span class="fab fa-twitter"></span></a></li>
-                <li><a class="nk-social-pinterest" href="#"><span class="fab fa-pinterest-p"></span></a></li>
+                <li><a class="nk-social-pinterest" href="#"><span class="fab fa-pinterest-p"></span></a></li> -->
 
                 <!-- Additional Social Buttons
                     <li><a class="nk-social-behance" th:href="#"><span class="fab fa-behance"></span></a></li>
@@ -114,7 +114,7 @@
                     <li><a class="nk-social-wordpress" th:href="#"><span class="fab fa-wordpress"></span></a></li>
                     <li><a class="nk-social-youtube" th:href="#"><span class="fab fa-youtube"></span></a></li>
                 -->
-            </ul>
+            <!-- </ul>
         </div>
         <div class="nk-contacts-right">
             <ul class="nk-contacts-icons">
@@ -174,7 +174,7 @@
             </ul>
         </div>
     </div>
-</div>
+</div> -->
 <!-- END: Top Contacts -->
 
     
@@ -187,7 +187,7 @@
             .nk-navbar-transparent
             .nk-navbar-autohide
     -->
-    <nav class="nk-navbar nk-navbar-top nk-navbar-sticky nk-navbar-autohide">
+    <!-- <nav class="nk-navbar nk-navbar-top nk-navbar-sticky nk-navbar-autohide">
         <div class="container">
             <div class="nk-nav-table">
                 
@@ -400,7 +400,7 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> -->
     <!-- END: Navbar -->
 
 </header>
@@ -618,7 +618,7 @@
                 <span>...</span>
                 <a href="#">14</a>
             </nav>
-            <a th:href="#" class="nk-pagination-next">
+            <a href="#" class="nk-pagination-next">
                 <span class="ion-ios-arrow-forward"></span>
             </a>
         </div>

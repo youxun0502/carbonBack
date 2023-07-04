@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -105,6 +107,63 @@ public class DiscussionsController {
 		return "redirect:/discussions/getAllDiscussions";
 	}
 	
+	@GetMapping("/forum/insertpage")
+	public String insertpageForum() {
+		return "liao/DiscussionInsertFront";
+	}
+	
+	@PostMapping("/forum/insertDiscussion")
+	public String insertDiscussionForum(@RequestParam("memberId") Integer memberId,
+									@RequestParam("eventId") Integer eventId,
+									@RequestParam("userName") String userName,
+									@RequestParam("gameId") Integer gameId,
+									@RequestParam("gameName") String gameName,
+									@RequestParam("title") String title,
+									@RequestParam("dcontent") String dcontent,
+									@RequestParam("lastReplyTime") String lastReplyTime,
+									@RequestParam("d_views") Integer d_views,
+									@RequestParam("dcreated_at") String dcreated_at,
+									@RequestParam("dlikes") Integer dlikes,
+									@RequestParam("photoFile") MultipartFile photoFile,
+									Model model) throws IOException {
+		Discussions discussions = new Discussions();
+		discussions.setMemberId(memberId);
+		discussions.setEventId(eventId);
+		discussions.setUserName(userName);
+		discussions.setGameId(gameId);
+		discussions.setGameName(gameName);
+		discussions.setTitle(title);
+		discussions.setDcontent(dcontent);
+		discussions.setLastReplyTime(lastReplyTime);
+		discussions.setD_views(d_views);
+		discussions.setDcreated_at(dcreated_at);
+		discussions.setDlikes(dlikes);
+		discussions.setPhotoFile(photoFile.getBytes());
+		
+		dService.insert(discussions);
+		
+		return "redirect:/forum/DiabloIV";
+	}
+	
+//	@ResponseBody
+//	@GetMapping("/forum/api/page")
+//	public Page<Discussions> showMessagesApi(@RequestParam(name="p",defaultValue = "1") Integer pageNumber){
+//		Page<Discussions> page = dService.findByPage(pageNumber);
+//		return page;
+//	}
+//	
+//	@ResponseBody
+//	@PostMapping("/messages/api/post")
+//	public Page<Discussions> postMessageApi(@RequestBody Discussions discussions){
+//		dService.insert(discussions);
+//		
+//		Page<Discussions> page = dService.findByPage(1);
+//		
+//		return page;
+//	}
+	
+	
+	
 	@GetMapping("/discussions/getAllDiscussions")
 	  public String getAllDiscussions(Model model) throws SQLException {
 	          List<Discussions> discussions = dService.findAll();
@@ -136,22 +195,35 @@ public class DiscussionsController {
 	  }
 	
 	@GetMapping("/forum/DiabloIV")
-	public String goDiabloIV() {
-		return "liao/DiabloIV";
-	}
-	
-	@GetMapping("/forum/maplestory")
-	public String gomaplestory() {
-		return "liao/maplestory";
-	}
-	
-	
-	@GetMapping("/gameforum")
 	public String goDiabloIV(Model model) throws SQLException {
 		List<Discussions> discussions = dService.findAll();
         model.addAttribute("discussions", discussions);
 		return "liao/DiabloIV";
 	}
+	
+	@GetMapping("/forum/maplestory")
+	public String gomaplestory(Model model) throws SQLException {
+		List<Discussions> discussions = dService.findAll();
+        model.addAttribute("discussions", discussions);
+		return "liao/maplestory";
+	}
+	
+	@GetMapping("/forum/SampleTitle")
+	  public String getSampleTitle(Model model) throws SQLException {
+	          List<Discussions> discussions = dService.findAll();
+	          model.addAttribute("discussions", discussions);
+	          return "liao/SampleTitle";
+	  }
+	
+	
+//	@GetMapping("/gameforum")
+//	public String goDiabloIV(Model model) throws SQLException {
+//		List<Discussions> discussions = dService.findAll();
+//        model.addAttribute("discussions", discussions);
+//		return "liao/DiabloIV";
+//	}
+	
+	
 	
 	
 //	
@@ -181,6 +253,52 @@ public class DiscussionsController {
 		model.addAttribute("discussions", discussions);
 		return "liao/updateDiscussionData";
 	}
+	
+	@GetMapping("/forum/updatefront")
+	public String updatePageFront(@RequestParam Integer articleId,Model model) {
+		Discussions discussions = dService.findById(articleId);
+		model.addAttribute("discussions", discussions);
+		return "liao/updateDiscussionData";
+	}
+	
+	@Transactional
+	@PutMapping("/forum/updatefront")
+	public String updateDiscussionFront(@RequestParam("articleId") Integer articleId,
+            @RequestParam("memberId") Integer memberId,
+            @RequestParam("eventId") Integer eventId,
+            @RequestParam("userName") String userName,
+            @RequestParam("gameId") Integer gameId,
+            @RequestParam("gameName") String gameName,
+            @RequestParam("title") String title,
+            @RequestParam("dcontent") String dcontent,
+            @RequestParam("lastReplyTime") String lastReplyTime,
+            @RequestParam("d_views") Integer d_views,
+            @RequestParam("dcreated_at") String dcreated_at,
+            @RequestParam("dlikes") Integer dlikes,
+            @RequestParam(value = "photoFile", required = false) MultipartFile photoFile,
+            Model model) throws IOException {
+			Discussions discussions = dService.findById(articleId);
+			
+			discussions.setMemberId(memberId);
+			discussions.setEventId(eventId);
+			discussions.setUserName(userName);
+			discussions.setGameId(gameId);
+			discussions.setGameName(gameName);
+			discussions.setTitle(title);
+			discussions.setDcontent(dcontent);
+			discussions.setLastReplyTime(lastReplyTime);
+			discussions.setD_views(d_views);
+			discussions.setDcreated_at(dcreated_at);
+			discussions.setDlikes(dlikes);
+			
+			if (photoFile != null && !photoFile.isEmpty()) {
+			discussions.setPhotoFile(photoFile.getBytes());
+			}
+			
+//			dService.update(discussions);
+			
+			return "redirect:/discussions/getAllDiscussions";
+			}
 	
 //	@Transactional
 //	@PutMapping("/discussions/update")
@@ -248,7 +366,7 @@ public class DiscussionsController {
 			
 //			dService.update(discussions);
 			
-			return "redirect:/discussions/getAllDiscussions";
+			return "redirect:/forum/DiabloIV";
 			}
 	
 	

@@ -483,7 +483,10 @@
             <!-- START: Pagination -->
             <div class="row justify-content-end">
                 <div class="col-md-3 text-right">
-                    <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white">New Topic</a>
+                    <!-- <form>
+                        <button id="submitBtn" class="nk-btn nk-btn-rounded nk-btn-color-white">New Topic</button>
+                    </form> -->
+                    <a th:href="@{/forum/insertpage}" class="nk-btn nk-btn-rounded nk-btn-color-white">New Topic</a>
                 </div>
             </div>
             <!-- END: Pagination -->
@@ -492,32 +495,32 @@
 
             <!-- START: Forums List -->
             <ul class="nk-forum">
-                <li>
+                <li class="nk-forum-locked" th:each="discussion : ${discussions}">
                     <div class="nk-forum-icon">
-                        <span class="ion-pin"></span>
+                        <span class="ion-locked"></span>
                     </div>
                     <div class="nk-forum-title">
-                        <h3><a th:href="@{forum-single-topic.html}">Suggestions</a></h3>
-                        <div class="nk-forum-title-sub">Started by <a href="#">nK</a> on January 17, 2018</div>
+                        <h3><a th:href="@{'/forum/' + ${discussion.title}}"><span th:text="${discussion.title}"></span></a></h3>
+                        <div class="nk-forum-title-sub">Started by <a href="#">Hitman</a> on August 23, 2018</div>
                     </div>
                     <div class="nk-forum-count">
-                        178 posts
+                        3 posts
                     </div>
                     <div class="nk-forum-activity-avatar">
                         <a th:href="@{forum-single-topic.html}">
-                            <img th:src="@{/assets/images/avatar-1.jpg}" alt="Hitman">
+                            <img th:src="@{/assets/images/avatar-2.jpg}" alt="Witch Murder">
                         </a>
                     </div>
                     <div class="nk-forum-activity">
-                        <div class="nk-forum-activity-title" title="Hitman">
-                            <a href="#">Hitman</a>
+                        <div class="nk-forum-activity-title" title="Witch Murder">
+                            <a href="#">Witch Murder</a>
                         </div>
                         <div class="nk-forum-activity-date">
-                            September 11, 2018
+                            August 26, 2018
                         </div>
                     </div>
                 </li>
-                <li class="nk-forum-locked">
+                <!-- <li class="nk-forum-locked">
                     <div class="nk-forum-icon">
                         <span class="ion-locked"></span>
                     </div>
@@ -606,7 +609,7 @@
                     </div>
                     <div class="nk-forum-activity-avatar">
                         <a th:href="@{forum-single-topic.html}">
-                            <img th:src="@{assets/images/avatar-1.jpg}" alt="Hitman">
+                            <img th:src="@{/assets/images/avatar-1.jpg}" alt="Hitman">
                         </a>
                     </div>
                     <div class="nk-forum-activity">
@@ -642,7 +645,7 @@
                             June 28, 2018
                         </div>
                     </div>
-                </li>
+                </li> -->
             </ul>
             <!-- END: Forums List -->
 
@@ -979,6 +982,59 @@
     <!-- <script th:src="assets/js/goodgames.min.js"></script>
     <script th:src="assets/js/goodgames-init.js"></script> -->
     <!-- END: Scripts -->
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function (event) {
+          event.preventDefault();
+    
+          const inputText = document.getElementById('myMessage').value;
+          const dtoJsObject = { text: inputText }
+          const dtoJsonString = JSON.stringify(dtoJsObject);
+          const url = 'http://localhost:8080/my-app/messages/api/post'
+    
+          // ajax
+          fetch(url, {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: dtoJsonString
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((jsPageObject) => {
+              htmlMaker(jsPageObject)
+            })
+    
+        })
+    
+        function htmlMaker(data) {
+          msg_data = '<tbody>'
+          data.content.forEach(el => {
+            msg_data += '<tr>'
+            msg_data += '<td>' + el.text + '</td>'
+            msg_data += '<td>' + el.added + '</td>'
+            msg_data += '</tr>'
+          })
+          msg_data += '</tbody>'
+    
+          let totalPages = data.totalPages
+    
+          for (var i = 1; i <= totalPages; i++) {
+            msg_data += '<button class="pageBtn" data-pageid="' + i + '">' + i + '</bitton>'
+          }
+    
+    
+          const myTable = document.getElementById('list_json_data')
+          myTable.getElementsByTagName('tbody')[0].innerHTML = msg_data;
+        }
+    
+        //抓 page json 的 ajax
+        function loadThatPage(thatPage) {
+    
+        }
+    
+    
+      </script>
 
 
 
