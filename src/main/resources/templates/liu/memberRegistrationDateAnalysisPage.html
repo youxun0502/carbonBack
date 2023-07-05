@@ -70,10 +70,12 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>1</td>
-								</tr>
+								<th:block th:each="data : ${datas}">
+										<tr>
+											<td>[[${data[0]}]]</td>
+											<td>[[${data[1]}]]</td>
+										</tr>
+								</th:block>
 							</tbody>
 						</table>
 					</div>
@@ -103,13 +105,11 @@
 				.then(response => {
 					const chartJS = document.querySelector('#chartJS');
 					let responseData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
-					for (let i = 0; i < response.data.length; i++) {
-						responseData[response.data[i].registrationMonth - 1] = response.data[i].count;
+					console.log(response.data);
+					for(let dataInResponse of response.data){			
+						responseData[dataInResponse[0]-1] = dataInResponse[1];	
+						console.log(responseData[dataInResponse[0]-1] = dataInResponse[1]);				
 					}
-
-					console.log(responseData);
-
 					const labels = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
 					const data = {
 						labels: labels,

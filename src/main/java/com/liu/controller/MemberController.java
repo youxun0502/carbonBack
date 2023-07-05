@@ -119,13 +119,15 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/memberRegistrationDateAnalysisPage")
-	public String memberRegistrationDateAnalysisPage() {
+	public String memberRegistrationDateAnalysisPage(Model m) {
+		List<Object[]> datas = mService.findRegistrationMonth();
+		m.addAttribute("datas", datas);
 		return "/liu/memberRegistrationDateAnalysisPage";
 	}
 
 	@GetMapping("/member/api/memberRegistrationDateAnalysis")
 	@ResponseBody
-	public List<Map<String, Integer>> memberRegistrationDateAnalysis() {
+	public List<Object[]> memberRegistrationDateAnalysis() {
 		return mService.findRegistrationMonth();
 	}
 }

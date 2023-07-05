@@ -1,7 +1,6 @@
 package com.liu.model;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +18,5 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	public Member findMemberByPhone(@Param("phone") String phone);
 
 	@Query(nativeQuery = true, value = "select month(registrationDate) registrationMonth, count(*) count  from member group by month(registrationDate)")
-	public List<Map<String, Integer>> findRegistrationMonth();
+	public List<Object[]> findRegistrationMonth();
 }
