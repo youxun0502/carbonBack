@@ -1,6 +1,7 @@
 package com.liu.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.HashSet;
@@ -172,6 +173,10 @@ public class MemberService {
 		}
 		return false;
 
+	}
+	
+	public  List<Map<String, Integer>> findRegistrationMonth(){
+		return mRepository.findRegistrationMonth();
 	}
 
 }

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		table {
+			background-color: rgb(33, 37, 41);
+		}
+
+		table td,
+		table th {
+			max-width: 170px;
+		}
+
+		.tdCenter {
+			text-align: center;
+		}
+
+		.imgBox {
+			width: 100px;
+			height: 100px;
+		}
+
+		.showDesc {
+			cursor: pointer;
+		}
+
+		.section-big {
+			max-width: calc(100% - 42px);
+		}
+
+		.section-small {
+			max-width: calc(100% - 200px);
+		}
+	</style>
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navmain}"></div>
+	<div class="d-flex">
+		<div th:replace="~{layout/asideMain}"></div>
+		<div class="w-100 section section-big">
+			<div class="content mt-3">
+				<nav class="navbar navColor">
+					<div class="container-fluid">
+						<a class="navbar-brand link-light" th:href="@{/member}" style="font-size: 30px;">Member</a>
+						<div class="d-flex" role="search">
+							<input class="form-control me-2" type="search" placeholder="會員姓名查詢" aria-label="Search" name="memberName"
+								id="memberName_search">
+							<button class="btn btn-outline-warning" type="submit" id="name_search_btn">Search</button>
+						</div>
+					</div>
+				</nav>
+				<ul class="nav nav-tabs">
+					<li class="nav-item"><a class="nav-link " th:href="@{/member/allMember}">搜尋全部</a></li>
+					<li class="nav-item"><a class="nav-link active" th:href="@{/member/memberRegistrationDateAnalysisPage}">分析</a>
+					</li>
+				</ul>
+			</div>
+			<div class="container-fluid">
+				<div class="row my-3">
+					<div class="col-4">
+						<table id="example" class="hover row-border" style="width:100%">
+							<thead>
+								<tr>
+									<td>月份</td>
+									<td>人數</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>1</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-8">
+						<canvas id="chartJS"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		$(function () {
+			$('#example').DataTable({
+				scrollX: true,
+				"dom": 'lrtip'
+			});
+		})
+		getRegistrationDatechartJs()
+
+		function getRegistrationDatechartJs() {
+			axios({
+				url: 'http://localhost:8080/carbon/member/api/memberRegistrationDateAnalysis',
+				method: 'GET',
+				headers: { 'Content-Type': 'application/x-www-form-urlencode' }
+			})
+				.then(response => {
+					const chartJS = document.querySelector('#chartJS');
+					let responseData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+					for (let i = 0; i < response.data.length; i++) {
+						responseData[response.data[i].registrationMonth - 1] = response.data[i].count;
+					}
+
+					console.log(responseData);
+
+					const labels = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+					const data = {
+						labels: labels,
+						datasets: [
+							{
+								label: '註冊人數',
+								data: responseData,
+								borderColor: 'rgb(255, 255, 255)',
+								backgroundColor: 'rgb(255, 255, 255)',
+								pointBackgroundColor: 'rgb(255, 255, 255)',
+								pointBorderColor: 'rgb(255, 255, 255)'
+
+							}
+						]
+					}
+
+					new Chart(chartJS, {
+						type: 'line',
+						data: data,
+						options: {
+							scales: {
+								x: {
+									ticks: {
+										color: 'rgb(255, 255, 255)',
+										font: { size: 24 },
+									}
+								},
+								y: {
+									ticks: {
+										color: 'rgb(255, 255, 255)',
+										font: { size: 24 },
+									}
+								},
+							},
+							responsive: true,
+							plugins: {
+								legend: {
+									labels: {
+										color: 'rgb(255, 255, 255)',
+										font: {
+											size: 30
+										}
+									},
+									position: 'top',
+								},
+								title: {
+									display: true,
+									text: '每月會員註冊人數',
+									color: 'rgb(255, 255, 255)',
+									font: {
+										size: 30
+									},
+									position: 'bottom'
+								}
+							}
+						},
+					}
+					)
+
+				})
+		}
+
+
+
+	</script>
+</body>
+
+</html>

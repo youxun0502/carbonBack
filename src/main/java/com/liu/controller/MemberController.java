@@ -49,7 +49,7 @@ public class MemberController {
 			memberDto.setName(updateData.getMemberName());
 			memberDto.setId(updateData.getUserId());
 			memberDto.setPhone(updateData.getPhone());
-			System.out.println("DTO:"+updateData.getMemberPwd());
+			System.out.println("DTO:" + updateData.getMemberPwd());
 			memberDto.setPwd(updateData.getMemberPwd());
 			memberDto.setRegistration(updateData.getRegistrationDate());
 			memberDto.setAccount(updateData.getAccount());
@@ -62,13 +62,13 @@ public class MemberController {
 	@ResponseBody
 	@PutMapping("/member/api/update")
 	public String update(@RequestBody MemberDto memberDto) {
-			boolean status = mService.update(memberDto);
+		boolean status = mService.update(memberDto);
 
-			if (status == true) {
-				return "true";
-			} else {
-				return "false";
-			}
+		if (status == true) {
+			return "true";
+		} else {
+			return "false";
+		}
 	}
 
 	@ResponseBody
@@ -93,6 +93,7 @@ public class MemberController {
 			return "fail";
 		}
 	}
+
 	@ResponseBody
 	@GetMapping("/member/api/seachByName")
 	public List<MemberDto> findMemberByName(@RequestParam(name = "name") String name) {
@@ -115,5 +116,16 @@ public class MemberController {
 			memberDtos.add(memberDto);
 		}
 		return memberDtos;
+	}
+
+	@GetMapping("/member/memberRegistrationDateAnalysisPage")
+	public String memberRegistrationDateAnalysisPage() {
+		return "/liu/memberRegistrationDateAnalysisPage";
+	}
+
+	@GetMapping("/member/api/memberRegistrationDateAnalysis")
+	@ResponseBody
+	public List<Map<String, Integer>> memberRegistrationDateAnalysis() {
+		return mService.findRegistrationMonth();
 	}
 }
