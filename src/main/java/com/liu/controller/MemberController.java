@@ -23,11 +23,6 @@ public class MemberController {
 	@Autowired
 	MemberService mService;
 
-	@GetMapping("/member")
-	public String memberMain() {
-		return "/liu/memberDataTable";
-	}
-
 	@GetMapping("/member/allMember")
 	public String findAllMember(Model m) {
 		List<Member> members = mService.findAll();
