@@ -3,7 +3,6 @@ package com.chen.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.print.attribute.standard.Media;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -88,7 +87,7 @@ public class EventController {
 					e.setFee(fee);
 					eService.insert(e);
 				}
-					return "redirect:/event/data";
+				return "redirect:/event/data";
 			} catch (IOException e1) {
 				e1.printStackTrace();
 				return "chen/insertEvent";

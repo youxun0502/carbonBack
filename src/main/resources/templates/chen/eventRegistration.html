@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
-<body>
+<body style="color: black;">
     <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
     <div class="contentBox">
     <div class="content" style="width:400px">
@@ -50,13 +50,10 @@
                     </div>
                     <div class="field">
                         <div class="label">
-                            活動選擇
+                            活動名稱
                         </div>
-                        <select name="eventId" style="width: 100%">
-							<th:block th:each=" event : ${events} " >
-							<option th:value="${event.eventId}" th:text="${event.name}"></option>
-							</th:block>
-						</select>
+                        <p style="font-size: 30px;font-weight:bold;" th:text="${event.name}"></p>
+                        <input type="hidden" name="eventId" th:value="${event.eventId}" />
                     </div>
                     <div class="field">
                         <div class="label">
@@ -96,7 +93,12 @@
                     <div class="title">
                         Confirmed:
                     </div>
-
+                    <div class="field">
+						<div class="label">
+                            報名費
+                        </div>
+						<p style="font-size: 30px;font-weight:bold;" th:text="${event} ? ${event.fee}/10*${#strings.substringBefore(event.timeLimitedDiscount, '折')} : 無需費用"></p>
+					</div>
                     <div class="field btns">
                         <button class="prev-2 prev">上一步</button>
                         <button class="submit">確認送出</button>

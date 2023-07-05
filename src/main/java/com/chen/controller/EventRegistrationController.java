@@ -55,6 +55,7 @@ public class EventRegistrationController {
 		return "chen/eventFrontPageAll";
 	}
 	
+	/*
 	// 跳轉活動分類頁面
 	@GetMapping("/eventPageOne")
 	public String eventFrontPageOne(@RequestParam("gameId")Integer gameId,Model m) {
@@ -65,11 +66,21 @@ public class EventRegistrationController {
 		m.addAttribute("events", events);
 		return "chen/eventFrontPageOne";
 	}
+	*/
+	// 跳轉活動分類頁面
+	@GetMapping("/eventPageOne")
+	public String eventFrontPageOne(@RequestParam(name="p", defaultValue = "1") Integer pageNumber,@RequestParam(value = "gameId", required = false)Integer gameId,Model m) {
+		List<Game> games = gRepo.findAll();
+		m.addAttribute("games", games);
+		
+		Page<Event> page = erService.findByPageOne(pageNumber,gameId);
+		m.addAttribute("page", page);
+		return "chen/eventFrontPageOne";
+	}
 	
 	// 跳轉活動細節頁面
 	@GetMapping("/eventPageDetail")
 	public String eventFrontPageDetail(@RequestParam("eventId")Integer eventId,Model m) {
-		System.out.println("eventId =" + eventId);
 		Event event = eService.findById(eventId);
 		m.addAttribute("event", event);
 		return "chen/eventFrontPageDetail";
@@ -77,9 +88,9 @@ public class EventRegistrationController {
 	
 	// 跳轉新增頁面
 	@GetMapping("/eventRegistration")
-	public String signupPage(Model m) {
-		List<Event> events = eRepo.findAll();
-		m.addAttribute("events", events);
+	public String signupPage(@RequestParam("eventId")Integer eventId,Model m) {
+		Event event = eService.findById(eventId);
+		m.addAttribute("event", event);
 		return "chen/eventRegistration";
 	}
 	
@@ -95,7 +106,7 @@ public class EventRegistrationController {
 		er.setPhone(phone);
 		er.setAddress(address);
 		erService.insert(er);
-		return "redirect:/eventRegistration";
+		return "redirect:/eventPageAll";
 	}
 	
 	//顯示前台圖片

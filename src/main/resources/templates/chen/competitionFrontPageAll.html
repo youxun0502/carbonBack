@@ -139,7 +139,7 @@
 
                 <li><span class="fa fa-angle-right"></span></li>
 
-                <li><span>活動總覽</span></li>
+                <li><span>賽事總覽</span></li>
 
             </ul>
         </div>
@@ -153,66 +153,76 @@
             <div class="row vertical-gap">
                 <div class="col-lg-8">
 
-                    <!-- START: Recent Galleries-->
-                    <div class="row vertical-gap">
-                    <th:block th:each=" event : ${page.content} " >
-                        <div class="col-md-6">
-                            <div class="nk-gallery-item-group">
-                                <a th:href="@{'/eventPageDetail?eventId='+${event.eventId}}" class="nk-gallery-item">
-                                    <div class="nk-gallery-item-overlay"><span class="ion-eye"></span></div>
-                                    <img th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="">
-                                </a>
-                                <div class="nk-gallery-item-description">
-                                    <h4 class="nk-gallery-item-description-title h5" th:text="${event.name}"></h4>
-                                    <div class="nk-gallery-item-description-info">
-                                        <span class="far fa-image"></span>
-                                        <span>58</span>
-                                    </div>
-                                </div>
+                    
+                    <div class="nk-blog-grid">
+                <div class="row">
+                    
+                    <th:block th:each=" competition : ${page.content} " >
+                    <div class="col-md-6">
+                        <!-- START: Post -->
+                        <div class="nk-blog-post">
+                            <span class="nk-post-img">
+                                <img style="width: 350px;height: 200px;" th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}" alt="">
+                                <span class="nk-post-comments-count">4</span>
+                            </span>
+                            <div class="nk-gap"></div>
+                            <h2 class="nk-post-title h4"><a href="blog-article.html" th:text="${competition.name}" style="font-weight: 600;"></a></h2>
+                            <div class="nk-post-by">
+                                <img src="assets/images/avatar-1.jpg" alt="Hitman" class="rounded-circle" width="35"> by <a href="#">Hitman</a> in Sep 18, 2018
                             </div>
+                            <div class="nk-gap"></div>
+                            <div class="nk-post-text">
+                                <p th:text="${competition.description}" style="color: #7f8b92;"></p>
+                            </div>
+                            <div class="nk-gap"></div>
+                            <a th:href="@{'/competitionPageDetail?competitionId='+${competition.competitionId}}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">詳細資訊</a>
                         </div>
-                      </th:block>
-                       
+                        <!-- END: Post -->
                     </div>
-                    <div class="nk-gap"></div>
-                    
-                    <div class="nk-pagination nk-pagination-center">
-						<th:block th:switch="${page.number != 0}">
-		                    <a th:case=${true} th:href="@{/eventPageAll?(p=${page.number})}" class="nk-pagination-prev">
-		                        <span class="ion-ios-arrow-back"></span>
-		                    </a>
-		                    <a th:case=${false} href="#" class="nk-pagination-prev disabled">
-		                        <span class="ion-ios-arrow-back"></span>
-		                    </a>
-		                </th:block>
-	                    
-	                    
-	                    <nav>
-		                    <th:block th:each=" pageNumber : ${#numbers.sequence(1, page.totalPages)}">
-				                <th:block th:switch="${page.number != pageNumber - 1 }">
-			                        <a th:case=${true} th:href="@{/eventPageAll?(p=${pageNumber})}">[[${pageNumber}]]</a>
-			                        <a th:case=${false} class="nk-pagination-current" href="#" th:text="${pageNumber}"></a>
-		                        </th:block>
-				            </th:block>
-	                    </nav>
-	                    
-	                    
-	                    <th:block th:switch="${page.number == page.totalPages -1}">
-		                    <a th:case="${false}" th:href="@{/eventPageAll?(p=${page.number + 2})}" class="nk-pagination-next">
-		                        <span class="ion-ios-arrow-forward"></span>
-		                    </a>
-		                    <a th:case="${true}" href="#" class="nk-pagination-next disabled">
-		                        <span class="ion-ios-arrow-forward"></span>
-		                    </a>
-	                    </th:block>
-	                    
-	                </div>
+                    </th:block>
                     
                     
+                </div>
+
+                <!-- START: Pagination -->
+                <div class="nk-pagination nk-pagination-center">
+					<th:block th:switch="${page.number != 0}">
+	                    <a th:case=${true} th:href="@{/competitionPageAll?(p=${page.number})}" class="nk-pagination-prev">
+	                        <span class="ion-ios-arrow-back"></span>
+	                    </a>
+	                    <a th:case=${false} href="#" class="nk-pagination-prev disabled">
+	                        <span class="ion-ios-arrow-back"></span>
+	                    </a>
+	                </th:block>
+                    
+                    
+                    <nav>
+	                    <th:block th:each=" pageNumber : ${#numbers.sequence(1, page.totalPages)}">
+			                <th:block th:switch="${page.number != pageNumber - 1 }">
+		                        <a th:case=${true} th:href="@{/competitionPageAll?(p=${pageNumber})}">[[${pageNumber}]]</a>
+		                        <a th:case=${false} class="nk-pagination-current" href="#" th:text="${pageNumber}"></a>
+	                        </th:block>
+			            </th:block>
+                    </nav>
+                    
+                    
+                    <th:block th:switch="${page.number == page.totalPages -1}">
+	                    <a th:case="${false}" th:href="@{/competitionPageAll?(p=${page.number + 2})}" class="nk-pagination-next">
+	                        <span class="ion-ios-arrow-forward"></span>
+	                    </a>
+	                    <a th:case="${true}" href="#" class="nk-pagination-next disabled">
+	                        <span class="ion-ios-arrow-forward"></span>
+	                    </a>
+                    </th:block>
+                    
+                </div>
+                <!-- END: Pagination -->
+            </div>
+                    
+             
                     
                     <div class="nk-gap-2"></div>
-                   
-                    
+                    <div class="nk-gap"></div>
                     <!-- END: Recent Galleries -->
 
                     <!-- START: Now Playing -->
@@ -411,30 +421,10 @@
                                 <div class="nk-widget-post" style="padding-left: 0;display: flex;flex-wrap: wrap;">
 									<th:block th:each=" game : ${games} " >
                                     <div>
-										<a class="badge bg-success" style="font-size: 17px;margin-right: 21px;margin-bottom: 20px;" th:text="${game.gameName}" th:href="@{'/eventPageOne?gameId='+${game.gameId}}"></a>
+										<a class="badge bg-success" style="font-size: 17px;margin-right: 21px;margin-bottom: 20px;" th:text="${game.gameName}" th:href="@{'/competitionPageOne?gameId='+${game.gameId}}"></a>
 									</div>
 									</th:block>
                                 </div>
-								
-								<!--
-                                <div class="nk-widget-post">
-                                    <a href="blog-article.html" class="nk-post-image">
-                                        <img src="assets/images/post-2-sm.jpg" alt="">
-                                    </a>
-                                    <h3 class="nk-post-title"><a href="blog-article.html">Grab your sword and fight the
-                                            Horde</a></h3>
-                                    <div class="nk-post-date"><span class="fa fa-calendar"></span> Sep 5, 2018</div>
-                                </div>
-
-                                <div class="nk-widget-post">
-                                    <a href="blog-article.html" class="nk-post-image">
-                                        <img src="assets/images/post-3-sm.jpg" alt="">
-                                    </a>
-                                    <h3 class="nk-post-title"><a href="blog-article.html">We found a witch! May we burn
-                                            her?</a></h3>
-                                    <div class="nk-post-date"><span class="fa fa-calendar"></span> Aug 27, 2018</div>
-                                </div>
-                                -->
 
                             </div>
                         </div>
