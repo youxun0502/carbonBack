@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.evan.dto.CartDTO;
+import com.evan.dto.TypeDTO;
 import com.evan.service.CartService;
 
 @Controller
@@ -52,7 +54,16 @@ public class CartController {
 		return cService.addMemberCart(formData);
 	}
 	
-	
-	
+	@GetMapping("/gameFront/cartList")
+	public String cartList(@RequestParam("memberId") String memberId,Model model) {
+		List<CartDTO> memberCart = cService.getMemberCart(Integer.parseInt(memberId));
+		
+		int count = 0 ;
+		for (CartDTO cartDTO : memberCart) { count = count + cartDTO.getPrice();}
+		
+		model.addAttribute("cartList",memberCart);
+		model.addAttribute("countSum",count);
+		return "evan/cartList";
+	}
 	
 }

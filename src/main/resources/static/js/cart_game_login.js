@@ -94,7 +94,7 @@ function updateCartItems() {
 			cartItemsContainer.insertAdjacentHTML('beforeend', html);
 			itemCount++;
 		}
-		if (index === 4 && cartItems.length > 5) {
+		if (itemCount === 4 && cartItems.length > 5) {
 			// 在第5個項目後插入"點擊購物車看更多"的文字
 			const moreText = document.createElement('div');
 			moreText.textContent = '點擊下面查看更多';
@@ -220,6 +220,7 @@ function addToCart(event) {
 
 // 從購物車中移除商品
 function removeFromCart(event, gameName, gameId, memberId) {
+	console.log(gameName);
 	event.preventDefault();
 
 	if (!cartItems) {
@@ -232,13 +233,16 @@ function removeFromCart(event, gameName, gameId, memberId) {
 	});
 	// 在購物車中尋找要移除的商品
 	var localCart = JSON.parse(localStorage.getItem('cartItems'));
+	if (localCart) {
 	const indexlocal = localCart.findIndex(function (item) {
 		return item.gameName === gameName;
 	});
+	if(indexlocal !== -1){localCart.splice(indexlocal, 1);};
+	}
 
 	// 如果找到該商品，則從購物車中移除
 	if (index !== -1) {
-		localCart.splice(indexlocal, 1);
+		
 		cartItems.splice(index, 1);
 		// 將更新後的購物車資料存回 Local Storage
 		localStorage.setItem('cartItems', JSON.stringify(localCart));
@@ -253,7 +257,7 @@ function removeFromCart(event, gameName, gameId, memberId) {
 				cartItems = data;
 				// 資料庫存儲成功後的處理
 				console.log('資料庫存儲成功');
-
+				refreshPage();
 			},
 			error: function (error) {
 				// 資料庫存儲失敗後的處理
