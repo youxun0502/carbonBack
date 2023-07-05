@@ -22,7 +22,7 @@
             padding: 20px 50px;
         }
     </style>
-    <title>Market :: [[${orders[0].gameItem.itemName}]]</title>
+    <title>Carbon | 虛寶交易 :: [[${orders[0].gameItem.itemName}]]</title>
 </head>
 
 <body>
@@ -36,7 +36,7 @@
     <ul class="nk-breadcrumbs">
         <li><a th:href="@{/main/goBackToHome}">首頁</a></li>
         <li><span class="fa fa-angle-right"></span></li>
-        <li><a th:href="@{/main/goBackToHome}">市集</a></li>
+        <li><a th:href="@{/market}">虛寶交易</a></li>
         <li><span class="fa fa-angle-right"></span></li>
         
         <li><span>[[${orders[0].gameItem.itemName}]]</span></li>
@@ -51,7 +51,6 @@
 	            <div class="nk-store-product">
 	                <div class="row vertical-gap">
 	                    <div class="col-md-6">
-	                        <!-- START: Product Photos -->
 	                        <div class="nk-popup-gallery col-10">
 	                            <div class="nk-gallery-item-box">
                                     <img th:src="@{'/market/downloadImage/' + ${orders[0].itemId}}"
@@ -59,7 +58,6 @@
 	                            </div>
 	                            <div class="nk-gap-1"></div>
 	                        </div>
-	                        <!-- END: Product Photos -->
 	                    </div>
 	                    <div class="col-md-6">
 	
@@ -71,89 +69,172 @@
 	                            <p>[[${orders[0].gameItem.itemDesc}]]</p>
 	                        </div>
 	                    </div>
+			            </div>
 	                </div>
 	            </div>
 	        </div>
-	    </div>
+	        
+	    <div class="nk-gap-21"></div>
+        <ul class="nk-forum text-white">
+	        <li class="p-10">
+	            <div class="nk-forum-title my-auto">
+	            	<h3></h3>
+	            </div>
+	            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
+	            	<a href="#" class="btn btn-info" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${orders[0].itemId}">
+	                    下單訂購
+	                </a>
+	            </div>
+	        </li>
+        </ul>
+        
 	    <div class="nk-gap-1"></div>
 	    
 	    <ul class="nk-forum">
             <li class="p-10">
                 <div class="nk-forum-icon"></div>
-                <div class="nk-forum-title border-end">
+                <div class="nk-forum-title">
                 	名稱
                 </div>
-                <div class="nk-forum-activity border-end">
+                <div class="nk-forum-activity border-start">
                     <div class="nk-forum-activity-title text-center">
-                        賣家
+                        賣方
                     </div>
                 </div>
-                <div class="nk-forum-activity border-end">
+                <div class="nk-forum-activity border-start border-end">
                     <div class="nk-forum-activity-title text-center">
                         價格
                     </div>
                 </div>
-                <div class="nk-forum-activity text-center">
+                <div class="nk-forum-activity">
                     <a href="#"></a>
                 </div>
             </li>
         </ul>
 	    <div class="nk-gap-1"></div>
 	     <!-- ----------- change to ajex ----------- -->
-	    <ul class="nk-forum">
-	    	<th:block th:each="order: ${orders}">
-	            <li class="p-10">
-	                <div class="nk-forum-activity me-3 d-flex">
-	                	<img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.gameItem.itemImgName}"
-                                class="img-fluid" style="max-width: 120px">
-	                </div>
-	                <div class="nk-forum-title my-auto">
-	                	<h3>[[${order.gameItem.itemName}]]</h3>
-	                </div>
-	                <div class="nk-forum-activity my-auto">
-	                    <div class="nk-forum-activity-title text-center">
-	                        [[${order.sell.memberName}]]
-	                    </div>
-	                </div>
-	                <div class="nk-forum-activity my-auto d-flex justify-content-center">
-	                    <div class="nk-forum-activity-title">
-	                        NT$ [[${order.price}]]
-	                    </div>
-	                </div>
-	                <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
-	                    <button class="btn btn-info buyBtn" th:data-id="${order.ordId}">Buy Now</button>
-	                </div>
-	            </li>
-	        </th:block>
-        </ul>
-    
-    
-        <div class="card mt-5 mb-1">
-            <div class="card-body">
-                <div class="card-text col d-flex justify-content-between">
-                    <div class="col-7"></div>
-                    <div class="col-2"></div>
-                    <div class="col-2">
-                        <button class="btn btn-outline-info" id="buyOrder1" th:data-buyId="${orders[0].itemId}">Place Buy Order</button>
+	     <div id="itemList1">
+		    <ul class="nk-forum text-white">
+		    	<th:block th:each="order: ${orders}">
+		            <li class="p-10">
+		                <div class="nk-forum-activity me-3 d-flex">
+		                	<img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.gameItem.itemImgName}"
+	                                class="img-fluid" style="max-width: 120px">
+		                </div>
+		                <div class="nk-forum-title my-auto">
+		                	<h3>[[${order.gameItem.itemName}]]</h3>
+		                </div>
+		                <div class="nk-forum-activity my-auto">
+		                    <div class="nk-forum-activity-title text-center">
+		                        [[${order.sell.memberName}]]
+		                    </div>
+		                </div>
+		                <div class="nk-forum-activity my-auto d-flex justify-content-center">
+		                    <div class="nk-forum-activity-title">
+		                        NT$ [[${order.price}]]
+		                    </div>
+		                </div>
+		                <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
+		                	<a href="#" class="btn btn-info buyBtn" data-toggle="modal" data-target="#modalBuyPage" th:data-id="${order.ordId}">
+		                        立即購買
+		                    </a>
+		                </div>
+		            </li>
+		        </th:block>
+	        </ul>
+	     </div>
+    	<div class="nk-gap-3"></div>
+    </div>
+</div>
+
+
+	<!-- ----------- buy order page ----------- -->
+<div class="nk-modal modal fade" id="modalBuyOrderPage" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg-xl modal-dialog-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="ion-android-close"></span>
+                </button>
+                <div class="my-4 col-12" id="myOrderPage1">
+                    <div class="row vertical-gap">
+			            <div class="col-lg-12">
+			                <h3><span class="text-main-1">購買</span> - [[${orders[0].gameItem.itemName}]]</h3>
+			                <div class="nk-gap"></div>
+			                <form class="nk-form nk-form-ajax needs-validation" novalidate>
+			                    <div class="row vertical-gap sm-gap">
+			                    	<div class="d-flex col-xl-7">
+							            <div class="nk-popup-gallery col-4 p-0 d-flex align-items-center">
+		                            		<div class="nk-gallery-item-box">
+								                <img th:src="@{'/market/downloadImage/' + ${orders[0].itemId}}" th:alt="${orders[0].gameItem.itemImgName}">
+								            </div>
+							            </div>
+							            <div class="col-8">
+							                <h3>[[${orders[0].gameItem.itemName}]]</h3>
+							                <span>[[${orders[0].gameItem.game.gameName}]]</span>
+							            </div>
+							        </div>
+							        <div class="col-xl-5">
+							        	<div class="my-3 row">
+							                <label class="col-sm-4 col-form-label">願意出價: </label>
+							                <div class="col-5">
+							                	<input type="text" id="buyPrice1" class="form-control" value="NT$" required>
+							                </div>
+						                	<span class="col-3">(每件)</span>
+						                </div>
+							            <div class="my-3 row">
+							                <label class="col-sm-4 col-form-label">購買數量: </label>
+							                <div class="col-5">
+								                <input type="number" id="buyQuantity1" class="form-control" value="1" required>
+							                </div>
+							            </div>
+							            <div class="my-3 row">
+							            	<label for="maxPrice1" class="col-sm-4 col-form-label">最高價格: </label>
+										    <div class="col-sm-8">
+										      <input type="text" readonly class="form-control-plaintext text-white" id="maxPrice1" value=" NT$ ">
+										    </div>
+							            </div>
+						                <div class="invalid-feedback">
+						                        請輸入價格..
+						                </div>
+							        </div>
+			                    </div>
+			                    <div class="nk-gap-1"></div>
+			                    <div>
+					                <div class="form-check">
+					                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+					                    <label class="form-check-label" for="invalidCheck">
+					                        我同意協議條款
+					                    </label>
+					                    <div class="invalid-feedback">
+					                        必須勾選同意條款
+					                    </div>
+					                </div>
+					            </div>
+			                    <div class="mt-3 d-flex justify-content-end">
+					                <button class="btn btn-info buyOrderBtn" id="buyOrderBtn1">新增訂單</button>
+					            </div>
+			                    <div class="nk-form-response-success"></div>
+			                    <div class="nk-form-response-error"></div>
+			                </form>
+                        
+					        <form class="row g-3 needs-validation" novalidate>
+	                        	
+						        
+						        <hr>
+						        
+					            <div class="mt-3 d-flex justify-content-end">
+					                <button class="btn btn-info buyOrderBtn" id="buyOrderBtn1">PLACE ORDER</button>
+					            </div>
+			                </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card mt-5 mb-1">
-            <div class="card-body">
-                <div class="card-text col d-flex justify-content-between">
-                    <div class="col-7">NAME</div>
-                    <div class="vr"></div>
-                    <div class="col-2">SELLER</div>
-                    <div class="vr"></div>
-                    <div class="col-1">PRICE</div>
-                    <div class="vr"></div>
-                    <div class="col-1"></div>
-                </div>
             </div>
         </div>
-
-	<!-- ----------- buy order page ----------- -->
+				
     <div class="showOrderPage justify-content-center align-items-center" id="showOrderPage1">
         <div class="myOrderPage my-4 col col-md-6" id="myOrderPage1">
             <div class="d-flex justify-content-between align-items-center">
@@ -221,47 +302,58 @@
             </div>
         </div>
     </div>
-	
+
+    
     <!-- ----------- buy page ----------- -->
-    <div class="showPage justify-content-center align-items-center" id="showPage1">
-        <div class="myPage my-4 col col-md-6" id="myPage1">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Buy an item</h2>
-                <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
-            </div>
-            <div class="row col mt-5 d-none" id="pageMsg">
-                <h4>Congratulations on your purchase!</h4>
-            </div>
-            <div class="row g-2">
-                <div class="card mt-5 mb-1">
-                    <div class="card-body">
-                        <div class="card-text col d-flex justify-content-between">
-                            <div class="col-8">NAME</div>
-                            <div class="vr"></div>
-                            <div class="col-2">SELLER</div>
-                            <div class="vr"></div>
-                            <div class="col-1">PRICE</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col p-0 g-2 mb-5" id="buyPageInfo">
-                </div>
-                <div class="card" id="userInfo1">
-                    <div class="card-body col d-flex">
-                        <div class="card-text col-9 d-flex gap-3">
-                            <span>account: </span>
-                            <span th:text="${session.memberBeans} ? ${session.memberBeans.userId} : ''"></span>
-                            <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class=" d-none"></span>
-                        </div>
-                        <div class="mt-5 col-3 justify-content-md-center">
-                            <button class="btn btn-info" id="submitBtn">PURCHASE</button>
-                        </div>
-                    </div>
-                </div>
+<div class="nk-modal modal fade" id="modalBuyPage" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="ion-android-close"></span>
+                </button>
+				<div class="" id="LoginMsg1">
+                	<h2 class="mb-0"><span class="text-main-1">購買</span>物品</h2>
+                	<div class="nk-gap-1"></div>
+					<div class="row col d-none" id="pageMsg">
+		                <h4>購買成功!</h4>
+		            </div>
+			        <div class="nk-gap"></div>
+			        <div class="row vertical-gap text-white">
+			            <div class="col-lg-12">
+			                <div class="nk-box-5 bg-dark-4 d-flex justify-content-between">
+			                	<div class="col-7">名稱</div>
+	                            <div class="vr"></div>
+	                            <div class="col-2">賣方</div>
+	                            <div class="vr"></div>
+	                            <div class="col-2">價格</div>
+			                </div>
+			            </div>
+			            <div class="col-lg-12">
+			                <div class="nk-box-5 bg-dark-4 d-flex">
+			                	<div class="col p-0 g-2 mb-5" id="buyPageInfo"></div>
+			                </div>
+			            </div>
+			            <div class="col-lg-12">
+			                <div class="nk-box-5 bg-dark-4" id="userInfo1">
+			                	<div class="col d-flex">
+			                        <div class="col-9 d-flex gap-3">
+			                            <span>帳號: </span>
+			                            <span th:text="${session.memberBeans} ? ${session.memberBeans.userId} : ''"></span>
+			                            <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class=" d-none"></span>
+			                        </div>
+			                        <div class="mt-5 col-3 d-flex justify-content-md-end">
+			                            <button class="btn btn-info" id="submitBtn">立即購買</button>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+				</div>
             </div>
         </div>
     </div>
-    </div>
+</div>
     <div th:replace="~{layout/footer}"></div>
     <script th:src="@{/js/itemMarket.js}"></script>
 </body>

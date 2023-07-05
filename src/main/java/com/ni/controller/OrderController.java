@@ -55,12 +55,18 @@ public class OrderController {
 	@GetMapping("/market")
 	public String marketList(Model m) {
 		m.addAttribute("orders", orderService.findOrderList());
+		m.addAttribute("items", itemService.findAll());
 		return "ni/itemMarketList-gg";
 	}
 	
-	@GetMapping("/market/{gameId}/{itemName}")
-	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, Model m) {
-		m.addAttribute("orders", orderService.findSellItemList(gameId, itemName));
+	@GetMapping("/market/{gameId}/{itemId}/{itemName}")
+	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, @PathVariable Integer itemId, Model m) {
+		List<ItemOrderDTO> result = orderService.findSellItemList(gameId, itemName);
+		if(result.isEmpty()) {
+			m.addAttribute("item", itemService.findById(itemId));
+			return "ni/itemMarketPage-noOrder";
+		} 
+		m.addAttribute("orders", result);
 //		show all item that it has any order 
 //		change findSellItemList to findGameitemById and orderList will loading by ajax
 		return "ni/itemMarketPage-gg";

@@ -5,13 +5,15 @@ const buyPageInfo = document.getElementById('buyPageInfo');
 const inventoryList = document.getElementById('inventoryList1');
 const userId = document.getElementById('user1').textContent;
 console.log('userId: ' + userId);
-
+let removeHtml;
 
 // =========================== itemMarketPage ===========================  
 // --------------------------- buy an item page ---------------------------
 for (i = 0; i < buyBtn.length; i++) {
     buyBtn[i].addEventListener('click', function (e) {
         e.preventDefault();
+        removeHtml = $(this).closest('li');
+        console.log(removeHtml);
         let buyId = this.getAttribute('data-id');
         buyAnItem(buyId);
     })
@@ -40,22 +42,17 @@ function buyAnItem(buyId) {
 // --------------------------- show buy order info page ---------------------------
 function showBuyInfo(order) {
     let infoHtmlString = `
-        <div class="card mb-2">
-            <div class="card-body">
-                <div class="card-text col d-flex justify-content-between align-items-center">
-                    <div class="imgBox overflow-hidden col-2">
-                        <img src="/carbon/market/downloadImage/${order.itemId}"
-                            alt="${order.gameItem.itemImgName}" class="img-fluid" style="max-width: 120px">
-                    </div>
-                    <div class="col-6">${order.gameItem.itemName}</div>
-                    <div class="col-2">${order.sell.memberName}</div>
-                    <div class="col-1">$ ${order.price}</div>
-                </div>
+        <div class="col d-flex justify-content-between align-items-center">
+            <div class="imgBox overflow-hidden col-2">
+                <img src="/carbon/market/downloadImage/${order.itemId}"
+                    alt="${order.gameItem.itemImgName}" class="img-fluid" style="max-width: 90px">
             </div>
+            <div class="col-5">${order.gameItem.itemName}</div>
+            <div class="col-2">${order.sell.memberName}</div>
+            <div class="col-2">$ ${order.price}</div>
         </div>`;
 
     buyPageInfo.innerHTML = infoHtmlString;
-    show.classList.add('d-flex');
 
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.addEventListener('click', function (e) {
@@ -63,7 +60,6 @@ function showBuyInfo(order) {
         e.preventDefault();
         newOrder(order, userId);
     })
-    closePage();
 }
 
 
@@ -87,10 +83,21 @@ function newOrder(order, buyer) {
                 newItemLog(response.data);
             }
             return response.data;
+            
         })
         .then(result => {
             if (result != null) {
-                showSuccessPage(result);
+				
+	            axios.get('/carbon/market/buyAnItem',{
+					params: {ordId: result.ordId}
+					})
+					.then(res => {
+		                showSuccessPage(res.data);
+		                removeHtml.remove();
+					})
+					.catch(err => {
+						console.log('err: ' + err);
+					})
             }
         })
         .catch(err => {
@@ -142,27 +149,22 @@ function newItemLog(result) {
 // --------------------------- success page ---------------------------  
 function showSuccessPage(order) {
     let infoHtmlString = `
-        <div class="card mb-2">
-            <div class="card-body">
-                <div class="card-text col d-flex justify-content-between align-items-center">
-                    <div class="imgBox overflow-hidden col-2">
-                        <img src="/carbon/market/downloadImage/${order.itemId}"
-                            alt="" class="img-fluid" style="max-width: 120px">
-                    </div>
-                    <div class="col-6">{order.gameItem.itemName}</div>
-                    <div class="col-2">${order.seller}</div>
-                    <div class="col-1">$ ${order.price}</div>
-                </div>
+        <div class="col d-flex justify-content-between align-items-center">
+            <div class="imgBox overflow-hidden col-2">
+                <img src="/carbon/market/downloadImage/${order.itemId}"
+                    alt="" class="img-fluid" style="max-width: 90px">
             </div>
+            <div class="col-5">${order.gameItem.itemName}</div>
+            <div class="col-2">${order.sell.memberName}</div>
+            <div class="col-2">$ ${order.price}</div>
         </div>
         <div class="gap-2 col d-flex justify-content-end" id="btnGroup">
-            <button class="btn btn-info submitBtn col-3">VIEW INVENTORY</button>
-            <button class="btn btn-info closeBtn2 col-3">CLOSE</button>
+            <a class="btn btn-info submitBtn col-3" href="#">查看物品庫</a>
+            <a class="btn btn-info closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">關閉</a>
         </div>`;
     buyPageInfo.innerHTML = infoHtmlString;
     $('#pageMsg').removeClass('d-none');
     $('#userInfo1').addClass('d-none');
-    closePage();
 }
 
 
@@ -285,7 +287,12 @@ $('#buyOrder1').on('click', function () {
 // --------------------------- sell list ajax ---------------------------          
 function listPage() {
     let itemList = `
-        	
+        <ul class="nk-forum text-white">`;
+    itemList += `
+		            <li class="p-10">
+		                
+		            </li>
+	        </ul>
         	`;
 }
 
@@ -585,16 +592,16 @@ function showSaleInfo(order) {
 
 // =========================== redirect to login page ===========================          
 function loginPage() {
-    let page1 = document.getElementById('myPage1');
+    let page1 = document.getElementById('LoginMsg1');
     let loginHtmlString = `
-        <div class="text-center my-5">您需要登入或建立帳戶才能進行相關動作。</div>
+        <h4 class="text-center my-5">您需要登入或建立帳戶才能進行相關動作。</h4>
         <div class="gap-2 row col d-flex justify-content-center" id="btnGroup">
-            <a class="btn btn-info submitBtn col-md-3" href="/carbon/main/loginPage">SIGN IN</a>
-            <a class="btn btn-info col-md-3" href="/carbon/main/registerPage">CREATE AN ACCOUNT</a>
-            <a class="btn btn-info closeBtn2 col-md-2">CANCLE</a>
+            <a class="btn btn-info submitBtn col-md-3" href="/carbon/main/loginPage">登入</a>
+            <a class="btn btn-info col-md-3" href="/carbon/main/registerPage">註冊帳號</a>
+            <a class="btn btn-info closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">取消</a>
         </div>`;
     page1.innerHTML = loginHtmlString;
-    show.classList.add('d-flex');
+    //show.classList.add('d-flex');
     closePage();
 }
 
