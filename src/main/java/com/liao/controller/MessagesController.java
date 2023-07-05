@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.liao.model.Discussions;
 import com.liao.model.Messages;
 import com.liao.service.MessagesService;
 
@@ -195,6 +195,12 @@ public class MessagesController {
 		
 	}
 	
+	@GetMapping("/forum/SampleTitle")
+	  public String getSampleTitle(Model model) throws SQLException {
+	          List<Messages> msg = mService.findAll();
+	          model.addAttribute("msg", msg);
+	          return "liao/SampleTitle";
+	  }
 	
 
 	

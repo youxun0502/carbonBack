@@ -36,7 +36,8 @@ public class Messages {
 	@Column(name="mphotoFile")
 	private byte[] mphotoFile;
 	
-	@Column(name = "articleId", insertable = false, updatable = false)
+	@Column(name = "articleId")
+//	@Column(name = "articleId", insertable = false, updatable = false)
 	private Integer articleId;
 	
 	@Column(name = "memberId")
@@ -66,9 +67,9 @@ public class Messages {
 	@Column(name = "mcontent")
 	private String mcontent;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "articleId", referencedColumnName = "articleId")
-    private Discussions discussion;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "articleId", referencedColumnName = "articleId")
+//    private Discussions discussion;
 	
 	
 	public Messages() {

@@ -495,31 +495,34 @@
 
             <!-- START: Forums List -->
             <ul class="nk-forum">
-                <li class="nk-forum-locked" th:each="discussion : ${discussions}">
-                    <div class="nk-forum-icon">
-                        <span class="ion-locked"></span>
-                    </div>
-                    <div class="nk-forum-title">
-                        <h3><a th:href="@{'/forum/' + ${discussion.title}}"><span th:text="${discussion.title}"></span></a></h3>
-                        <div class="nk-forum-title-sub">Started by <a href="#">Hitman</a> on August 23, 2018</div>
-                    </div>
-                    <div class="nk-forum-count">
-                        3 posts
-                    </div>
-                    <div class="nk-forum-activity-avatar">
-                        <a th:href="@{forum-single-topic.html}">
-                            <img th:src="@{/assets/images/avatar-2.jpg}" alt="Witch Murder">
-                        </a>
-                    </div>
-                    <div class="nk-forum-activity">
-                        <div class="nk-forum-activity-title" title="Witch Murder">
-                            <a href="#">Witch Murder</a>
+                <th:block th:each="discussion : ${discussions}">
+                    <li class="nk-forum-locked">
+                        <div class="nk-forum-icon">
+                            <span class="ion-locked"></span>
                         </div>
-                        <div class="nk-forum-activity-date">
-                            August 26, 2018
+                        <div class="nk-forum-title">
+                            <h3><a th:href="@{'/forum/' + ${discussion.title}}"><span
+                                        th:text="${discussion.title}"></span></a></h3>
+                            <div class="nk-forum-title-sub">Started by <a href="#">Hitman</a> on August 23, 2018</div>
                         </div>
-                    </div>
-                </li>
+                        <div class="nk-forum-count">
+                            3 posts
+                        </div>
+                        <div class="nk-forum-activity-avatar">
+                            <a th:href="@{forum-single-topic.html}">
+                                <img th:src="@{/assets/images/avatar-2.jpg}" alt="Witch Murder">
+                            </a>
+                        </div>
+                        <div class="nk-forum-activity">
+                            <div class="nk-forum-activity-title" title="Witch Murder">
+                                <a href="#">Witch Murder</a>
+                            </div>
+                            <div class="nk-forum-activity-date">
+                                August 26, 2018
+                            </div>
+                        </div>
+                    </li>
+                </th:block>
                 <!-- <li class="nk-forum-locked">
                     <div class="nk-forum-icon">
                         <span class="ion-locked"></span>
@@ -985,56 +988,56 @@
 
     <script>
         document.getElementById('submitBtn').addEventListener('click', function (event) {
-          event.preventDefault();
-    
-          const inputText = document.getElementById('myMessage').value;
-          const dtoJsObject = { text: inputText }
-          const dtoJsonString = JSON.stringify(dtoJsObject);
-          const url = 'http://localhost:8080/my-app/messages/api/post'
-    
-          // ajax
-          fetch(url, {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: dtoJsonString
-          })
-            .then((response) => {
-              return response.json();
+            event.preventDefault();
+
+            const inputText = document.getElementById('myMessage').value;
+            const dtoJsObject = { text: inputText }
+            const dtoJsonString = JSON.stringify(dtoJsObject);
+            const url = 'http://localhost:8080/my-app/messages/api/post'
+
+            // ajax
+            fetch(url, {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: dtoJsonString
             })
-            .then((jsPageObject) => {
-              htmlMaker(jsPageObject)
-            })
-    
+                .then((response) => {
+                    return response.json();
+                })
+                .then((jsPageObject) => {
+                    htmlMaker(jsPageObject)
+                })
+
         })
-    
+
         function htmlMaker(data) {
-          msg_data = '<tbody>'
-          data.content.forEach(el => {
-            msg_data += '<tr>'
-            msg_data += '<td>' + el.text + '</td>'
-            msg_data += '<td>' + el.added + '</td>'
-            msg_data += '</tr>'
-          })
-          msg_data += '</tbody>'
-    
-          let totalPages = data.totalPages
-    
-          for (var i = 1; i <= totalPages; i++) {
-            msg_data += '<button class="pageBtn" data-pageid="' + i + '">' + i + '</bitton>'
-          }
-    
-    
-          const myTable = document.getElementById('list_json_data')
-          myTable.getElementsByTagName('tbody')[0].innerHTML = msg_data;
+            msg_data = '<tbody>'
+            data.content.forEach(el => {
+                msg_data += '<tr>'
+                msg_data += '<td>' + el.text + '</td>'
+                msg_data += '<td>' + el.added + '</td>'
+                msg_data += '</tr>'
+            })
+            msg_data += '</tbody>'
+
+            let totalPages = data.totalPages
+
+            for (var i = 1; i <= totalPages; i++) {
+                msg_data += '<button class="pageBtn" data-pageid="' + i + '">' + i + '</bitton>'
+            }
+
+
+            const myTable = document.getElementById('list_json_data')
+            myTable.getElementsByTagName('tbody')[0].innerHTML = msg_data;
         }
-    
+
         //抓 page json 的 ajax
         function loadThatPage(thatPage) {
-    
+
         }
-    
-    
-      </script>
+
+
+    </script>
 
 
 

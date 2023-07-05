@@ -208,12 +208,12 @@ public class DiscussionsController {
 		return "liao/maplestory";
 	}
 	
-	@GetMapping("/forum/SampleTitle")
-	  public String getSampleTitle(Model model) throws SQLException {
-	          List<Discussions> discussions = dService.findAll();
-	          model.addAttribute("discussions", discussions);
-	          return "liao/SampleTitle";
-	  }
+//	@GetMapping("/forum/SampleTitle")
+//	  public String getSampleTitle(Model model) throws SQLException {
+//	          List<Discussions> discussions = dService.findAll();
+//	          model.addAttribute("discussions", discussions);
+//	          return "liao/SampleTitle";
+//	  }
 	
 	
 //	@GetMapping("/gameforum")
