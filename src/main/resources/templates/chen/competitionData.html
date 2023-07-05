@@ -48,6 +48,7 @@
 					<table id="example" class="hover row-border" style="width:100%">
 						<thead>
 							<tr>
+								<th>圖片
 								<th>賽事名稱
 								<th>對戰模式
 								<th>賽事說明
@@ -65,6 +66,7 @@
 						<tbody>
 							<th:block th:each=" competition : ${competitionList} ">
 								<tr>
+									<td class="imgBox overflow-hidden"><img th:src="@{'/competition/showImage/'+${competition.competitionId}}" alt="找不到圖片" class="img-fluid"></td>
 									<td th:text="${competition.name}"></td>
 									<td th:text="${competition.mode}"></td>
 									<td th:text="${competition.description}"></td>

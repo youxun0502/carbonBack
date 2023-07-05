@@ -9,4 +9,9 @@ public interface CompetitionRegistrationRepository extends JpaRepository<Competi
 
 	@Query("from CompetitionRegistration where realName like %:realName%")
 	public List<CompetitionRegistration> findByNamelike(String realName);
+	
+	@Query("from Competition where gameId = :gameId order by startDate asc")
+	public List<Competition> findByGameId(Integer gameId);
+	
+	
 }

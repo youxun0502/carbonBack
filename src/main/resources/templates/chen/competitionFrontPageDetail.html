@@ -180,7 +180,7 @@
         
         <li><span class="fa fa-angle-right"></span></li>
         
-        <li><span th:text="${event.name}"></span></li>
+        <li><span th:text="${competition.name}"></span></li>
         
     </ul>
 </div>
@@ -197,7 +197,7 @@
             <!-- START: Teammate Card -->
             <div class="nk-teammate-card">
                 <div class="nk-teammate-card-photo">
-                    <img th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="">
+                    <img th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}" alt="">
                 </div>
 
                 <div class="nk-teammate-card-info">
@@ -208,7 +208,7 @@
                                 <strong class="h3">開始日期</strong>
                             </td>
                             <td>
-                                <strong id="startDate" class="h5" th:text="${event.startDate}"></strong>
+                                <strong id="startDate" class="h5" th:text="${competition.startDate}"></strong>
                             </td>
                         </tr>
                         <tr>
@@ -216,7 +216,7 @@
                                 <strong class="h3">結束日期</strong>
                             </td>
                             <td>
-                                <strong class="h5" th:text="${event.endDate}"></strong>
+                                <strong class="h5" th:text="${competition.endDate}"></strong>
                             </td>
                         </tr>
                         <tr>
@@ -224,7 +224,7 @@
                                 <strong class="h3">活動地點</strong>
                             </td>
                             <td>
-                                <strong class="h5" th:text="${event.location}"></strong>
+                                <strong class="h5" th:text="${competition.location}"></strong>
                             </td>
                         </tr>
                         <tr>
@@ -232,7 +232,7 @@
                                 <strong class="h3">名額限制</strong>
                             </td>
                             <td>
-                                <strong class="h5" th:text="${event} ? ${event.quotaLimited}+'名'"></strong>
+                                <strong class="h5" th:text="${competition} ? ${competition.quotaLimited}+'名'"></strong>
                             </td>
                         </tr>
                         <tr>
@@ -240,7 +240,7 @@
                                 <strong class="h3">報名費</strong>
                             </td>
                             <td>
-                                <strong class="h5" th:text="${event} ? '$'+${event.fee}+'元'"></strong>
+                                <strong class="h5" th:text="${competition} ? '$'+${competition.fee}+'元'"></strong>
                             </td>
                         </tr>
                         </tbody>
@@ -252,6 +252,8 @@
             <div style="position: relative;">
 				<strong id="discount" style="position: absolute;right: 140px;background-color: red;" class="h2" th:text="${event} ? '限時折扣:'+${event.timeLimitedDiscount}"></strong>
 				
+				
+				<!--
 				<div id="countdown_dashboard" class="wow" style="position: absolute;right: 350px;top: 0;">
 
 			        <div class="wow dash days_dash">
@@ -279,6 +281,7 @@
 			        </div>
 			
 			    </div>
+			    
 				
 				
 				
@@ -288,8 +291,10 @@
 				
 				
 				<strong id="countdownNo" style="position: absolute;right: 135px;top: 0px;background-color: red;" class="h3"></strong>
-				<form th:action="@{/eventRegistration}" method="get">
-					<input type="hidden" name="eventId" th:value="${event.eventId}" />
+				-->
+				
+				<form th:action="@{/competitionRegistration}" method="get">
+					<input type="hidden" name="competitionId" th:value="${competition.competitionId}" />
 					<button style="position: absolute;right: 0;top: 0;" class="btn btn-warning btn-lg">點擊報名</button>
 				</form>
 			</div>
@@ -297,7 +302,7 @@
             <!-- START: Biography -->
             <div class="nk-gap-4"></div>
             <h3 class="nk-decorated-h-2"><span>活動說明</span></h3>
-            <p th:text="${event.description}" style="color: white;"></p>
+            <p th:text="${competition.description}" style="color: white;"></p>
             <!-- END: Biography -->
 
             <!-- START: Latest Matches -->
