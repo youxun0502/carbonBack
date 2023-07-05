@@ -61,6 +61,13 @@ public class Member {
 	@Column(name = "account")
 	private String account;
 	
+	@Column(name = "useAvatar")
+	private Integer useAvatar;
+	@Column(name = "useFrame")
+	private Integer useFrame;
+	@Column(name = "useBackground")
+	private Integer useBackground;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")// 回傳到前端的格式
 	@DateTimeFormat(pattern = "yyyy-MM-dd") // java的格式
 	@Temporal(TemporalType.DATE)// 資料庫的型別
@@ -191,6 +198,30 @@ public class Member {
 
 	public void setLevel(Level level) {
 		this.level = level;
+	}
+
+	public Integer getUseAvatar() {
+		return useAvatar;
+	}
+
+	public void setUseAvatar(Integer useAvatar) {
+		this.useAvatar = useAvatar;
+	}
+
+	public Integer getUseFrame() {
+		return useFrame;
+	}
+
+	public void setUseFrame(Integer useFrame) {
+		this.useFrame = useFrame;
+	}
+
+	public Integer getUseBackground() {
+		return useBackground;
+	}
+
+	public void setUseBackground(Integer useBackground) {
+		this.useBackground = useBackground;
 	}
 	
 

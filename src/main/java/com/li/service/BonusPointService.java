@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.li.model.BonusLog;
 import com.li.model.BonusPointLog;
 import com.li.model.BonusPointLogRepository;
 

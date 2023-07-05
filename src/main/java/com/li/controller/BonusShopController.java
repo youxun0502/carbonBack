@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,15 +63,19 @@ public class BonusShopController {
 	@ResponseBody
 	@PostMapping("/bonus-shop/api/buybonusitem1")
 	public BonusShopDto buyBonusItem(@RequestBody BonusShopDto bonusshopDto,Model model) {
-		System.out.println(bonusshopDto.getBonusId());
-		System.out.println(bonusshopDto.getMemberId());
-		System.out.println(bonusshopDto.getBonusprice());
-		System.out.println(bonusshopDto.getPoint());
+//		System.out.println(bonusshopDto.getBonusId());
+//		System.out.println(bonusshopDto.getMemberId());
+//		System.out.println(bonusshopDto.getBonusprice());
+//		System.out.println(bonusshopDto.getPoint());
 //		BonusItem bitem = bService.getBonusItemById(bonusshopDto.getBonusId());
 		BonusLog bLog = new BonusLog();
-//		bLog.setBonusId(bonusshopDto.getBonusId());
-//		bLog.setMemberId(bonusshopDto.getMemberId());
-//		blService.newBonusLog(bLog);
+		bLog.setBonusId(bonusshopDto.getBonusId());
+		bLog.setMemberId(bonusshopDto.getMemberId());
+		blService.newBonusLog(bLog);
+		
+		bpService.newPointLog("buybonusitem", bonusshopDto.getMemberId(), -(bonusshopDto.getBonusprice()));
+//		System.out.println(-(bonusshopDto.getBonusprice()));
+		
 		return bonusshopDto;
 	}
 
