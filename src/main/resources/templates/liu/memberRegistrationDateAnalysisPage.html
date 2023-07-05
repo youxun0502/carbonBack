@@ -62,7 +62,7 @@
 			<div class="container-fluid">
 				<div class="row my-3">
 					<div class="col-4">
-						<table id="example" class="hover row-border" style="width:100%">
+						<table id="example" class="hover row-border" style="width: 100%">
 							<thead>
 								<tr>
 									<td>月份</td>
@@ -71,10 +71,10 @@
 							</thead>
 							<tbody>
 								<th:block th:each="data : ${datas}">
-										<tr>
-											<td>[[${data[0]}]]</td>
-											<td>[[${data[1]}]]</td>
-										</tr>
+									<tr>
+										<td>[[${data[0]}]]</td>
+										<td>[[${data[1]}]]</td>
+									</tr>
 								</th:block>
 							</tbody>
 						</table>
@@ -106,9 +106,9 @@
 					const chartJS = document.querySelector('#chartJS');
 					let responseData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 					console.log(response.data);
-					for(let dataInResponse of response.data){			
-						responseData[dataInResponse[0]-1] = dataInResponse[1];	
-						console.log(responseData[dataInResponse[0]-1] = dataInResponse[1]);				
+					for (let dataInResponse of response.data) {
+						responseData[dataInResponse[0] - 1] = dataInResponse[1];
+						console.log(responseData[dataInResponse[0] - 1] = dataInResponse[1]);
 					}
 					const labels = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
 					const data = {
@@ -120,7 +120,9 @@
 								borderColor: 'rgb(255, 255, 255)',
 								backgroundColor: 'rgb(255, 255, 255)',
 								pointBackgroundColor: 'rgb(255, 255, 255)',
-								pointBorderColor: 'rgb(255, 255, 255)'
+								pointBorderColor: 'rgb(255, 255, 255)',
+								pointRadius: 8,
+								pointHoverRadius: 10
 
 							}
 						]
