@@ -73,7 +73,7 @@ public class CouponController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/coupon1/api/couponMangement")
+	@GetMapping("/coupon/api/couponMangement")
 	public List<CouponDto> couponMangement(){
 	Map<Integer, Float> couponRandoms = couponService.getCouponRamdomForManagement();
 	List<Coupon> coupons = couponService.findCouponOrderByCouponId();
