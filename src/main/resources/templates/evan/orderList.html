@@ -107,9 +107,14 @@
 							</tbody>
 						</table>
 						<div class="nk-gap-1"></div>
-						<a href="#"
-							class="nk-btn nk-btn-outline nk-btn-color-success float-right">
-							綠界 </a>
+						<form th:action="@{/gameFront/order/ecpayCheckout}" th:method="post" >
+							<input type="hidden" name="memberId" th:value="${session.memberBeans.id}" />
+							<input type="hidden" name="orderId" th:value="${order.OrderID}" /> 
+							<input type="hidden" name="totalSum" th:value="${order.totalPrice}" /> 
+							<input type="hidden" name="createTime" th:value="${order.createDate}" /> 
+							<input type="hidden" name="logs" th:value="${order.logs}" /> 
+							<button type="submit" class="nk-btn  nk-btn-color-success float-right">綠界金流付款</button>
+						</form>
 						<form th:action="@{/gameFront/orderList/delete}" th:method="delete" id="deleteForm">
 							<input type="hidden" name="memberId" th:value="${session.memberBeans.id}" />
 							<input type="hidden" name="orderId" th:value="${order.OrderID}" /> 

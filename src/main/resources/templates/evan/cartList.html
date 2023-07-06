@@ -235,7 +235,7 @@
 					<form th:action="@{/gameFront/orderList}" method="post">
 					    <!-- ... 其他表單內容 ... -->
 					    <input type="hidden" name="memberId" th:value="${session.memberBeans.id}" />
-					    <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right">確認訂單</button>
+					    <button type="submit" th:attr="disabled=${countSum == 0 ? 'disabled' : null}" class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" onclick="clearLocal()">確認訂單</button>
 					</form>
 				</div>
 			</div>
