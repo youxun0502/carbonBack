@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -25,6 +26,10 @@ public class Competition {
 	
 	@Column(name = "gameId")
 	private Integer gameId;
+	
+	@Lob
+	@Column(name = "photo")
+	private byte[] photo;
 	
 	@Column(name = "name")
 	private String name;

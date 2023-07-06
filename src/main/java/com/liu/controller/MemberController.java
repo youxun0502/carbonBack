@@ -49,6 +49,7 @@ public class MemberController {
 			memberDto.setName(updateData.getMemberName());
 			memberDto.setId(updateData.getUserId());
 			memberDto.setPhone(updateData.getPhone());
+			System.out.println("DTO:"+updateData.getMemberPwd());
 			memberDto.setPwd(updateData.getMemberPwd());
 			memberDto.setRegistration(updateData.getRegistrationDate());
 			memberDto.setAccount(updateData.getAccount());
@@ -61,30 +62,13 @@ public class MemberController {
 	@ResponseBody
 	@PutMapping("/member/api/update")
 	public String update(@RequestBody MemberDto memberDto) {
-		Member updateMember = mService.findById(Integer.parseInt(memberDto.getInnerId()));
-
-		if (updateMember != null) {
-			updateMember.setUserId(memberDto.getId());
-			updateMember.setMemberPwd(memberDto.getPwd());
-			updateMember.setMemberName(memberDto.getName());
-			updateMember.setBirthday(memberDto.getBirthday());
-			updateMember.setGender(memberDto.getGender());
-			updateMember.setPhone(memberDto.getPhone());
-			updateMember.setAccount(memberDto.getAccount());
-			updateMember.setRegistrationDate(memberDto.getRegistration());
-			updateMember.setLevelId(memberDto.getLevel());
-			boolean status = mService.update(updateMember);
+			boolean status = mService.update(memberDto);
 
 			if (status == true) {
 				return "true";
 			} else {
 				return "false";
 			}
-
-		} else {
-			return "false";
-		}
-
 	}
 
 	@ResponseBody
