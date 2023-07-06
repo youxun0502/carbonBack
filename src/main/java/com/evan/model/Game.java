@@ -67,6 +67,7 @@ public class Game {
 	@JsonIgnore
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
 	private List<GameItem> gameItem = new ArrayList<>();
+	
 
 	@Override
 	public String toString() {

@@ -1,14 +1,18 @@
 package com.liu.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.evan.model.Game;
+import com.evan.model.GameOrder;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ni.model.GameItem;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -94,6 +98,9 @@ public class Member {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
 	private Set<CouponLog> couponLogs;
+	
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<GameOrder> gameOrder = new ArrayList<>();
 	
 	
 	public Integer getStatus() {
@@ -205,6 +212,14 @@ public class Member {
 
 	public Set<Game> getGames() {
 		return games;
+	}
+
+	public List<GameOrder> getGameOrder() {
+		return gameOrder;
+	}
+
+	public void setGameOrder(List<GameOrder> gameOrder) {
+		this.gameOrder = gameOrder;
 	}
 
 

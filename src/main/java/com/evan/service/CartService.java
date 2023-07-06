@@ -77,6 +77,14 @@ public class CartService {
 		member.getGames().remove(game);
 		mRepos.save(member);
 	}
+	public void deleteAll(Map<String, Object> formData) {
+		Object memberId = formData.get("memberId");
+		Member member = mRepos.findById((Integer.parseInt((String) memberId))).orElse(null);
+		
+		member.getGames().clear();
+		mRepos.save(member);
+	}
+	
 	
 	
 }

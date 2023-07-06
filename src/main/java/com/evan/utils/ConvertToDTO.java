@@ -9,8 +9,12 @@ import org.springframework.stereotype.Component;
 import com.evan.dao.GameTypeRepository;
 import com.evan.dto.CartDTO;
 import com.evan.dto.GameDTO;
+import com.evan.dto.OrderDTO;
+import com.evan.dto.OrderLogDTO;
 import com.evan.dto.TypeDTO;
 import com.evan.model.Game;
+import com.evan.model.GameOrder;
+import com.evan.model.GameOrderLog;
 import com.evan.model.GameType;
 import com.liu.model.Member;
 
@@ -87,5 +91,34 @@ public class ConvertToDTO {
 		}
 		return cartDTOs;
 	}
+
+	public List<OrderDTO> outputOrderDTOList(List<GameOrder> gameOrders) {
+		List<OrderDTO> orderDtos = new ArrayList<>();
+		
+//		gameOrders.remove(gameOrders.size()-1);
+		for (GameOrder gameOrder : gameOrders) {
+			OrderDTO orderDTO = new OrderDTO();
+
+			List<OrderLogDTO> orderLogDtos = new ArrayList<>();
+			int countPrice = 0;
+			for (GameOrderLog log : gameOrder.getGameOrderLog()) {
+				OrderLogDTO orderLogDTO = new OrderLogDTO();
+				orderLogDTO.setGameName(log.getGameName());
+				orderLogDTO.setPrice(log.getPriceLog());
+				countPrice += log.getPriceLog();
+				orderLogDtos.add(orderLogDTO);
+			}
+			orderDTO.setTotalPrice(countPrice);
+			orderDTO.setLogs(orderLogDtos);
+			orderDTO.setCreateDate(gameOrder.getCreateTime());
+			orderDTO.setOrderID(gameOrder.getOrderId());
+			orderDTO.setStatus(gameOrder.getStatus());
+			
+			orderDtos.add(orderDTO);
+		}
+		return orderDtos;
+	}
+	
+	
 
 }

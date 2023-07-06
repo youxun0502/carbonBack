@@ -136,7 +136,7 @@
 					<form action="#" class="nk-form">
 						<label for="country-sel">電子郵件 <span class="text-main-1">*</span>:
 						</label> <input type="text" class="form-control required"
-							th:value="${session.memberBeans.email}"> </select>
+							th:value="${session.memberBeans.email}"> 
 
 						<div class="nk-gap-1"></div>
 						<div class="row vertical-gap">
@@ -232,8 +232,11 @@
 					<span class="float-right"><span class="text-main-1 ">總價: </span> NT$[[${countSum}]]</span></h5>
 					
 					<div class="nk-gap-1"></div>
-					<a class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" href="#">結帳</a>
-
+					<form th:action="@{/gameFront/orderList}" method="post">
+					    <!-- ... 其他表單內容 ... -->
+					    <input type="hidden" name="memberId" th:value="${session.memberBeans.id}" />
+					    <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right">確認訂單</button>
+					</form>
 				</div>
 			</div>
 		</div>

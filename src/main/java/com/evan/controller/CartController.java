@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.evan.dto.CartDTO;
 import com.evan.dto.TypeDTO;
 import com.evan.service.CartService;
+import com.evan.service.GameOrderService;
 
 @Controller
 public class CartController {
 	
 	@Autowired
 	private CartService cService;
+	
+	@Autowired
+	private GameOrderService goService;
 
 	@ResponseBody
 	@GetMapping("/gameCart")
@@ -65,5 +70,26 @@ public class CartController {
 		model.addAttribute("countSum",count);
 		return "evan/cartList";
 	}
+	
+	
+	@PostMapping("/gameFront/orderList")
+	public String addOrderList(@RequestParam Map<String, Object> formData,Model model) {
+		
+		goService.addOrder(formData);
+		cService.deleteAll(formData);
+		
+		model.addAttribute("orderList",goService.getOrders(formData));
+		return "evan/orderList";
+	}
+	
+	@DeleteMapping("/gameFront/orderList/delete")
+	public String deleteOrderList(@RequestParam Map<String, Object> formData,Model model) {
+		
+		goService.deleteOrder(formData);
+		model.addAttribute("orderList",goService.getOrders(formData));
+		return "evan/orderList";
+	}
+
+	
 	
 }
