@@ -66,6 +66,7 @@ public class OrderController {
 			m.addAttribute("item", itemService.findById(itemId));
 			return "ni/itemMarketPage-noOrder";
 		} 
+		m.addAttribute("item", itemService.findById(itemId));
 		m.addAttribute("orders", result);
 //		show all item that it has any order 
 //		change findSellItemList to findGameitemById and orderList will loading by ajax

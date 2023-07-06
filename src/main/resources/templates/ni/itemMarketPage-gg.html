@@ -22,7 +22,7 @@
             padding: 20px 50px;
         }
     </style>
-    <title>Carbon | 虛寶交易 :: [[${orders[0].gameItem.itemName}]]</title>
+    <title>Carbon | 虛寶交易 :: [[${item.itemName}]]</title>
 </head>
 
 <body>
@@ -39,7 +39,7 @@
         <li><a th:href="@{/market}">虛寶交易</a></li>
         <li><span class="fa fa-angle-right"></span></li>
         
-        <li><span>[[${orders[0].gameItem.itemName}]]</span></li>
+        <li><span>[[${item.itemName}]]</span></li>
     </ul>
 </div>
 <div class="nk-gap-1"></div>
@@ -49,30 +49,30 @@
 	    <div class="row vertical-gap">
 	        <div class="col-12">
 	            <div class="nk-store-product">
-	                <div class="row vertical-gap">
+	                <div class="row vertical-gap text-white">
 	                    <div class="col-md-6">
 	                        <div class="nk-popup-gallery col-10">
 	                            <div class="nk-gallery-item-box">
-                                    <img th:src="@{'/market/downloadImage/' + ${orders[0].itemId}}"
-                            th:alt="${orders[0].gameItem.itemImgName}">
+                                    <img th:src="@{'/market/downloadImage/' + ${item.itemId}}"
+                            th:alt="${item.itemImgName}">
 	                            </div>
 	                            <div class="nk-gap-1"></div>
 	                        </div>
 	                    </div>
 	                    <div class="col-md-6">
 	
-	                        <h2 class="nk-product-title h3">[[${orders[0].gameItem.itemName}]]</h2>
+	                        <h2 class="nk-product-title h3">[[${item.itemName}]]</h2>
 	
-	                        <div class="nk-product-title">[[${orders[0].gameItem.game.gameName}]]</div>
+	                        <div class="nk-product-title">[[${item.game.gameName}]]</div>
 							<div class="nk-gap-1"></div>
 	                        <div class="nk-product-description">
-	                            <p>[[${orders[0].gameItem.itemDesc}]]</p>
+	                            <p>[[${item.itemDesc}]]</p>
 	                        </div>
 	                    </div>
-			            </div>
-	                </div>
-	            </div>
-	        </div>
+		            </div>
+                </div>
+            </div>
+        </div>
 	        
 	    <div class="nk-gap-21"></div>
         <ul class="nk-forum text-white">
@@ -81,7 +81,7 @@
 	            	<h3></h3>
 	            </div>
 	            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
-	            	<a href="#" class="btn btn-info" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${orders[0].itemId}">
+	            	<a href="#" class="btn btn-info" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${item.itemId}">
 	                    下單訂購
 	                </a>
 	            </div>
@@ -149,8 +149,8 @@
 
 
 	<!-- ----------- buy order page ----------- -->
-<div class="nk-modal modal fade" id="modalBuyOrderPage" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg-xl modal-dialog-xl" role="document">
+<div class="nk-modal modal fade LoginMsg" id="modalBuyOrderPage" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-xl" role="document">
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -159,19 +159,19 @@
                 <div class="my-4 col-12" id="myOrderPage1">
                     <div class="row vertical-gap">
 			            <div class="col-lg-12">
-			                <h3><span class="text-main-1">購買</span> - [[${orders[0].gameItem.itemName}]]</h3>
+			                <h3><span class="text-main-1">購買</span> - [[${item.itemName}]]</h3>
 			                <div class="nk-gap"></div>
-			                <form class="nk-form nk-form-ajax needs-validation" novalidate>
+			                <form class="nk-form needs-validation" novalidate>
 			                    <div class="row vertical-gap sm-gap">
 			                    	<div class="d-flex col-xl-7">
 							            <div class="nk-popup-gallery col-4 p-0 d-flex align-items-center">
 		                            		<div class="nk-gallery-item-box">
-								                <img th:src="@{'/market/downloadImage/' + ${orders[0].itemId}}" th:alt="${orders[0].gameItem.itemImgName}">
+								                <img th:src="@{'/market/downloadImage/' + ${item.itemId}}" th:alt="${item.itemImgName}">
 								            </div>
 							            </div>
 							            <div class="col-8">
-							                <h3>[[${orders[0].gameItem.itemName}]]</h3>
-							                <span>[[${orders[0].gameItem.game.gameName}]]</span>
+							                <h3>[[${item.itemName}]]</h3>
+							                <span>[[${item.game.gameName}]]</span>
 							            </div>
 							        </div>
 							        <div class="col-xl-5">
@@ -214,87 +214,6 @@
 			                    <div class="mt-3 d-flex justify-content-end">
 					                <button class="btn btn-info buyOrderBtn" id="buyOrderBtn1">新增訂單</button>
 					            </div>
-			                    <div class="nk-form-response-success"></div>
-			                    <div class="nk-form-response-error"></div>
-			                </form>
-                        
-					        <form class="row g-3 needs-validation" novalidate>
-	                        	
-						        
-						        <hr>
-						        
-					            <div class="mt-3 d-flex justify-content-end">
-					                <button class="btn btn-info buyOrderBtn" id="buyOrderBtn1">PLACE ORDER</button>
-					            </div>
-			                </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            </div>
-        </div>
-				
-    <div class="showOrderPage justify-content-center align-items-center" id="showOrderPage1">
-        <div class="myOrderPage my-4 col col-md-6" id="myOrderPage1">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Buy - [[${orders[0].gameItem.itemName}]]</h2>
-                <button type="button" class="btn-close closeBtn1" aria-label="Close"></button>
-            </div>
-            <div class="row g-2">
-                <div class="card mt-5 mb-1">
-                    <div class="card-body">
-                        <div class="card-text col d-flex justify-content-between">
-					        <form class="row g-3 needs-validation" novalidate>
-	                        	<div class="d-flex col-6">
-						            <div class="imgBox overflow-hidden col-4 d-flex justify-content-center">
-						                <img th:src="@{'/market/downloadImage/' + ${orders[0].itemId}}" th:alt="${orders[0].gameItem.itemImgName}"
-						                    class="img-fluid" style="max-width: 120px">
-						            </div>
-						            <div class="col-8">
-						                <h3>[[${orders[0].gameItem.itemName}]]</h3>
-						                <span>[[${orders[0].gameItem.game.gameName}]]</span>
-						            </div>
-						        </div>
-						        <div class="col-6">
-						        	<div class="my-3 row">
-						                <label class="col-sm-7 col-form-label">What price do you want to pay: </label>
-						                <div class="col-3">
-						                	<input type="text" id="buyPrice1" class="form-control" value="NT$" required>
-						                </div>
-					                	<span class="col-2">(per item)</span>
-					                </div>
-						            <div class="my-3 row">
-						                <label class="col-sm-7 col-form-label">How many do you want to buy: </label>
-						                <div class="col-3">
-							                <input type="number" id="buyQuantity1" class="form-control" value="1" required>
-						                </div>
-						            </div>
-						            <div class="my-3 row">
-						            	<label for="maxPrice1" class="col-sm-7 col-form-label">Maximum price: </label>
-									    <div class="col-sm-3">
-									      <input type="text" readonly class="form-control-plaintext" id="maxPrice1" value=" NT$ ">
-									    </div>
-						            </div>
-					                <div class="invalid-feedback">
-					                        You must enter a valid price..
-					                </div>
-						        </div>
-						        <hr>
-						        <div>
-					                <div class="form-check">
-					                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-					                    <label class="form-check-label" for="invalidCheck">
-					                        I agree to the terms of the Steam Subscriber Agreement
-					                    </label>
-					                    <div class="invalid-feedback">
-					                        You must agree before submitting.
-					                    </div>
-					                </div>
-					            </div>
-					            <div class="mt-3 d-flex justify-content-end">
-					                <button class="btn btn-info buyOrderBtn" id="buyOrderBtn1">PLACE ORDER</button>
-					            </div>
 			                </form>
                         </div>
                     </div>
@@ -302,17 +221,18 @@
             </div>
         </div>
     </div>
+</div>
 
     
     <!-- ----------- buy page ----------- -->
-<div class="nk-modal modal fade" id="modalBuyPage" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="nk-modal modal fade LoginMsg" id="modalBuyPage" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span class="ion-android-close"></span>
                 </button>
-				<div class="" id="LoginMsg1">
+				<div class="" id="buyPage1">
                 	<h2 class="mb-0"><span class="text-main-1">購買</span>物品</h2>
                 	<div class="nk-gap-1"></div>
 					<div class="row col d-none" id="pageMsg">

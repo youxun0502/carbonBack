@@ -58,7 +58,8 @@
 					            	<h3></h3>
 					            </div>
 					            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
-					            	<a href="#" class="btn btn-info" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${orders[0].itemId}">
+					            	<span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class=" d-none"></span>
+					            	<a href="#" class="btn btn-info" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${item.itemId}">
 					                    下單訂購
 					                </a>
 					            </div>

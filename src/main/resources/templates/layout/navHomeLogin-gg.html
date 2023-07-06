@@ -76,7 +76,7 @@
 					
 					<li><a th:href="@{/gameFront}">遊 戲</a></li>
 					<li class="nk-drop-item">
-						<a href="#" aria-expanded="false">市 集</a>
+						<a href="#">市 集</a>
 						<ul class="dropdown">
 							<li><a th:href="@{/market}">虛寶交易</a></li>
 							<li><a th:href="@{/bonus-shop/main}">獎勵商城</a></li>
@@ -98,13 +98,13 @@
 							<li><a href="#">Something else here</a></li>
 							<li><a th:href="@{/coupon/couponPage}">抽取優惠</a></li>
 							<!-- 延遲跳轉 -->
-							<li><a th:href="@{'/main/logout?id=' + ${session.memberBeans.id}}" class="logout_btn" onclick="setTimeout('submit()', 1000);">登 出</a></li>
+							<li><a href="#" class="logout_btn">登 出</a></li>
 						</ul>
 					</li>
 				</ul>
-				<ul class="nk-nav nk-nav-right d-none d-lg-table-cell" style="max-width:20px">
+				<ul class="nk-nav nk-nav-right d-none d-lg-table-cell" style="max-width:18px">
 					<li> 
-						<div class="nk-cart-toggle me-4">
+						<div class="nk-cart-toggle me-3">
 	                        <span class="fa fa-shopping-cart"></span>
 	                        <span class="nk-badge">0</span>
 	                    </div>
@@ -176,7 +176,7 @@
             <div class="d-flex">
 	            <a th:href="@{/main/goBackToHome}" class="nk-nav-logo">
 	                <i class="d-inline-block align-text-top fa-solid fa-gamepad"
-							style="color: #6fb7d4; font-size: 1.5em;">CARBON</i>
+							style="color: #6fb7d4; font-size: 1.2em;">CARBON</i>
 	            </a>
 				<a href="#" class="d-flex align-items-center me-2">
 	                <span class="fa fa-shopping-cart"></span>
