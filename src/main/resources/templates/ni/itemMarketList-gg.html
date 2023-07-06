@@ -68,6 +68,12 @@
 		                    販賣物品
 		                </a>
 			        </div>
+			        <div class="me-3">
+			        	<form th:action="@{/ecpayCheckout}" method="post">
+			        		<button class="btn btn-info">儲值</button>
+			        	</form>
+		                    
+			        </div>
 			    </div>
 				    <div class="tab-content">
 				        <div role="tabpanel" class="tab-pane fade show active" id="tabs-1-1">
@@ -259,7 +265,15 @@
 		                            </a>
 		                            <h2 class="nk-post-title h5" style="height: 45px"><a th:href="@{'/market/'+ ${order.gameId} + '/' + ${order.itemName}}">[[${order.itemName}]]</a></h2>
 		                            <span class="text-main-1">起跳價格: </span>
-		                            <h3 class="nk-post-title h6 text-end">NT$ ${order.itemOrders.price}</h3>
+	                            	<th:block th:each="ord: ${order.itemOrders}">
+	                            		<h3 class="nk-post-title h6 text-end" th:text="${order.itemOrders} ? 'NT$ ' + ${ord.price} : 'NT$ --'"></h3>
+			                            <th:block th:if="${ord.price} == null">
+			                            	<h3 class="nk-post-title h6 text-end">NT$ --</h3>
+		                           		</th:block>
+		                            		<h3 class="nk-post-title h6 text-end">
+				                            	NT$ [[${ord.price}]]
+		                            		</h3>
+			                        </th:block>
 		                            <div class="nk-post-by">
 		                                <img th:src="@{'/gameFront/getImg/' + ${order.gameId}}" alt="" class="rounded-circle" width="35"><a href="#">[[${order.game.gameName}]]</a>
 		                            </div>
@@ -276,7 +290,7 @@
 		        <!-- START: Sidebar -->
 			    <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
 			        <div class="nk-widget nk-widget-highlighted">
-					    <h4 class="nk-widget-title"><span><span class="text-main-1">Price</span> Filter</span></h4>
+					    <h4 class="nk-widget-title"><span><span class="text-main-1">進階</span> 搜尋</span></h4>
 					    <div class="nk-widget-content">
 					        <div class="nk-input-slider">
 					            <input
@@ -305,20 +319,6 @@
 				</aside>
 				<!-- END: Sidebar -->
 			</div>
-        </div>
-        
-        	
-        <div class="gx-3 d-flex justify-content-between">
-            <div class="card col-3">
-                <div class="card-body">
-                    <div class="card-title">SEARCH</div>
-                    <div class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="道具名稱查詢" aria-label="Search"
-                            name="itemName" id="order_search">
-                        <button class="btn btn-outline-warning" type="submit" id="order_search_btn">Search</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
