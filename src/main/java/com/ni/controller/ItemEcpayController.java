@@ -13,7 +13,7 @@ public class ItemEcpayController {
 	@Autowired
 	ItemEcpayService itemEcpayService;
 	
-	@PostMapping("/ecpayCheckout")
+	@PostMapping("/market/ecpayCheckout")
 	public String ecpayCheckout() {
 		String aioCheckOutALLForm = itemEcpayService.ecpayCheckout();
 		
