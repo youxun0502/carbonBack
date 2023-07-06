@@ -85,6 +85,13 @@ public class CartController {
 		return "evan/orderList";
 	}
 	
+	@GetMapping("/gameFront/orderList")
+	public String getOrderList(@RequestParam Map<String, Object> formData,Model model) {
+		
+		model.addAttribute("orderList",goService.getOrders(formData));
+		return "evan/orderList";
+	}
+	
 	@DeleteMapping("/gameFront/orderList/delete")
 	public String deleteOrderList(@RequestParam Map<String, Object> formData,Model model) {
 		
@@ -93,11 +100,23 @@ public class CartController {
 		return "evan/orderList";
 	}
 
+	//綠界controller
 	@GetMapping("/gameFront/order/ecpaystatus")
 	public String checkTradingStatus(@RequestParam Map<String, Object> formData,HttpSession session,Model model) {
 		goService.ecpayTradingStatus(formData);
 		goService.getOrders(formData);
 		
+		model.addAttribute("orderList",goService.getOrders(formData));
+		
+		return "evan/orderList";
+	}
+	
+	//linePay 第二次導轉回來的controller
+	@GetMapping("/gameFront/order/linePay")
+	public String linePayTradingStatus(@RequestParam Map<String, Object> formData,HttpSession session,Model model) {
+		
+		boolean result = goService.linePaySecondRequest(formData);
+		System.out.println(result);
 		model.addAttribute("orderList",goService.getOrders(formData));
 		
 		return "evan/orderList";

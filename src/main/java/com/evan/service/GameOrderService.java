@@ -1,17 +1,26 @@
 package com.evan.service;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.evan.dao.GameOrderRepository;
 import com.evan.dto.CartDTO;
@@ -19,6 +28,9 @@ import com.evan.dto.OrderDTO;
 import com.evan.model.GameOrder;
 import com.evan.model.GameOrderLog;
 import com.evan.utils.ConvertToDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.services.gmail.Gmail.Users.Drafts.Update;
 import com.liu.model.Member;
 import com.liu.model.MemberRepository;
@@ -145,6 +157,115 @@ public class GameOrderService {
 		GameOrder gameOrder = goRepos.findById(orderId).orElse(null);
 		gameOrder.setStatus(1);
 		goRepos.save(gameOrder);
+	}
+	
+	public RedirectView linePayFirstRequest(Map<String, Object> formData) {
+		String uuId = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 20);
+
+		// 構建請求參數
+		Map<String, String> requestBody = new HashMap<>();
+		requestBody.put("amount", (String)formData.get("totalSum"));
+		requestBody.put("productName", (String)formData.get("logs"));
+		requestBody.put("confirmUrl", "http://localhost:8080/carbon/gameFront/order/linePay?orderId="
+									+(String)formData.get("orderId")+"&memberId="
+									+(String)formData.get("memberId")+"&totalSum="
+									+(String)formData.get("totalSum"));
+		requestBody.put("orderId", uuId);
+		requestBody.put("currency", "TWD");
+
+		// 構建Header
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.add("X-LINE-ChannelId", "2000063549");
+		headers.add("X-LINE-ChannelSecret", "2097997c3d54c6fafc5d7746b962975b");
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		String jsonBody;
+		try {
+			jsonBody = objectMapper.writeValueAsString(requestBody);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return new RedirectView("/");
+		}
+
+		// 建構請求實體
+		HttpEntity<String> httpEntity = new HttpEntity<>(jsonBody, headers);
+
+		// 發送請求
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.exchange("https://sandbox-api-pay.line.me/v2/payments/request",
+				HttpMethod.POST, httpEntity, String.class);
+
+		// 處理響應
+        if (response.getStatusCode().is2xxSuccessful()) {
+            // 解析響應
+            ObjectMapper objectMapper1 = new ObjectMapper();
+            try {
+                JsonNode responseJson = objectMapper1.readTree(response.getBody());
+                String paymentWebUrl = responseJson.get("info").get("paymentUrl").get("web").asText();
+                // 將 paymentWebUrl 返回給前端進行跳轉
+                return new RedirectView(paymentWebUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+    			return new RedirectView("/");
+            }
+        } else {
+        	//付款失敗
+			return new RedirectView("/");
+
+        }
+	}
+	public boolean linePaySecondRequest(Map<String, Object> formData) {
+		
+		// 構建請求參數
+		Map<String, String> requestBody = new HashMap<>();
+		requestBody.put("amount", (String)formData.get("totalSum"));
+		requestBody.put("currency", "TWD");
+		
+		// 構建Header
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.add("X-LINE-ChannelId", "2000063549");
+		headers.add("X-LINE-ChannelSecret", "2097997c3d54c6fafc5d7746b962975b");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String jsonBody;
+		try {
+			jsonBody = objectMapper.writeValueAsString(requestBody);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// 建構請求實體
+		HttpEntity<String> httpEntity = new HttpEntity<>(jsonBody, headers);
+		
+		// 發送請求
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.exchange("https://sandbox-api-pay.line.me/v2/payments/"
+				+ (String)formData.get("transactionId")+"/confirm",
+				HttpMethod.POST, httpEntity, String.class);
+		
+		// 處理響應
+		if (response.getStatusCode().is2xxSuccessful()) {
+			// 解析響應
+			ObjectMapper objectMapper1 = new ObjectMapper();
+			try {
+				JsonNode responseJson = objectMapper1.readTree(response.getBody());
+				String result = responseJson.get("returnMessage").asText();
+				// 將 paymentWebUrl 返回給前端進行跳轉
+				System.out.println(result);
+				if("Success.".equals(result))UpdategameOrderToSuccess(Integer.parseInt((String)formData.get("orderId")));
+				return "Success.".equals(result);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		} else {
+			//付款失敗
+			return false;
+			
+		}
 	}
 	
 	

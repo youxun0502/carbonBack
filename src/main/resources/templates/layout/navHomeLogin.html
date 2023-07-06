@@ -93,7 +93,12 @@
 							</div>
 						</div>
 					</li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/gameFront}">GAME</a></li>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" th:href="@{/gameFront}" aria-expanded="false">Game</a>
+						<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" th:href="@{'/gameFront/orderList?memberId='+${session.memberBeans.id}}">遊戲訂單</a></li>
+
+						</ul>
 					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
 							data-bs-toggle="dropdown" href="#" aria-expanded="false">MARKET</a>
 						<ul class="dropdown-menu bg-dark text-light">

@@ -71,21 +71,21 @@
 		<div class="nk-gap-1"></div>
 		<div class="nk-accordion" id="accordion-1" role="tablist"
 			aria-multiselectable="true">
-			<th:block th:each="order:${orderList}">
+			<th:block th:each="order,iterStat:${orderList}">
 				<div class="panel panel-default">
 					<div class="panel-heading" role="tab" id="accordion-1-1-heading"
 						style="margin-bottom: 0;">
 						<a class="collapsed" data-toggle="collapse"
 							data-parent="#accordion-1" th:href="'#'+${order.OrderID}"
 							aria-expanded="true" aria-controls="accordion-1-1"> 
-							<button type="submit" class="nk-btn nk-btn-color-white ">[[${order.status}]]</button>
+							<button type="submit" class="nk-btn " th:classappend="${order.status == '已付款'}?'nk-btn-color-success nk-btn-outline':'nk-btn-color-white'">[[${order.status}]]</button>
 							&nbsp;&nbsp;&nbsp;&nbsp;訂單編號：[[${order.OrderID}]] 
 							&nbsp;&rArr;&nbsp; 訂單成立日期：[[${#dates.format(order.createDate,'yyyy-MM-dd')}]]<span
 							class="panel-heading-arrow fa fa-angle-down"></span>
 						</a>
 					</div>
 					<div th:id="${order.OrderID}" class="panel-collapse collapse"
-						role="tabpanel" aria-labelledby="accordion-1-1-heading">
+						role="tabpanel" aria-labelledby="accordion-1-1-heading" th:classappend="${iterStat.index == 0} ? 'show' : ''">
 						<table class="nk-table">
 							<tbody>
 								<tr>
@@ -107,18 +107,28 @@
 							</tbody>
 						</table>
 						<div class="nk-gap-1"></div>
-						<form th:action="@{/gameFront/order/ecpayCheckout}" th:method="post" >
+						<form th:action="@{/gameFront/order/makePayment}" th:method="post" th:if="${order.status != '已付款'}" >
 							<input type="hidden" name="memberId" th:value="${session.memberBeans.id}" />
 							<input type="hidden" name="orderId" th:value="${order.OrderID}" /> 
 							<input type="hidden" name="totalSum" th:value="${order.totalPrice}" /> 
 							<input type="hidden" name="createTime" th:value="${order.createDate}" /> 
 							<input type="hidden" name="logs" th:value="${order.logs}" /> 
-							<button type="submit" class="nk-btn  nk-btn-color-success float-right">綠界金流付款</button>
+							<button type="submit" class="nk-btn  nk-btn-color-success float-right mx-1">
+							LinePay
+							</button>
 						</form>
-						<form th:action="@{/gameFront/orderList/delete}" th:method="delete" id="deleteForm">
+						<form th:action="@{/gameFront/order/ecpayCheckout}" th:method="post" th:if="${order.status != '已付款'}">
 							<input type="hidden" name="memberId" th:value="${session.memberBeans.id}" />
 							<input type="hidden" name="orderId" th:value="${order.OrderID}" /> 
-							<button type="submit" class="nk-btn nk-btn-outline nk-btn-color-danger float-right">刪除訂單</button>
+							<input type="hidden" name="totalSum" th:value="${order.totalPrice}" /> 
+							<input type="hidden" name="createTime" th:value="${order.createDate}" /> 
+							<input type="hidden" name="logs" th:value="${order.logs}" /> 
+							<button type="submit" class="nk-btn  nk-btn-color-success float-right mx-1">綠界金流</button>
+						</form>
+						<form th:action="@{/gameFront/orderList/delete}" th:method="delete" id="deleteForm" th:if="${order.status != '已付款'}">
+							<input type="hidden" name="memberId" th:value="${session.memberBeans.id}" />
+							<input type="hidden" name="orderId" th:value="${order.OrderID}" /> 
+							<button type="submit" class="nk-btn nk-btn-outline nk-btn-color-danger mx-1 float-right">刪除訂單</button>
 						</form>
 						<div class="nk-gap-2"></div>
 					</div>
