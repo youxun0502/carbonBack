@@ -12,7 +12,7 @@
     <meta name="keywords" content="game, gaming, template, HTML template, responsive, Bootstrap, premium">
     <meta name="author" content="_nK">
 
-    <link rel="icon" type="image/png" th:href="@{/assets/images/favicon.png}">
+    <!-- <link rel="icon" type="image/png" th:href="@{/assets/images/favicon.png}"> -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -482,7 +482,10 @@
                     <!-- START: Posts List -->
                     <!-- START: Post -->
                     <div class="nk-blog-list">
-                        <th:block th:each="discussion : ${discussions}">
+                        <!-- <th:block th:each="gameName : ${uniqueGameNames}">
+                            <h2 th:text="${gameName}"></h2> -->
+                        <th:block th:each="discussion : ${uniqueGameNames}">
+                            <!-- <th:block th:if="${discussion.gameName == gameName}"> -->
                             <div class="nk-blog-post">
                                 <div class="row vertical-gap">
                                     <div class="col-md-5 col-lg-6">
@@ -501,7 +504,8 @@
                                     </div>
                                     <div class="col-md-7 col-lg-6">
                                         <h2 class="nk-post-title h4" th:text="${discussion.gameName}">
-                                            <a th:href="@{blog-article.html}">Grab your sword and fight the Horde</a>
+                                            <a th:href="@{blog-article.html}">Grab your sword and fight the
+                                                Horde</a>
                                         </h2>
 
                                         <div class="nk-post-text">
@@ -520,6 +524,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- </th:block> -->
+                            <!-- </th:block> -->
                         </th:block>
                         <!-- END: Post -->
 

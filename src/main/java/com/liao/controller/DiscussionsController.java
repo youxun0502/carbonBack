@@ -3,6 +3,7 @@ package com.liao.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.evan.dto.GameDTO;
+import com.evan.service.GameService;
 import com.liao.model.Discussions;
 import com.liao.service.DiscussionsService;
 
@@ -32,6 +35,9 @@ public class DiscussionsController {
 
 	@Autowired
 	private DiscussionsService dService;
+	
+	@Autowired
+	private GameService gameService;
 	
 	
 	//顯示圖片
@@ -145,22 +151,22 @@ public class DiscussionsController {
 		return "redirect:/forum/DiabloIV";
 	}
 	
-//	@ResponseBody
-//	@GetMapping("/forum/api/page")
-//	public Page<Discussions> showMessagesApi(@RequestParam(name="p",defaultValue = "1") Integer pageNumber){
-//		Page<Discussions> page = dService.findByPage(pageNumber);
-//		return page;
-//	}
-//	
-//	@ResponseBody
-//	@PostMapping("/messages/api/post")
-//	public Page<Discussions> postMessageApi(@RequestBody Discussions discussions){
-//		dService.insert(discussions);
-//		
-//		Page<Discussions> page = dService.findByPage(1);
-//		
-//		return page;
-//	}
+	@ResponseBody
+	@GetMapping("/forum/api/page")
+	public Page<Discussions> showMessagesApi(@RequestParam(name="p",defaultValue = "1") Integer pageNumber){
+		Page<Discussions> page = dService.findByPage(pageNumber);
+		return page;
+	}
+	
+	@ResponseBody
+	@PostMapping("/messages/api/post")
+	public Page<Discussions> postMessageApi(@RequestBody Discussions discussions){
+		dService.insert(discussions);
+		
+		Page<Discussions> page = dService.findByPage(1);
+		
+		return page;
+	}
 	
 	
 	
@@ -174,7 +180,34 @@ public class DiscussionsController {
 	@GetMapping("/getAllDiscussions")
 	  public String getAllDiscussion(Model model) throws SQLException {
 	          List<Discussions> discussions = dService.findAll();
-	          model.addAttribute("discussions", discussions);
+	          
+	          List<Discussions> uniqueGameNames = new ArrayList<>();
+	          List<String> gameName = new ArrayList<>();
+
+	       // 遍歷discussions列表
+//	       for (int i = 0; i < discussions.size(); i++) {
+//	           String currentGameName = discussions[i].getGameName();
+//	           
+//	           // 檢查相鄰的元素是否具有相同的gameName
+//	           if (i == 0 || !currentGameName.equals(discussions.get(i - 1).getGameName())) {
+//	               uniqueGameNames.add(currentGameName);
+//	           }
+//	       }
+	       
+	          for (Discussions discussion : discussions) {
+	        	  for (String game : gameName) {
+					if(discussion.getGameName() != game) {
+						uniqueGameNames.add(discussion);
+						gameName.add(discussion.getGameName()) ;
+					}
+				}
+			}
+
+	       // 將uniqueGameNames和discussions傳遞到模板中
+	       model.addAttribute("uniqueGameNames", uniqueGameNames);
+	      
+	          
+	         // model.addAttribute("discussions", discussions);
 	          return "liao/GetAllDiscussion";
 	  }
 	
@@ -189,8 +222,39 @@ public class DiscussionsController {
 	
 	@GetMapping("/forum/getfront")
 	  public String getfront(Model model) throws SQLException {
-	          List<Discussions> discussions = dService.findAll();
-	          model.addAttribute("discussions", discussions);
+        List<Discussions> discussions = dService.findAll();
+        
+  
+        
+        List<Discussions> uniqueGameNames = new ArrayList<>();
+        List<String> gameName = new ArrayList<>();
+      List<GameDTO> gameDto = gameService.getAllGameInfo();
+        for (GameDTO gameDTO2 : gameDto) {
+        	gameName.add(gameDTO2.getGameName()) ;
+		}
+
+     
+        for (Discussions discussion : discussions) {
+        	System.out.println(1);
+      	  for (String game : gameName) {
+
+				if(discussion.getGameName().equals(game) ) {
+					System.out.println(discussion.getGameName());
+					uniqueGameNames.add(discussion);
+					gameName.remove(game);
+				      	  if(gameName.size()==0) {
+      		  break;
+      	  }
+				}
+			}
+
+		}
+        System.out.println(uniqueGameNames);
+
+
+     model.addAttribute("uniqueGameNames", uniqueGameNames);
+    
+	          
 	          return "liao/blog-list";
 	  }
 	
@@ -199,6 +263,13 @@ public class DiscussionsController {
 		List<Discussions> discussions = dService.findAll();
         model.addAttribute("discussions", discussions);
 		return "liao/DiabloIV";
+	}
+	
+	@GetMapping("/forum/apex")
+	public String goapex(Model model) throws SQLException {
+		List<Discussions> discussions = dService.findAll();
+        model.addAttribute("discussions", discussions);
+		return "liao/apex";
 	}
 	
 	@GetMapping("/forum/maplestory")
