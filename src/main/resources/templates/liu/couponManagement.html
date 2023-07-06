@@ -90,7 +90,7 @@
 												<button th:data-id="${coupon.couponId}" class="btn btn-outline-success btn-restore"
 													hidden=true>復原
 												</button>
-												<button th:data-id="${coupon.couponId}" class="btn btn-danger btn-delete">凍結
+												<button th:data-id="${coupon.couponId}" class="btn btn-danger btn-delete">停用
 												</button>
 											</td>
 										</th:block>
@@ -128,6 +128,19 @@
 				"dom": 'lrtip'
 			});
 		})
+
+		const COLORS = [
+			'#4dc9f6',
+			'#f67019',
+			'#f53794',
+			'#537bc4',
+			'#acc236',
+			'#166a8f',
+			'#00a950',
+			'#58595b',
+			'#8549ba'
+		];
+
 		getRegistrationDatechartJs()
 
 		function getRegistrationDatechartJs() {
@@ -141,11 +154,15 @@
 
 					console.log(response.data);
 
+
+
 					let responseData = [];
 					let labels = [];
+					let backgroundColorArray = [];
 					for (let coupon of response.data) {
 						responseData.push(coupon.random);
 						labels.push(coupon.couponId + ':' + coupon.couponName);
+						backgroundColorArray.push(color(coupon.couponId));
 					}
 
 					console.log(responseData);
@@ -157,7 +174,7 @@
 							{
 								label: '機率',
 								data: responseData,
-								backgroundColor: ['rgb(255, 99, 132', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+								backgroundColor: backgroundColorArray,
 								hoverOffset: 4
 							}
 						]
@@ -172,8 +189,7 @@
 									labels: {
 										color: 'white',
 										font: {
-											size:20
-											
+											size: 20
 										}
 									}
 								}
@@ -184,7 +200,9 @@
 				})
 		}
 
-
+		function color(index) {
+			return COLORS[index % COLORS.length];
+		}
 
 	</script>
 </body>
