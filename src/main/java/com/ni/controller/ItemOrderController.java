@@ -21,13 +21,13 @@ import com.ni.dto.ItemOrderDTO;
 import com.ni.model.GameItem;
 import com.ni.model.ItemOrder;
 import com.ni.service.GameItemService;
-import com.ni.service.OrderService;
+import com.ni.service.itemOrderService;
 
 @Controller
-public class OrderController {
+public class ItemOrderController {
 
 	@Autowired
-	private OrderService orderService;
+	private itemOrderService orderService;
 	@Autowired
 	private GameItemService itemService;
 	

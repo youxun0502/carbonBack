@@ -89,43 +89,24 @@
 					<li><a class="btn btn-info" th:href="@{/main/loginPage}">登 入</a></li>
 				</ul>
 				<ul class="nk-nav nk-nav-right d-none d-lg-table-cell" style="max-width:13px">
-					<li> 
+					<li>
 						<div class="nk-cart-toggle me-3">
-	                        <span class="fa fa-shopping-cart"></span>
-	                        <span class="nk-badge">0</span>
-	                    </div>
-	                    <div class="nk-cart-dropdown" >
-	                        
-	                        <div class="nk-widget-post">
-	                            <a href="store-product.html" class="nk-post-image">
-	                                <img src="assets/images/product-5-xs.jpg" alt="In all revolutions of">
-	                            </a>
-	                            <h3 class="nk-post-title">
-	                                <a href="#" class="nk-cart-remove-item"><span class="ion-android-close"></span></a>
-	                                <a href="store-product.html">In all revolutions of</a>
-	                            </h3>
-	                            <div class="nk-gap-1"></div>
-	                            <div class="nk-product-price">€ 23.00</div>
-	                        </div>
-	                        
-	                        <div class="nk-widget-post">
-	                            <a href="store-product.html" class="nk-post-image">
-	                                <img src="assets/images/product-7-xs.jpg" alt="With what mingled joy">
-	                            </a>
-	                            <h3 class="nk-post-title">
-	                                <a href="#" class="nk-cart-remove-item"><span class="ion-android-close"></span></a>
-	                                <a href="store-product.html">With what mingled joy</a>
-	                            </h3>
-	                            <div class="nk-gap-1"></div>
-	                            <div class="nk-product-price">€ 14.00</div>
-	                        </div>
-	                        
-	                        <div class="nk-gap-2"></div>
-	                        <div class="text-center">
-	                            <a href="store-checkout.html" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">Proceed to Checkout</a>
-	                        </div>
-	                    </div>
-                    </li>
+							<span class="fa fa-shopping-cart" style="color: #fff"></span> <span
+								class="nk-badge" style="color: #fff" id="cartItemCount">0</span>
+						</div>
+						<div class="nk-cart-dropdown">
+
+							<!-- 購物車區塊 -->
+							<div id="cartItems"></div>
+
+
+							<div class="nk-gap-2"></div>
+							<div class="text-center">
+								<a th:href="@{/main/loginPage}"
+									class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">前往購物車</a>
+							</div>
+						</div>
+					</li>
                 </ul>
 				<ul class="nk-nav nk-nav-right nk-nav-icons">
                     
@@ -138,8 +119,6 @@
                                 </span>
                             </a>
                         </li>
-                    
-                    
                 </ul>
 		</div>
 		</div>
@@ -177,7 +156,7 @@
     </div>
 </div>
 <!-- END: Navbar Mobile -->
-	
+	<script th:src="@{/js/cart_game.js}"></script>
 	<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
 	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>

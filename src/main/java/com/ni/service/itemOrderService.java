@@ -15,7 +15,7 @@ import com.ni.model.ItemOrder;
 import com.ni.model.OrderRepository;
 
 @Service
-public class OrderService {
+public class itemOrderService {
 
 	@Autowired
 	private OrderRepository orderRepo;
