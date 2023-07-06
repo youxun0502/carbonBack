@@ -38,7 +38,7 @@ public class CouponService {
 	
 	public Map<Integer, Float> getCouponRamdomForManagement(){
 		Integer totalWeight = getTotalWeight();
-		List<Coupon> coupons = couponRepository.findCouponOrderByCouponId();
+		List<Coupon> coupons = couponRepository.findCouponWhereStatusNotEqualOneOrderByCouponId();
 		Map<Integer,Float> newRamdom = new HashMap<>();
 		for (Coupon coupon : coupons) {
 			Integer couponId = coupon.getCouponId();
@@ -52,7 +52,7 @@ public class CouponService {
 
 	private Map<Integer, Integer> createNewRamdomForCoupon() {
 		Integer totalWeight = getTotalWeight();
-		List<Coupon> coupons = couponRepository.findCouponOrderByCouponId();
+		List<Coupon> coupons = couponRepository.findCouponWhereStatusNotEqualOneOrderByCouponId();
 		Map<Integer,Integer> newRamdom = new HashMap<>();
 		Integer tempMaxNum = 0;
 		for (Coupon coupon : coupons) {
@@ -79,7 +79,7 @@ public class CouponService {
 		System.out.println(random);
 		System.out.println("-----------------------------------");
 		Map<Integer,Integer> couponRandom = getCouponRandom();
-		List<Coupon> coupons = couponRepository.findCouponOrderByCouponId();
+		List<Coupon> coupons = couponRepository.findCouponWhereStatusNotEqualOneOrderByCouponId();
 		int temp = 0;
 		System.out.println(coupons.size());
 		System.out.println("already");
@@ -99,5 +99,16 @@ public class CouponService {
 		return couponRepository.findCouponOrderByCouponId();
 	}
 	
+	public List<Coupon> findCouponWhereStatusNotEqualOneOrderByCouponId(){
+		return couponRepository.findCouponWhereStatusNotEqualOneOrderByCouponId();
+	}
+	
+	public Boolean updateCouponStatus(Integer id, Integer status){
+		Coupon oldCoupon = couponRepository.getReferenceById(id);
+		oldCoupon.setStatus(status);
+		couponRepository.save(oldCoupon);
+		createNewRamdomForCoupon();
+		return true;
+	}
 	
 }

@@ -55,7 +55,7 @@
 			</div>
 			<div class="container-fluid">
 				<div class="row my-3">
-					<div class="col-6">
+					<div class="col-8">
 						<table id="example" class="hover row-border" style="width: 100%">
 							<thead>
 								<tr>
@@ -73,7 +73,7 @@
 							<tbody>
 								<th:block th:each="coupon : ${coupons}">
 									<tr>
-										<td>[[${coupon.couponId}]]</td>
+										<td th:id="id + ${coupon.couponId}">[[${coupon.couponId}]]</td>
 										<td th:text="${coupon.typeId}? ${coupon.gameType.typeName}: '不限類型'"></td>
 										<td>[[${coupon.coupon}]]</td>
 										<td>[[${coupon.desc}]]</td>
@@ -102,7 +102,7 @@
 											</td>
 											<td>
 												<button th:data-id="${coupon.couponId}" class="btn btn-danger btn-delete"
-													hidden=true>凍結</button>
+													hidden=true>停用</button>
 												<button th:data-id="${coupon.couponId}" class="btn btn-outline-success btn-restore">復原
 												</button>
 											</td>
@@ -113,7 +113,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="col-6">
+					<div class="col-4">
 						<canvas id="chartJS"></canvas>
 					</div>
 				</div>
@@ -122,6 +122,7 @@
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script>
+		//////////////////////////////////載入畫製圖表/////////////////////////////////
 		$(function () {
 			$('#example').DataTable({
 				scrollX: true,
@@ -129,32 +130,55 @@
 			});
 		})
 
+		getRandomchartJs()
+		////////////////////////////////////config////////////////////////////////////////////
+		const chartJS = document.querySelector('#chartJS')
+		let chart;
+
+		const btnDelete = document.querySelectorAll('.btn-delete');
+
+		btnDelete.forEach(function (button) {
+			button.addEventListener('click', () => {
+				let id = button.dataset.id;
+				changeStatus(id, 2);
+
+			})
+		})
+
+		const btnRestore = document.querySelectorAll('.btn-restore');
+
+		btnRestore.forEach(function (button) {
+			button.addEventListener('click', () => {
+				let id = button.dataset.id;
+				changeStatus(id, 1);
+			})
+		})
+
+
+
+
 		const COLORS = [
-			'#4dc9f6',
-			'#f67019',
-			'#f53794',
-			'#537bc4',
-			'#acc236',
-			'#166a8f',
-			'#00a950',
-			'#58595b',
-			'#8549ba'
+			'#F7F6C5',
+			'#DE7C5A',
+			'#5BC0EB',
+			'#AFD2E9',
+			'#E3DFFF',
+			'#61A0AF',
+			'#227C9D',
+			'#81559B',
+			'#00A7E1',
+			'#476C9B'
 		];
 
-		getRegistrationDatechartJs()
 
-		function getRegistrationDatechartJs() {
+		function getRandomchartJs() {
 			axios({
 				url: 'http://localhost:8080/carbon/coupon/api/couponMangement',
 				method: 'GET',
 				headers: { 'Content-Type': 'application/x-www-form-urlencode' }
 			})
 				.then(response => {
-					const chartJS = document.querySelector('#chartJS')
-
 					console.log(response.data);
-
-
 
 					let responseData = [];
 					let labels = [];
@@ -162,11 +186,8 @@
 					for (let coupon of response.data) {
 						responseData.push(coupon.random);
 						labels.push(coupon.couponId + ':' + coupon.couponName);
-						backgroundColorArray.push(color(coupon.couponId));
+						backgroundColorArray.push(color());
 					}
-
-					console.log(responseData);
-					console.log(labels);
 
 					const data = {
 						labels: labels,
@@ -180,7 +201,7 @@
 						]
 					}
 
-					new Chart(chartJS, {
+					chart = new Chart(chartJS, {
 						type: 'doughnut',
 						data: data,
 						options: {
@@ -200,9 +221,94 @@
 				})
 		}
 
-		function color(index) {
-			return COLORS[index % COLORS.length];
+		function color() {
+			return COLORS[parseInt(Math.random() * 10) % COLORS.length];
 		}
+
+		function updateCharData(newlabelArray, newdataArray) {
+			chart.data.labels = newlabelArray;
+			chart.data.datasets[0].data = newdataArray;
+			chart.update();
+		}
+
+		function updateFrozenTable(datas) {
+
+			let tempRandom = 0;
+
+			for (let data of datas) {
+				let deleteData = document.querySelector(`#id${data.couponId}`);
+				let siblings = Array.from(deleteData.parentNode.children).filter(function (child) {
+					return child !== deleteData;
+				})
+				if (data.typeName == 'null') {
+					siblings[0].innerHTML = '不限類型';
+				} else {
+					siblings[0].innerHTML = data.typeName;
+				}
+				siblings[1].innerText = data.discount;
+				siblings[2].innerText = data.couponName;
+				siblings[3].innerText = data.weight;
+				siblings[4].innerText = data.status;
+				siblings[5].innerText = data.random;
+				tempRandom += parseFloat(data.random);
+			}
+
+			let deleteData = document.querySelector(`#id${datas[0].updateInteger}`);
+			let siblings = Array.from(deleteData.parentNode.children).filter(function (child) {
+				return child !== deleteData;
+			})
+			siblings[4].innerText = '2';
+
+			console.log(tempRandom);
+			siblings[5].innerText = 1 - tempRandom;
+			const updateBtn = siblings[6].querySelector('.btn-update');
+			if (updateBtn) {
+				updateBtn.setAttribute('hidden', true);
+			}
+
+			const restoreBtn = siblings[7].querySelector('.btn-restore');
+			if (restoreBtn) {
+
+				restoreBtn.removeAttribute('hidden');
+
+			}
+			const deleteBtn = siblings[7].querySelector('.btn-delete');
+			if (deleteBtn) {
+				deleteBtn.setAttribute('hidden', true);
+			}
+		}
+
+
+		function changeStatus(id, status) {
+			axios({
+				url: "http://localhost:8080/carbon/coupon/api/couponFrozen",
+				method: 'put',
+				data: {
+					couponId: id,
+					status: status
+				}
+			})
+				.then(response => {
+					let responseData = [];
+					let labels = [];
+
+					for (let coupon of response.data) {
+						responseData.push(coupon.random);
+						labels.push(coupon.couponId + ':' + coupon.couponName);
+					}
+
+					updateCharData(labels, responseData);
+					updateFrozenTable(response.data);
+
+				})
+				.catch(err => {
+					console.log(err);
+				})
+		}
+
+
+
+
 
 	</script>
 </body>

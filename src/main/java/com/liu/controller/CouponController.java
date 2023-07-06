@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -75,19 +77,50 @@ public class CouponController {
 	@ResponseBody
 	@GetMapping("/coupon/api/couponMangement")
 	public List<CouponDto> couponMangement(){
+	return  getCouponDtos(1);
+	}
+	
+	
+
+	
+	@ResponseBody
+	@PutMapping("/coupon/api/couponFrozen")
+	public List<CouponDto> couponFrozen(@RequestBody CouponDto couponDto){
+		Integer id = couponDto.getCouponId();
+		Integer status = couponDto.getStatus();
+		Boolean result = couponService.updateCouponStatus(id, status);
+		if(result == true) {
+			return getCouponDtos(id);
+
+		}else {
+			return null;
+		}
+		
+	}
+	
+	
+	private List<CouponDto> getCouponDtos(Integer id) {
 	Map<Integer, Float> couponRandoms = couponService.getCouponRamdomForManagement();
-	List<Coupon> coupons = couponService.findCouponOrderByCouponId();
+	List<Coupon> coupons = couponService.findCouponWhereStatusNotEqualOneOrderByCouponId();
 	List<CouponDto> couponDtos = new ArrayList<>();
 	for (Coupon coupon : coupons) {
 		CouponDto couponDto = new CouponDto();
 		couponDto.setCouponId(coupon.getCouponId());
 		couponDto.setCouponName(coupon.getDesc());
 		couponDto.setRandom(couponRandoms.get(coupon.getCouponId()));
+		if(coupon.getGameType()!=null) {
+			couponDto.setTypeName(coupon.getGameType().getTypeName());
+		}else {
+			couponDto.setTypeName("null");
+		}
+		couponDto.setDiscount(coupon.getCoupon());
+		couponDto.setWeight(coupon.getWeight());
+		couponDto.setStatus(coupon.getStatus());
+		couponDto.setUpdateInteger(id);
+		
 		couponDtos.add(couponDto);
 	}
 	
 	return couponDtos;
 	}
-		
-	
 }
