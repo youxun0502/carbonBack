@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
-<body>
+<body style="color: black;">
 	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
 	<div class="contentBox">
 		<div class="content" style="width:400px">
@@ -59,14 +59,10 @@
 						</div>
 						<div class="field">
 							<div class="label">
-								賽事選擇
+								賽事名稱
 							</div>
-							<select name="competitionId" required>
-								<th:block th:each="competition : ${competitions}">
-									<option th:value="${competition.competitionId}" th:text="${competition.name}">
-									</option>
-								</th:block>
-							</select>
+							<p style="font-size: 30px;font-weight:bold;" th:text="${competition.name}"></p>
+                      		<input type="hidden" name="competitionId" th:value="${competition.competitionId}" />
 						</div>
 						<div class="field">
 							<div class="label">
@@ -127,6 +123,12 @@
 					<div class="page">
 						<div class="title">
 							Confirmed:
+						</div>
+						<div class="field">
+							<div class="label">
+	                            報名費
+	                        </div>
+							<p style="font-size: 30px;font-weight:bold;" th:text="${competition} ? ${competition.fee}"</p>
 						</div>
 
 						<div class="field btns">

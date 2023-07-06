@@ -55,7 +55,38 @@
     <!-- jQuery -->
     <script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
     
-    
+    <style>
+		.wow {
+            display: flex;
+        }
+
+        #countdown_dashboard {
+            border: 1px solid #ccc;
+            width: 355px;
+            background: #FFF;
+
+        }
+
+        .dash {
+            padding: 10px;
+        }
+
+        .dash .digit,
+        .dash_title {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+            color: #555;
+        }
+
+        .dash .digit {
+            margin-right: 5px;
+            border-radius: 3px;
+            background: #333;
+            color: #FFF;
+
+        }
+	</style>
 </head>
 
 
@@ -130,7 +161,7 @@
         
             <!-- START: Breadcrumbs -->
 <div class="nk-gap-1"></div>
-<div class="container">
+<div class="container" style="max-width: 1140px">
     <ul class="nk-breadcrumbs">
         
         
@@ -149,7 +180,7 @@
         
         <li><span class="fa fa-angle-right"></span></li>
         
-        <li><span>Faker</span></li>
+        <li><span th:text="${event.name}"></span></li>
         
     </ul>
 </div>
@@ -159,7 +190,7 @@
         
 
         
-<div class="container">
+<div class="container" style="max-width: 1140px">
     <div class="row vertical-gap">
         <div class="col-lg-8">
 
@@ -174,52 +205,42 @@
                         <tbody>
                         <tr>
                             <td>
-                                <img src="assets/images/teammate-team.png" alt="">
+                                <strong class="h3">開始日期</strong>
                             </td>
                             <td>
-                                <table>
-                                    <tbody>
-                                    <tr>
-                                        <td><strong class="h5">Name:</strong>&nbsp;&nbsp;&nbsp;</td>
-                                        <td><strong class="h5">SANG-HYEOK LEE</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong class="h5">Nickname:</strong>&nbsp;&nbsp;&nbsp;</td>
-                                        <td><strong class="h5">Faker</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong class="h5">Position:</strong>&nbsp;&nbsp;&nbsp;</td>
-                                        <td><strong class="h5">Mid</strong></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <strong id="startDate" class="h5" th:text="${event.startDate}"></strong>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong class="h3">7.3</strong>
+                                <strong class="h3">結束日期</strong>
                             </td>
                             <td>
-                                <strong class="h5">KDA Ration</strong>
-                                <div>#5 in World Championship</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong class="h3">8.3</strong>
-                            </td>
-                            <td>
-                                <strong class="h5">CS PER MIN</strong>
-                                <div>#23 in World Championship</div>
+                                <strong class="h5" th:text="${event.endDate}"></strong>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong class="h3">64%</strong>
+                                <strong class="h3">活動地點</strong>
                             </td>
                             <td>
-                                <strong class="h5">KILL PARTICIPATION</strong>
-                                <div>#66 in World Championship</div>
+                                <strong class="h5" th:text="${event.location}"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong class="h3">名額限制</strong>
+                            </td>
+                            <td>
+                                <strong class="h5" th:text="${event} ? ${event.quotaLimited}+'名'"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong class="h3">報名費</strong>
+                            </td>
+                            <td>
+                                <strong class="h5" th:text="${event} ? '$'+${event.fee}+'元'"></strong>
                             </td>
                         </tr>
                         </tbody>
@@ -227,11 +248,56 @@
                 </div>
             </div>
             <!-- END: Teammate Card -->
+            <div class="nk-gap-2"></div>
+            <div style="position: relative;">
+				<strong id="discount" style="position: absolute;right: 140px;background-color: red;" class="h2" th:text="${event} ? '限時折扣:'+${event.timeLimitedDiscount}"></strong>
+				
+				<div id="countdown_dashboard" class="wow" style="position: absolute;right: 350px;top: 0;">
+
+			        <div class="wow dash days_dash">
+			            <div class="digit digit1">0</div>
+			            <div class="digit digit2">0</div>
+			            <div class="dash_title">天</div>
+			        </div>
+			
+			        <div class="wow dash houws_dash">
+			            <div class="digit digit1">0</div>
+			            <div class="digit digit2">0</div>
+			            <div class="dash_title">時</div>
+			        </div>
+			
+			        <div class="wow dash minutes_dash">
+			            <div class="digit digit1">0</div>
+			            <div class="digit digit2">0</div>
+			            <div class="dash_title">分</div>
+			        </div>
+			
+			        <div class="wow dash seconds_dash">
+			            <div class="digit digit1">0</div>
+			            <div class="digit digit2">0</div>
+			            <div class="dash_title">秒</div>
+			        </div>
+			
+			    </div>
+				
+				
+				
+				
+				
+				
+				
+				
+				<strong id="countdownNo" style="position: absolute;right: 135px;top: 0px;background-color: red;" class="h3"></strong>
+				<form th:action="@{/eventRegistration}" method="get">
+					<input type="hidden" name="eventId" th:value="${event.eventId}" />
+					<button style="position: absolute;right: 0;top: 0;" class="btn btn-warning btn-lg">點擊報名</button>
+				</form>
+			</div>
 
             <!-- START: Biography -->
-            <div class="nk-gap-3"></div>
-            <h3 class="nk-decorated-h-2"><span>Biography</span></h3>
-            <p th:text="${event.description}"></p>
+            <div class="nk-gap-4"></div>
+            <h3 class="nk-decorated-h-2"><span>活動說明</span></h3>
+            <p th:text="${event.description}" style="color: white;"></p>
             <!-- END: Biography -->
 
             <!-- START: Latest Matches -->
@@ -973,6 +1039,76 @@
 <!-- END: Scripts -->
 
 
-    
+
+
+
+
+<script>
+    // 指定日期
+	var newDate = $('#startDate').text();
+    var startDate = new Date(newDate);
+    // 加上3天
+    startDate.setDate(startDate.getDate() + 3);
+
+    function updateCountdown() {
+      var now = new Date();
+      var timeDifference = startDate.getTime() - now.getTime();
+
+      // 检查是否已过倒计时结束时间
+      if (timeDifference <= 0) {
+        document.getElementById("countdownNo").textContent = "限時優惠已结束";
+        document.getElementById("discount").style.display = "none";
+        return;
+      }
+
+	  
+      // 计算剩余时间
+      var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+	  
+	  
+	  /*
+      // 更新倒计时显示
+      document.getElementById("countdown").textContent = "剩餘時間：" + days + "天 " + hours + "小時 " + minutes + "分鐘 " + seconds + "秒";
+      */
+      
+      // 获取倒计时元素
+		var countdownElement = document.getElementById("countdown_dashboard");
+		
+		// 获取所有数字和标题元素
+		var daysElement1 = countdownElement.querySelector(".days_dash .digit1");
+		var daysElement2 = countdownElement.querySelector(".days_dash .digit2");
+		var hoursElement1 = countdownElement.querySelector(".houws_dash .digit1");
+		var hoursElement2 = countdownElement.querySelector(".houws_dash .digit2");
+		var minutesElement1 = countdownElement.querySelector(".minutes_dash .digit1");
+		var minutesElement2 = countdownElement.querySelector(".minutes_dash .digit2");
+		var secondsElement1 = countdownElement.querySelector(".seconds_dash .digit1");
+		var secondsElement2 = countdownElement.querySelector(".seconds_dash .digit2");
+		
+		// 更新倒计时显示
+		daysElement1.textContent = formatTime(Math.floor(days / 10));
+		daysElement2.textContent = formatTime(days % 10);
+		hoursElement1.textContent = formatTime(Math.floor(hours / 10));
+		hoursElement2.textContent = formatTime(hours % 10);
+		minutesElement1.textContent = formatTime(Math.floor(minutes / 10));
+		minutesElement2.textContent = formatTime(minutes % 10);
+		secondsElement1.textContent = formatTime(Math.floor(seconds / 10));
+		secondsElement2.textContent = formatTime(seconds % 10);
+		
+		function formatTime(time) {
+		  return time < 10 ?  time : time.toString();
+		}
+      
+      
+
+      // 每秒更新一次
+      setTimeout(updateCountdown, 1000);
+    }
+
+    // 初始化倒计时
+    updateCountdown();
+  </script>    
 </body>
 </html>

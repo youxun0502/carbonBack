@@ -132,7 +132,7 @@
 
 		<!-- START: Breadcrumbs -->
 		<div class="nk-gap-1"></div>
-		<div class="container">
+		<div class="container" style="max-width: 1140px">
 			<ul class="nk-breadcrumbs">
 
 
@@ -156,12 +156,12 @@
 
 
 
-		<div class="container">
+		<div class="container" style="max-width: 1140px">
 			<div class="row vertical-gap">
 				<div class="col-lg-8">
 
 					<!-- START: Teams -->
-					<th:block th:each=" event : ${events}">
+					<th:block th:each=" event : ${page.content}">
 						<div class="nk-team" style="position: relative;">
 							<div class="nk-team-logo">
 								<img th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="">
@@ -189,42 +189,41 @@
 
 
 					<div class="nk-gap-2"></div>
-					<!--
-                    <ul class="pagination">
-			            <th:block th:switch="${page.number != 0}">
-			
-			                <li th:case=${true} class="page-item">
-			                    <a class="page-link" th:href="@{/eventPageAll?(p=${page.number})}">上一頁</a>
-			                </li>
-			
-			                <li th:case=${false} class="page-item disabled">
-			                    <span class="page-link">上一頁</span>
-			                </li>
-			            </th:block>
-			
-			            <th:block th:each=" pageNumber : ${#numbers.sequence(1, page.totalPages)}">
-			                <th:block th:switch="${page.number != pageNumber - 1 }">
-			                    <li th:case=${true} class="page-item">
-			                        <a class="page-link" th:href="@{/eventPageAll?(p=${pageNumber})}">[[${pageNumber}]]</a>
-			                    </li>
-			                    <li th:case=${false} class="page-item active">
-			                        <span class="page-link" th:text="${pageNumber}"></span>
-			                    </li>
-			                </th:block>
-			            </th:block>
-			
-			            <th:block th:switch="${page.number == page.totalPages -1}">
-			                <li th:case="${true}" class="page-item disabled">
-			                    <span class="page-link">下一頁</span>
-			                </li>
-			
-			                <li th:case="${false}" class="page-item">
-			                    <a class="page-link" th:href="@{/eventPageAll?(p=${page.number + 2})}">下一頁</a>
-			                </li>
-			            </th:block>
-			        </ul>
-                    <div class="nk-gap"></div>
-                  -->
+					
+					
+					<div class="nk-pagination nk-pagination-center">
+						<th:block th:switch="${page.number != 0}">
+		                    <a th:case=${true} th:href="@{/eventPageOne?(p=${page.number})}" class="nk-pagination-prev">
+		                        <span class="ion-ios-arrow-back"></span>
+		                    </a>
+		                    <a th:case=${false} href="#" class="nk-pagination-prev disabled">
+		                        <span class="ion-ios-arrow-back"></span>
+		                    </a>
+		                </th:block>
+	                    
+	                    
+	                    <nav>
+		                    <th:block th:each=" pageNumber : ${#numbers.sequence(1, page.totalPages)}">
+				                <th:block th:switch="${page.number != pageNumber - 1 }">
+			                        <a th:case=${true} th:href="@{'/eventPageOne?gameId='+${page.content[0].gameId}+'&p='+${pageNumber}}">[[${pageNumber}]]</a>
+			                        <a th:case=${false} class="nk-pagination-current" href="#" th:text="${pageNumber}"></a>
+		                        </th:block>
+				            </th:block>
+	                    </nav>
+	                    
+	                    
+	                    <th:block th:switch="${page.number == page.totalPages -1}">
+		                    <a th:case="${false}" th:href="@{/eventPageOne?(p=${page.number + 2})}" class="nk-pagination-next">
+		                        <span class="ion-ios-arrow-forward"></span>
+		                    </a>
+		                    <a th:case="${true}" href="#" class="nk-pagination-next disabled">
+		                        <span class="ion-ios-arrow-forward"></span>
+		                    </a>
+	                    </th:block>
+	                    
+	                </div>
+
+                    <div class="nk-gap-2"></div>
 
 					<!-- START: Now Playing -->
 					<div class="nk-match">
@@ -353,6 +352,7 @@
 								</form>
 							</div>
 						</div>
+						
 						<div class="nk-widget nk-widget-highlighted">
 							<h4 class="nk-widget-title"><span><span class="text-main-1">遊戲</span> 標籤</span></h4>
 							<div class="nk-widget-content">
@@ -362,7 +362,7 @@
 									<th:block th:each=" game : ${games} ">
 										<div>
 											<a class="badge bg-success"
-												style="font-size: 20px;margin-right: 21px;margin-bottom: 20px;"
+												style="font-size: 17px;margin-right: 21px;margin-bottom: 20px;"
 												th:text="${game.gameName}"
 												th:href="@{'/eventPageOne?gameId='+${game.gameId}}"></a>
 										</div>
