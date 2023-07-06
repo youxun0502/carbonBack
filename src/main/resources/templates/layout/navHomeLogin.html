@@ -75,9 +75,34 @@
 			</button>
 			<div class="collapse navbar-collapse justify-content-end" id="navbarText">
 				<ul class="navbar-nav mb-2 mb-lg-0">
+<<<<<<< HEAD
 					<li class="nav-item"><a class="nav-link" href="#">GAME</a></li>
 					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
 							data-bs-toggle="dropdown" href="#" aria-expanded="false">MARKET</a>
+=======
+					<li class="nav-item d-flex"  style="align-items:center"> 
+						<div class="nk-cart-toggle ">
+	                        <span class="fa fa-shopping-cart" style="color:#fff"></span>
+	                        <span class="nk-badge" style="color:#fff" id="cartItemCount">0</span>
+	                    </div>
+	                    <div class="nk-cart-dropdown" >
+	                        
+	                      		<!-- 購物車區塊 -->
+							<div id="cartItems"></div>
+	                      	
+	                        
+	                        <div class="nk-gap-2"></div>
+	                        <div class="text-center">
+	                           <a th:href="@{/gameFront/cartList(memberId=${session.memberBeans.id})}" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">前往購物車</a>
+	                        </div>
+	                    </div>
+                    </li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/gameFront}">GAME</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" role="button"
+						data-bs-toggle="dropdown" href="#" aria-expanded="false">MARKET</a>
+>>>>>>> lu
 						<ul class="dropdown-menu bg-dark text-light">
 							<li><a class="dropdown-item text-light" th:href="@{/bonus-shop/main}">Bonus Shop</a></li>
 
@@ -112,8 +137,9 @@
 				</ul>
 			</div>
 		</div>
-		<div class="d-none" id="memberId">[[${session.memberBeans.id}]]</div>
+		<div class="d-none" id="memberId" th:data-user-id="${session.memberBeans.id}">[[${session.memberBeans.id}]]</div>
 	</nav>
+	<script th:src="@{/js/cart_game_login.js}"></script>
 	<script th:src="@{/js/home.js}"></script>
 	<!-- START: Scripts -->
 

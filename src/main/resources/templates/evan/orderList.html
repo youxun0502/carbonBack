@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
 <title>Game List</title>
@@ -53,6 +54,7 @@
 <script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
 
 </head>
+
 <body>
 	<div
 		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
@@ -62,145 +64,67 @@
 		<ul class="nk-breadcrumbs">
 			<li>Home</li>
 			<li><span class="fa fa-angle-right"></span></li>
-			<li>Store</li>
+			<li>訂單</li>
 			<li><span class="fa fa-angle-right"></span></li>
-			<li><span>Games</span</li>
+			<li><span>訂單</span></li>
 		</ul>
 		<div class="nk-gap-1"></div>
-		<!-- START: Products Filter -->
-		<!-- START: Tabs  -->
-		<div class="nk-tabs">
-			<!--
-                    Additional Classes:
-                        .nav-tabs-fill
-                -->
-			<ul class="nav nav-tabs nav-tabs-fill" role="tablist">
-				<th:block th:each="tag,iterStat:${popularTag}"
-					th:if="${iterStat.index} < 8">
-					<li class="nav-item"><a class="nav-link " href="#tabs-1-1"
-						role="tab" data-toggle="tab"> [[${tag.typeName}]] </a></li>
-				</th:block>
-			</ul>
-
-		</div>
-		<div class="nk-gap-2"></div>
-		<div class="row vertical-gap">
-			<div class="col-lg-8">
-				<div class="row vertical-gap">
-
-					<div class="col-md-8">
-						<div class="nk-input-slider-inline">
-							<div class="nk-input-slider">
-								<div class="nk-input-slider-content text-white"
-									style="min-width: 200px">
-									PRICE: <strong class="text-main-1">NT$ <span
-										class="nk-input-slider-value-0"></span></strong> - <strong
-										class="text-main-1">NT$ <span
-										class="nk-input-slider-value-1"></span></strong>
-								</div>
-								<div class="nk-input-slider-input">
-									<input type="text" name="price-filter" data-slider-min="0"
-										data-slider-max="1800" data-slider-step="1"
-										data-slider-value="[200, 1200]" data-slider-tooltip="hide">
-								</div>
-							</div>
-							<div>
-								<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white">Apply</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-4">
-				<form action="#" class="nk-form" novalidate="novalidate">
-					<div class="input-group">
-						<input type="text" class="form-control"
-							placeholder="Type something...">
-						<button class="nk-btn nk-btn-color-main-1">
-							<span class="ion-search"></span>
-						</button>
-					</div>
-				</form>
-			</div>
-		</div>
-		<!-- START: Top 10 Best Sellers -->
-		<div class="nk-gap-2"></div>
-		<h3 class="nk-decorated-h-2">
-			<span><span class="text-main-1">Top 10</span> Best Sellers</span>
-		</h3>
-		<div class="nk-gap"></div>
-		<div class="nk-carousel nk-carousel-x4" data-autoplay="5000"
-			data-dots="false" data-cell-align="left" data-arrows="true">
-			<div class="nk-carousel-inner">
-				<th:block th:each="TopGame:${gameList}">
-					<div>
-						<div class="pl-5 pr-5">
-							<div class="nk-product-cat-3" style="max-width: 140px">
-								<a class="nk-product-image"
-									th:href="@{'/gameFront/'+${TopGame.gameName}}"> <img
-									th:src="@{'/gameFront/getImg/'+${TopGame.gamePhotoLists[0]}}"
-									alt="我是圖片喔">
-								</a>
-								<div class="nk-product-cont">
-									<div class="nk-gap-1"></div>
-									<h3 class="nk-product-title h5">
-										<a th:href="@{'/gameFront/'+${TopGame.gameName}}">[[${TopGame.gameName}]]</a>
-									</h3>
-									<div class="nk-gap-1"></div>
-									<div class="nk-product-price">NT$[[${TopGame.price}]]</div>
-								</div>
-							</div>
-						</div>
-					</div>
-			</div>
-		</div>
-		<!-- END: Top 10 Best Sellers -->
-
-		<!-- START: Featured Games -->
-		<div class="nk-gap-3"></div>
-		<h3 class="nk-decorated-h-2">
-			<span><span class="text-main-1">Featured</span> Games</span>
-		</h3>
-		<div class="nk-gap"></div>
-		<div class="row vertical-gap">
-
-			<th:block th:each="game:${gameAll}">
-				<div class="col-lg-6">
-					<div class="nk-product-cat-2">
-						<a class="nk-product-image"
-							th:href="@{'/gameFront/'+${game.gameName}}"> <img
-							th:src="@{'/gameFront/getImg/'+${game.gamePhotoLists[0]}}"
-							alt="With what mingled joy">
+		<div class="nk-accordion" id="accordion-1" role="tablist"
+			aria-multiselectable="true">
+			<th:block th:each="order:${orderList}">
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="accordion-1-1-heading"
+						style="margin-bottom: 0;">
+						<a class="collapsed" data-toggle="collapse"
+							data-parent="#accordion-1" th:href="'#'+${order.OrderID}"
+							aria-expanded="true" aria-controls="accordion-1-1"> 
+							<button type="submit" class="nk-btn nk-btn-color-white ">[[${order.status}]]</button>
+							&nbsp;&nbsp;&nbsp;&nbsp;訂單編號：[[${order.OrderID}]] 
+							&nbsp;&rArr;&nbsp; 訂單成立日期：[[${#dates.format(order.createDate,'yyyy-MM-dd')}]]<span
+							class="panel-heading-arrow fa fa-angle-down"></span>
 						</a>
-						<div class="nk-product-cont" style="color: #b9a5a5">
-							<h3 class="nk-product-title h5">
-								<a th:href="@{'/gameFront/'+${game.gameName}}">[[${game.gameName}]]</a>
-							</h3>
-							<div class="nk-gap-1"></div>
-							<div class="nk-product-rating" data-rating="3.5">
-								<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-									class="fa fa-star"></i> <i class="fas fa-star-half"></i> <i
-									class="far fa-star"></i>
-							</div>
-							<div class="nk-gap-1"></div>
-							[[${game.gameIntroduce}]]
-							<div class="nk-gap-2"></div>
-							<div class="nk-product-price">NT$[[${game.price}]]</div>
-							<div class="nk-gap-1"></div>
-							<a href="#"
-								class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1 add-to-cart-button"
-								th:data-game-name="${game.gameName}"
-								th:data-game-id="${game.gameId}"
-								th:data-price="${game.price}"
-								th:data-photo="${game.gamePhotoLists[0]}"
-								onclick="addToCart(event)">Add to Cart</a>
-						</div>
+					</div>
+					<div th:id="${order.OrderID}" class="panel-collapse collapse"
+						role="tabpanel" aria-labelledby="accordion-1-1-heading">
+						<table class="nk-table">
+							<tbody>
+								<tr>
+									<th>遊戲名稱</th>
+									<th class="text-center">價格</th>
+									<th class="text-center">訂單成立時間</th>
+									<th class="text-center">訂單總額</th>
+								</tr>
+								<th:block th:each="game, iterStat: ${order.logs}">
+									<tr>
+										<td>[[${game.gameName}]]</td>
+										<td class="text-center"><strong>[[${game.price}]]</strong></td>
+										<td th:if="${iterStat.index == 0}"
+											th:rowspan="${order.logs.size()}" class="text-center">[[${order.createDate}]]</td>
+										<td th:if="${iterStat.index == 0}"
+											th:rowspan="${order.logs.size()}" class="text-center"><strong>[[${order.totalPrice}]]</strong></td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+						<div class="nk-gap-1"></div>
+						<a href="#"
+							class="nk-btn nk-btn-outline nk-btn-color-success float-right">
+							綠界 </a>
+						<form th:action="@{/gameFront/orderList/delete}" th:method="delete" id="deleteForm">
+							<input type="hidden" name="memberId" th:value="${session.memberBeans.id}" />
+							<input type="hidden" name="orderId" th:value="${order.OrderID}" /> 
+							<button type="submit" class="nk-btn nk-btn-outline nk-btn-color-danger float-right">刪除訂單</button>
+						</form>
+						<div class="nk-gap-2"></div>
 					</div>
 				</div>
+				<div class="nk-gap-1"></div>
+			</th:block>
+
 		</div>
-		<!-- END: Featured Games -->
+		<div class="nk-gap-1"></div>
 	</div>
-	<div class="nk-gap-3"></div>
+	</div>
 	<footer class="py-5 bg-dark">
 		<div class="container">
 			<div class="row">
@@ -232,9 +156,10 @@
 				</div>
 			</div>
 		</div>
+
 	</footer>
 	<!-- START: Scripts -->
-
+	<script th:src="@{/js/cart_list.js}"></script>
 	<!-- Object Fit Polyfill -->
 	<script th:src="@{/assets/vendor/object-fit-images/dist/ofi.min.js}"></script>
 
@@ -306,4 +231,5 @@
 	<script th:src="@{/assets/js/goodgames-init.js}"></script>
 	<!-- END: Scripts -->
 </body>
+
 </html>
