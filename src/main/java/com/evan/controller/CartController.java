@@ -17,6 +17,9 @@ import com.evan.dto.CartDTO;
 import com.evan.dto.TypeDTO;
 import com.evan.service.CartService;
 import com.evan.service.GameOrderService;
+import com.liu.model.Member;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class CartController {
@@ -90,6 +93,15 @@ public class CartController {
 		return "evan/orderList";
 	}
 
+	@GetMapping("/gameFront/order/ecpaystatus")
+	public String checkTradingStatus(@RequestParam Map<String, Object> formData,HttpSession session,Model model) {
+		goService.ecpayTradingStatus(formData);
+		goService.getOrders(formData);
+		
+		model.addAttribute("orderList",goService.getOrders(formData));
+		
+		return "evan/orderList";
+	}
 	
 	
 }
