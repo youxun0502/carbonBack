@@ -43,6 +43,13 @@ public class Coupon {
 	private Integer status;
 	
 	
+	@ManyToOne(fetch = FetchType.LAZY,cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "typeId")
+	private GameType gameType;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon", cascade = CascadeType.ALL)
+	private Set<CouponLog> couponLogs;
+	
 	public Integer getCouponId() {
 		return couponId;
 	}
@@ -123,12 +130,6 @@ public class Coupon {
 	}
 
 
-	@ManyToOne(fetch = FetchType.LAZY,cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "typeId")
-	private GameType gameType;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon", cascade = CascadeType.ALL)
-	private Set<CouponLog> couponLogs;
 	
 	public Coupon() {}
 

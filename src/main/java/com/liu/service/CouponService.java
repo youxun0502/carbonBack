@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.liu.config.RandomConfig;
 import com.liu.model.Coupon;
 import com.liu.model.CouponRepository;
@@ -34,12 +35,25 @@ public class CouponService {
 		System.out.println("------old CouponRandom---------");
 		return randomConfig.getCouponRandom();
 	}
+	
+	public Map<Integer, Float> getCouponRamdomForManagement(){
+		Integer totalWeight = getTotalWeight();
+		List<Coupon> coupons = couponRepository.findCouponOrderByCouponId();
+		Map<Integer,Float> newRamdom = new HashMap<>();
+		for (Coupon coupon : coupons) {
+			Integer couponId = coupon.getCouponId();
+			Integer weight = coupon.getWeight();
+			float random = (float)weight/totalWeight;
+			newRamdom.put(couponId, random);
+		}
+		return newRamdom;
+	}
 
 
 	private Map<Integer, Integer> createNewRamdomForCoupon() {
 		Integer totalWeight = getTotalWeight();
 		List<Coupon> coupons = couponRepository.findCouponOrderByCouponId();
-		Map<Integer,Integer> NewRamdom = new HashMap<>();
+		Map<Integer,Integer> newRamdom = new HashMap<>();
 		Integer tempMaxNum = 0;
 		for (Coupon coupon : coupons) {
 			Integer couponId = coupon.getCouponId();
@@ -54,10 +68,10 @@ public class CouponService {
 			System.out.println(maxNum);		
 			System.out.println(tempMaxNum);
 			System.out.println(couponRandomNum);
-			NewRamdom.put(couponId, couponRandomNum);
+			newRamdom.put(couponId, couponRandomNum);
 		}
-		randomConfig.setCouponRandom(NewRamdom);
-		return NewRamdom;
+		randomConfig.setCouponRandom(newRamdom);
+		return newRamdom;
 	}
 
 
@@ -78,8 +92,12 @@ public class CouponService {
 			}
 		}
 		System.out.println("null");
-		return null;
-		
+		return null;	
 	}
+	
+	public List<Coupon> findCouponOrderByCouponId(){
+		return couponRepository.findCouponOrderByCouponId();
+	}
+	
 	
 }

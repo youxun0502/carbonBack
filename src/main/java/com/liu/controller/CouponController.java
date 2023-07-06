@@ -2,13 +2,19 @@ package com.liu.controller;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.liu.config.MathRandom;
+import com.liu.dto.CouponDto;
 import com.liu.model.Coupon;
 import com.liu.model.CouponLog;
 import com.liu.model.Member;
@@ -33,7 +39,7 @@ public class CouponController {
 
 	@GetMapping("/coupon/couponPage")
 	public String couponPage() {
-		return "liu/couponGetCoupon";
+		return "/liu/couponGetCoupon";
 	}
 	
 	@ResponseBody
@@ -51,4 +57,37 @@ public class CouponController {
 		String result = couponLogService.insertCouponLog(couponLog);
 		return result;
 	}
+	
+	@GetMapping("/coupon/couponManagementPage")
+	public String couponManagementPage(Model m) {
+		
+		Map<Integer, Float> couponRandoms = couponService.getCouponRamdomForManagement();
+		
+		List<Coupon> coupons = couponService.findCouponOrderByCouponId();
+		
+		System.out.println(couponRandoms.get(1));
+		
+		m.addAttribute("couponRandoms", couponRandoms);
+		m.addAttribute("coupons", coupons);
+		return "/liu/couponManagement";
+	}
+	
+	@ResponseBody
+	@GetMapping("/coupon1/api/couponMangement")
+	public List<CouponDto> couponMangement(){
+	Map<Integer, Float> couponRandoms = couponService.getCouponRamdomForManagement();
+	List<Coupon> coupons = couponService.findCouponOrderByCouponId();
+	List<CouponDto> couponDtos = new ArrayList<>();
+	for (Coupon coupon : coupons) {
+		CouponDto couponDto = new CouponDto();
+		couponDto.setCouponId(coupon.getCouponId());
+		couponDto.setCouponName(coupon.getDesc());
+		couponDto.setRandom(couponRandoms.get(coupon.getCouponId()));
+		couponDtos.add(couponDto);
+	}
+	
+	return couponDtos;
+	}
+		
+	
 }
