@@ -86,7 +86,7 @@ public class GameOrderService {
 
 		AioCheckOutALL obj = new AioCheckOutALL();
 		
-		obj.setMerchantTradeNo("0975667900testCompany0004");
+		obj.setMerchantTradeNo("00000");
 		obj.setMerchantTradeDate("2017/01/01 08:05:23");
 		obj.setTotalAmount("50");
 		obj.setTradeDesc("test Description");
