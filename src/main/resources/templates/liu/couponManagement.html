@@ -80,33 +80,35 @@
 										<td>[[${coupon.weight}]]</td>
 										<td>[[${coupon.status}]]</td>
 										<td>[[${couponRandoms[coupon.couponId]}]]</td>
-																			<th:block th:if="${coupon.status==1}">
-										<td>
-											<button th:data-id="${coupon.couponId}" class="btn btn-info btn-update" data-bs-toggle="modal"
-												data-bs-target="#exampleModal">更新
-											</button>
-										</td>
-										<td>
-											<button th:data-id="${coupon.couponId}" class="btn btn-outline-success btn-restore" hidden=true>復原
-											</button>
-											<button th:data-id="${coupon.couponId}" class="btn btn-danger btn-delete">凍結
-											</button>
-										</td>
-									</th:block>
-									<th:block th:unless="${coupon.status==1}">
-										<td>
-											<button th:data-id="${coupon.couponId}" class="btn btn-info btn-update" data-bs-toggle="modal"
-												data-bs-target="#exampleModal" hidden=true>更新
-											</button>
-										</td>
-										<td>
-											<button th:data-id="${coupon.couponId}" class="btn btn-danger btn-delete" hidden=true>凍結</button>
-											<button th:data-id="${coupon.couponId}" class="btn btn-outline-success btn-restore">復原
-											</button>
-										</td>
-									</th:block>
+										<th:block th:if="${coupon.status==1}">
+											<td>
+												<button th:data-id="${coupon.couponId}" class="btn btn-info btn-update" data-bs-toggle="modal"
+													data-bs-target="#exampleModal">更新
+												</button>
+											</td>
+											<td>
+												<button th:data-id="${coupon.couponId}" class="btn btn-outline-success btn-restore"
+													hidden=true>復原
+												</button>
+												<button th:data-id="${coupon.couponId}" class="btn btn-danger btn-delete">凍結
+												</button>
+											</td>
+										</th:block>
+										<th:block th:unless="${coupon.status==1}">
+											<td>
+												<button th:data-id="${coupon.couponId}" class="btn btn-info btn-update" data-bs-toggle="modal"
+													data-bs-target="#exampleModal" hidden=true>更新
+												</button>
+											</td>
+											<td>
+												<button th:data-id="${coupon.couponId}" class="btn btn-danger btn-delete"
+													hidden=true>凍結</button>
+												<button th:data-id="${coupon.couponId}" class="btn btn-outline-success btn-restore">復原
+												</button>
+											</td>
+										</th:block>
 									</tr>
-									
+
 								</th:block>
 							</tbody>
 						</table>
@@ -130,79 +132,55 @@
 
 		function getRegistrationDatechartJs() {
 			axios({
-				url: 'http://localhost:8080/carbon/member/api/memberRegistrationDateAnalysis',
+				url: 'http://localhost:8080/carbon/coupon/api/couponMangement',
 				method: 'GET',
 				headers: { 'Content-Type': 'application/x-www-form-urlencode' }
 			})
 				.then(response => {
-					const chartJS = document.querySelector('#chartJS');
-					let responseData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+					const chartJS = document.querySelector('#chartJS')
+
 					console.log(response.data);
-					for (let dataInResponse of response.data) {
-						responseData[dataInResponse[0] - 1] = dataInResponse[1];
-						console.log(responseData[dataInResponse[0] - 1] = dataInResponse[1]);
+
+					let responseData = [];
+					let labels = [];
+					for (let coupon of response.data) {
+						responseData.push(coupon.random);
+						labels.push(coupon.couponId + ':' + coupon.couponName);
 					}
-					const labels = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+
+					console.log(responseData);
+					console.log(labels);
+
 					const data = {
 						labels: labels,
 						datasets: [
 							{
-								label: '註冊人數',
+								label: '機率',
 								data: responseData,
-								borderColor: 'rgb(255, 255, 255)',
-								backgroundColor: 'rgb(255, 255, 255)',
-								pointBackgroundColor: 'rgb(255, 255, 255)',
-								pointBorderColor: 'rgb(255, 255, 255)',
-								pointRadius: 8,
-								pointHoverRadius: 10
-
+								backgroundColor: ['rgb(255, 99, 132', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+								hoverOffset: 4
 							}
 						]
 					}
 
 					new Chart(chartJS, {
-						type: 'line',
+						type: 'doughnut',
 						data: data,
 						options: {
-							scales: {
-								x: {
-									ticks: {
-										color: 'rgb(255, 255, 255)',
-										font: { size: 24 },
-									}
-								},
-								y: {
-									ticks: {
-										color: 'rgb(255, 255, 255)',
-										font: { size: 24 },
-									}
-								},
-							},
-							responsive: true,
 							plugins: {
 								legend: {
 									labels: {
-										color: 'rgb(255, 255, 255)',
+										color: 'white',
 										font: {
-											size: 30
+											size:20
+											
 										}
-									},
-									position: 'top',
-								},
-								title: {
-									display: true,
-									text: '每月會員註冊人數',
-									color: 'rgb(255, 255, 255)',
-									font: {
-										size: 30
-									},
-									position: 'bottom'
+									}
 								}
 							}
-						},
+						}
 					}
 					)
-
 				})
 		}
 
