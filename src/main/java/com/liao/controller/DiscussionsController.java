@@ -156,6 +156,44 @@ public class DiscussionsController {
 		return "redirect:/forum/" +gameName;
 	}
 	
+	@GetMapping("/forum/insertpageMessage")
+	public String insertpageForumMessage() {
+		return "liao/DiscussionInsertFrontMessage";
+	}
+	
+	@PostMapping("/forum/insertDiscussionMessage")
+	public String insertDiscussionForumMessage(@RequestParam("memberId") Integer memberId,
+									@RequestParam("eventId") Integer eventId,
+									@RequestParam("userName") String userName,
+									@RequestParam("gameId") Integer gameId,
+									@RequestParam("gameName") String gameName,
+									@RequestParam("title") String title,
+									@RequestParam("dcontent") String dcontent,
+									@RequestParam("lastReplyTime") String lastReplyTime,
+									@RequestParam("d_views") Integer d_views,
+									@RequestParam("dcreated_at") String dcreated_at,
+									@RequestParam("dlikes") Integer dlikes,
+									@RequestParam("photoFile") MultipartFile photoFile,
+									Model model) throws IOException {
+		Discussions discussions = new Discussions();
+		discussions.setMemberId(memberId);
+		discussions.setEventId(eventId);
+		discussions.setUserName(userName);
+		discussions.setGameId(gameId);
+		discussions.setGameName(gameName);
+		discussions.setTitle(title);
+		discussions.setDcontent(dcontent);
+		discussions.setLastReplyTime(lastReplyTime);
+		discussions.setD_views(d_views);
+		discussions.setDcreated_at(dcreated_at);
+		discussions.setDlikes(dlikes);
+		discussions.setPhotoFile(photoFile.getBytes());
+		
+		dService.insert(discussions);
+		
+		return "redirect:/forum/" +gameName;
+	}
+	
 	@ResponseBody
 	@GetMapping("/forum/api/page")
 	public Page<Discussions> showMessagesApi(@RequestParam(name="p",defaultValue = "1") Integer pageNumber){

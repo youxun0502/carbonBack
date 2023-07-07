@@ -497,7 +497,9 @@
             <!-- START: Pagination -->
             <div class="row justify-content-end">
                 <div class="col-md-3 text-right">
-                    <a th:href="@{#forum-reply}" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a>
+                    <a id="replyButton" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a>
+
+                    <!-- <a th:href="@{#forum-reply}" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a> -->
                 </div>
             </div>
             <!-- END: Pagination -->
@@ -936,6 +938,37 @@
             .catch(error => {
                 console.error('無法創建 CKEditor 實例', error);
             });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // 監聽"Reply"按鈕的點擊事件
+            $('#replyButton').click(function () {
+                // 取得使用者輸入的文字
+                var replyButton = $(this);
+                replyButton.attr('disabled', 'disabled'); // 禁用按鈕
+                var replyText = CKEDITOR.instances.editor.getData();
+
+                // 使用Ajax發送POST請求
+                $.ajax({
+                    type: 'POST',
+                    url: '/carbon/forum/insertDiscussionMessage', // 替換為實際的URL
+                    data: {
+                        replyText: replyText
+                    },
+                    success: function (response) {
+                        // 成功時的處理邏輯
+                        console.log('回覆成功');
+                        // 可以在這裡更新頁面或執行其他操作
+                    },
+                    error: function (error) {
+                        // 失敗時的處理邏輯
+                        console.error('回覆失敗', error);
+                        replyButton.removeAttr('disabled');
+                    }
+                });
+            });
+        });
     </script>
 
 
