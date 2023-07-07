@@ -241,5 +241,19 @@ public class Member {
 		this.useBackground = useBackground;
 	}
 	
+	public Set<Game> getGames() {
+		return games;
+	}
+
+	public List<GameOrder> getGameOrder() {
+		return gameOrder;
+	}
+
+	public void setGameOrder(List<GameOrder> gameOrder) {
+		this.gameOrder = gameOrder;
+	}
+
+
+
 
 }
