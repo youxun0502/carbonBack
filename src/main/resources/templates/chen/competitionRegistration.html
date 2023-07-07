@@ -63,6 +63,7 @@
 							</div>
 							<p style="font-size: 30px;font-weight:bold;" th:text="${competition.name}"></p>
                       		<input type="hidden" name="competitionId" th:value="${competition.competitionId}" />
+                      		<input type="hidden" name="memberId" th:value="${session.memberBeans?.id}" />
 						</div>
 						<div class="field">
 							<div class="label">
@@ -128,7 +129,10 @@
 							<div class="label">
 	                            報名費
 	                        </div>
-							<p style="font-size: 30px;font-weight:bold;" th:text="${competition} ? ${competition.fee}"</p>
+					        <th:block th:switch="${session.memberBeans?.id} != null">
+					            <p th:case="${true}" style="font-size: 30px;font-weight:bold;" th:text="${competition} ? ${competition.fee}-50"></p>
+					            <p th:case="${false}" style="font-size: 30px;font-weight:bold;" th:text="${competition} ? ${competition.fee}"></p>
+					        </th:block>
 						</div>
 
 						<div class="field btns">

@@ -98,8 +98,9 @@ public class CompetitionController {
 	@PutMapping("/competition/update")
 	public String updatePost(@RequestParam("competitionId")Integer id,@RequestParam("name")String name,@RequestParam("mode")String mode,
 							@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,@RequestParam("location")String location,
-							@RequestParam(value = "prize", required = false)Integer prize,@RequestParam("quotaLimited")Integer quotaLimited,@RequestParam("deadline")String deadline) {
-		cService.updateCompetitionById(id, name, mode, startDate, endDate, location, prize, quotaLimited, deadline);
+							@RequestParam(value = "prize", required = false)Integer prize,@RequestParam("quotaLimited")Integer quotaLimited,@RequestParam("deadline")String deadline,
+							@RequestParam(value = "fee", required = false)Integer fee,@RequestParam(value = "desc", required = false)String desc) {
+		cService.updateCompetitionById(id, name, mode, startDate, endDate, location, prize, quotaLimited, deadline, fee, desc);
 		return "redirect:/competition/data";
 	}
 	

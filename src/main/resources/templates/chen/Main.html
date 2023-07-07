@@ -8,36 +8,39 @@
 
 <body>
 	<nav class="navbar navColor">
-		<div class="container-fluid">
-			<div>
-				<button class="navbar-brand competition" style="font-size: 30px">賽事</button>
-				<button class="navbar-brand event" style="font-size: 30px;">活動</button>
-			</div>
+		<div class="container-fluid" style="position: relative;">
+			<a class="navbar-brand link-light competition" href="#" style="font-size: 30px;">Competition</a>
+			<a class="navbar-brand link-light event" href="#" style="font-size: 30px; display: none;">Event</a>
+			<button id="change" style="position: absolute;left: 200px;"><i class="fa-solid fa-arrows-rotate"></i></button>
 			<div class="d-flex" role="search">
-				<form class="d-flex" role="search" method="post" th:action="@{/competition/data}">
-					<input class="form-control me-2" type="search" placeholder="請輸入賽事名稱" aria-label="Search"
-						name="gameName" id="search_input1" autocomplete="off" style="display: none;" >
-					<button class="btn btn-outline-warning" type="submit" id="search_btn1" style="display: none;" >Search</button>
-				</form>
-				<form class="d-flex" role="search" method="post" th:action="@{/event/data}">
-					<input class="form-control me-2" type="search" placeholder="請輸入活動名稱" aria-label="Search"
-						name="eventName" id="search_input2" autocomplete="off" style="display: none;" >
-					<button class="btn btn-outline-warning" type="submit" id="search_btn2" style="display: none;" >Search</button>
-				</form>
-				<form class="d-flex" role="search" method="post" th:action="@{/competition/registration/data}">	
-					<input class="form-control me-2" type="search" placeholder="請輸入姓名" aria-label="Search"
-						name="realName" id="search_input3" autocomplete="off" style="display: none;" >
-					<button class="btn btn-outline-warning" type="submit" id="search_btn3" style="display: none;" >Search</button>
-				</form>
-				<form class="d-flex" role="search" method="post" th:action="@{/event/registration/data}">
-					<input class="form-control me-2" type="search" placeholder="請輸入姓名" aria-label="Search"
-						name="realName" id="search_input4" autocomplete="off" style="display: none;" >
-					<button class="btn btn-outline-warning" type="submit" id="search_btn4" style="display: none;" >Search</button>
-				</form>
-			</div>
+                <form class="d-flex" role="search" method="post" th:action="@{/competition/data}">
+                    <input class="form-control me-2" type="search" placeholder="請輸入賽事名稱" aria-label="Search"
+                        name="gameName" id="search_input1" autocomplete="off" style="display: none;">
+                    <button class="btn btn-outline-warning" type="submit" id="search_btn1"
+                        style="display: none;">Search</button>
+                </form>
+                <form class="d-flex" role="search" method="post" th:action="@{/event/data}">
+                    <input class="form-control me-2" type="search" placeholder="請輸入活動名稱" aria-label="Search"
+                        name="eventName" id="search_input2" autocomplete="off" style="display: none;">
+                    <button class="btn btn-outline-warning" type="submit" id="search_btn2"
+                        style="display: none;">Search</button>
+                </form>
+                <form class="d-flex" role="search" method="post" th:action="@{/competition/registration/data}">
+                    <input class="form-control me-2" type="search" placeholder="請輸入姓名" aria-label="Search"
+                        name="realName" id="search_input3" autocomplete="off" style="display: none;">
+                    <button class="btn btn-outline-warning" type="submit" id="search_btn3"
+                        style="display: none;">Search</button>
+                </form>
+                <form class="d-flex" role="search" method="post" th:action="@{/event/registration/data}">
+                    <input class="form-control me-2" type="search" placeholder="請輸入姓名" aria-label="Search"
+                        name="realName" id="search_input4" autocomplete="off" style="display: none;">
+                    <button class="btn btn-outline-warning" type="submit" id="search_btn4"
+                        style="display: none;">Search</button>
+                </form>
+            </div>
 		</div>
 	</nav>
-	<ul class="nav nav-tabs cList" style="display: none;">
+	<ul class="nav nav-tabs cList">
 		<li class="nav-item">
 			<a class="nav-link all1" th:href="@{/competition/data}">ALL</a>
 		</li>
@@ -62,106 +65,72 @@
 
 	<script>
 		$(function () {
-			/*
-			var competitionState = localStorage.getItem('competitionState');
-			if (competitionState === 'active') {
-				$('.cList').show();
-				$('.competition').css('background-color', 'red');
-			} else {
-				$('.cList').hide();
-				$('.competition').css('background-color', '#F0F0F0');
-			}
-
-			var eventState = localStorage.getItem('eventState');
-			if (eventState === 'active') {
-				$('.eList').show();
-				$('.event').css('background-color', 'red');
-			} else {
-				$('.eList').hide();
-				$('.event').css('background-color', '#F0F0F0');
-			}
-
-			$('.competition').click(function () {
-				$('.cList').show();
-				window.location.href = 'http://localhost:8081/competition/data';
-				$('.competition').css('background-color', 'red');
-				$('.event').css('background-color', '#F0F0F0');
-				$('.eList').hide();
-				var currentState1 = $('.cList').is(':visible') ? 'active' : 'inactive';
-				localStorage.setItem('competitionState', currentState1);
-				var currentState2 = $('.eList').is(':visible') ? 'active' : 'inactive';
-				localStorage.setItem('eventState', currentState2);
-			});
-
-			$('.event').click(function () {
-				$('.eList').show();
-				window.location.href = 'http://localhost:8081/event/data';
-				$('.event').css('background-color', 'red');
-				$('.competition').css('background-color', '#F0F0F0');
-				$('.cList').hide();
-				var currentState2 = $('.eList').is(':visible') ? 'active' : 'inactive';
-				localStorage.setItem('eventState', currentState2);
-				var currentState1 = $('.cList').is(':visible') ? 'active' : 'inactive';
-				localStorage.setItem('competitionState', currentState1);
-			});
-			*/
+			
 			
 			$('#example').DataTable({
 				scrollX: true,
 				"dom": 'lrtip'
 			});
 			
-			$('.event').click(function () {
-				window.location.href = 'http://localhost:8080/carbon/event/data';
-			});
 			
-			$('.competition').click(function () {
-				window.location.href = 'http://localhost:8080/carbon/competition/data';
+			$('#change').click(function () {
+				$('.competition').toggle();
+				$('.event').toggle();
+				$('.cList').toggle();
+				$('.eList').toggle();
 			});
 			
 			if (window.location.href === 'http://localhost:8080/carbon/competition/data') {
-			    $('.all1').css('background-color', 'red');
-			    $('.all1').css('color', 'black');
-			    $('.cList').show();
-			    $('.competition').css('background-color', 'red');
-			    $('#search_input1').show();
-			    $('#search_btn1').show();
-			  }else if(window.location.href === 'http://localhost:8080/carbon/competition/add'){
-				$('.cre1').css('background-color', 'red');
-				$('.cre1').css('color', 'black');
-				$('.cList').show();
-			    $('.competition').css('background-color', 'red'); 
-			  }else if(window.location.href === 'http://localhost:8080/carbon/competition/registration/data'){
-				$('.reg1').css('background-color', 'red');
-				$('.reg1').css('color', 'black');
-				$('.cList').show();
-			    $('.competition').css('background-color', 'red');
-			    $('#search_input3').show();
-			    $('#search_btn3').show();
-			  }
-			  
-			if(window.location.href === 'http://localhost:8080/carbon/event/data'){
-				$('.all2').css('background-color', 'red');
-				$('.all2').css('color', 'black');
-				$('.eList').show();
-				$('.event').css('background-color', 'red');
-				$('#search_input2').show();
-			    $('#search_btn2').show();
-			}else if(window.location.href === 'http://localhost:8080/carbon/event/add'){
-				$('.cre2').css('background-color', 'red');
-				$('.cre2').css('color', 'black');
-				$('.eList').show();
-				$('.event').css('background-color', 'red');
-			}else if(window.location.href === 'http://localhost:8080/carbon/event/registration/data'){
-				$('.reg2').css('background-color', 'red');
-				$('.reg2').css('color', 'black');
-				$('.eList').show();
-				$('.event').css('background-color', 'red');
-				$('#search_input4').show();
-			    $('#search_btn4').show();
+                $('.all1').css('background-color', 'white');
+                $('.all1').css('color', 'black');
+                $('#search_input1').show();
+                $('#search_btn1').show();
+            } else if (window.location.href === 'http://localhost:8080/carbon/competition/add') {
+                $('.cre1').css('background-color', 'white');
+                $('.cre1').css('color', 'black');
+            } else if (window.location.href === 'http://localhost:8080/carbon/competition/registration/data') {
+                $('.reg1').css('background-color', 'white');
+                $('.reg1').css('color', 'black');
+                $('#search_input3').show();
+                $('#search_btn3').show();
+            }
+            
+            if (window.location.href === 'http://localhost:8080/carbon/event/data') {
+                $('.all2').css('background-color', 'white');
+                $('.all2').css('color', 'black');
+                $('.competition').css('display', 'none');
+                $('.cList').css('display', 'none');
+                $('.event').show();
+                $('.eList').show();
+                $('#search_input2').show();
+                $('#search_btn2').show();
+            } else if (window.location.href === 'http://localhost:8080/carbon/event/add') {
+                $('.cre2').css('background-color', 'white');
+                $('.cre2').css('color', 'black');
+                $('.competition').css('display', 'none');
+                $('.cList').css('display', 'none');
+                $('.event').show();
+                $('.eList').show();
+            } else if (window.location.href === 'http://localhost:8080/carbon/event/registration/data') {
+                $('.reg2').css('background-color', 'white');
+                $('.reg2').css('color', 'black');
+                $('.competition').css('display', 'none');
+                $('.cList').css('display', 'none');
+                $('.event').show();
+                $('.eList').show();
+                $('#search_input4').show();
+                $('#search_btn4').show();
+            }else if (/^http:\/\/localhost:8080\/carbon\/event\/update\?eventId=.*/.test(window.location.href)) {
+			    $('.competition').css('display', 'none');
+			    $('.cList').css('display', 'none');
+			    $('.event').show();
+			    $('.eList').show();
+			}else if (/^http:\/\/localhost:8080\/carbon\/event\/registration\/update\?signupId=.*/.test(window.location.href)) {
+			    $('.competition').css('display', 'none');
+			    $('.cList').css('display', 'none');
+			    $('.event').show();
+			    $('.eList').show();
 			}
-			  
-			  
 			  
 			  
 			  

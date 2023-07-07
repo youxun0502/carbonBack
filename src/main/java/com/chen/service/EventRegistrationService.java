@@ -58,12 +58,11 @@ public class EventRegistrationService {
 	
 	//修改資料
 	@Transactional
-	public EventRegistration updateRegistrationById(Integer signupId, Integer eventId, String realName, String email, String phone, 
+	public EventRegistration updateRegistrationById(Integer signupId, String realName, String email, String phone, 
 													String address) {
 		Optional<EventRegistration> optional = erRepo.findById(signupId);
 		if(optional.isPresent()) {
 			EventRegistration er = optional.get();
-			er.setEventId(eventId);
 			er.setRealName(realName);
 			er.setEmail(email);
 			er.setPhone(phone);

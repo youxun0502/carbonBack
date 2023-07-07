@@ -97,10 +97,10 @@ public class EventController {
 	
 	//修改資料
 	@PutMapping("/event/update")
-	public String updatePost(@RequestParam("eventId")Integer eventId,@RequestParam("name")String name,@RequestParam("description")String description,
-							@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,@RequestParam("timeLimitedDiscount")String timeLimitedDiscount,
-							@RequestParam("location")String location,@RequestParam("quotaLimited")Integer quotaLimited,@RequestParam("deadline")String deadline,
-							@RequestParam("fee")Integer fee) {
+	public String updatePost(@RequestParam("eventId")Integer eventId,@RequestParam("name")String name,@RequestParam(value = "desc", required = false)String description,
+							@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,@RequestParam(value = "timeLimitedDiscount", required = false)String timeLimitedDiscount,
+							@RequestParam("location")String location,@RequestParam(value = "quotaLimited", required = false)Integer quotaLimited,@RequestParam("deadline")String deadline,
+							@RequestParam(value = "fee", required = false)Integer fee) {
 		eService.updateEventById(eventId, name, description, startDate, endDate, timeLimitedDiscount, location, quotaLimited, deadline, fee);
 		return "redirect:/event/data";
 	}

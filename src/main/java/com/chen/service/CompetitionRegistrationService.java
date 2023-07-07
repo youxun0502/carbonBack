@@ -53,12 +53,11 @@ public class CompetitionRegistrationService {
 	
 	//修改資料
 	@Transactional
-	public CompetitionRegistration updateRegistrationById(Integer signupId, Integer competitionId, String gameNickname, String teamName,
+	public CompetitionRegistration updateRegistrationById(Integer signupId, String gameNickname, String teamName,
 														String realName, String email, String phone, String address) {
 		Optional<CompetitionRegistration> optional = crRepo.findById(signupId);
 		if(optional.isPresent()) {
 			CompetitionRegistration cr = optional.get();
-			cr.setCompetitionId(competitionId);
 			cr.setGameNickname(gameNickname);
 			cr.setTeamName(teamName);
 			cr.setRealName(realName);

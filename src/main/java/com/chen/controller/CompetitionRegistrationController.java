@@ -83,7 +83,7 @@ public class CompetitionRegistrationController {
 	// 新增資料
 	@PostMapping("/competitionRegistration/insert")
 	public String inserData(@RequestParam("competitionId") Integer id,
-			@RequestParam("gameNickname") String gameNickname,
+			@RequestParam("gameNickname") String gameNickname,@RequestParam(value = "memberId", required = false) Integer memberId,
 			@RequestParam(value = "teamName", required = false) String teamName,
 			@RequestParam("realName") String realName, @RequestParam("email") String email,
 			@RequestParam("phone") String phone, @RequestParam(value = "address", required = false) String address) {
@@ -95,6 +95,7 @@ public class CompetitionRegistrationController {
 		cr.setEmail(email);
 		cr.setPhone(phone);
 		cr.setAddress(address);
+		cr.setMemberId(memberId);
 		crService.insert(cr);
 		return "redirect:/competitionPageAll";
 	}
@@ -144,11 +145,11 @@ public class CompetitionRegistrationController {
 	// 修改資料
 	@PutMapping("/competition/registration/update")
 	public String updatePost(@RequestParam("signupId") Integer signupId,
-			@RequestParam("competitionId") Integer competitionId, @RequestParam("gameNickname") String gameNickname,
+			@RequestParam("gameNickname") String gameNickname,
 			@RequestParam(value = "teamName", required = false) String teamName,
 			@RequestParam("realName") String realName, @RequestParam("email") String email,
 			@RequestParam("phone") String phone, @RequestParam(value = "address", required = false) String address) {
-		crService.updateRegistrationById(signupId, competitionId, gameNickname, teamName, realName, email, phone,
+		crService.updateRegistrationById(signupId, gameNickname, teamName, realName, email, phone,
 				address);
 		return "redirect:/competition/registration/data";
 	}

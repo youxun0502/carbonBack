@@ -119,7 +119,13 @@
 							<li><a class="dropdown-item text-light" th:href="@{/bonus-shop/main}">Bonus Shop</a></li>
 							
 					</ul>
-					<li class="nav-item"><a class="nav-link" href="#">EVENT</a>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" href="#" aria-expanded="false">EVENT</a>
+						<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" th:href="@{/competitionPageAll}">CompetitionPage</a>
+							</li>
+							<li><a class="dropdown-item text-light" th:href="@{/eventPageAll}">EventPage</a></li>
+						</ul>
 					<li class="nav-item"><a class="nav-link" href="#">DISCUSSIONS</a>
 					</li>
 					<li class="nav-item"><a class="nav-link loginBtn" th:href="@{/main/loginPage}">登 入</a></li>

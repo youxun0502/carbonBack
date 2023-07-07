@@ -199,8 +199,8 @@
                     <nav>
 	                    <th:block th:each=" pageNumber : ${#numbers.sequence(1, page.totalPages)}">
 			                <th:block th:switch="${page.number != pageNumber - 1 }">
-		                        <a th:case=${true} th:href="@{/competitionPageAll?(p=${pageNumber})}">[[${pageNumber}]]</a>
-		                        <a th:case=${false} class="nk-pagination-current" href="#" th:text="${pageNumber}"></a>
+		                        <a style="align-items: center" th:case=${true} th:href="@{/competitionPageAll?(p=${pageNumber})}">[[${pageNumber}]]</a>
+		                        <a style="align-items: center" th:case=${false} class="nk-pagination-current" href="#" th:text="${pageNumber}"></a>
 	                        </th:block>
 			            </th:block>
                     </nav>
