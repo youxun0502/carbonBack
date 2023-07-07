@@ -28,7 +28,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.evan.dto.GameDTO;
 import com.evan.service.GameService;
 import com.liao.model.Discussions;
+import com.liao.model.Messages;
 import com.liao.service.DiscussionsService;
+import com.liao.service.MessagesService;
+
 
 @Controller
 public class DiscussionsController {
@@ -39,6 +42,8 @@ public class DiscussionsController {
 	@Autowired
 	private GameService gameService;
 	
+	@Autowired
+	private MessagesService mService;
 	
 	//顯示圖片
 	@GetMapping("/discussionsdownloadImage/{articleId}")
@@ -148,7 +153,7 @@ public class DiscussionsController {
 		
 		dService.insert(discussions);
 		
-		return "redirect:/forum/DiabloIV";
+		return "redirect:/forum/" +gameName;
 	}
 	
 	@ResponseBody
@@ -211,6 +216,41 @@ public class DiscussionsController {
 	          return "liao/GetAllDiscussion";
 	  }
 	
+//	@GetMapping("/forum/getfront")
+//	  public String getfront(Model model) throws SQLException {
+//	          List<Discussions> discussions = dService.findAll();
+//	          
+//	          List<Discussions> uniqueGameNames = new ArrayList<>();
+//	          List<String> gameName = new ArrayList<>();
+//
+//	       // 遍歷discussions列表
+////	       for (int i = 0; i < discussions.size(); i++) {
+////	           String currentGameName = discussions[i].getGameName();
+////	           
+////	           // 檢查相鄰的元素是否具有相同的gameName
+////	           if (i == 0 || !currentGameName.equals(discussions.get(i - 1).getGameName())) {
+////	               uniqueGameNames.add(currentGameName);
+////	           }
+////	       }
+//	       
+//	          for (Discussions discussion : discussions) {
+//	        	  for (String game : gameName) {
+//					if(discussion.getGameName() != game) {
+//						uniqueGameNames.add(discussion);
+//						gameName.add(discussion.getGameName()) ;
+//					}
+//				}
+//			}
+//
+//	       // 將uniqueGameNames和discussions傳遞到模板中
+//	       model.addAttribute("uniqueGameNames", uniqueGameNames);
+//	      
+//	          
+//	          model.addAttribute("discussions", discussions);
+//	       return "liao/blog-list";
+//	  }
+	
+	
 	
 //	@GetMapping("/discussions/getAllDiscussions")
 //	@ResponseBody
@@ -258,33 +298,36 @@ public class DiscussionsController {
 	          return "liao/blog-list";
 	  }
 	
-	@GetMapping("/forum/DiabloIV")
-	public String goDiabloIV(Model model) throws SQLException {
-		List<Discussions> discussions = dService.findAll();
+	@GetMapping("/forum/{gameName}")
+	public String goGameDiscussion(Model model , @PathVariable String gameName) throws SQLException {
+		List<Discussions> discussions = dService.findDiscussionsByGameName(gameName);
         model.addAttribute("discussions", discussions);
-		return "liao/DiabloIV";
+		return "liao/GameDiscussion";
 	}
 	
-	@GetMapping("/forum/apex")
-	public String goapex(Model model) throws SQLException {
-		List<Discussions> discussions = dService.findAll();
-        model.addAttribute("discussions", discussions);
-		return "liao/apex";
-	}
+//	@GetMapping("/forum/apex")
+//	public String goapex(Model model) throws SQLException {
+//		List<Discussions> discussions = dService.findAll();
+//        model.addAttribute("discussions", discussions);
+//		return "liao/apex";
+//	}
+//	
+//	@GetMapping("/forum/maplestory")
+//	public String gomaplestory(Model model) throws SQLException {
+//		List<Discussions> discussions = dService.findAll();
+//        model.addAttribute("discussions", discussions);
+//		return "liao/maplestory";
+//	}
 	
-	@GetMapping("/forum/maplestory")
-	public String gomaplestory(Model model) throws SQLException {
-		List<Discussions> discussions = dService.findAll();
-        model.addAttribute("discussions", discussions);
-		return "liao/maplestory";
-	}
-	
-//	@GetMapping("/forum/SampleTitle")
-//	  public String getSampleTitle(Model model) throws SQLException {
-//	          List<Discussions> discussions = dService.findAll();
+	@GetMapping("/forum/title/{mtitle}")
+	  public String getTitle(Model model , @PathVariable String mtitle) throws SQLException {
+//	          List<Discussions> discussions = dService.findDiscussionsByTitle(title);
 //	          model.addAttribute("discussions", discussions);
 //	          return "liao/SampleTitle";
-//	  }
+		   List<Messages> msg = mService.findMessagesByTitle(mtitle);
+           model.addAttribute("msg", msg);
+           return "liao/SampleTitle";
+	  }
 	
 	
 //	@GetMapping("/gameforum")

@@ -153,7 +153,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">文章內容</label>
-                                <input class="form-control" type="text" name="dcontent" th:value="${discussions.dcontent}">
+                                <textarea class="form-control" name="dcontent" th:text="${discussions.dcontent}"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">最後回覆時間</label>
@@ -176,6 +176,7 @@
 							    <input class="form-control" type="file" name="photoFile">
 							</div>
                             <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
+                            <button class="btn btn-secondary" type="button" onclick="window.history.back();" style="display: inline-block;">取消</button>
                         </form>
                         <button class="btn btn-success" id="generateDataBtn" style="display: inline-block;">一鍵修改</button>
                     </div>

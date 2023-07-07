@@ -467,7 +467,7 @@
 
                 <li><span class="fa fa-angle-right"></span></li>
 
-                <li><span>DIABLOIV</span></li>
+                <li><span>[[${discussions[0].gameName}]]</span></li>
 
             </ul>
         </div>
@@ -496,19 +496,19 @@
             <!-- START: Forums List -->
             <ul class="nk-forum">
                 <th:block th:each="discussion : ${discussions}">
-                    <th:block th:if="${discussion.gameName == 'DiabloIV'}">
 
-                        <li class="nk-forum-locked">
-                            <div class="nk-forum-icon">
-                                <span class="ion-locked"></span>
+
+                    <li class="nk-forum-locked">
+                        <div class="nk-forum-icon">
+                            <span class="ion-locked"></span>
+                        </div>
+                        <div class="nk-forum-title">
+                            <h3><a th:href="@{'/forum/' +'title/' + ${discussion.title}}"><span
+                                        th:text="${discussion.title}"></span></a></h3>
+                            <div class="nk-forum-title-sub"><span th:text="${discussion.lastReplyTime}"></span>
                             </div>
-                            <div class="nk-forum-title">
-                                <h3><a th:href="@{'/forum/' + ${discussion.title}}"><span
-                                            th:text="${discussion.title}"></span></a></h3>
-                                <div class="nk-forum-title-sub"><span th:text="${discussion.lastReplyTime}"></span>
-                                </div>
-                            </div>
-                            <!-- <div class="nk-forum-count">
+                        </div>
+                        <!-- <div class="nk-forum-count">
                             3 posts
                         </div>
                         <div class="nk-forum-activity-avatar">
@@ -524,8 +524,8 @@
                                 August 26, 2018
                             </div>
                         </div> -->
-                        </li>
-                    </th:block>
+                    </li>
+
                 </th:block>
                 <!-- <li class="nk-forum-locked">
                     <div class="nk-forum-icon">

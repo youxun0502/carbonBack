@@ -139,6 +139,18 @@
                                 <label class="form-label text-dark">會員名稱</label>
                                 <input class="form-control" type="text" name="userName" th:value="${msg.userName}">
                             </div>
+                             <div class="mb-3">
+                                <label class="form-label text-dark">遊戲編號</label>
+                                <input class="form-control" type="text" name="gameId" th:value="${msg.gameId}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">遊戲名稱</label>
+                                <input class="form-control" type="text" name="gameName" th:value="${msg.gameName}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">文章標題</label>
+                                <input class="form-control" type="text" name="mtitle" th:value="${msg.mtitle}">
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">創建日期</label>
                                 <input class="form-control" type="text" name="mcreated_at" th:value="${msg.mcreated_at}" id="mcreated_at">
@@ -148,8 +160,8 @@
                                 <input class="form-control" type="text" name="mlikes" th:value="${msg.mlikes}">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label text-dark">文章內容</label>
-                                <input class="form-control" type="text" name="mcontent" th:value="${msg.mcontent}">
+                                <label class="form-label text-dark">留言內容</label>
+                                <textarea class="form-control" name="mcontent" th:text="${msg.mcontent}"></textarea>
                             </div>
                            
                              <div class="mb-3">
@@ -157,6 +169,7 @@
 							    <input class="form-control" type="file" name="mphotoFile">
 							</div>
                             <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
+                        	<button class="btn btn-secondary" type="button" onclick="window.history.back();" style="display: inline-block;">取消</button>                    	
                         </form>
                         <button class="btn btn-success" id="generateDataBtn" style="display: inline-block;">一鍵修改</button>
                     </div>
@@ -174,6 +187,9 @@
                 var articleId = Math.floor(Math.random() * 1000) + 1;
                 var memberId = Math.floor(Math.random() * 1000) + 1;
                 var userName = "User" + memberId;
+                var gameId = Math.floor(Math.random() * 1000) + 1;
+                var gameName = "Game" + gameId;
+                var mtitle = "Sample Title";
                 var mcreated_at = "2023-06-18";
                 var mlikes = Math.floor(Math.random() * 10);
                 var mcontent = "Sample Content";
@@ -182,6 +198,9 @@
                 $("#newMessageForm input[name='articleId']").val(articleId);
                 $("#newMessageForm input[name='memberId']").val(memberId);
                 $("#newMessageForm input[name='userName']").val(userName);
+                $("#newMessageForm input[name='gameId']").val(gameId);
+                $("#newMessageForm input[name='gameName']").val(gameName);
+                $("#newMessageForm input[name='mtitle']").val(mtitle);
                 $("#newMessageForm input[name='mcreated_at']").val(mcreated_at);
                 $("#newMessageForm input[name='mlikes']").val(mlikes);
                 $("#newMessageForm input[name='mcontent']").val(mcontent);

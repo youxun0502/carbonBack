@@ -45,6 +45,15 @@ public class Messages {
 	
 	@Column(name = "userName")
 	private String userName;
+	
+	@Column(name = "gameId")
+	private Integer gameId;
+	
+	@Column(name = "gameName")
+	private String gameName;
+	
+	@Column(name= "mtitle")
+	private String mtitle;
 
 	
 	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss EEEE",timezone = "GMT+8")

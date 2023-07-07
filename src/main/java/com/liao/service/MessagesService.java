@@ -43,7 +43,7 @@ public class MessagesService {
 	}
 	
 	@Transactional
-	public Messages updateDiscussionsById(Integer messageId, Integer articleId, Integer memberId, String userName, Date mcreated_at, String mlikes, String mcontent, MultipartFile mphotoFile) throws IOException {
+	public Messages updateDiscussionsById(Integer messageId, Integer articleId, Integer memberId, String userName, Date mcreated_at, String mlikes, String mcontent, Integer gameId, String gameName, String mtitle, MultipartFile mphotoFile) throws IOException {
 		Optional<Messages> optional = mRepo.findById(messageId);
 		
 		if(optional.isPresent()) {
@@ -54,6 +54,9 @@ public class MessagesService {
 			msg.setMcreated_at(mcreated_at);
 			msg.setMlikes(mlikes);
 			msg.setMcontent(mcontent);
+			msg.setGameId(gameId);
+			msg.setGameName(gameName);
+			msg.setMtitle(mtitle);
 			msg.setMphotoFile(mphotoFile.getBytes());
 			
 			return msg;
@@ -67,6 +70,15 @@ public class MessagesService {
 	public List<Messages> findMessagesByUserName(String userName) {
         return mRepo.findMessagesByUserName(userName);
     }
+	
+	public List<Messages> findMessagesByTitle(String mtitle) {
+        return mRepo.findMessagesByTitle(mtitle);
+    }
+	
+	public List<Messages> findMessagesByGameName(String gameName) {
+        return mRepo.findMessagesByGameName(gameName);
+    }
+	
 }
 	
 

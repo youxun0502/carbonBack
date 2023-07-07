@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.liao.model.Discussions;
 import com.liao.model.Messages;
 import com.liao.service.MessagesService;
+import com.liao.service.DiscussionsService;
 
 @Controller
 public class MessagesController {
@@ -33,6 +34,7 @@ public class MessagesController {
 	@Autowired
 	private MessagesService mService;
 	
+	private DiscussionsService dService;
 	
 	//顯示圖片
 	@GetMapping("/messagesdownloadImage/{messageId}")
@@ -70,10 +72,13 @@ public class MessagesController {
 	public String insertMessages(@RequestParam("articleId") Integer articleId,
 									@RequestParam("memberId") Integer memberId,
 									@RequestParam("userName") String userName,
+									@RequestParam("gameId") Integer gameId,
+									@RequestParam("gameName") String gameName,
 //									@RequestParam("mcreated_at") Date mcreated_at,
 									@RequestParam("mcreated_at") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated_at,
 									@RequestParam("mlikes") String mlikes,
 									@RequestParam("mcontent") String mcontent,
+									@RequestParam("mtitle") String mtitle,
 									@RequestParam("mphotoFile") MultipartFile mphotoFile,
 									Model model) throws IOException {
 		Messages msg = new Messages();
@@ -83,6 +88,9 @@ public class MessagesController {
 		msg.setMcreated_at(mcreated_at);
 		msg.setMlikes(mlikes);
 		msg.setMcontent(mcontent);
+		msg.setGameId(gameId);
+		msg.setGameName(gameName);
+		msg.setMtitle(mtitle);
 		msg.setMphotoFile(mphotoFile.getBytes());
 		
 		mService.insert(msg);
@@ -154,6 +162,9 @@ public class MessagesController {
             @RequestParam("mcreated_at") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated_at,
             @RequestParam("mlikes") String mlikes,
             @RequestParam("mcontent") String mcontent,
+            @RequestParam("gameId") Integer gameId,
+            @RequestParam("gameName") String gameName,
+            @RequestParam("mtitle") String mtitle,
             @RequestParam(value = "mphotoFile", required = false) MultipartFile mphotoFile,
             Model model) throws IOException {
 			Messages msg = mService.findById(messageId);
@@ -163,6 +174,9 @@ public class MessagesController {
 			msg.setUserName(userName);
 			msg.setMcreated_at(mcreated_at);
 			msg.setMlikes(mlikes);
+			msg.setGameId(gameId);
+			msg.setGameName(gameName);
+			msg.setMtitle(mtitle);
 			msg.setMcontent(mcontent);
 			
 			if (mphotoFile != null && !mphotoFile.isEmpty()) {
@@ -195,12 +209,21 @@ public class MessagesController {
 		
 	}
 	
-	@GetMapping("/forum/SampleTitle")
-	  public String getSampleTitle(Model model) throws SQLException {
-	          List<Messages> msg = mService.findAll();
-	          model.addAttribute("msg", msg);
-	          return "liao/SampleTitle";
-	  }
+//	@GetMapping("/forum/title/{title}")
+//	  public String getSampleTitle(Model model , @PathVariable String title) throws SQLException {
+//	          List<Messages> msg = mService.findMessagesByTitle(mtitle);
+//	          model.addAttribute("msg", msg);
+//	          return "liao/SampleTitle";
+//		
+//
+//	}
+	
+//	@GetMapping("/forum/{gameName}")
+//	public String goGameDiscussion(Model model , @PathVariable String gameName) throws SQLException {
+//		List<Messages> msg = mService.findMessagesByGameName(gameName);
+//        model.addAttribute("msg", msg);
+//		return "liao/GameDiscussion";
+//	}
 	
 
 	

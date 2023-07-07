@@ -506,63 +506,61 @@
 
             <!-- START: Forums List -->
             <ul class="nk-forum nk-forum-topic">
-                <th:block th:each="discussion : ${discussions}">
-                    <th:block th:each="message : ${msg}">
-                        <th:block th:if="${discussion.gameName == 'apex'}">
-                            <li>
-                                <div class="nk-forum-topic-author">
-                                    <a href="#">
-                                        <img th:src="@{/assets/images/avatar-1.jpg}" alt="Hitman">
-                                    </a>
-                                    <!-- <div class="nk-forum-topic-author-name" title="Hitman"> -->
-                                    <div class="nk-forum-topic-author-name" th:text="${message.userName}"
-                                        title="Hitman">
-                                        <a href="#">Hitman</a>
-                                    </div>
-                                    <!-- <div class="nk-forum-topic-author-role">Keymaster</div>
+                <th:block th:each="message : ${msg}">
+                    <!-- <th:block th:if="${message.gameName == 'apex'}"> -->
+                    <li>
+                        <div class="nk-forum-topic-author">
+                            <a href="#">
+                                <img th:src="@{/assets/images/avatar-1.jpg}" alt="Hitman">
+                            </a>
+                            <!-- <div class="nk-forum-topic-author-name" title="Hitman"> -->
+                            <div class="nk-forum-topic-author-name" th:text="${message.userName}" title="Hitman">
+                                <a href="#">Hitman</a>
+                            </div>
+                            <!-- <div class="nk-forum-topic-author-role">Keymaster</div>
                             <div class="nk-forum-topic-author-since">
                                 Member since January 13, 2018
                             </div> -->
-                                </div>
-                                <div class="nk-forum-topic-content">
-                                    <p th:text="${message.mcontent}">Void whose god was over image signs creature sea
-                                        air
-                                        moved winged whose image creepeth
-                                        two
-                                        yielding. Moving made night firmament hath god sea waters were. It she'd
-                                        dominion
-                                        the of
-                                        upon, night evening us yielding made form land darkness third. Lights lesser was
-                                        darkness
-                                        dominion two. Greater i every subdue shall form, had under i sixth fowl moving.
-                                        Gathering
-                                        moveth under given his very created. Beast.</p>
-                                    <!-- <p>His, divided grass female first void firmament tree years gathering whose saw moving air
+                        </div>
+                        <div class="nk-forum-topic-content">
+                            <p th:text="${message.mcontent}">Void whose god was over image signs creature sea
+                                air
+                                moved winged whose image creepeth
+                                two
+                                yielding. Moving made night firmament hath god sea waters were. It she'd
+                                dominion
+                                the of
+                                upon, night evening us yielding made form land darkness third. Lights lesser was
+                                darkness
+                                dominion two. Greater i every subdue shall form, had under i sixth fowl moving.
+                                Gathering
+                                moveth under given his very created. Beast.</p>
+                            <!-- <p>His, divided grass female first void firmament tree years gathering whose saw moving air
                                 upon
                                 first lights. Fill female give Divided signs above. Green sixth fruitful you seasons.
                                 Fly
                                 saying. Place appear After.</p> -->
 
-                                    <!-- <div class="nk-forum-topic-attachments">
+                            <!-- <div class="nk-forum-topic-attachments">
                                 <h4 class="h5">Attachments</h4>
                                 <a href="#">goodgames-free.zip</a>
                                 <br>
                                 (14.86 MiB) Downloaded 185 times
                             </div> -->
-                                </div>
-                                <div class="nk-forum-topic-footer">
-                                    <span class="nk-forum-topic-date">June 18, 2018</span>
+                        </div>
+                        <div class="nk-forum-topic-footer">
+                            <span class="nk-forum-topic-date">June 18, 2018</span>
 
-                                    <span class="nk-forum-action-btn">
-                                        <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span>
-                                            Reply</a>
-                                    </span>
-                                    <span class="nk-forum-action-btn">
-                                        <a href="#"><span class="fa fa-flag"></span> Spam</a>
-                                    </span>
-                                </div>
-                        </th:block>
-                    </th:block>
+                            <span class="nk-forum-action-btn">
+                                <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span>
+                                    Reply</a>
+                            </span>
+                            <span class="nk-forum-action-btn">
+                                <a href="#"><span class="fa fa-flag"></span> Spam</a>
+                            </span>
+                        </div>
+                </th:block>
+                </th:block>
                 </th:block>
                 </li>
                 <!-- <li>

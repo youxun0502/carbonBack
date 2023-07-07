@@ -75,6 +75,14 @@ public class DiscussionsService {
         return dRepo.findDiscussionsByUserName(userName);
     }
 	
+	public List<Discussions> findDiscussionsByGameName(String gameName) {
+        return dRepo.findDiscussionsByGameName(gameName);
+    }
+	
+	public List<Discussions> findDiscussionsByTitle(String title) {
+        return dRepo.findDiscussionsByTitle(title);
+    }
+	
 	public Page<Discussions> findByPage(Integer pageNumber){
 		Pageable pgb = PageRequest.of(pageNumber-1, 5, Sort.Direction.DESC, "added");
 		

@@ -152,7 +152,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">文章內容</label>
-                                <input class="form-control" type="text" name="dcontent">
+                                <textarea class="form-control" name="dcontent"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">最後回覆時間</label>
@@ -176,7 +176,7 @@
                             </div>
 
                             <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
-
+							<button class="btn btn-secondary" type="button" onclick="window.history.back();" style="display: inline-block;">取消</button>
 
                         </form>
                         <button class="btn btn-success" id="generateDataBtn"
