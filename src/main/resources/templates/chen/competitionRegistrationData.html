@@ -63,7 +63,7 @@
 								<tr>
 									<td th:text="${registration.realName}"></td>
 									<td th:text="${registration.gameNickname}"></td>
-									<td th:text="${registration.teamName}"></td>
+									<td th:text="${registration.teamName != null && registration.teamName != '' ? registration.teamName : '無'}"></td>
 									<td th:text="${registration.email}"></td>
 									<td th:text="${registration.phone}"></td>
 									<td th:text="${#dates.format(registration.signupDate, 'yyyy-MM-dd')}"></td>
