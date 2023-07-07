@@ -91,15 +91,21 @@
 							</div>
 							<div class="col-md-6 mt-3">
 								<label for="status" class="form-label">狀態</label>
-								<select id="typeName" class="form-select" th:field="*{status}">
-									<option selected value="1">使用中</option>
-									<option value="2">已停用</option>
+								<select id="status" class="form-select" th:field="*{status}">
+									<option selected value=1>使用中</option>
+									<option value=2>已停用</option>
 								</select>
 							</div>
 							<div class="col-12 mt-5">
 								<button type="submit" class="btn btn-primary col-12" id="insertBtn">新增</button>
 							</div>
 						</form>
+						<div class="row col-12">
+							<div class="col-12 mt-3">
+								<button class="btn btn-secondary col-12" id="autoInput">一鍵輸入</button>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
@@ -122,6 +128,23 @@
 				insertCouponForm.submit();
 			}, 1000)
 		})
+
+
+		const typeName = document.querySelector("#typeName");
+		const discount = document.querySelector("#discount");
+		const couponName = document.querySelector("#couponName");
+		const weight = document.querySelector("#weight");
+		const status = document.querySelector("#status");
+		const autoInputBtn = document.querySelector("#autoInput");
+
+		autoInputBtn.addEventListener('click', function () {
+			typeName.value = 1;
+			discount.value = 0.8;
+			couponName.value = '射擊類遊戲8折';
+			weight.value = 50;
+			status.value = 2;
+		})
+
 
 	</script>
 </body>
