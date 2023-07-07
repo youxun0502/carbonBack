@@ -1,5 +1,5 @@
 const logoutBtn = document.querySelector('.logout_btn');
-const form = document.querySelector('#logoutForm');
+const id = document.querySelector('#memberId').textContent;
 logoutBtn.addEventListener('click', function () {
 	Swal.fire({
 		position: 'center',
@@ -8,8 +8,5 @@ logoutBtn.addEventListener('click', function () {
 		showConfirmButton: false,
 		timer: 1000
 	})
-	setTimeout(function () {
-		form.submit();
-	}, 1000);
-
+	setTimeout(function(){top.location='/carbon/main/logout?id='+id} , 1000);  
 })

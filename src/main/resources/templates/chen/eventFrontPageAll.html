@@ -130,7 +130,7 @@
 
         <!-- START: Breadcrumbs -->
         <div class="nk-gap-1"></div>
-        <div class="container">
+        <div class="container" style="max-width: 1140px">
             <ul class="nk-breadcrumbs">
 
 
@@ -139,7 +139,7 @@
 
                 <li><span class="fa fa-angle-right"></span></li>
 
-                <li><span>賽事總覽</span></li>
+                <li><span>活動總覽</span></li>
 
             </ul>
         </div>
@@ -149,7 +149,7 @@
 
 
 
-        <div class="container">
+        <div class="container" style="max-width: 1140px">
             <div class="row vertical-gap">
                 <div class="col-lg-8">
 
@@ -158,7 +158,7 @@
                     <th:block th:each=" event : ${page.content} " >
                         <div class="col-md-6">
                             <div class="nk-gallery-item-group">
-                                <a th:href="@{'/eventPageOne?gameId='+${event.gameId}}" class="nk-gallery-item">
+                                <a th:href="@{'/eventPageDetail?eventId='+${event.eventId}}" class="nk-gallery-item">
                                     <div class="nk-gallery-item-overlay"><span class="ion-eye"></span></div>
                                     <img th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="">
                                 </a>
@@ -172,119 +172,47 @@
                             </div>
                         </div>
                       </th:block>
-                        <!--
-                        <div class="col-md-6">
-                            <div class="nk-gallery-item-group">
-                                <a href="#" class="nk-gallery-item">
-                                    <div class="nk-gallery-item-overlay"><span class="ion-eye"></span></div>
-                                    <img src="assets/images/gallery-group-2.jpg" alt="">
-                                </a>
-                                <div class="nk-gallery-item-description">
-                                    <h4 class="nk-gallery-item-description-title h5">Art Gallery</h4>
-                                    <div class="nk-gallery-item-description-info">
-                                        <span class="far fa-image"></span>
-                                        <span>96</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="nk-gallery-item-group">
-                                <a href="#" class="nk-gallery-item">
-                                    <div class="nk-gallery-item-overlay"><span class="ion-eye"></span></div>
-                                    <img src="assets/images/gallery-group-3.jpg" alt="">
-                                </a>
-                                <div class="nk-gallery-item-description">
-                                    <h4 class="nk-gallery-item-description-title h5">RTS Gallery</h4>
-                                    <div class="nk-gallery-item-description-info">
-                                        <span class="far fa-image"></span>
-                                        <span>167</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="nk-gallery-item-group">
-                                <a href="#" class="nk-gallery-item">
-                                    <div class="nk-gallery-item-overlay"><span class="ion-eye"></span></div>
-                                    <img src="assets/images/gallery-group-4.jpg" alt="">
-                                </a>
-                                <div class="nk-gallery-item-description">
-                                    <h4 class="nk-gallery-item-description-title h5">Action Gallery</h4>
-                                    <div class="nk-gallery-item-description-info">
-                                        <span class="far fa-image"></span>
-                                        <span>4</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="nk-gallery-item-group">
-                                <a href="#" class="nk-gallery-item">
-                                    <div class="nk-gallery-item-overlay"><span class="ion-eye"></span></div>
-                                    <img src="assets/images/gallery-group-5.jpg" alt="">
-                                </a>
-                                <div class="nk-gallery-item-description">
-                                    <h4 class="nk-gallery-item-description-title h5">Moba Gallery</h4>
-                                    <div class="nk-gallery-item-description-info">
-                                        <span class="far fa-image"></span>
-                                        <span>17</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="nk-gallery-item-group">
-                                <a href="#" class="nk-gallery-item">
-                                    <div class="nk-gallery-item-overlay"><span class="ion-eye"></span></div>
-                                    <img src="assets/images/gallery-group-6.jpg" alt="">
-                                </a>
-                                <div class="nk-gallery-item-description">
-                                    <h4 class="nk-gallery-item-description-title h5">Indie Gallery</h4>
-                                    <div class="nk-gallery-item-description-info">
-                                        <span class="far fa-image"></span>
-                                        <span>40</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        -->
+                       
                     </div>
-                    <div class="nk-gap-2"></div>
-                    <ul class="pagination">
-			            <th:block th:switch="${page.number != 0}">
-			
-			                <li th:case=${true} class="page-item">
-			                    <a class="page-link" th:href="@{/eventPageAll?(p=${page.number})}">上一頁</a>
-			                </li>
-			
-			                <li th:case=${false} class="page-item disabled">
-			                    <span class="page-link">上一頁</span>
-			                </li>
-			            </th:block>
-			
-			            <th:block th:each=" pageNumber : ${#numbers.sequence(1, page.totalPages)}">
-			                <th:block th:switch="${page.number != pageNumber - 1 }">
-			                    <li th:case=${true} class="page-item">
-			                        <a class="page-link" th:href="@{/eventPageAll?(p=${pageNumber})}">[[${pageNumber}]]</a>
-			                    </li>
-			                    <li th:case=${false} class="page-item active">
-			                        <span class="page-link" th:text="${pageNumber}"></span>
-			                    </li>
-			                </th:block>
-			            </th:block>
-			
-			            <th:block th:switch="${page.number == page.totalPages -1}">
-			                <li th:case="${true}" class="page-item disabled">
-			                    <span class="page-link">下一頁</span>
-			                </li>
-			
-			                <li th:case="${false}" class="page-item">
-			                    <a class="page-link" th:href="@{/eventPageAll?(p=${page.number + 2})}">下一頁</a>
-			                </li>
-			            </th:block>
-			        </ul>
                     <div class="nk-gap"></div>
+                    
+                    <div class="nk-pagination nk-pagination-center">
+						<th:block th:switch="${page.number != 0}">
+		                    <a th:case=${true} th:href="@{/eventPageAll?(p=${page.number})}" class="nk-pagination-prev">
+		                        <span class="ion-ios-arrow-back"></span>
+		                    </a>
+		                    <a th:case=${false} href="#" class="nk-pagination-prev disabled">
+		                        <span class="ion-ios-arrow-back"></span>
+		                    </a>
+		                </th:block>
+	                    
+	                    
+	                    <nav>
+		                    <th:block th:each=" pageNumber : ${#numbers.sequence(1, page.totalPages)}">
+				                <th:block th:switch="${page.number != pageNumber - 1 }">
+			                        <a th:case=${true} th:href="@{/eventPageAll?(p=${pageNumber})}">[[${pageNumber}]]</a>
+			                        <a th:case=${false} class="nk-pagination-current" href="#" th:text="${pageNumber}"></a>
+		                        </th:block>
+				            </th:block>
+	                    </nav>
+	                    
+	                    
+	                    <th:block th:switch="${page.number == page.totalPages -1}">
+		                    <a th:case="${false}" th:href="@{/eventPageAll?(p=${page.number + 2})}" class="nk-pagination-next">
+		                        <span class="ion-ios-arrow-forward"></span>
+		                    </a>
+		                    <a th:case="${true}" href="#" class="nk-pagination-next disabled">
+		                        <span class="ion-ios-arrow-forward"></span>
+		                    </a>
+	                    </th:block>
+	                    
+	                </div>
+                    
+                    
+                    
+                    <div class="nk-gap-2"></div>
+                   
+                    
                     <!-- END: Recent Galleries -->
 
                     <!-- START: Now Playing -->
@@ -483,7 +411,7 @@
                                 <div class="nk-widget-post" style="padding-left: 0;display: flex;flex-wrap: wrap;">
 									<th:block th:each=" game : ${games} " >
                                     <div>
-										<a class="badge bg-success" style="font-size: 20px;margin-right: 21px;margin-bottom: 20px;" th:text="${game.gameName}" th:href="@{'/eventPageOne?gameId='+${game.gameId}}"></a>
+										<a class="badge bg-success" style="font-size: 17px;margin-right: 21px;margin-bottom: 20px;" th:text="${game.gameName}" th:href="@{'/eventPageOne?gameId='+${game.gameId}}"></a>
 									</div>
 									</th:block>
                                 </div>
@@ -510,61 +438,7 @@
 
                             </div>
                         </div>
-                        <div class="nk-widget nk-widget-highlighted">
-                            <h4 class="nk-widget-title"><span><span class="text-main-1">We</span> Are Social</span></h4>
-                            <div class="nk-widget-content">
-                                <!--
-            Social Links 3
-
-            Additional Classes:
-                .nk-social-links-cols-5
-                .nk-social-links-cols-4
-                .nk-social-links-cols-3
-                .nk-social-links-cols-2
-        -->
-                                <ul class="nk-social-links-3 nk-social-links-cols-4">
-                                    <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a>
-                                    </li>
-                                    <li><a class="nk-social-instagram" href="#"><span
-                                                class="fab fa-instagram"></span></a></li>
-                                    <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a>
-                                    </li>
-                                    <li><a class="nk-social-google-plus" href="#"><span
-                                                class="fab fa-google-plus"></span></a></li>
-                                    <li><a class="nk-social-youtube" href="#"><span class="fab fa-youtube"></span></a>
-                                    </li>
-                                    <li><a class="nk-social-twitter" href="#" target="_blank"><span
-                                                class="fab fa-twitter"></span></a></li>
-                                    <li><a class="nk-social-pinterest" href="#"><span
-                                                class="fab fa-pinterest-p"></span></a></li>
-                                    <li><a class="nk-social-rss" href="#"><span class="fa fa-rss"></span></a></li>
-
-                                    <!-- Additional Social Buttons
-                <li><a class="nk-social-behance" href="#"><span class="fab fa-behance"></span></a></li>
-                <li><a class="nk-social-bitbucket" href="#"><span class="fab fa-bitbucket"></span></a></li>
-                <li><a class="nk-social-dropbox" href="#"><span class="fab fa-dropbox"></span></a></li>
-                <li><a class="nk-social-dribbble" href="#"><span class="fab fa-dribbble"></span></a></li>
-                <li><a class="nk-social-deviantart" href="#"><span class="fab fa-deviantart"></span></a></li>
-                <li><a class="nk-social-flickr" href="#"><span class="fab fa-flickr"></span></a></li>
-                <li><a class="nk-social-foursquare" href="#"><span class="fab fa-foursquare"></span></a></li>
-                <li><a class="nk-social-github" href="#"><span class="fab fa-github"></span></a></li>
-                <li><a class="nk-social-linkedin" href="#"><span class="fab fa-linkedin"></span></a></li>
-                <li><a class="nk-social-medium" href="#"><span class="fab fa-medium"></span></a></li>
-                <li><a class="nk-social-odnoklassniki" href="#"><span class="fab fa-odnoklassniki"></span></a></li>
-                <li><a class="nk-social-paypal" href="#"><span class="fab fa-paypal"></span></a></li>
-                <li><a class="nk-social-reddit" href="#"><span class="fab fa-reddit"></span></a></li>
-                <li><a class="nk-social-skype" href="#"><span class="fab fa-skype"></span></a></li>
-                <li><a class="nk-social-soundcloud" href="#"><span class="fab fa-soundcloud"></span></a></li>
-                <li><a class="nk-social-steam" href="#"><span class="fab fa-steam"></span></a></li>
-                <li><a class="nk-social-slack" href="#"><span class="fab fa-slack"></span></a></li>
-                <li><a class="nk-social-tumblr" href="#"><span class="fab fa-tumblr"></span></a></li>
-                <li><a class="nk-social-vimeo" href="#"><span class="fab fa-vimeo"></span></a></li>
-                <li><a class="nk-social-vk" href="#"><span class="fab fa-vk"></span></a></li>
-                <li><a class="nk-social-wordpress" href="#"><span class="fab fa-wordpress"></span></a></li>
-            -->
-                                </ul>
-                            </div>
-                        </div>
+                        
                         <div class="nk-widget nk-widget-highlighted">
                             <h4 class="nk-widget-title"><span><span class="text-main-1">Next</span> Matches</span></h4>
                             <div class="nk-widget-content">
@@ -635,6 +509,63 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="nk-widget nk-widget-highlighted">
+                            <h4 class="nk-widget-title"><span><span class="text-main-1">We</span> Are Social</span></h4>
+                            <div class="nk-widget-content">
+                                <!--
+            Social Links 3
+
+            Additional Classes:
+                .nk-social-links-cols-5
+                .nk-social-links-cols-4
+                .nk-social-links-cols-3
+                .nk-social-links-cols-2
+        -->
+                                <ul class="nk-social-links-3 nk-social-links-cols-4">
+                                    <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a>
+                                    </li>
+                                    <li><a class="nk-social-instagram" href="#"><span
+                                                class="fab fa-instagram"></span></a></li>
+                                    <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a>
+                                    </li>
+                                    <li><a class="nk-social-google-plus" href="#"><span
+                                                class="fab fa-google-plus"></span></a></li>
+                                    <li><a class="nk-social-youtube" href="#"><span class="fab fa-youtube"></span></a>
+                                    </li>
+                                    <li><a class="nk-social-twitter" href="#" target="_blank"><span
+                                                class="fab fa-twitter"></span></a></li>
+                                    <li><a class="nk-social-pinterest" href="#"><span
+                                                class="fab fa-pinterest-p"></span></a></li>
+                                    <li><a class="nk-social-rss" href="#"><span class="fa fa-rss"></span></a></li>
+
+                                    <!-- Additional Social Buttons
+                <li><a class="nk-social-behance" href="#"><span class="fab fa-behance"></span></a></li>
+                <li><a class="nk-social-bitbucket" href="#"><span class="fab fa-bitbucket"></span></a></li>
+                <li><a class="nk-social-dropbox" href="#"><span class="fab fa-dropbox"></span></a></li>
+                <li><a class="nk-social-dribbble" href="#"><span class="fab fa-dribbble"></span></a></li>
+                <li><a class="nk-social-deviantart" href="#"><span class="fab fa-deviantart"></span></a></li>
+                <li><a class="nk-social-flickr" href="#"><span class="fab fa-flickr"></span></a></li>
+                <li><a class="nk-social-foursquare" href="#"><span class="fab fa-foursquare"></span></a></li>
+                <li><a class="nk-social-github" href="#"><span class="fab fa-github"></span></a></li>
+                <li><a class="nk-social-linkedin" href="#"><span class="fab fa-linkedin"></span></a></li>
+                <li><a class="nk-social-medium" href="#"><span class="fab fa-medium"></span></a></li>
+                <li><a class="nk-social-odnoklassniki" href="#"><span class="fab fa-odnoklassniki"></span></a></li>
+                <li><a class="nk-social-paypal" href="#"><span class="fab fa-paypal"></span></a></li>
+                <li><a class="nk-social-reddit" href="#"><span class="fab fa-reddit"></span></a></li>
+                <li><a class="nk-social-skype" href="#"><span class="fab fa-skype"></span></a></li>
+                <li><a class="nk-social-soundcloud" href="#"><span class="fab fa-soundcloud"></span></a></li>
+                <li><a class="nk-social-steam" href="#"><span class="fab fa-steam"></span></a></li>
+                <li><a class="nk-social-slack" href="#"><span class="fab fa-slack"></span></a></li>
+                <li><a class="nk-social-tumblr" href="#"><span class="fab fa-tumblr"></span></a></li>
+                <li><a class="nk-social-vimeo" href="#"><span class="fab fa-vimeo"></span></a></li>
+                <li><a class="nk-social-vk" href="#"><span class="fab fa-vk"></span></a></li>
+                <li><a class="nk-social-wordpress" href="#"><span class="fab fa-wordpress"></span></a></li>
+            -->
+                                </ul>
+                            </div>
+                        </div>
+                        
                         
                         <div class="nk-widget nk-widget-highlighted">
                             <h4 class="nk-widget-title"><span><span class="text-main-1">Latest</span> Screenshots</span>

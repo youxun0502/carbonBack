@@ -46,7 +46,7 @@ public class CompetitionService {
 	//修改資料
 	@Transactional
 	public Competition updateCompetitionById(Integer id, String name, String mode,String startDate,String endDate, String location,
-											Integer prize, Integer quotaLimited , String deadline){
+											Integer prize, Integer quotaLimited , String deadline,Integer fee,String desc){
 			Optional<Competition> optional = cRepo.findById(id);
 			if(optional.isPresent()) {
 				Competition comp = optional.get();
@@ -58,6 +58,8 @@ public class CompetitionService {
 				comp.setPrize(prize);
 				comp.setQuotaLimited(quotaLimited);
 				comp.setDeadline(deadline);
+				comp.setFee(fee);
+				comp.setDescription(desc);
 				return comp;
 			}
 			return null;

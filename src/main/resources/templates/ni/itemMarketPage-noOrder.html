@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Carbon | 虛寶交易 :: [[${item.itemName}]]</title>
+</head>
+
+<body>
+<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin-gg} : ~{layout/navHome-gg} "></div>
+
+<div class="nk-main">
+        
+            <!-- START: Breadcrumbs -->
+<div class="nk-gap-1"></div>
+<div class="container">
+    <ul class="nk-breadcrumbs">
+        <li><a th:href="@{/main/goBackToHome}">首頁</a></li>
+        <li><span class="fa fa-angle-right"></span></li>
+        <li><a th:href="@{/market}">虛寶交易</a></li>
+        <li><span class="fa fa-angle-right"></span></li>
+        
+        <li><span>[[${item.itemName}]]</span></li>
+    </ul>
+</div>
+<div class="nk-gap-1"></div>
+<!-- END: Breadcrumbs -->
+
+    <div class="container">
+	    <div class="row vertical-gap">
+	        <div class="col-12">
+	            <div class="nk-store-product">
+	                <div class="row vertical-gap">
+	                    <div class="col-md-6">
+	                        <!-- START: Product Photos -->
+	                        <div class="nk-popup-gallery col-10">
+	                            <div class="nk-gallery-item-box">
+                                    <img th:src="@{'/market/downloadImage/' + ${item.itemId}}"
+                            th:alt="${item.itemImgName}">
+	                            </div>
+	                            <div class="nk-gap-1"></div>
+	                        </div>
+	                        <!-- END: Product Photos -->
+	                    </div>
+	                    <div class="col-md-6">
+	
+	                        <h2 class="nk-product-title h3">[[${item.itemName}]]</h2>
+	
+	                        <div class="nk-product-title">[[${item.game.gameName}]]</div>
+							<div class="nk-gap-1"></div>
+	                        <div class="nk-product-description">
+	                            <p>[[${item.itemDesc}]]</p>
+	                        </div>
+	                    </div>
+	                    <ul class="nk-forum text-white">
+					        <li class="p-10">
+					            <div class="nk-forum-title my-auto">
+					            	<h3></h3>
+					            </div>
+					            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
+					            	<span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class=" d-none"></span>
+					            	<a href="#" class="btn btn-info" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${item.itemId}">
+					                    下單訂購
+					                </a>
+					            </div>
+					        </li>
+				        </ul>
+	                    <div class="col-lg-12">
+			                <ul class="nk-forum">
+					            <li class="p-10">
+					                <div class="nk-forum-icon"></div>
+					                <div class="nk-forum-title">
+					                	名稱
+					                </div>
+					                <div class="nk-forum-activity border-start">
+					                    <div class="nk-forum-activity-title text-center">
+					                        賣方
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity border-start border-end">
+					                    <div class="nk-forum-activity-title text-center">
+					                        價格
+					                    </div>
+					                </div>
+					                <div class="nk-forum-activity">
+					                    <a href="#"></a>
+					                </div>
+					            </li>
+        					</ul>
+			            </div>
+			            <div class="col-lg-12">
+			                <div class="nk-box-5 bg-dark-2">
+			                	<h4 class="m-10 text-center">此物品尚無訂單</h4>
+			                </div>
+			            </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="nk-gap-3"></div>
+	    
+	</div>
+</div>
+    <div th:replace="~{layout/footer}"></div>
+    <script th:src="@{/js/itemMarket.js}"></script>
+</body>
+
+</html>

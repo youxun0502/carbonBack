@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.liu.dto.MemberDto;
 import com.liu.model.Level;
 import com.liu.model.LevelRepository;
 import com.liu.model.Member;
@@ -76,17 +77,19 @@ public class MemberService {
 	}
 	
 	@Transactional
-	public boolean update(Member member) {
-		Optional<Member> optional = mRepository.findById(member.getId());
+	public boolean update(MemberDto member) {
+		Optional<Member> optional = mRepository.findById(Integer.parseInt(member.getInnerId()) );
 
 		if (optional.isPresent()) {
 			Member updateMember = optional.get();
-			updateMember.setMemberPwd(pwdEncoder.encode(member.getMemberPwd()));
-			updateMember.setMemberName(member.getMemberName());
+			if(!member.getPwd().equals(optional.get().getMemberPwd())) {
+				updateMember.setMemberPwd(pwdEncoder.encode(member.getPwd()));
+			}
+			updateMember.setMemberName(member.getName());
 			updateMember.setBirthday(member.getBirthday());
 			updateMember.setGender(member.getGender());
 			updateMember.setPhone(member.getPhone());
-			if (member.getLevelId() == 100) {
+			if (member.getLevel() == 100) {
 				Optional<Level> level = levelRepository.findById(100);
 				if (level.isPresent()) {
 					updateMember.setLevel(level.get());
@@ -169,6 +172,10 @@ public class MemberService {
 		}
 		return false;
 
+	}
+	
+	public  List<Object[]> findRegistrationMonth(){
+		return mRepository.findRegistrationMonth();
 	}
 
 }

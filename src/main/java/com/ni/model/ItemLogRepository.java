@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface ItemLogRepository extends JpaRepository<ItemLog, Integer> {
 
 	@Query(value = "SELECT * FROM (SELECT *, ROW_NUMBER() OVER(PARTITION BY itemId, memberId ORDER BY id DESC) sn "
-			+ "FROM itemLog WHERE memberId = :id ) r WHERE r.sn = 1", 
+			+ "FROM itemLog WHERE memberId = :id ) r WHERE r.sn = 1 AND total >= 1", 
 			nativeQuery = true)
 	public List<ItemLog> findByMemberId(@Param("id") Integer id);
 
