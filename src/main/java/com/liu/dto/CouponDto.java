@@ -19,6 +19,16 @@ public class CouponDto {
 	private Integer status;
 	
 	private Integer updateInteger; 
+	
+	public Boolean getIsAll() {
+		return isAll;
+	}
+
+	public void setIsAll(Boolean isAll) {
+		this.isAll = isAll;
+	}
+
+	private Boolean isAll;
 
 	public Integer getCouponId() {
 		return couponId;

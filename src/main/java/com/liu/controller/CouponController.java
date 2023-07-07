@@ -102,6 +102,7 @@ public class CouponController {
 	private List<CouponDto> getCouponDtos(Integer id) {
 	Map<Integer, Float> couponRandoms = couponService.getCouponRamdomForManagement();
 	List<Coupon> coupons = couponService.findCouponWhereStatusNotEqualOneOrderByCouponId();
+	List<Coupon> allCoupons = couponService.findCouponOrderByCouponId();
 	List<CouponDto> couponDtos = new ArrayList<>();
 	for (Coupon coupon : coupons) {
 		CouponDto couponDto = new CouponDto();
@@ -117,7 +118,11 @@ public class CouponController {
 		couponDto.setWeight(coupon.getWeight());
 		couponDto.setStatus(coupon.getStatus());
 		couponDto.setUpdateInteger(id);
-		
+		if(coupons.size()==allCoupons.size()) {
+			couponDto.setIsAll(true);
+		}else {
+			couponDto.setIsAll(false);
+		}
 		couponDtos.add(couponDto);
 	}
 	

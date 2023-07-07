@@ -233,7 +233,7 @@
 
 		function updateFrozenTable(datas) {
 
-			let tempRandom = 0;
+			let isNew = 0;
 
 			for (let data of datas) {
 				let deleteData = document.querySelector(`#id${data.couponId}`);
@@ -250,32 +250,54 @@
 				siblings[3].innerText = data.weight;
 				siblings[4].innerText = data.status;
 				siblings[5].innerText = data.random;
-				tempRandom += parseFloat(data.random);
+
+				//能拿到的data.status都是1
+
+				const updateBtn = siblings[6].querySelector('.btn-update');
+				if (updateBtn && updateBtn.hasAttribute('hidden')) {
+					updateBtn.removeAttribute('hidden');
+				}
+
+				const restoreBtn = siblings[7].querySelector('.btn-restore');
+				if (restoreBtn) {
+
+					restoreBtn.setAttribute('hidden', true);
+
+				}
+				const deleteBtn = siblings[7].querySelector('.btn-delete');
+				if (deleteBtn && deleteBtn.hasAttribute('hidden')) {
+					deleteBtn.removeAttribute('hidden');
+				}
+
+				if (data.couponId != data.updateInteger && isNew == 0) {
+					let deleteData = document.querySelector(`#id${datas[0].updateInteger}`);
+					let siblings = Array.from(deleteData.parentNode.children).filter(function (child) {
+						return child !== deleteData;
+					})
+					console.log(tempRandom);
+					siblings[4].innerText = '2';
+					siblings[5].innerText = null;
+					const updateBtn = siblings[6].querySelector('.btn-update');
+					if (updateBtn) {
+						updateBtn.setAttribute('hidden', true);
+					}
+
+					const restoreBtn = siblings[7].querySelector('.btn-restore');
+					if (restoreBtn) {
+
+						restoreBtn.removeAttribute('hidden');
+
+					}
+					const deleteBtn = siblings[7].querySelector('.btn-delete');
+					if (deleteBtn) {
+						deleteBtn.setAttribute('hidden', true);
+					}
+				} else {
+					isNew = 1;
+				}
+
 			}
 
-			let deleteData = document.querySelector(`#id${datas[0].updateInteger}`);
-			let siblings = Array.from(deleteData.parentNode.children).filter(function (child) {
-				return child !== deleteData;
-			})
-			siblings[4].innerText = '2';
-
-			console.log(tempRandom);
-			siblings[5].innerText = 1 - tempRandom;
-			const updateBtn = siblings[6].querySelector('.btn-update');
-			if (updateBtn) {
-				updateBtn.setAttribute('hidden', true);
-			}
-
-			const restoreBtn = siblings[7].querySelector('.btn-restore');
-			if (restoreBtn) {
-
-				restoreBtn.removeAttribute('hidden');
-
-			}
-			const deleteBtn = siblings[7].querySelector('.btn-delete');
-			if (deleteBtn) {
-				deleteBtn.setAttribute('hidden', true);
-			}
 		}
 
 
