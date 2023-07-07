@@ -37,7 +37,8 @@
 		.section-small {
 			max-width: calc(100% - 200px);
 		}
-		.bg-customize{	
+
+		.bg-customize {
 			background-color: rgba(53, 53, 53, 0.705);
 		}
 	</style>
@@ -65,45 +66,64 @@
 			<div class="container-fluid">
 				<div class="row my-3">
 					<div class="col-10 mx-auto bg-customize text-light p-5 mt-3 rounded">
-					<form class="row col-12" th:object=${couponDto}>
-						<div class="col-lg-6">
-							<label for="typeName" class="form-label">優惠券類型</label>
-							<select id="typeName" class="form-select" th:field="*{typeName}">
-								<option selected value="null">不限類型</option>
-								<th:block th:each="type : ${types}">
-								<option th:value="${type.typeId}">[[${type.typeName}]]</option>
-								</th:block>
-							</select>
-						</div>
-						<div class="col-lg-6">
-							<label for="discount" class="form-label">折扣</label>
-							<input type="text" class="form-control" th:field="*{discount}" placeholder="請輸入小數 ex:0.8">
-						</div>
-						<div class="col-12 mt-3">
-							<label for="couponName" class="form-label">描述</label>
-							<input type="text" class="form-control" id="couponName" th:field="*{couponName}">
-						</div>
-						<div class="col-6 mt-3">
-							<label for="weight" class="form-label">權重</label>
-							<input type="text" class="form-control" th:field="*{weight}" placeholder="請輸入整數 ex:120">
-						</div>
-						<div class="col-md-6 mt-3">
-						<label for="status" class="form-label">狀態</label>
-							<select id="typeName" class="form-select" th:field="*{status}">
-								<option selected value="1">使用中</option>
-								<option value="2">已停用</option>
-							</select>
-						</div>
-						<div class="col-12 mt-5">
-							<button type="submit" class="btn btn-primary col-12">新增</button>
-						</div>
-					</form>
+						<form class="row col-12" th:object=${couponDto} th:action="@{/coupon/insert}" method="post"
+							id="insertCouponForm">
+							<div class="col-lg-6">
+								<label for="typeName" class="form-label">優惠券類型</label>
+								<select id="typeName" class="form-select" th:field="*{typeName}">
+									<option selected value="null">不限類型</option>
+									<th:block th:each="type : ${types}">
+										<option th:value="${type.typeId}">[[${type.typeName}]]</option>
+									</th:block>
+								</select>
+							</div>
+							<div class="col-lg-6">
+								<label for="discount" class="form-label">折扣</label>
+								<input type="text" class="form-control" th:field="*{discount}" placeholder="請輸入小數 ex:0.8">
+							</div>
+							<div class="col-12 mt-3">
+								<label for="couponName" class="form-label">描述</label>
+								<input type="text" class="form-control" id="couponName" th:field="*{couponName}">
+							</div>
+							<div class="col-6 mt-3">
+								<label for="weight" class="form-label">權重</label>
+								<input type="text" class="form-control" th:field="*{weight}" placeholder="請輸入整數 ex:120">
+							</div>
+							<div class="col-md-6 mt-3">
+								<label for="status" class="form-label">狀態</label>
+								<select id="typeName" class="form-select" th:field="*{status}">
+									<option selected value="1">使用中</option>
+									<option value="2">已停用</option>
+								</select>
+							</div>
+							<div class="col-12 mt-5">
+								<button type="submit" class="btn btn-primary col-12" id="insertBtn">新增</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+	<script>
+		const insertCouponForm = document.querySelector("#insertCouponForm");
+		const insertBtn = document.querySelector("#insertBtn");
+		insertCouponForm.addEventListener('submit', function (event) {
+			event.preventDefault();
+			Swal.fire({
+				title: '新增成功',
+				text: '優惠券已成功加入系統',
+				icon: 'success',
+				showConfirmButton: false,
+				timer: 1000
+			})
+			setTimeout(function () {
+				insertCouponForm.submit();
+			}, 1000)
+		})
+
+	</script>
 </body>
 
 </html>

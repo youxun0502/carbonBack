@@ -7,7 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.evan.dao.GameTypeRepository;
+import com.evan.model.GameType;
 import com.liu.config.RandomConfig;
 import com.liu.model.Coupon;
 import com.liu.model.CouponRepository;
@@ -20,6 +21,9 @@ public class CouponService {
 	
 	@Autowired
 	RandomConfig randomConfig;
+	
+	@Autowired
+	GameTypeRepository gameTypeRepository;
 	
 	public Integer getTotalWeight() {
 		return couponRepository.getTotalWeight();
@@ -107,6 +111,16 @@ public class CouponService {
 		Coupon oldCoupon = couponRepository.getReferenceById(id);
 		oldCoupon.setStatus(status);
 		couponRepository.save(oldCoupon);
+		createNewRamdomForCoupon();
+		return true;
+	}
+	
+	public Boolean insertCoupon(Coupon coupon) {
+		
+		Integer typeId = coupon.getTypeId();
+		GameType type = gameTypeRepository.getReferenceById(typeId);
+		coupon.setGameType(type);
+		couponRepository.save(coupon);
 		createNewRamdomForCoupon();
 		return true;
 	}

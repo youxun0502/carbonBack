@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -104,13 +106,26 @@ public class CouponController {
 	}
 	
 	@GetMapping("/coupon/insertPage")
-	public String insetCouponLog(Model m) {
+	public String insertCouponLogPage(Model m) {
 		List<TypeDTO> types = gameTypeService.getAllTypeInfo();
 				
 		m.addAttribute("couponDto", new CouponDto());
 		m.addAttribute("types", types);
 		
 		return "/liu/couponInsert";
+	}
+	
+	@PostMapping("/coupon/insert")
+	public String insertCouponLog(@ModelAttribute("couponDto") CouponDto couponDto) {
+		Coupon coupon = new Coupon();
+		coupon.setTypeId(Integer.parseInt(couponDto.getTypeName())) ;
+		coupon.setCoupon(couponDto.getDiscount());
+		coupon.setDesc(couponDto.getCouponName());
+		coupon.setWeight(couponDto.getWeight());
+		coupon.setStatus(couponDto.getStatus());
+		couponService.insertCoupon(coupon);
+		
+		return "redirect:/coupon/couponManagementPage";
 	}
 	
 	
