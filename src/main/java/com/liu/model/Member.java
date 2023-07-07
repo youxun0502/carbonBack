@@ -1,12 +1,18 @@
 package com.liu.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.evan.model.Game;
+import com.evan.model.GameOrder;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ni.model.GameItem;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,6 +22,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
@@ -74,6 +82,12 @@ public class Member {
 	@Column(name = "registrationDate")
 	private Date registrationDate;
 	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "membercart", 
+	    joinColumns = {@JoinColumn(name = "MEMBERID")},
+	    inverseJoinColumns = {@JoinColumn(name = "GAMEID")})
+	private Set<Game> games = new HashSet<>();
+	
 	// 物件轉換成 Persistent 狀態以前做以下事情
 	@PrePersist
 	public void onCreate() {
@@ -91,6 +105,9 @@ public class Member {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
 	private Set<CouponLog> couponLogs;
+	
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<GameOrder> gameOrder = new ArrayList<>();
 	
 	
 	public Integer getStatus() {

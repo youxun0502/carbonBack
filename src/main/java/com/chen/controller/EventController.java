@@ -3,7 +3,6 @@ package com.chen.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.print.attribute.standard.Media;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -88,7 +87,7 @@ public class EventController {
 					e.setFee(fee);
 					eService.insert(e);
 				}
-					return "redirect:/event/data";
+				return "redirect:/event/data";
 			} catch (IOException e1) {
 				e1.printStackTrace();
 				return "chen/insertEvent";
@@ -98,10 +97,10 @@ public class EventController {
 	
 	//修改資料
 	@PutMapping("/event/update")
-	public String updatePost(@RequestParam("eventId")Integer eventId,@RequestParam("name")String name,@RequestParam("description")String description,
-							@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,@RequestParam("timeLimitedDiscount")String timeLimitedDiscount,
-							@RequestParam("location")String location,@RequestParam("quotaLimited")Integer quotaLimited,@RequestParam("deadline")String deadline,
-							@RequestParam("fee")Integer fee) {
+	public String updatePost(@RequestParam("eventId")Integer eventId,@RequestParam("name")String name,@RequestParam(value = "desc", required = false)String description,
+							@RequestParam("startDate")String startDate,@RequestParam("endDate")String endDate,@RequestParam(value = "timeLimitedDiscount", required = false)String timeLimitedDiscount,
+							@RequestParam("location")String location,@RequestParam(value = "quotaLimited", required = false)Integer quotaLimited,@RequestParam("deadline")String deadline,
+							@RequestParam(value = "fee", required = false)Integer fee) {
 		eService.updateEventById(eventId, name, description, startDate, endDate, timeLimitedDiscount, location, quotaLimited, deadline, fee);
 		return "redirect:/event/data";
 	}

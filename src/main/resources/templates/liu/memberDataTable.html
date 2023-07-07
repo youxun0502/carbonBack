@@ -45,20 +45,20 @@
 			<div class="content mt-3">
 				<nav class="navbar navColor">
 					<div class="container-fluid">
-						<a class="navbar-brand link-light" th:href="@{/member}" style="font-size: 30px;">Member</a>
-						<div class="d-flex" role="search">
+						<a class="navbar-brand link-light" th:href="@{/member}" style="font-size: 30px;">會員管理系統</a>
+						<div class="d-flex col-3" role="search">
 							<input class="form-control me-2" type="search" placeholder="會員姓名查詢" aria-label="Search" name="memberName"
 								id="memberName_search">
-							<button class="btn btn-outline-warning" type="submit" id="name_search_btn">Search</button>
+							<button class="btn btn-outline-warning col-2" type="submit" id="name_search_btn">查詢</button>
 						</div>
 					</div>
 				</nav>
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link active" th:href="@{/member/allMember}">ALL</a>
+						<a class="nav-link active" th:href="@{/member/allMember}">搜尋全部</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Create</a>
+						<a class="nav-link" th:href="@{/member/memberRegistrationDateAnalysisPage}">分析</a>
 					</li>
 				</ul>
 			</div>
@@ -80,7 +80,7 @@
 								<th>註冊日期</th>
 								<th>狀態</th>
 								<th>更新</th>
-								<th>刪除/復原</th>
+								<th>凍結/復原</th>
 							</tr>
 						</thead>
 						<tbody id="showSeachName">
@@ -88,7 +88,7 @@
 								<tr>
 									<td th:id="id + ${member.id}">[[${member.id}]]</td>
 									<td>[[${member.userId}]]</td>
-									<td>[[${member.email}]]</td>
+									<td style="overflow:hidden;">[[${member.email}]]</td>
 									<td style="overflow:hidden;">[[${member.memberPwd}]]</td>
 									<td>[[${member.memberName}]]</td>
 									<td th:text="${member} ? ${#dates.format(member.birthday, 'yyyy-MM-dd')}">

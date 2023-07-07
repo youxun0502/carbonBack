@@ -55,6 +55,7 @@ public class EventRegistrationController {
 		return "chen/eventFrontPageAll";
 	}
 	
+	/*
 	// 跳轉活動分類頁面
 	@GetMapping("/eventPageOne")
 	public String eventFrontPageOne(@RequestParam("gameId")Integer gameId,Model m) {
@@ -65,11 +66,21 @@ public class EventRegistrationController {
 		m.addAttribute("events", events);
 		return "chen/eventFrontPageOne";
 	}
+	*/
+	// 跳轉活動分類頁面
+	@GetMapping("/eventPageOne")
+	public String eventFrontPageOne(@RequestParam(name="p", defaultValue = "1") Integer pageNumber,@RequestParam(value = "gameId", required = false)Integer gameId,Model m) {
+		List<Game> games = gRepo.findAll();
+		m.addAttribute("games", games);
+		
+		Page<Event> page = erService.findByPageOne(pageNumber,gameId);
+		m.addAttribute("page", page);
+		return "chen/eventFrontPageOne";
+	}
 	
 	// 跳轉活動細節頁面
 	@GetMapping("/eventPageDetail")
 	public String eventFrontPageDetail(@RequestParam("eventId")Integer eventId,Model m) {
-		System.out.println("eventId =" + eventId);
 		Event event = eService.findById(eventId);
 		m.addAttribute("event", event);
 		return "chen/eventFrontPageDetail";
@@ -77,15 +88,15 @@ public class EventRegistrationController {
 	
 	// 跳轉新增頁面
 	@GetMapping("/eventRegistration")
-	public String signupPage(Model m) {
-		List<Event> events = eRepo.findAll();
-		m.addAttribute("events", events);
+	public String signupPage(@RequestParam("eventId")Integer eventId,Model m) {
+		Event event = eService.findById(eventId);
+		m.addAttribute("event", event);
 		return "chen/eventRegistration";
 	}
 	
 	// 新增資料
 	@PostMapping("/eventRegistration/insert")
-	public String inserData(@RequestParam("eventId") Integer eventId, @RequestParam("realName") String realName,
+	public String inserData(@RequestParam("eventId") Integer eventId, @RequestParam("realName") String realName,@RequestParam(value = "memberId", required = false) Integer memberId,
 			@RequestParam("email") String email, @RequestParam("phone") String phone,
 			@RequestParam(value = "address", required = false) String address) {
 		EventRegistration er = new EventRegistration();
@@ -94,8 +105,9 @@ public class EventRegistrationController {
 		er.setEmail(email);
 		er.setPhone(phone);
 		er.setAddress(address);
+		er.setMemberId(memberId);
 		erService.insert(er);
-		return "redirect:/eventRegistration";
+		return "redirect:/eventPageAll";
 	}
 	
 	//顯示前台圖片
@@ -150,10 +162,10 @@ public class EventRegistrationController {
 
 	// 修改資料
 	@PutMapping("/event/registration/update")
-	public String updatePost(@RequestParam("signupId") Integer signupId, @RequestParam("eventId") Integer eventId,
+	public String updatePost(@RequestParam("signupId") Integer signupId, 
 			@RequestParam("realName") String realName, @RequestParam("email") String email,
-			@RequestParam("phone") String phone, @RequestParam("address") String address) {
-		erService.updateRegistrationById(signupId, eventId, realName, email, phone, address);
+			@RequestParam("phone") String phone, @RequestParam(value = "address", required = false) String address) {
+		erService.updateRegistrationById(signupId, realName, email, phone, address);
 		return "redirect:/event/registration/data";
 	}
 

@@ -21,13 +21,13 @@ import com.ni.dto.ItemOrderDTO;
 import com.ni.model.GameItem;
 import com.ni.model.ItemOrder;
 import com.ni.service.GameItemService;
-import com.ni.service.OrderService;
+import com.ni.service.itemOrderService;
 
 @Controller
-public class OrderController {
+public class ItemOrderController {
 
 	@Autowired
-	private OrderService orderService;
+	private itemOrderService orderService;
 	@Autowired
 	private GameItemService itemService;
 	
@@ -55,15 +55,22 @@ public class OrderController {
 	@GetMapping("/market")
 	public String marketList(Model m) {
 		m.addAttribute("orders", orderService.findOrderList());
-		return "ni/itemMarketList";
+		m.addAttribute("items", itemService.findAll());
+		return "ni/itemMarketList-gg";
 	}
 	
-	@GetMapping("/market/{gameId}/{itemName}")
-	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, Model m) {
-		m.addAttribute("orders", orderService.findSellItemList(gameId, itemName));
+	@GetMapping("/market/{gameId}/{itemId}/{itemName}")
+	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, @PathVariable Integer itemId, Model m) {
+		List<ItemOrderDTO> result = orderService.findSellItemList(gameId, itemName);
+		if(result.isEmpty()) {
+			m.addAttribute("item", itemService.findById(itemId));
+			return "ni/itemMarketPage-noOrder";
+		} 
+		m.addAttribute("item", itemService.findById(itemId));
+		m.addAttribute("orders", result);
 //		show all item that it has any order 
 //		change findSellItemList to findGameitemById and orderList will loading by ajax
-		return "ni/itemMarketPage";
+		return "ni/itemMarketPage-gg";
 	}
 	
 	@ResponseBody
@@ -97,6 +104,18 @@ public class OrderController {
 	@GetMapping("/market/itemPrices")
 	public List<ItemOrderDTO> findByItemIdAndStatus(@RequestParam("itemId") Integer itemId) {
 		return orderService.findByItemIdAndStatus(itemId);
+	}
+	
+	@ResponseBody
+	@GetMapping("/market/checkBuys")
+	public List<ItemOrderDTO> checkBuysPrice(@RequestParam("itemId") Integer itemId) {
+		return orderService.checkBuysPrice(itemId);
+	}
+	
+	@ResponseBody
+	@GetMapping("/market/checkSales")
+	public List<ItemOrderDTO> checkSalesPrice(@RequestParam("itemId") Integer itemId) {
+		return orderService.checkSalesPrice(itemId);
 	}
 	
 	@GetMapping("/market/downloadImage/{itemId}")

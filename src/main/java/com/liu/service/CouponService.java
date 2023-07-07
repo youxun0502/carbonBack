@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.evan.dao.GameTypeRepository;
+import com.evan.model.GameType;
 import com.liu.config.RandomConfig;
 import com.liu.model.Coupon;
 import com.liu.model.CouponRepository;
@@ -19,6 +21,9 @@ public class CouponService {
 	
 	@Autowired
 	RandomConfig randomConfig;
+	
+	@Autowired
+	GameTypeRepository gameTypeRepository;
 	
 	public Integer getTotalWeight() {
 		return couponRepository.getTotalWeight();
@@ -34,12 +39,25 @@ public class CouponService {
 		System.out.println("------old CouponRandom---------");
 		return randomConfig.getCouponRandom();
 	}
+	
+	public Map<Integer, Float> getCouponRamdomForManagement(){
+		Integer totalWeight = getTotalWeight();
+		List<Coupon> coupons = couponRepository.findCouponWhereStatusNotEqualOneOrderByCouponId();
+		Map<Integer,Float> newRamdom = new HashMap<>();
+		for (Coupon coupon : coupons) {
+			Integer couponId = coupon.getCouponId();
+			Integer weight = coupon.getWeight();
+			float random = (float)weight/totalWeight;
+			newRamdom.put(couponId, random);
+		}
+		return newRamdom;
+	}
 
 
 	private Map<Integer, Integer> createNewRamdomForCoupon() {
 		Integer totalWeight = getTotalWeight();
-		List<Coupon> coupons = couponRepository.findCouponOrderByCouponId();
-		Map<Integer,Integer> NewRamdom = new HashMap<>();
+		List<Coupon> coupons = couponRepository.findCouponWhereStatusNotEqualOneOrderByCouponId();
+		Map<Integer,Integer> newRamdom = new HashMap<>();
 		Integer tempMaxNum = 0;
 		for (Coupon coupon : coupons) {
 			Integer couponId = coupon.getCouponId();
@@ -54,10 +72,10 @@ public class CouponService {
 			System.out.println(maxNum);		
 			System.out.println(tempMaxNum);
 			System.out.println(couponRandomNum);
-			NewRamdom.put(couponId, couponRandomNum);
+			newRamdom.put(couponId, couponRandomNum);
 		}
-		randomConfig.setCouponRandom(NewRamdom);
-		return NewRamdom;
+		randomConfig.setCouponRandom(newRamdom);
+		return newRamdom;
 	}
 
 
@@ -65,7 +83,7 @@ public class CouponService {
 		System.out.println(random);
 		System.out.println("-----------------------------------");
 		Map<Integer,Integer> couponRandom = getCouponRandom();
-		List<Coupon> coupons = couponRepository.findCouponOrderByCouponId();
+		List<Coupon> coupons = couponRepository.findCouponWhereStatusNotEqualOneOrderByCouponId();
 		int temp = 0;
 		System.out.println(coupons.size());
 		System.out.println("already");
@@ -78,8 +96,33 @@ public class CouponService {
 			}
 		}
 		System.out.println("null");
-		return null;
+		return null;	
+	}
+	
+	public List<Coupon> findCouponOrderByCouponId(){
+		return couponRepository.findCouponOrderByCouponId();
+	}
+	
+	public List<Coupon> findCouponWhereStatusNotEqualOneOrderByCouponId(){
+		return couponRepository.findCouponWhereStatusNotEqualOneOrderByCouponId();
+	}
+	
+	public Boolean updateCouponStatus(Integer id, Integer status){
+		Coupon oldCoupon = couponRepository.getReferenceById(id);
+		oldCoupon.setStatus(status);
+		couponRepository.save(oldCoupon);
+		createNewRamdomForCoupon();
+		return true;
+	}
+	
+	public Boolean insertCoupon(Coupon coupon) {
 		
+		Integer typeId = coupon.getTypeId();
+		GameType type = gameTypeRepository.getReferenceById(typeId);
+		coupon.setGameType(type);
+		couponRepository.save(coupon);
+		createNewRamdomForCoupon();
+		return true;
 	}
 	
 }

@@ -1,1 +1,36 @@
 /* PLACE YOU CUSTOM STYLES IN THIS FILE */
+/*---------------------------
+  Element blog
+ ----------------------------*/
+.nk-blog-post:not(.nk-blog-post-single):hover {
+    -webkit-transform: translateY(-10px);
+        -ms-transform: translateY(-10px);
+            transform: translateY(-10px);
+}
+
+
+@media (max-width: 575px) {
+    .nk-forum > li .nk-forum-icon {
+        display: none;
+    }
+}
+
+.nk-box-5,
+.nk-box-rounded-5 {
+    position: relative;
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.nk-box-5,
+.nk-box-rounded-5 {
+    padding: 10px;
+}
+
+@media (min-width: 1140px) {
+    .nk-modal .modal-dialog-xl {
+        max-width: 1140px;
+    }
+}

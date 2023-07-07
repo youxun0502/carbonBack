@@ -23,11 +23,6 @@ public class MemberController {
 	@Autowired
 	MemberService mService;
 
-	@GetMapping("/member")
-	public String memberMain() {
-		return "/liu/memberDataTable";
-	}
-
 	@GetMapping("/member/allMember")
 	public String findAllMember(Model m) {
 		List<Member> members = mService.findAll();
@@ -49,6 +44,7 @@ public class MemberController {
 			memberDto.setName(updateData.getMemberName());
 			memberDto.setId(updateData.getUserId());
 			memberDto.setPhone(updateData.getPhone());
+			System.out.println("DTO:" + updateData.getMemberPwd());
 			memberDto.setPwd(updateData.getMemberPwd());
 			memberDto.setRegistration(updateData.getRegistrationDate());
 			memberDto.setAccount(updateData.getAccount());
@@ -61,30 +57,13 @@ public class MemberController {
 	@ResponseBody
 	@PutMapping("/member/api/update")
 	public String update(@RequestBody MemberDto memberDto) {
-		Member updateMember = mService.findById(Integer.parseInt(memberDto.getInnerId()));
+		boolean status = mService.update(memberDto);
 
-		if (updateMember != null) {
-			updateMember.setUserId(memberDto.getId());
-			updateMember.setMemberPwd(memberDto.getPwd());
-			updateMember.setMemberName(memberDto.getName());
-			updateMember.setBirthday(memberDto.getBirthday());
-			updateMember.setGender(memberDto.getGender());
-			updateMember.setPhone(memberDto.getPhone());
-			updateMember.setAccount(memberDto.getAccount());
-			updateMember.setRegistrationDate(memberDto.getRegistration());
-			updateMember.setLevelId(memberDto.getLevel());
-			boolean status = mService.update(updateMember);
-
-			if (status == true) {
-				return "true";
-			} else {
-				return "false";
-			}
-
+		if (status == true) {
+			return "true";
 		} else {
 			return "false";
 		}
-
 	}
 
 	@ResponseBody
@@ -109,6 +88,7 @@ public class MemberController {
 			return "fail";
 		}
 	}
+
 	@ResponseBody
 	@GetMapping("/member/api/seachByName")
 	public List<MemberDto> findMemberByName(@RequestParam(name = "name") String name) {
@@ -131,5 +111,18 @@ public class MemberController {
 			memberDtos.add(memberDto);
 		}
 		return memberDtos;
+	}
+
+	@GetMapping("/member/memberRegistrationDateAnalysisPage")
+	public String memberRegistrationDateAnalysisPage(Model m) {
+		List<Object[]> datas = mService.findRegistrationMonth();
+		m.addAttribute("datas", datas);
+		return "/liu/memberRegistrationDateAnalysisPage";
+	}
+
+	@GetMapping("/member/api/memberRegistrationDateAnalysis")
+	@ResponseBody
+	public List<Object[]> memberRegistrationDateAnalysis() {
+		return mService.findRegistrationMonth();
 	}
 }

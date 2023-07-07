@@ -4,129 +4,244 @@
 <head>
 	<meta charset="UTF-8">
 	<style>
-		table {
-			background-color: rgb(33, 37, 41);
-		}
-		
-		table td,
-		table th {
-			max-width: 170px;
+		* {
+			margin: 0;
+			box-sizing: border-box;
 		}
 
-		.tdCenter {
-			text-align: center;
+		body {
+			font-family: "Inter", Arial, Helvetica, sans-serif;
 		}
 
-		.imgBox {
-			width: 100px;
-			height: 100px;
+		.formbold-mb-5 {
+			margin-bottom: 20px;
 		}
 
-		.showDesc {
+		.formbold-mb-3 {
+			margin-bottom: 15px;
+		}
+
+		.formbold-pt-3 {
+			padding-top: 12px;
+		}
+
+		.formbold-main-wrapper {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 48px;
+		}
+
+		.formbold-form-wrapper {
+			margin: 0 auto;
+			max-width: 550px;
+			width: 100%;
+			background-color: rgba(53, 53, 53, 0.705);
+			padding: 20px 50px;
+			border-radius: 14px;
+		}
+
+		.formbold-form-label {
+			display: block;
+			font-weight: 500;
+			font-size: 16px;
+			/*color: #07074d;*/
+			margin-bottom: 12px;
+		}
+
+		.formbold-form-file-flex {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+		}
+
+		.formbold-form-file-flex .formbold-form-label {
+			margin-bottom: 0;
+		}
+
+		.formbold-form-file {
+			font-size: 14px;
+			line-height: 24px;
+			color: #536387;
+		}
+
+		.formbold-form-file::-webkit-file-upload-button {
+			display: none;
+		}
+
+		.formbold-form-file:before {
+			content: 'Upload file';
+			display: inline-block;
+			background: #EEEEEE;
+			border: 0.5px solid #FBFBFB;
+			box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.25);
+			border-radius: 3px;
+			padding: 3px 12px;
+			outline: none;
+			white-space: nowrap;
+			-webkit-user-select: none;
 			cursor: pointer;
+			color: #637381;
+			font-weight: 500;
+			font-size: 12px;
+			line-height: 16px;
+			margin-right: 10px;
 		}
 
-		.section-big {
-			max-width: calc(100% - 42px);
+		.formbold-form-label-2 {
+			font-weight: 600;
+			font-size: 20px;
+			margin-bottom: 20px;
 		}
 
-		.section-small {
-			max-width: calc(100% - 200px);
+		.formbold-form-input {
+			width: 100%;
+			padding: 12px 24px;
+			border-radius: 6px;
+			border: 1px solid #e0e0e0;
+			background: white;
+			font-weight: 500;
+			font-size: 16px;
+			color: #6b7280;
+			outline: none;
+			resize: none;
+		}
+
+		.formbold-form-input:focus {
+			border-color: #6a64f1;
+			box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+		}
+
+		.formbold-btn {
+			text-align: center;
+			font-size: 16px;
+			border-radius: 6px;
+			padding: 14px 32px;
+			border: none;
+			font-weight: 600;
+			background-color: #6a64f1;
+			color: white;
+			width: 100%;
+			cursor: pointer;
+			margin-top: 25px;
+		}
+
+		.formbold-btn:hover {
+			box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+		}
+
+		.formbold--mx-3 {
+			margin-left: -12px;
+			margin-right: -12px;
+		}
+
+		.formbold-px-3 {
+			padding-left: 12px;
+			padding-right: 12px;
+		}
+
+		.flex {
+			display: flex;
+		}
+
+		.flex-wrap {
+			flex-wrap: wrap;
+		}
+
+		.w-full {
+			width: 100%;
+		}
+
+		@media (min-width: 540px) {
+			.sm\:w-half {
+				width: 50%;
+			}
 		}
 	</style>
-	<title>賽事列表</title>
+	<title>創建活動</title>
 </head>
 
 <body>
 	<div th:replace="~{layout/navMain}"></div>
 	<div class="d-flex">
 		<div th:replace="~{layout/asideMain}"></div>
-		<div class="w-100 section section-big">
+		<div class="w-100">
 			<div class="content mt-3" th:replace="~{chen/Main}"></div>
-			<div class="container-fluid">
-				<div class="row my-3">
-					<table id="example" class="hover row-border" style="width:100%">
-						<thead>
-							<tr>
-								<th>活動ID
-								<th>活動名稱
-								<th>活動說明
-								<th>開始日期
-								<th>結束日期
-								<th>限時優惠
-								<th>活動地點
-								<th>名額限制
-								<th>報名截止日期
-								<th>報名費
-								<th>更新確認
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<form th:action="@{/event/update}" th:method="put">
-									<td>
-										<input style="width: 100%" type="text" name="eventId"
-											th:value="${event.eventId}" readonly />
-									</td>
-									<td>
-										<input style="width: 100%" type="text" name="name" th:value="${event.name}"
-											required autocomplete="off" />
-									</td>
-									<td>
-										<input style="width: 100%" type="text" name="description"
-											th:value="${event.description}" autocomplete="off" />
-									</td>
-									<td>
-										<input id="pick-start_date" style="width:100%" type="text" name="startDate"
-											th:value="${event.startDate}" required autocomplete="off" />
-									</td>
-									<td>
-										<input id="pick-end_date" style="width: 100%" type="text" name="endDate"
-											th:value="${event.endDate}" required autocomplete="off" />
-									</td>
-									<td>
-										<input style="width: 100%" type="text" name="timeLimitedDiscount"
-											th:value="${event.timeLimitedDiscount}" autocomplete="off" />
-									</td>
-									<td>
-										<input style="width: 100%" type="text" name="location"
-											th:value="${event.location}" required autocomplete="off" />
-									</td>
-									<td>
-										<input style="width: 100%" type="text" name="quotaLimited"
-											th:value="${event.quotaLimited}" autocomplete="off" />
-									</td>
-									<td>
-										<input id="pick-deadline" style="width: 100%" type="text" name="deadline"
-											th:value="${event.deadline}" required autocomplete="off" />
-									</td>
-									<td>
-										<input style="width: 100%" type="text" name="fee" th:value="${event.fee}"
-											autocomplete="off" />
-									</td>
-									<td>
-										<button type="submit">更新</button>
-									</td>
-								</form>
-							</tr>
-							<tr>
-								<td th:text="${event.eventId}"></td>
-								<td th:text="${event.name}"></td>
-								<td th:text="${event.description}"></td>
-								<td th:text="${event.startDate}"></td>
-								<td th:text="${event.endDate}"></td>
-								<td th:text="${event.timeLimitedDiscount}"></td>
-								<td th:text="${event.location}"></td>
-								<td th:text="${event.quotaLimited}"></td>
-								<td th:text="${event.deadline}"></td>
-								<td th:text="${event.fee}"></td>
-								<td>
-							</tr>
+			<div class="formbold-main-wrapper">
+				<div class="formbold-form-wrapper">
+					<form th:action="@{/event/update}" th:method="put">
+						<div class="formbold-mb-5">
+							<label for="name" class="formbold-form-label">活動名稱</label>
+							<input type="text" name="name" id="name" class="formbold-form-input" th:value="${event.name}" required/>
+							<input type="hidden" name="eventId" th:value="${event.eventId}"/>
+						</div>
+						<div class="flex flex-wrap formbold--mx-3">
+							<div class="w-full sm:w-half formbold-px-3">
+								<div class="formbold-mb-5 w-full">
+									<label for="phone" class="formbold-form-label">活動地點</label>
+									<input type="text" name="location" class="formbold-form-input" th:value="${event.location}" required/>
+								</div>
+							</div>
+							<div class="w-full sm:w-half formbold-px-3">
+								<div class="formbold-mb-5">
+									<label for="email" class="formbold-form-label">限時優惠</label>
+									<input type="text" name="timeLimitedDiscount" class="formbold-form-input" th:value="${event.timeLimitedDiscount}"/>
+								</div>
+							</div>
+						</div>
 
-						</tbody>
-					</table>
+
+						<div class="flex flex-wrap formbold--mx-3">
+							<div class="w-full sm:w-half formbold-px-3">
+								<div class="formbold-mb-5 w-full">
+									<label for="date" class="formbold-form-label">開始日期</label>
+									<input type="date" name="startDate" id="pick-start_date" class="formbold-form-input" th:value="${event.startDate}" required/>
+								</div>
+							</div>
+							<div class="w-full sm:w-half formbold-px-3">
+								<div class="formbold-mb-5">
+									<label for="date" class="formbold-form-label">結束日期</label>
+									<input type="date" name="endDate" id="pick-end_date" class="formbold-form-input" th:value="${event.endDate}" required/>
+								</div>
+							</div>
+							<div class="w-full sm:w-half formbold-px-3">
+								<div class="formbold-mb-5">
+									<label for="date" class="formbold-form-label">報名截止日期</label>
+									<input type="date" name="deadline" id="pick-deadline" class="formbold-form-input" th:value="${event.deadline}" required/>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="flex flex-wrap formbold--mx-3">
+							<div class="w-full sm:w-half formbold-px-3">
+								<div class="formbold-mb-5 w-full">
+									<label for="phone" class="formbold-form-label">名額限制</label>
+									<input type="text" name="quotaLimited" class="formbold-form-input" th:value="${event.quotaLimited}"/>
+								</div>
+							</div>
+							<div class="w-full sm:w-half formbold-px-3">
+								<div class="formbold-mb-5">
+									<label for="email" class="formbold-form-label">報名費</label>
+									<input type="text" name="fee" class="formbold-form-input" th:value="${event.fee}"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="formbold-mb-3">
+							<label for="message" class="formbold-form-label">活動說明</label>
+							<textarea rows="6" name="desc" class="formbold-form-input" th:text="${event.description}"></textarea>
+						</div>
+
+
+						<div>
+							<button class="formbold-btn">修改完成</button>
+						</div>
+					</form>
+						
 				</div>
 			</div>
+
 		</div>
 	</div>
 
@@ -141,7 +256,8 @@
 			$(document).ready(function () {
 				$('#example').DataTable();
 			});
-
+			
+			/*
 			$("#pick-start_date").datepicker({
 				dateFormat: 'yy-mm-dd',
 				onSelect: function (selected) {
@@ -164,8 +280,11 @@
 					$("#pick-start_date").datepicker("option", "minDate", selected);
 				},
 			});
+			*/
 
 			
+
+
 		})
 	</script>
 </body>
