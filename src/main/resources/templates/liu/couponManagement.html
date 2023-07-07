@@ -4,9 +4,10 @@
 <head>
 	<meta charset="UTF-8">
 	<style>
-		body{
-		font-size: 20px !important;
+		body {
+			font-size: 20px !important;
 		}
+
 		table {
 			background-color: rgb(33, 37, 41);
 		}
@@ -72,7 +73,6 @@
 									<td>權重</td>
 									<td>狀態</td>
 									<td>機率</td>
-									<td>更新</td>
 									<td>停用</td>
 								</tr>
 							</thead>
@@ -87,11 +87,7 @@
 										<td th:text="${coupon.status}==1 ? '使用中' : '已停用'"></td>
 										<td>[[${couponRandoms[coupon.couponId]}]]</td>
 										<th:block th:if="${coupon.status==1}">
-											<td>
-												<button th:data-id="${coupon.couponId}" class="btn btn-info btn-update" data-bs-toggle="modal"
-													data-bs-target="#exampleModal">更新
-												</button>
-											</td>
+
 											<td>
 												<button th:data-id="${coupon.couponId}" class="btn btn-outline-success btn-restore"
 													hidden=true>復原
@@ -101,11 +97,7 @@
 											</td>
 										</th:block>
 										<th:block th:unless="${coupon.status==1}">
-											<td>
-												<button th:data-id="${coupon.couponId}" class="btn btn-info btn-update" data-bs-toggle="modal"
-													data-bs-target="#exampleModal" hidden=true>更新
-												</button>
-											</td>
+
 											<td>
 												<button th:data-id="${coupon.couponId}" class="btn btn-danger btn-delete"
 													hidden=true>停用</button>
@@ -265,28 +257,24 @@
 				siblings[1].innerText = data.discount;
 				siblings[2].innerText = data.couponName;
 				siblings[3].innerText = data.weight;
-				if(data.status == 1 ){
+				if (data.status == 1) {
 					siblings[4].innerText = '使用中';
-				}else{
-				siblings[4].innerText = '已停用';
+				} else {
+					siblings[4].innerText = '已停用';
 				}
-		
+
 				siblings[5].innerText = data.random;
 
 				//能拿到的data.status都是1
 
-				const updateBtn = siblings[6].querySelector('.btn-update');
-				if (updateBtn && updateBtn.hasAttribute('hidden')) {
-					updateBtn.removeAttribute('hidden');
-				}
 
-				const restoreBtn = siblings[7].querySelector('.btn-restore');
+				const restoreBtn = siblings[6].querySelector('.btn-restore');
 				if (restoreBtn) {
 
 					restoreBtn.setAttribute('hidden', true);
 
 				}
-				const deleteBtn = siblings[7].querySelector('.btn-delete');
+				const deleteBtn = siblings[6].querySelector('.btn-delete');
 				if (deleteBtn && deleteBtn.hasAttribute('hidden')) {
 					deleteBtn.removeAttribute('hidden');
 				}
@@ -298,18 +286,14 @@
 					})
 					siblings[4].innerText = '已停用';
 					siblings[5].innerText = null;
-					const updateBtn = siblings[6].querySelector('.btn-update');
-					if (updateBtn) {
-						updateBtn.setAttribute('hidden', true);
-					}
 
-					const restoreBtn = siblings[7].querySelector('.btn-restore');
+					const restoreBtn = siblings[6].querySelector('.btn-restore');
 					if (restoreBtn) {
 
 						restoreBtn.removeAttribute('hidden');
 
 					}
-					const deleteBtn = siblings[7].querySelector('.btn-delete');
+					const deleteBtn = siblings[6].querySelector('.btn-delete');
 					if (deleteBtn) {
 						deleteBtn.setAttribute('hidden', true);
 					}
