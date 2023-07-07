@@ -3,6 +3,7 @@ package com.evan.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liu.model.Member;
 
 import jakarta.persistence.CascadeType;
@@ -34,10 +35,12 @@ public class GameOrder {
 	
 	private Integer status;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "Id")
 	private Member member;
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gameOrder", cascade = CascadeType.ALL)
 	private List<GameOrderLog> gameOrderLog;
 	

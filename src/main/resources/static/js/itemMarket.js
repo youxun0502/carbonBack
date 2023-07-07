@@ -10,7 +10,94 @@ let removeHtml;
 
 // =========================== itemMarketPage ===========================  
 // --------------------------- show page ---------------------------
+if(userId != ''){
+	
+	axios.get('/carbon/market/activeList',{
+		params: {memberId: userId}
+	})
+	.then(response =>{
+		if(response.data != ''){
+			console.log(JSON.stringify(response.data))
+			activeList(response.data);
+		}
+	})
+	.catch(err => {
+		console.log('err: ' + err);
+	})
+}
 
+
+
+
+function activeList(data){
+	let sellListings = document.getElementById('sellListings1')
+	let buyOrders = document.getElementById('buyOrders1')
+	let sellListHtml =``;
+	let buyOrderHtml =``;
+	data.forEach((order) => {
+		if(order.sell != null){
+			sellListHtml +=`
+			<ul class="nk-forum">
+				<li class="p-10">
+		            <div class="nk-forum-activity me-3 d-flex">
+		            	<img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}"
+		                        class="img-fluid" style="max-width: 50px">
+		            </div>
+		            <div class="nk-forum-title my-auto">
+		            	<h3>${order.gameItem.itemName}</h3>
+		            </div>
+		            <div class="nk-forum-activity my-auto">
+		                <div class="nk-forum-activity-title text-center">
+		                    ${order.sell.userId}
+		                </div>
+		            </div>
+		            <div class="nk-forum-activity my-auto d-flex justify-content-center">
+		                <div class="nk-forum-activity-title">
+		                    NT$ ${order.price}
+		                </div>
+		            </div>
+		            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
+		            	<a href="#" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#modalDelete" data-id="${order.ordId}">
+		                    棄單
+		                </a>
+		            </div>
+		        </li>
+		    </ul>
+			`;
+		} else if(order.buy != null){
+			buyOrderHtml +=`
+			<ul class="nk-forum">
+				<li class="p-10">
+		            <div class="nk-forum-activity me-3 d-flex">
+		            	<img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}"
+		                        class="img-fluid" style="max-width: 50px">
+		            </div>
+		            <div class="nk-forum-title my-auto">
+		            	<h3>${order.gameItem.itemName}</h3>
+		            </div>
+		            <div class="nk-forum-activity my-auto">
+		                <div class="nk-forum-activity-title text-center">
+		                    ${order.buy.userId}
+		                </div>
+		            </div>
+		            <div class="nk-forum-activity my-auto d-flex justify-content-center">
+		                <div class="nk-forum-activity-title">
+		                    NT$ ${order.price}
+		                </div>
+		            </div>
+		            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
+		            	<a href="#" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#modalDelete" data-id="${order.ordId}">
+		                    棄單
+		                </a>
+		            </div>
+		        </li>
+		    </ul>
+			`;
+		}
+	})
+	sellListings.innerHTML = sellListHtml;
+	buyOrders.innerHTML = buyOrderHtml;
+}
 
 
 // --------------------------- buy an item page ---------------------------
@@ -557,7 +644,7 @@ function showSaleInfo(order) {
                 event.stopPropagation()
             } else {
 	            event.preventDefault()
-	            let price = salePrice.replace('NT$', '');
+	            let price = salePrice;
 	            console.log(price)
 	            axios({
 	                url: '/carbon/market/newOrder',
@@ -572,13 +659,13 @@ function showSaleInfo(order) {
 	            })
 	                .then(response => {
 	                    if (response.data != '') {
-	                        let sales = response.data;
-	                        newItemLog(sales);
-	                        console.log('itemId: ' + sales.itemId)
+	                        let newSales = response.data;
+	                        newItemLog(newSales);
+	                        console.log('itemId: ' + newSales.itemId)
 	                        axios({
 	                            method: 'get',
 	                            url: '/carbon/market/checkBuys',
-	                            params: { itemId: sales.itemId }
+	                            params: { itemId: newSales.itemId }
 	                        })
 	                            .then(res => {
 	                                let sales = res.data;
@@ -602,7 +689,7 @@ function showSaleInfo(order) {
 	                                            console.log('result: ' + JSON.stringify(result.data))
 	                                            if (result.data != '') {
 	                                                orderUpdate(sales[0]);
-	                                                orderUpdate(sales);
+	                                                orderUpdate(newSales);
 	                                                newItemLog(result.data);
 	                                            }
 	                                            return result.data;

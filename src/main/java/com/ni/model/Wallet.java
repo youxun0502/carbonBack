@@ -24,7 +24,7 @@ public class Wallet {
 	private String tradeNo;
 	private Float change;
 	private Float balance;
-	private String desc;
+	private String changeDesc;
 	private Date createTime;
 	
 	@ManyToOne

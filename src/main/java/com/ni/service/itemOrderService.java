@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,8 +52,9 @@ public class itemOrderService {
 		return null;
 	}
 	
-	public List<ItemOrderDTO> findSellItemList(Integer gameId, String itemName) {
-		return convertToDTOList(orderRepo.findSellItemList(gameId, itemName));
+	public List<ItemOrderDTO> findSellItemList(Integer gameId, String itemName, Integer pageNumber) {
+		Pageable pgb = PageRequest.of(pageNumber - 1, 10);
+		return convertToDTOList(orderRepo.findSellItemList(gameId, itemName, pgb));
 	}
 	
 	public List<Map<String, Object>> findOrderList() {
@@ -70,6 +75,21 @@ public class itemOrderService {
 	    return null;
 	}
 	
+	public List<Map<String, Object>> findMinPrice() {
+		List<Object[]> results = orderRepo.findMinPrice();
+		List<Map<String, Object>> priceList = new ArrayList<>();
+		if(results != null) {
+			for(Object[] result : results) {
+				Map<String, Object> price = new HashMap<>();
+				price.put("itemId", result[0]);
+				price.put("minPrice", result[1]);
+				priceList.add(price);
+			}
+			return priceList;
+		}
+		return null;
+	}
+	
 	public List<ItemOrderDTO> findByItemIdAndStatus(Integer itemId) {
 		return convertToDTOList(orderRepo.findByItemIdAndStatus(itemId));
 	}
@@ -82,6 +102,9 @@ public class itemOrderService {
 		return convertToDTOList(orderRepo.findSalesByIdAndStatus(itemId));
 	}
 	
+	public List<ItemOrderDTO> findActiveList(Integer memberId) {
+		return convertToDTOList(orderRepo.findActiveList(memberId));
+	}
 	
 //	======================= 轉換 DTO 和 Entity =======================
 	public List<ItemOrderDTO> convertToDTOList(List<ItemOrder> orders) {

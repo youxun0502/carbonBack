@@ -3,6 +3,7 @@ package com.ni.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,14 +55,15 @@ public class ItemOrderController {
 //	----------------------------- gameItemMarket -----------------------------
 	@GetMapping("/market")
 	public String marketList(Model m) {
-		m.addAttribute("orders", orderService.findOrderList());
+		m.addAttribute("orders", orderService.findMinPrice());
 		m.addAttribute("items", itemService.findAll());
 		return "ni/itemMarketList-gg";
 	}
 	
 	@GetMapping("/market/{gameId}/{itemId}/{itemName}")
-	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, @PathVariable Integer itemId, Model m) {
-		List<ItemOrderDTO> result = orderService.findSellItemList(gameId, itemName);
+	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, @PathVariable Integer itemId, 
+							 @RequestParam(name = "p", defaultValue = "1") Integer pageNumber, Model m) {
+		List<ItemOrderDTO> result = orderService.findSellItemList(gameId, itemName, pageNumber);
 		if(result.isEmpty()) {
 			m.addAttribute("item", itemService.findById(itemId));
 			return "ni/itemMarketPage-noOrder";
@@ -75,14 +77,20 @@ public class ItemOrderController {
 	
 	@ResponseBody
 	@GetMapping("/market/orderLIst")
-	public List<ItemOrderDTO> orderList(@PathVariable Integer gameId, @PathVariable String itemName) {
-		return orderService.findSellItemList(gameId, itemName);
+	public List<ItemOrderDTO> orderList(@PathVariable Integer gameId, @PathVariable String itemName, 
+										@RequestParam(name = "p", defaultValue = "1") Integer pageNumber, Model m) {
+		return orderService.findSellItemList(gameId, itemName, pageNumber);
+	}
+	
+	@ResponseBody
+	@GetMapping("/market/activeList")
+	public List<ItemOrderDTO> findActiveList(@RequestParam("memberId") Integer memberId) {
+		return orderService.findActiveList(memberId);
 	}
 	
 	@ResponseBody
 	@GetMapping("/market/buyAnItem")
 	public ItemOrderDTO buyPage(@RequestParam("ordId") Integer ordId ,Model m) {
-		m.addAttribute("order", orderService.findById(ordId));
 		return orderService.findById(ordId);
 	}
 	

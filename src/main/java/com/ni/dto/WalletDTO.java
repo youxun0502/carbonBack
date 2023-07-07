@@ -14,8 +14,10 @@ public class WalletDTO {
 	private String tradeNo;
 	private Float change;
 	private Float balance;
-	private String desc;
+	private String changeDesc;
 	private Date createTime;
 	
 	private Member member;
+	
+	private String addAmount;
 }
