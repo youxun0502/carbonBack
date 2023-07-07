@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.evan.dto.TypeDTO;
+import com.evan.service.GameTypeService;
 import com.liu.config.MathRandom;
 import com.liu.dto.CouponDto;
 import com.liu.model.Coupon;
@@ -38,6 +40,9 @@ public class CouponController {
 	
 	@Autowired
 	MathRandom mathRandom;
+	
+	@Autowired
+	GameTypeService gameTypeService;
 
 	@GetMapping("/coupon/couponPage")
 	public String couponPage() {
@@ -96,6 +101,16 @@ public class CouponController {
 			return null;
 		}
 		
+	}
+	
+	@GetMapping("/coupon/insertPage")
+	public String insetCouponLog(Model m) {
+		List<TypeDTO> types = gameTypeService.getAllTypeInfo();
+				
+		m.addAttribute("couponDto", new CouponDto());
+		m.addAttribute("types", types);
+		
+		return "/liu/couponInsert";
 	}
 	
 	

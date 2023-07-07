@@ -4,6 +4,9 @@
 <head>
 	<meta charset="UTF-8">
 	<style>
+		body{
+		font-size: 20px !important;
+		}
 		table {
 			background-color: rgb(33, 37, 41);
 		}
@@ -45,11 +48,13 @@
 			<div class="content mt-3">
 				<nav class="navbar navColor">
 					<div class="container-fluid">
-						<a class="navbar-brand link-light" th:href="@{/member}" style="font-size: 30px;">優惠券管理系統</a>
+						<a class="navbar-brand link-light" style="font-size: 30px;">優惠券管理系統</a>
 					</div>
 				</nav>
 				<ul class="nav nav-tabs">
 					<li class="nav-item"><a class="nav-link active" href="#">機率管理</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/coupon/insertPage}">新增優惠券</a>
 					</li>
 				</ul>
 			</div>
@@ -79,7 +84,7 @@
 										<td>[[${coupon.coupon}]]</td>
 										<td>[[${coupon.desc}]]</td>
 										<td>[[${coupon.weight}]]</td>
-										<td>[[${coupon.status}]]</td>
+										<td th:text="${coupon.status}==1 ? '使用中' : '已停用'"></td>
 										<td>[[${couponRandoms[coupon.couponId]}]]</td>
 										<th:block th:if="${coupon.status==1}">
 											<td>
@@ -150,7 +155,7 @@
 						text: '這已經是最後一筆，禁止停用',
 						icon: 'error',
 						showConfirmButton: false,
-						timer: 1500
+						timer: 1000
 					})
 				}
 			})
@@ -260,7 +265,12 @@
 				siblings[1].innerText = data.discount;
 				siblings[2].innerText = data.couponName;
 				siblings[3].innerText = data.weight;
-				siblings[4].innerText = data.status;
+				if(data.status == 1 ){
+					siblings[4].innerText = '使用中';
+				}else{
+				siblings[4].innerText = '已停用';
+				}
+		
 				siblings[5].innerText = data.random;
 
 				//能拿到的data.status都是1
@@ -286,7 +296,7 @@
 					let siblings = Array.from(deleteData.parentNode.children).filter(function (child) {
 						return child !== deleteData;
 					})
-					siblings[4].innerText = '2';
+					siblings[4].innerText = '已停用';
 					siblings[5].innerText = null;
 					const updateBtn = siblings[6].querySelector('.btn-update');
 					if (updateBtn) {
