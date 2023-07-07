@@ -1,6 +1,11 @@
 package com.li.dto;
 
 
+import java.util.Date;
+
+import com.li.model.BonusItem;
+import com.liu.model.Member;
+
 import lombok.Data;
 
 @Data
@@ -15,4 +20,8 @@ public class BonusShopDto {
 		private String bonusDes;
 		private Boolean status;
 		private Integer point;
+		private Date buyDate;
+		
+		private Member member;
+		private BonusItem bonusitem;
 }

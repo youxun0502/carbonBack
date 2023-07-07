@@ -120,7 +120,7 @@ function BuyBonusItem(price, point, bonusId) {
         })
     } else {
         axios({
-            url: 'http://localhost:8080/carbon/bonus-shop/api/buybonusitem1',
+            url: 'http://localhost:8080/carbon/bonus-shop/api/buybonusitem',
             method: 'post',
             data: {
                 bonusId: bonusId,

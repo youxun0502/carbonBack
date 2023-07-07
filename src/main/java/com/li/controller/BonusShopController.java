@@ -1,6 +1,7 @@
 package com.li.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,7 @@ public class BonusShopController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/bonus-shop/api/buybonusitem1")
+	@PostMapping("/bonus-shop/api/buybonusitem")
 	public BonusShopDto buyBonusItem(@RequestBody BonusShopDto bonusshopDto,Model model) {
 //		System.out.println(bonusshopDto.getBonusId());
 //		System.out.println(bonusshopDto.getMemberId());
@@ -77,6 +78,16 @@ public class BonusShopController {
 //		System.out.println(-(bonusshopDto.getBonusprice()));
 		
 		return bonusshopDto;
+	}
+	
+	@ResponseBody
+	@PostMapping("/bonus-shop/api/findBonusLog")
+	public List<BonusShopDto> findBonusLogByMemberid(@RequestBody BonusShopDto bonusshopDto,Model model) {
+		System.out.println("ININININININININININININININ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println(bonusshopDto.getMemberId());
+
+//	blService.findByMemberIdtoDto(bonusshopDto.getMemberId());
+	return blService.findByMemberIdtoDto(bonusshopDto.getMemberId());
 	}
 
 }
