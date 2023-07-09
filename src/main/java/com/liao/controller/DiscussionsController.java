@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -298,43 +299,78 @@ public class DiscussionsController {
 //		return discussions;
 //	}
 	
+//	@GetMapping("/forum/getfront")
+//	  public String getfront(Model model) throws SQLException {
+//        List<Discussions> discussions = dService.findAll();
+//        
+//  
+//        
+//        List<Discussions> uniqueGameNames = new ArrayList<>();
+//        List<String> gameName = new ArrayList<>();
+//      List<GameDTO> gameDto = gameService.getAllGameInfo();
+//        for (GameDTO gameDTO2 : gameDto) {
+//        	gameName.add(gameDTO2.getGameName()) ;
+//		}
+//
+//     
+//        for (Discussions discussion : discussions) {
+//        	System.out.println(1);
+//      	  for (String game : gameName) {
+//
+//				if(discussion.getGameName().equals(game) ) {
+//					System.out.println(discussion.getGameName());
+//					uniqueGameNames.add(discussion);
+//					gameName.remove(game);
+//				      	  if(gameName.size()==0) {
+//      		  break;
+//      	  }
+//				}
+//			}
+//
+//		}
+//        System.out.println(uniqueGameNames);
+//
+//
+//     model.addAttribute("uniqueGameNames", uniqueGameNames);
+//    
+//	          
+//	          return "liao/blog-list";
+//	  }
+	
 	@GetMapping("/forum/getfront")
-	  public String getfront(Model model) throws SQLException {
-        List<Discussions> discussions = dService.findAll();
-        
-  
-        
-        List<Discussions> uniqueGameNames = new ArrayList<>();
-        List<String> gameName = new ArrayList<>();
-      List<GameDTO> gameDto = gameService.getAllGameInfo();
-        for (GameDTO gameDTO2 : gameDto) {
-        	gameName.add(gameDTO2.getGameName()) ;
-		}
+	public String getfront(Model model) throws SQLException {
+	    List<Discussions> discussions = dService.findAll();
+	    List<Discussions> uniqueGameNames = new ArrayList<>();
+	    List<String> gameName = new ArrayList<>();
+	    List<GameDTO> gameDto = gameService.getAllGameInfo();
+	    
+	    for (GameDTO gameDTO2 : gameDto) {
+	        gameName.add(gameDTO2.getGameName());
+	    }
 
-     
-        for (Discussions discussion : discussions) {
-        	System.out.println(1);
-      	  for (String game : gameName) {
+	    Iterator<String> iterator = gameName.iterator();
+	    while (iterator.hasNext()) {
+	        String game = iterator.next();
+	        for (Discussions discussion : discussions) {
+	            if (discussion.getGameName().equals(game)) {
+	                System.out.println(discussion.getGameName());
+	                uniqueGameNames.add(discussion);
+	                iterator.remove(); // 使用Iterator的remove()方法刪除元素
+	                break;
+	            }
+	        }
+	        if (gameName.isEmpty()) {
+	            break;
+	        }
+	    }
+	    
+	    System.out.println(uniqueGameNames);
+	    model.addAttribute("uniqueGameNames", uniqueGameNames);
+	    
+	    return "liao/blog-list";
+	}
 
-				if(discussion.getGameName().equals(game) ) {
-					System.out.println(discussion.getGameName());
-					uniqueGameNames.add(discussion);
-					gameName.remove(game);
-				      	  if(gameName.size()==0) {
-      		  break;
-      	  }
-				}
-			}
-
-		}
-        System.out.println(uniqueGameNames);
-
-
-     model.addAttribute("uniqueGameNames", uniqueGameNames);
-    
-	          
-	          return "liao/blog-list";
-	  }
+	
 	
 	@GetMapping("/forum/{gameName}")
 	public String goGameDiscussion(Model model , @PathVariable String gameName) throws SQLException {
@@ -541,6 +577,8 @@ public class DiscussionsController {
 		return "liao/GetDiscussionSelectUserName";
 		
 	}
+	
+	
 	
 	
 

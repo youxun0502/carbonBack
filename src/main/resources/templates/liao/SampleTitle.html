@@ -29,7 +29,7 @@
             font-family: Arial, sans-serif;
         }
     </style>
-    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+    
     <meta name="description" content="GoodGames - Bootstrap template for communities and games store">
     <meta name="keywords" content="game, gaming, template, HTML template, responsive, Bootstrap, premium">
     <meta name="author" content="_nK">
@@ -78,6 +78,9 @@
     <!-- jQuery -->
     <script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
 
+    <script th:src="@{/js/ckeditor.js}"></script>
+
+    <!-- <script th:src="@{https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js}"></script> -->
 
 </head>
 
@@ -498,7 +501,7 @@
             <div class="row justify-content-end">
                 <div class="col-md-3 text-right">
                     <a id="replyButton" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a>
-
+                    
                     <!-- <a th:href="@{#forum-reply}" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a> -->
                 </div>
             </div>
@@ -552,7 +555,7 @@
                         </div>
                         <div class="nk-forum-topic-footer">
                             <span class="nk-forum-topic-date">June 18, 2018</span>
-
+                            
                             <span class="nk-forum-action-btn">
                                 <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span>
                                     Reply</a>
@@ -683,12 +686,16 @@
             <!-- END: Pagination -->
 
             <div id="forum-reply"></div>
-            <div class="nk-gap-4"></div>
+            <div class="nk-gap-4">
+                <textarea id="messageTextarea" name="message" rows="5" placeholder="Type your message here..."></textarea>
+            </div>
             <!-- START: Reply -->
             <form action="#" novalidate>
                 <div class="containerf">
                     <div class="editor-container">
-                        <textarea id="editor"></textarea>
+                        <!-- <textarea id="editor"></textarea> -->
+                        
+
                     </div>
                 </div>
             </form>
@@ -932,15 +939,69 @@
     </div>
     <!-- END: Login Modal -->
 
-    <script>
+    
+    <!-- <script>
         ClassicEditor
             .create(document.querySelector('#editor'))
             .catch(error => {
                 console.error('無法創建 CKEditor 實例', error);
             });
-    </script>
+    </script> -->
 
     <script>
+        ClassicEditor
+            .create(document.querySelector('#messageTextarea'))
+            .catch(error => {
+                console.error('無法創建 CKEditor 實例', error);
+            });
+
+            // 綁定 replyButton 按鈕的點擊事件
+    $("#replyButton").click(function () {
+        // 獲取 CKEditor 的內容
+        var messageContent = CKEDITOR.instances.messageTextarea.getData();
+
+        // 發送 AJAX 請求
+        $.ajax({
+            url: "http://localhost:8080/carbon/forum/insertDiscussionMessage",
+            type: "POST",
+            dataType: "json",
+            data: { message: messageContent },
+            success: function (response) {
+                // 請求成功後的處理
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                // 請求失敗時的處理
+                console.error(error);
+            }
+        });
+    });
+
+    </script>
+
+
+    <!-- <script>
+        CKEDITOR.replace('editor');
+    </script> -->
+
+
+<!-- <script>
+    CKEDITOR.config.toolbar = [
+        { name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] },
+        { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+        { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'] },
+        { name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak'] },
+        '/',
+        { name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'basicstyles', items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat'] },
+        { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+        { name: 'links', items: ['Link', 'Unlink'] },
+        { name: 'tools', items: ['Maximize'] }
+    ];
+    CKEDITOR.replace('editor');
+</script> -->
+
+    <!-- <script>
         $(document).ready(function () {
             // 監聽"Reply"按鈕的點擊事件
             $('#replyButton').click(function () {
@@ -952,7 +1013,7 @@
                 // 使用Ajax發送POST請求
                 $.ajax({
                     type: 'POST',
-                    url: '/carbon/forum/insertDiscussionMessage', // 替換為實際的URL
+                    url: 'http://localhost:8080/carbon/forum/insertDiscussionMessage', // 替換為實際的URL
                     data: {
                         replyText: replyText
                     },
@@ -969,7 +1030,7 @@
                 });
             });
         });
-    </script>
+    </script> -->
 
 
     <!-- START: Scripts -->
