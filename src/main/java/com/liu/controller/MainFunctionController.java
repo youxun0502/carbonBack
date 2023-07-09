@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -180,8 +180,9 @@ public class MainFunctionController {
 		return "/liu/home";
 	}
 
-	@PostMapping("/main/register")
-	public String memberRegister(@ModelAttribute("memberDto") MemberDto memberDto, Model m)
+	@ResponseBody
+	@PostMapping("/main/api/register")
+	public String memberRegister(@RequestBody MemberDto memberDto)
 			throws AddressException, MessagingException, IOException {
 		Member member = new Member();
 		member.setUserId(memberDto.getId());
@@ -202,8 +203,7 @@ public class MainFunctionController {
 		gService.sendMessage(memberDto.getEmail(), gService.getMyEmail(), "Carbon邀請您驗證您的信箱",
 				"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + memberDto.getId() + "您好:\n" + "\n" + "點選以下連結驗證信箱\n" + "\n" + url
 						+ "\n\n" + "Carbon lys7744110@gmail.com");
-		m.addAttribute("registration", "success");
-		return "/liu/memberLogin";
+		return "success";
 	}
 
 	@GetMapping("/main/emailVerification")
