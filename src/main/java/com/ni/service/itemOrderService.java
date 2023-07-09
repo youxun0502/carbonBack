@@ -37,6 +37,11 @@ public class itemOrderService {
 	}
 	
 	public ItemOrder insert(ItemOrderDTO itemOrder) {
+		if(itemOrder.getBuyer() != null && itemOrder.getSeller() != null) {
+			itemOrder.setStatus(2);
+		} else {
+			itemOrder.setStatus(1);
+		}
 		return orderRepo.save(convertToOrder(itemOrder));
 	}
 	

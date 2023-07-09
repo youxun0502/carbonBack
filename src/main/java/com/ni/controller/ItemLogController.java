@@ -38,12 +38,6 @@ public class ItemLogController {
 	@ResponseBody
 	@PostMapping("/market/newItemLog")
 	public ItemLog insert(@RequestBody ItemLogDTO itemLog) {
-		ItemLog log = itemLogService.findTotalById(itemLog.getMemberId(), itemLog.getItemId());
-		if(log != null) {
-			itemLog.setTotal(log.getTotal() + itemLog.getQuantity()); 
-		} else {
-			itemLog.setTotal(itemLog.getQuantity());
-		}
 		return itemLogService.insert(itemLog);
 	}
 	

@@ -34,3 +34,12 @@
         max-width: 1140px;
     }
 }
+
+.gameItem {
+	display: block;
+}
+
+.gameItem a {
+	color: inherit;
+    text-decoration: none;
+}

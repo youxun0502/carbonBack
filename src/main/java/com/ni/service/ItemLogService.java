@@ -32,6 +32,12 @@ public class ItemLogService {
 	}
 	
 	public ItemLog insert(ItemLogDTO itemLog) {
+		ItemLog log = findTotalById(itemLog.getMemberId(), itemLog.getItemId());
+		if(log != null) {
+			itemLog.setTotal(log.getTotal() + itemLog.getQuantity()); 
+		} else {
+			itemLog.setTotal(itemLog.getQuantity());
+		}
 		return itemLogRepo.save(convertToitemLog(itemLog));
 	}
 	

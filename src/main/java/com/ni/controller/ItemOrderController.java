@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ni.dto.ItemLogDTO;
 import com.ni.dto.ItemOrderDTO;
 import com.ni.model.GameItem;
 import com.ni.model.ItemOrder;
 import com.ni.service.GameItemService;
+import com.ni.service.ItemLogService;
 import com.ni.service.itemOrderService;
 
 @Controller
@@ -31,6 +33,8 @@ public class ItemOrderController {
 	private itemOrderService orderService;
 	@Autowired
 	private GameItemService itemService;
+	@Autowired
+	private ItemLogService logService;
 	
 	@GetMapping("/gameitem/allOrder")
 	public String getAllOrder(Model m) {
@@ -70,8 +74,7 @@ public class ItemOrderController {
 		} 
 		m.addAttribute("item", itemService.findById(itemId));
 		m.addAttribute("orders", result);
-//		show all item that it has any order 
-//		change findSellItemList to findGameitemById and orderList will loading by ajax
+//		改成ResponseBody? 
 		return "ni/itemMarketPage-gg";
 	}
 	
@@ -95,8 +98,32 @@ public class ItemOrderController {
 	}
 	
 	@ResponseBody
+	@PostMapping("/market/done")
+	public ItemOrderDTO buy(@RequestBody ItemOrderDTO orderDTO) {
+		ItemOrder newOrder = orderService.insert(orderDTO);
+		ItemOrderDTO orderInfo = orderService.findById(newOrder.getOrdId());
+		
+		ItemLogDTO logDTO = new ItemLogDTO();
+		logDTO.setOrdId(orderInfo.getOrdId());
+		logDTO.setItemId(orderInfo.getItemId());
+		if(orderInfo.getBuyer() != null) {
+			logDTO.setMemberId(orderInfo.getBuyer());
+			logDTO.setQuantity(orderInfo.getQuantity());
+		} else {
+			logDTO.setMemberId(orderInfo.getSeller());
+			logDTO.setQuantity(Integer.parseInt(("-" + orderInfo.getQuantity())));
+		}
+		
+		logDTO.setItemOrder(newOrder);
+		logService.insert(logDTO);
+		
+		return orderInfo;
+	}
+	
+	@ResponseBody
 	@PostMapping("/market/newOrder")
 	public ItemOrderDTO insert(@RequestBody ItemOrderDTO orderDTO) {
+		
 		ItemOrder newOrder = orderService.insert(orderDTO);
 		return orderService.findById(newOrder.getOrdId());
 	}
