@@ -341,6 +341,18 @@ if(userId != ''){
 	.catch(err => {
 		console.log('err: ' + err);
 	})
+	
+	axios.get('/carbon/market/history',{
+		params: {memberId: memberId}
+	})
+	.then(response => {
+		if(response.data != ''){
+			ordrHistory(response.data);
+		}
+	})
+	.catch(err => {
+		console.log('err: ' + err);
+	})
 }
 
 
@@ -417,6 +429,48 @@ function activeList(data){
 	sellListings.innerHTML = sellListHtml;
 	buyOrders.innerHTML = buyOrderHtml;
 }
+
+
+function activeList(data){
+	let orderHistory = document.getElementById('orderHistory1');
+	let sellListHtml =``;
+	let buyOrderHtml =``;
+	data.forEach((order) => {
+		const createTime = new Date(order.createTime).toISOString().split('T')[0];
+		const orderTime = new Date(order.itemOrder.createTime).toISOString().split('T')[0];
+		sellListHtml +=`
+		<ul class="nk-forum">
+			<li class="p-10">
+	            <div class="nk-forum-activity me-3 d-flex">
+	            	<img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}"
+	                        class="img-fluid" style="max-width: 50px">
+	            </div>
+	            <div class="nk-forum-title my-auto">
+	            	<h3>${order.gameItem.itemName}</h3>
+	            </div>
+	            <div class="nk-forum-activity my-auto">
+	                <div class="nk-forum-activity-title text-center">
+	                    ${orderTime}
+	                </div>
+	            </div>
+	            <div class="nk-forum-activity my-auto">
+	                <div class="nk-forum-activity-title text-center">
+	                    ${createTime}
+	                </div>
+	            </div>
+	            <div class="nk-forum-activity my-auto d-flex justify-content-center">
+	                <div class="nk-forum-activity-title">
+	                    NT$ ${order.price}
+	                </div>
+	            </div>
+	            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
+	            	<a href="#" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#modalDelete" data-id="${order.ordId}">
+	                    棄單
+	                </a>
+	            </div>
+	        </li>
+	    </ul>
+		`;
 
 
 // --------------------------- sell an item ---------------------------  
