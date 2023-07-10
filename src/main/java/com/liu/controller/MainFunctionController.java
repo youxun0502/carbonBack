@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -59,7 +60,7 @@ public class MainFunctionController {
 	public String loginPage(@CookieValue(value = "email", required = false) String cookieValue, Model m,
 			HttpServletRequest request, HttpSession session) {
 		// 有登入就不能進去登入頁面
-		System.out.println(session.getAttribute("character"));
+
 		if (session.getAttribute("character") != null) {
 			return "redirect:/";
 		}
@@ -82,7 +83,7 @@ public class MainFunctionController {
 		System.out.println(email);
 		System.out.println(memberPwd);
 		Member member = mService.isMember(email, memberPwd);
-		
+
 		if (member == null) {
 			m.addAttribute("status", "帳號或密碼輸入錯誤");
 			return "/liu/memberLoginError";
@@ -133,7 +134,8 @@ public class MainFunctionController {
 						|| previousPage.getPreviousPage().equals("/main/registerPage")
 						|| previousPage.getPreviousPage().equals("/main/logout")
 						|| previousPage.getPreviousPage().equals("/main/emailVerification")
-						|| previousPage.getPreviousPage().equals("/main/memberLogin")) {
+						|| previousPage.getPreviousPage().equals("/main/memberLogin")
+						|| previousPage.getPreviousPage().equals("/main/forgetPwdPage")) {
 					return "/liu/home";
 				} else {
 					return "redirect:" + previousPage.getPreviousPage();
@@ -276,5 +278,54 @@ public class MainFunctionController {
 				+ "您好:\n" + "\n" + "點選以下連結驗證信箱\n" + "\n" + url + "\n\n" + "Carbon lys7744110@gmail.com");
 		return "success";
 	}
+
+	@GetMapping("/main/api/forgetPwd")
+	@ResponseBody
+	public String forgetPassword(@RequestParam("email") String email)
+			throws AddressException, MessagingException, IOException {
+		String emailForFinding = email;
+
+		boolean status = mService.emailAlreadyRegistered(emailForFinding);
+
+		if (status == true) {
+			LocalDateTime nowTime = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+			String nowStringTime = nowTime.format(formatter);
+			String url = "http://localhost:8080/carbon/main/forgetPwdPage?email=" + emailForFinding + "&t="
+					+ nowStringTime;
+			gService.sendMessage(email, gService.getMyEmail(), "【Carbon】帳戶救援", "此為系統發送郵件，請勿直接回覆！！！\n" + "\n"
+					+ "點選以下連結進行帳號救援\n" + "\n" + url + "\n\n" + "Carbon lys7744110@gmail.com");
+
+		}
+		return "success";
+	}
+
+	@GetMapping("/main/forgetPwdPage")
+	public String forgetPwdPage(@RequestParam("email") String email, @RequestParam("t") String time, Model m) {
+		LocalDateTime nowTime = LocalDateTime.now();
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+		LocalDateTime oldTime = LocalDateTime.parse(time, dateTimeFormatter);
+
+		Duration duration = Duration.between(oldTime, nowTime);
+
+		long minutes = duration.toMinutes();
+
+		if (minutes <= 5) {
+			m.addAttribute("email", email);
+			m.addAttribute("isExpiration", "no");
+			return "/liu/memberForgetPwdPage";
+		} else {
+			m.addAttribute("isExpiration", "yes");
+			return "/liu/memberForgetPwdPage";
+		}
+
+	}
+	
+	@PutMapping("/main/updatePwdForForgetPwd")
+	public String updatePwdForForgetPwd(@RequestParam("email")String email, @RequestParam("newPwd") String pwd) {
+		mService.changePwdForForgetPwd(email, pwd);
+		return "redirect:/main/loginPage";
+	}
+	
 
 }
