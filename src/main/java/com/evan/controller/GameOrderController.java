@@ -26,7 +26,7 @@ public class GameOrderController {
 	}
 
 	@PostMapping("/gameFront/order/makePayment")
-	public RedirectView  makePayment(@RequestParam Map<String, Object> formData) {
+	public RedirectView  makeLinePayment(@RequestParam Map<String, Object> formData) {
 		return goService.linePayFirstRequest(formData);
     }
 	

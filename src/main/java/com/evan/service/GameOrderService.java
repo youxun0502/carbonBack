@@ -96,7 +96,7 @@ public class GameOrderService {
 		goRepos.deleteById(orderId);
 	}
 
-	//綠界
+	//綠界金流方法
 	public String ecpayCheckout(Map<String, Object> formData) {
 
 		AllInOne all = new AllInOne("");
@@ -125,6 +125,7 @@ public class GameOrderService {
 		return form;
 	}
 
+	//確認訂單狀態
 	public boolean ecpayTradingStatus(Map<String, Object> formData) {
 		AllInOne all = new AllInOne("");
 		QueryTradeInfoObj obj = new QueryTradeInfoObj();
