@@ -104,7 +104,7 @@ function updateBtn() {
 				Swal.fire({
 					position: 'center',
 					icon: 'success',
-					title: 'udpate success',
+					title: '更新成功',
 					showConfirmButton: false,
 					timer: 1000
 				})
@@ -143,13 +143,14 @@ function deleteMember() {
 			let deleteId = this.getAttribute('data-id');
 			deleteData = document.querySelector(`#id${deleteId}`);
 			Swal.fire({
-				title: 'Are you sure?',
-				text: "Members will not be able to log in",
+				title: '確定要凍結此帳號嗎?',
+				text: "會員將會無法登入",
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
 				cancelButtonColor: '#d33',
-				confirmButtonText: 'freeze'
+				cancelButtonText: '取消',
+				confirmButtonText: '凍結'
 			})
 
 			let swal2Confirm = document.querySelector('.swal2-confirm');
@@ -184,11 +185,12 @@ function deleteMember() {
 						}
 					})
 					.then(function () {
-						Swal.fire(
-							'Frozen!',
-							'Member has been frozen.',
-							'success'
-						)
+						Swal.fire({
+							title:'凍結成功',
+							text:'此會員帳號已被凍結',
+							icon:'success',
+							confirmButtonText:'確定'
+							})
 					})
 					.catch(err => {
 						console.log('err: ' + err);
@@ -242,8 +244,8 @@ function restoreDelete() {
 				})
 				.then(function () {
 					Swal.fire({
-						title: 'Finish',
-						text: 'The data has been restored',
+						title: '復原成功',
+						text: '此會員帳號已被復原',
 						icon: 'success',
 						timer: 1000,
 						showConfirmButton: false
