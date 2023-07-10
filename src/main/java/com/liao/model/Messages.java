@@ -59,13 +59,13 @@ public class Messages {
 	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss EEEE",timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "mcreated_at")
-	private Date mcreated_at;
+	@Column(name = "mcreated")
+	private Date mcreated;
 
 	@PrePersist
 	public void onCreate() {
-		if (mcreated_at == null) {
-			mcreated_at = new Date();
+		if (mcreated == null) {
+			mcreated = new Date();
 		}
 	}
 	

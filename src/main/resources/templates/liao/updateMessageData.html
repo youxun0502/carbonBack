@@ -153,7 +153,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">創建日期</label>
-                                <input class="form-control" type="text" name="mcreated_at" th:value="${msg.mcreated_at}" id="mcreated_at">
+                                <input class="form-control" type="text" name="mcreated" th:value="${msg.mcreated}" id="mcreated">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">按讚次數</label>
@@ -190,7 +190,7 @@
                 var gameId = Math.floor(Math.random() * 1000) + 1;
                 var gameName = "Game" + gameId;
                 var mtitle = "Sample Title";
-                var mcreated_at = "2023-06-18";
+                var mcreated = "2023-06-18";
                 var mlikes = Math.floor(Math.random() * 10);
                 var mcontent = "Sample Content";
 
@@ -201,7 +201,7 @@
                 $("#newMessageForm input[name='gameId']").val(gameId);
                 $("#newMessageForm input[name='gameName']").val(gameName);
                 $("#newMessageForm input[name='mtitle']").val(mtitle);
-                $("#newMessageForm input[name='mcreated_at']").val(mcreated_at);
+                $("#newMessageForm input[name='mcreated']").val(mcreated);
                 $("#newMessageForm input[name='mlikes']").val(mlikes);
                 $("#newMessageForm input[name='mcontent']").val(mcontent);
                 

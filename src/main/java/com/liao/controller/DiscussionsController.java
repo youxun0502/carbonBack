@@ -195,22 +195,22 @@ public class DiscussionsController {
 		return "redirect:/forum/" +gameName;
 	}
 	
-	@ResponseBody
-	@GetMapping("/forum/api/page")
-	public Page<Discussions> showMessagesApi(@RequestParam(name="p",defaultValue = "1") Integer pageNumber){
-		Page<Discussions> page = dService.findByPage(pageNumber);
-		return page;
-	}
+//	@ResponseBody
+//	@GetMapping("/forum/api/page")
+//	public Page<Discussions> showMessagesApi(@RequestParam(name="p",defaultValue = "1") Integer pageNumber){
+//		Page<Discussions> page = dService.findByPage(pageNumber);
+//		return page;
+//	}
 	
-	@ResponseBody
-	@PostMapping("/messages/api/post")
-	public Page<Discussions> postMessageApi(@RequestBody Discussions discussions){
-		dService.insert(discussions);
-		
-		Page<Discussions> page = dService.findByPage(1);
-		
-		return page;
-	}
+//	@ResponseBody
+//	@PostMapping("/messages/api/post")
+//	public Page<Discussions> postMessageApi(@RequestBody Discussions discussions){
+//		dService.insert(discussions);
+//		
+//		Page<Discussions> page = dService.findByPage(1);
+//		
+//		return page;
+//	}
 	
 	
 	

@@ -500,6 +500,7 @@
             <!-- START: Pagination -->
             <div class="row justify-content-end">
                 <div class="col-md-3 text-right">
+                    <input id="myMessage" required />
                     <a id="replyButton" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a>
                     
                     <!-- <a th:href="@{#forum-reply}" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a> -->
@@ -560,12 +561,10 @@
                                 <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span>
                                     Reply</a>
                             </span>
-                            <span class="nk-forum-action-btn">
-                                <a href="#"><span class="fa fa-flag"></span> Spam</a>
-                            </span>
+                            <button th:id="'likeButton-' + ${message.messageId}" class="likeButton">按讚</button>
+                            <span th:id="'likesCount-' + ${message.messageId}" class="likesCount">0</span> 個讚
                         </div>
-                </th:block>
-                </th:block>
+                
                 </th:block>
                 </li>
                 <!-- <li>
@@ -948,7 +947,113 @@
             });
     </script> -->
 
+    <!-- <script>
+        document.getElementById('replyButton').addEventListener('click', function (event) {
+            event.preventDefault();
+
+            const inputText = document.getElementById('myMessage').value;
+            const dtoJsObject = { text: inputText }
+            const dtoJsonString = JSON.stringify(dtoJsObject);
+            const url = 'http://localhost:8080/carbon/messages/api/post'
+
+            // ajax
+            fetch(url, {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: dtoJsonString
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((jsPageObject) => {
+                    htmlMaker(jsPageObject)
+                })
+
+        })
+
+        function htmlMaker(data) {
+            msg_data = '<tbody>'
+            data.content.forEach(el => {
+                msg_data += '<tr>'
+                msg_data += '<td>' + el.text + '</td>'
+                msg_data += '<td>' + el.added + '</td>'
+                msg_data += '</tr>'
+            })
+            msg_data += '</tbody>'
+
+            let totalPages = data.totalPages
+
+            for (var i = 1; i <= totalPages; i++) {
+                msg_data += '<button class="pageBtn" data-pageid="' + i + '">' + i + '</bitton>'
+            }
+
+
+            const myTable = document.getElementById('list_json_data')
+            myTable.getElementsByTagName('tbody')[0].innerHTML = msg_data;
+        }
+
+        //抓 page json 的 ajax
+        function loadThatPage(thatPage) {
+
+        }
+
+
+    </script> -->
+
+    
+
+        <!-- <script>
+            $(document).ready(function() {
+    // 按讚按鈕點擊事件處理函式
+    $('.likeButton').click(function() {
+        var messageId = $(this).attr('id').split('-')[1];
+        var likesCountElement = $('#likesCount-' + messageId);
+        
+        // 模擬後端處理按讚+1的動作
+        var likesCount = parseInt(likesCountElement.text());
+        likesCount++;
+        
+        // 更新按讚數量的顯示
+        likesCountElement.text(likesCount);
+    });
+});
+        </script> -->
+
     <script>
+        $(document).ready(function() {
+            // 按讚按鈕點擊事件處理函式
+            $('.likeButton').click(function() {
+                var messageId = $(this).attr('id').split('-')[1];
+                var likesCountElement = $('#likesCount-' + messageId);
+                
+                // 模擬後端處理按讚+1的動作
+                var likesCount = parseInt(likesCountElement.text());
+                likesCount++;
+                
+                // 更新按讚數量的顯示
+                likesCountElement.text(likesCount);
+                
+                // 發送AJAX請求更新後端的mlike值
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8080/carbon/updateLikeCount', // 替換為實際的後端URL
+                    data: {
+                        messageId: messageId
+                    },
+                    success: function(response) {
+                        console.log('按讚數量已更新');
+                        // 更新成功時的處理邏輯
+                    },
+                    error: function(xhr, status, error) {
+                        // 處理錯誤
+                        console.error('更新按讚數量時發生錯誤:', error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- <script>
         ClassicEditor
             .create(document.querySelector('#messageTextarea'))
             .catch(error => {
@@ -977,7 +1082,7 @@
         });
     });
 
-    </script>
+    </script> -->
 
 
     <!-- <script>

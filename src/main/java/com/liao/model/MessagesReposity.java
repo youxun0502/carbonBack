@@ -17,4 +17,6 @@ public interface MessagesReposity extends JpaRepository<Messages, Integer> {
 	@Query("FROM Messages m WHERE m.gameName LIKE %:gameName%")
 	public List<Messages> findMessagesByGameName(@PathVariable("gameName") String gameName);
 	
+	
+	
 }

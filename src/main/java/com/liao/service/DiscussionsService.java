@@ -84,7 +84,7 @@ public class DiscussionsService {
     }
 	
 	public Page<Discussions> findByPage(Integer pageNumber){
-		Pageable pgb = PageRequest.of(pageNumber-1, 5, Sort.Direction.DESC, "added");
+		Pageable pgb = PageRequest.of(pageNumber-1, 5, Sort.Direction.DESC, "lastReplyTime");
 		
 		Page<Discussions> page = dRepo.findAll(pgb);
 		
