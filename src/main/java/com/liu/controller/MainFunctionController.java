@@ -227,14 +227,14 @@ public class MainFunctionController {
 
 			if (result == true) {
 				m.addAttribute("status", "信箱驗證成功");
-				return "/liu/emailVerification";
+				return "/liu/memberEmailVerification";
 			} else {
 				m.addAttribute("status", "信箱驗證失敗，請聯繫客服");
-				return "/liu/emailVerification";
+				return "/liu/memberEmailVerification";
 			}
 		} else {
 			m.addAttribute("status", "驗證網址過期，請重新取得驗證網址");
-			return "/liu/emailVerification";
+			return "/liu/memberEmailVerification";
 		}
 
 	}
