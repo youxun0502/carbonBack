@@ -15,7 +15,9 @@ public class BonusShopDto {
 		private Integer bonusId;
 		private Integer memberId;		
 		private String bonusName;
+		private String bonusType;
 		private Integer bonusprice;
+		
 		
 		private String bonusDes;
 		private Boolean status;

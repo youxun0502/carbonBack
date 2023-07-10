@@ -55,6 +55,7 @@ public class BonusShopController {
 			oneDto.setBonusName(oneData.getBonusName());
 			oneDto.setBonusprice(oneData.getBonusPrice());
 			oneDto.setBonusDes(oneData.getBonusDes());
+			oneDto.setBonusType(oneData.getBonusType());
 			return oneDto;
 		} else {
 			return null;
@@ -83,8 +84,8 @@ public class BonusShopController {
 	@ResponseBody
 	@PostMapping("/bonus-shop/api/findBonusLog")
 	public List<BonusShopDto> findBonusLogByMemberid(@RequestBody BonusShopDto bonusshopDto,Model model) {
-		System.out.println("ININININININININININININININ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println(bonusshopDto.getMemberId());
+//		System.out.println("ININININININININININININININ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		System.out.println(bonusshopDto.getMemberId());
 
 //	blService.findByMemberIdtoDto(bonusshopDto.getMemberId());
 	return blService.findByMemberIdtoDto(bonusshopDto.getMemberId());

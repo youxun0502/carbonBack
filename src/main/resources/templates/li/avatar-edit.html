@@ -51,46 +51,89 @@
 </head>
 
 <body>
-	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
-	<section class="my-4">
-		<div class="container">
-			<div class="profile_header_bg">
-				<div class="profile_header_bg_text">
-					<div class="profile_header">
-						<div class="profile_header_layout">
-							<div class="profile_header_personalinfo">
-								<div class="personal_name">NAME</div>
-							</div>
-							<a href="#" data-toggle="modal" data-target="#modalAvatar">
-								<div class="personal_avatar">
-									<div class="personal_avatar_innersize">
-										<div class="profile_avatar_frame">
-											<img src="/carbon/img/userFrameDefault.png">
-										</div>
 
-										<img class="profile_avatar_img" src="/carbon/img/userAvatarDefault.gif">
-									</div>
-								</div>
-							</a>
+
+
+
+	<div class="nk-modal modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-xl modal-xl" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span class="ion-android-close"></span>
+					</button>
+
+					<h4 class="mb-0"><span class="text-main-1">Sign</span> In</h4>
+
+					<div class="nk-gap-1"></div>
+
+
+					<!-- START: Accordion 1 -->
+					<div class="nk-accordion" id="edit-avatar-box" role="tablist" aria-multiselectable="true">
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="edit-avatar-heading">
+								<a class="collapsed" data-toggle="collapse" data-parent="#edit-avatar-box"
+									href="#edit-avatar" aria-expanded="true" aria-controls="edit-avatar">
+									頭像 <span class="panel-heading-arrow fa fa-angle-down"></span>
+								</a>
+							</div>
+							<div id="edit-avatar" class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="edit-avatar-heading">
+								
+
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="edit-frame-heading">
+								<a data-toggle="collapse" data-parent="#edit-avatar-box" href="#edit-frame"
+									aria-expanded="false" aria-controls="edit-frame">
+									外框<span class="panel-heading-arrow fa fa-angle-down"></span>
+								</a>
+							</div>
+							<div id="edit-frame" class="panel-collapse collapse show" role="tabpanel"
+								aria-labelledby="edit-frame-heading">
+							
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="edit-bg-heading">
+								<a class="collapsed" data-toggle="collapse" data-parent="#edit-avatar-box"
+									href="#edit-bg" aria-expanded="false" aria-controls="edit-bg">
+									背景 <span class="panel-heading-arrow fa fa-angle-down"></span>
+								</a>
+							</div>
+							<div id="edit-bg" class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="edit-bg-heading">
+						
+							</div>
 						</div>
 					</div>
+					<!-- END: Accordion 1 -->
+
+					<div class="nk-gap-1"></div>
+					<div class="row vertical-gap">
+						<div class="col-md-6">
+							<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block">Sign
+								In</a>
+						</div>
+						<div class="col-md-6">
+							<div class="mnt-5">
+								<small><a href="#">Forgot your password?</a></small>
+							</div>
+							<div class="mnt-5">
+								<small><a href="#">Not a member? Sign up</a></small>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
-
-
 		</div>
-
-	</section>
-	
-<div th:replace="~{layout/footer}"></div>
-
-<div th:replace="~{li/avatar-edit}"></div>
+	</div>
 
 
 
-	
 
-	
 	<script th:src="@{/js/profile-avataredit.js}"></script>
 
 	<!-- START: Scripts -->

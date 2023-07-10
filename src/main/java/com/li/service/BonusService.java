@@ -39,7 +39,7 @@ public class BonusService {
 	}
 	
 	@Transactional
-	public BonusItem updateBonusItemById(Integer id, String newName,Integer newPrice,String newDes,Boolean status) {
+	public BonusItem updateBonusItemById(Integer id, String newName,Integer newPrice,String newDes,Boolean status,String newType) {
 		Optional<BonusItem> optional = bRepo.findById(id);
 		
 		if(optional.isPresent()) {
@@ -48,6 +48,7 @@ public class BonusService {
 			msg.setBonusPrice(newPrice);
 			msg.setBonusDes(newDes);
 			msg.setStatus(status);
+			msg.setBonusType(newType);
 			return msg;
 		}
 		

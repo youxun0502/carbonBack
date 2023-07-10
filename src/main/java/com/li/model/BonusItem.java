@@ -39,6 +39,8 @@ public class BonusItem {
 	@Column(name = "status")
 	private boolean status;
 	
+	@Column(name = "bonusType")
+	private String bonusType;
 
 
 	public BonusItem() {
@@ -100,6 +102,14 @@ public class BonusItem {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public String getBonusType() {
+		return bonusType;
+	}
+
+	public void setBonusType(String bonusType) {
+		this.bonusType = bonusType;
 	}
 	
 	

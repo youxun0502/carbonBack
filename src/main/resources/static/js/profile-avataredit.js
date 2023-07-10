@@ -1,6 +1,10 @@
 const personal_avatar = document.getElementsByClassName('personal_avatar')[0];
 const avatarselects = document.getElementById('fullmodal-avatar');
 const userlogin = document.getElementById('memberId');
+const avatar_box = document.getElementById('edit-avatar');
+const frame_box = document.getElementById('edit-frame');
+const bg_box = document.getElementById('edit-bg');
+
 let userid = 0;
 if (userlogin == null) {
 	userid = -9999;
@@ -12,7 +16,7 @@ let bonusLog;
 if (avatarselects) {
 	console.log("avatarselects is exist!!");
 }
-
+editboxMaker();
 //--------------------------click personal_avatar-------------------------------------------//
 personal_avatar.addEventListener('click', function (e) {
 	e.preventDefault();
@@ -20,7 +24,11 @@ personal_avatar.addEventListener('click', function (e) {
 });
 //---------------------------get bonuslog-------------------------------------------------//
 function getBonusLog(userid) {
-	console.log("getBonusLog");
+	console.log("getBonusLog    userid:" + userid);
+
+}
+
+function editboxMaker() {
 	axios({
 		url: '/carbon/bonus-shop/api/findBonusLog',
 		method: 'post',
@@ -29,58 +37,81 @@ function getBonusLog(userid) {
 		}
 	})
 		.then(res => {
-			console.log("res:" + res.data[0].logId);
+			console.log("res:" + res.data[0].bonusitem.bonusName);
+			console.log("length:" + res.data.length);
 			bonusLog = res.data;
+			let avatars;
+			let frames;
+			let bgs;
 
-			avatarselects.innerHTML = infoHtmlString;
-			avatarselects.classList.add("showDiv");
+
+
+			avatar_box.innerHTML += ` <div class="col-lg-8">
+				<div class="nk-popup-gallery">
+                <div class="row vertical-gap">`;
+			for (let i = 0; i < bonusLog.length; i++) {
+				if (bonusLog[i].bonusitem.bonusType == "avatar") {
+					avatar_box.innerHTML += `				
+						
+						<div class="col-lg-4 col-md-6">
+                        <div class="nk-gallery-item-box">
+						
+                                
+						<img class="nk-gallery-item" src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+						</div>
+						</div>
+						
+					`;
+				}
+				else if (bonusLog[i].bonusitem.bonusType == "frame") {
+					frame_box.innerHTML += `
+					<div class="personal_avatar">
+					<div class="personal_avatar_innersize">
+						<div class="profile_avatar_frame">
+							
+						</div>
+		
+						<img class="profile_avatar_img" src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+					</div>
+				</div>`;
+				}
+				else if (bonusLog[i].bonusitem.bonusType == "background") {
+					bg_box.innerHTML += `
+					<div class="personal_avatar">
+					<div class="personal_avatar_innersize">
+						<div class="profile_avatar_frame">
+							
+						</div>
+		
+						<img class="profile_avatar_img" src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+					</div>
+				</div>`;
+				}
+
+			}
+
+			avatar_box.innerHTML += `</div>
+			</div>
+			</div>`;
+
+
+
+			// 	avatar_box.innerHTML = `
+			// 	<div class="personal_avatar">
+			// 	<div class="personal_avatar_innersize">
+			// 		<div class="profile_avatar_frame">
+
+			// 		</div>
+
+			// 		<img class="profile_avatar_img" src="/carbon/downloadImage/${bonusLog[0].bonusitem.bonusId}">
+			// 	</div>
+			// </div>`;
+
+
 			console.log("DONE~~~~~~~~~~~~~~~");
 		})
 		.catch(err => {
 			console.log("err:" + err);
 		})
-}
-
-function htmlMaker(data) {
-	if (avatarselects) {
-		console.log("avatarselects is exist!!222222");
-	} else {
-		console.log("WROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONG");
-	}
-	let infoHtmlString = `
-    <div class="fullmodal-avatar">
-		<div class="modalContent modal_bg"></div>
-		<div class="modalContent modal_active" tabindex="-1">
-			<div class="modalPosition" tabindex="1">
-				<div class="modalPosition_Content">
-					<div class="modalPosition_topbar"></div>
-					<div class="modalContainer">
-						<div class="Header_Containner">
-							<div>
-								<div class="bonusfile_header Panel Focusable">BonusName</div>
-								<div class="bonusfile_subheader">BonusType</div>
-							</div>
-						</div>
-						<div class="bgPreview_Container">
-							<div class="previewContainer itemPreviewContainer">IMG</div>
-
-							<div class="itemButtonContainer">
-								<div class="modalButton">
-									<div class="pointer_Container">
-										<div class="point_price">2000PRICE</div>
-									</div>
-								</div>
-								<div class="modal_cancelButton">取消</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-		</div>
-	</div>`;
-	avatarselects.innerHTML = infoHtmlString;
-	avatarselects.classList.add("showDiv");
 
 }
