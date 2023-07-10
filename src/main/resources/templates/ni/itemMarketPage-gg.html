@@ -26,7 +26,7 @@
 </head>
 
 <body>
-<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin-gg} : ~{layout/navHome-gg} "></div>
+<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome}"></div>
 
 <div class="nk-main">
         
@@ -60,6 +60,7 @@
 	                        </div>
 	                    </div>
 	                    <div class="col-md-6">
+	                        <div class="d-none" id="itemId1" th:text="${item.itemId}"></div>
 	
 	                        <h2 class="nk-product-title h3">[[${item.itemName}]]</h2>
 	
@@ -73,8 +74,10 @@
                 </div>
             </div>
         </div>
-	        
-	    <div class="nk-gap-21"></div>
+        <h4 class="nk-decorated-h-2"><span>中位販售價格</span></h4>
+	    <div class="col-lg-10" id="noHistory1"><canvas class="salesPriceChart1"></canvas></div>  
+	      
+	    <div class="nk-gap-2"></div>
         <ul class="nk-forum text-white">
 	        <li class="p-10">
 	            <div class="nk-forum-title my-auto">
@@ -114,7 +117,8 @@
 	    <div class="nk-gap-1"></div>
 	     <!-- ----------- change to ajex ----------- -->
 	     <div id="itemList1">
-		    <ul class="nk-forum text-white">
+	    	<th:block th:switch="${not #lists.isEmpty(orders)}">
+		    <ul th:case="true" class="nk-forum text-white">
 		    	<th:block th:each="order: ${orders}">
 		            <li class="p-10">
 		                <div class="nk-forum-activity me-3 d-flex">
@@ -142,6 +146,12 @@
 		            </li>
 		        </th:block>
 	        </ul>
+	        <div th:case="false">
+	        	<div class="nk-box-5 bg-dark-2">
+                	<h4 class="m-10 text-center">此物品尚無訂單</h4>
+                </div>
+			</div>
+	        </th:block>
 	     </div>
     	<div class="nk-gap-3"></div>
     </div>
@@ -276,6 +286,8 @@
 </div>
     <div th:replace="~{layout/footer}"></div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
     <script th:src="@{/js/itemMarket.js}"></script>
 </body>
 

@@ -1,6 +1,8 @@
 package com.ni.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.liu.model.Member;
+import com.liu.service.GmailService;
+import com.liu.service.MemberService;
 import com.ni.dto.ItemLogDTO;
 import com.ni.dto.ItemOrderDTO;
 import com.ni.model.GameItem;
@@ -25,6 +30,9 @@ import com.ni.model.ItemOrder;
 import com.ni.service.GameItemService;
 import com.ni.service.ItemLogService;
 import com.ni.service.itemOrderService;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
 
 @Controller
 public class ItemOrderController {
@@ -35,6 +43,10 @@ public class ItemOrderController {
 	private GameItemService itemService;
 	@Autowired
 	private ItemLogService logService;
+	@Autowired
+	private GmailService gService;
+	@Autowired
+	private MemberService mService;
 	
 	@GetMapping("/gameitem/allOrder")
 	public String getAllOrder(Model m) {
@@ -70,7 +82,7 @@ public class ItemOrderController {
 		List<ItemOrderDTO> result = orderService.findSellItemList(gameId, itemName, pageNumber);
 		if(result.isEmpty()) {
 			m.addAttribute("item", itemService.findById(itemId));
-			return "ni/itemMarketPage-noOrder";
+			return "ni/itemMarketPage-gg";
 		} 
 		m.addAttribute("item", itemService.findById(itemId));
 		m.addAttribute("orders", result);
@@ -99,7 +111,7 @@ public class ItemOrderController {
 	
 	@ResponseBody
 	@PostMapping("/market/done")
-	public ItemOrderDTO buy(@RequestBody ItemOrderDTO orderDTO) {
+	public ItemOrderDTO buy(@RequestBody ItemOrderDTO orderDTO) throws AddressException, MessagingException, IOException {
 		ItemOrder newOrder = orderService.insert(orderDTO);
 		ItemOrderDTO orderInfo = orderService.findById(newOrder.getOrdId());
 		
@@ -109,6 +121,20 @@ public class ItemOrderController {
 		if(orderInfo.getBuyer() != null) {
 			logDTO.setMemberId(orderInfo.getBuyer());
 			logDTO.setQuantity(orderInfo.getQuantity());
+			
+			Member buyer = mService.findById(orderInfo.getBuyer());
+			Member seller = mService.findById(orderInfo.getSeller());
+			
+			String url = "http://localhost:8080/carbon/profiles/inventory";
+			gService.sendMessage(buyer.getEmail(), gService.getMyEmail(), "Carbon虛寶市集交易成功通知",
+					"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + buyer.getUserId() + "您好:\n" + "\n" + 
+					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + url
+					+ "\n\n" + "Carbon lys7744110@gmail.com");
+			gService.sendMessage(seller.getEmail(), gService.getMyEmail(), "Carbon虛寶市集交易成功通知",
+					"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + seller.getUserId() + "您好:\n" + "\n" + 
+					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + url
+					+ "\n\n" + "Carbon lys7744110@gmail.com");
+			
 		} else {
 			logDTO.setMemberId(orderInfo.getSeller());
 			logDTO.setQuantity(Integer.parseInt(("-" + orderInfo.getQuantity())));
@@ -123,7 +149,6 @@ public class ItemOrderController {
 	@ResponseBody
 	@PostMapping("/market/newOrder")
 	public ItemOrderDTO insert(@RequestBody ItemOrderDTO orderDTO) {
-		
 		ItemOrder newOrder = orderService.insert(orderDTO);
 		return orderService.findById(newOrder.getOrdId());
 	}
@@ -139,6 +164,12 @@ public class ItemOrderController {
 	@GetMapping("/market/itemPrices")
 	public List<ItemOrderDTO> findByItemIdAndStatus(@RequestParam("itemId") Integer itemId) {
 		return orderService.findByItemIdAndStatus(itemId);
+	}
+	
+	@ResponseBody
+	@GetMapping("/market/medianPrice")
+	public List<Map<String, Object>> findMedianPrice(@RequestParam("itemId") Integer itemId) {
+		return orderService.findMedianPrice(itemId);
 	}
 	
 	@ResponseBody

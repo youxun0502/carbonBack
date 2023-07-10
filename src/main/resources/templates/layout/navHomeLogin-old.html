@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<!-- START: Styles -->
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet"
+		type="text/css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}">
+
+	<!-- FontAwesome -->
+	<script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
+	<script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
+
+	<!-- IonIcons -->
+	<link rel="stylesheet" th:href="@{/assets/vendor/ionicons/css/ionicons.min.css}">
+
+	<!-- Flickity -->
+	<link rel="stylesheet" th:href="@{/assets/vendor/flickity/dist/flickity.min.css}">
+
+	<!-- Photoswipe -->
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/photoswipe/dist/photoswipe.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/photoswipe/dist/default-skin/default-skin.css}">
+
+	<!-- Seiyria Bootstrap Slider -->
+	<link rel="stylesheet" th:href="@{/assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css}">
+
+	<!-- Summernote -->
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/summernote/dist/summernote-bs4.css}">
+
+	<!-- GoodGames -->
+	<link rel="stylesheet" th:href="@{/assets/css/goodgames.css}">
+
+	<!-- Custom Styles -->
+	<link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+	<!-- END: Styles -->
+
+	<!-- jQuery -->
+	<script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
+
+	<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+	<script th:src="@{/js/axios.min.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+	<script th:src="@{/js/jquery-ui.min.js}"></script>
+	<script src="https://kit.fontawesome.com/f3a13d5fed.js" crossorigin="anonymous"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
+	<link rel="stylesheet" th:href="@{/css/home.css}">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<title>Carbon</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark" data-bs-theme="dark">
+		<div class="container">
+			<form method="GET" th:action="@{/main/goBackToHome}">
+				<button class="navbar-brand" type="submit"
+					style="background-color: transparent; border-color: transparent;">
+					<i class="d-inline-block align-text-top fa-solid fa-gamepad"
+						style="color: #6fb7d4; font-size: 1.5em;">CARBON</i>
+				</button>
+			</form>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+				aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="navbarText">
+				<ul class="navbar-nav mb-2 mb-lg-0">
+					<li class="nav-item d-flex" style="align-items:center">
+						<div class="nk-cart-toggle ">
+							<span class="fa fa-shopping-cart" style="color:#fff"></span>
+							<span class="nk-badge" style="color:#fff" id="cartItemCount">0</span>
+						</div>
+						<div class="nk-cart-dropdown">
+
+							<!-- 購物車區塊 -->
+							<div id="cartItems"></div>
+
+
+							<div class="nk-gap-2"></div>
+							<div class="text-center">
+								<a th:href="@{/gameFront/cartList(memberId=${session.memberBeans.id})}"
+									class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">前往購物車</a>
+							</div>
+						</div>
+					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/gameFront}">GAME</a></li>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" href="#" aria-expanded="false">MARKET</a>
+						<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" th:href="@{/bonus-shop/main}">Bonus Shop</a></li>
+
+						</ul>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" href="#" aria-expanded="false">EVENT</a>
+						<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" th:href="@{/competitionPageAll}">CompetitionPage</a>
+							</li>
+							<li><a class="dropdown-item text-light" th:href="@{/eventPageAll}">EventPage</a></li>
+						</ul>
+					<li class="nav-item"><a class="nav-link" href="#">DISCUSSIONS</a>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" href="#" aria-expanded="false"
+							th:text="${session.memberBeans.userId}"></a>
+						<ul class="dropdown-menu bg-dark text-light">
+							<li><a class="dropdown-item text-light" href="#">My game</a></li>
+							<li><a class="dropdown-item text-light" href="#">My item</a></li>
+							<li><a class="dropdown-item text-light" href="#">Something
+									else here</a></li>
+							<li><a class="dropdown-item text-light" th:href="@{/coupon/couponPage}">抽取優惠</a></li>
+							<li>
+								<hr class="dropdown-divider text-light">
+							</li>
+							<li>
+								<form class="dropdown-item" th:action="@{/main/logout}" method="GET" id="logoutForm">
+									<input type="text" th:value="${session.memberBeans.id}" name="id" hidden="true" />
+									<div class="logout_btn text-light">登 出</div>
+								</form>
+							</li>
+						</ul>
+				</ul>
+			</div>
+		</div>
+		<div class="d-none" id="memberId" th:data-user-id="${session.memberBeans.id}">[[${session.memberBeans.id}]]
+		</div>
+	</nav>
+	<script th:src="@{/js/cart_game_login.js}"></script>
+	<script th:src="@{/js/home.js}"></script>
+	<!-- START: Scripts -->
+
+	<!-- Object Fit Polyfill -->
+	<script th:src="@{/assets/vendor/object-fit-images/dist/ofi.min.js}"></script>
+
+	<!-- GSAP -->
+	<script th:src="@{/assets/vendor/gsap/src/minified/TweenMax.min.js}"></script>
+	<script th:src="@{/assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js}"></script>
+
+	<!-- Popper -->
+	<script th:src="@{/assets/vendor/popper.js/dist/umd/popper.min.js}"></script>
+
+	<!-- Bootstrap -->
+	<script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+	<!-- Sticky Kit -->
+	<script th:src="@{/assets/vendor/sticky-kit/dist/sticky-kit.min.js}"></script>
+
+	<!-- Jarallax -->
+	<script th:src="@{/assets/vendor/jarallax/dist/jarallax.min.js}"></script>
+	<script th:src="@{/assets/vendor/jarallax/dist/jarallax-video.min.js}"></script>
+
+	<!-- imagesLoaded -->
+	<script th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+
+	<!-- Flickity -->
+	<script th:src="@{/assets/vendor/flickity/dist/flickity.pkgd.min.js}"></script>
+
+	<!-- Photoswipe -->
+	<script th:src="@{/assets/vendor/photoswipe/dist/photoswipe.min.js}"></script>
+	<script th:src="@{/assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js}"></script>
+
+	<!-- Jquery Validation -->
+	<script th:src="@{/assets/vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
+
+	<!-- Jquery Countdown + Moment -->
+	<script th:src="@{/assets/vendor/jquery-countdown/dist/jquery.countdown.min.js}"></script>
+	<script th:src="@{/assets/vendor/moment/min/moment.min.js}"></script>
+	<script th:src="@{/assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js}"></script>
+
+	<!-- Hammer.js -->
+	<script th:src="@{/assets/vendor/hammerjs/hammer.min.js}"></script>
+
+	<!-- NanoSroller -->
+	<script th:src="@{/assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js}"></script>
+
+	<!-- SoundManager2 -->
+	<script th:src="@{/assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js}"></script>
+
+	<!-- Seiyria Bootstrap Slider -->
+	<script th:src="@{/assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js}"></script>
+
+	<!-- Summernote -->
+	<script th:src="@{/assets/vendor/summernote/dist/summernote-bs4.min.js}"></script>
+
+	<!-- nK Share -->
+	<script th:src="@{/assets/plugins/nk-share/nk-share.js}"></script>
+
+	<!-- GoodGames -->
+	<script th:src="@{/assets/js/goodgames.min.js}"></script>
+	<script th:src="@{/assets/js/goodgames-init.js}"></script>
+	<!-- END: Scripts -->
+</body>
+
+</html>

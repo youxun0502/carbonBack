@@ -10,8 +10,28 @@ let removeHtml;
 
 // =========================== itemMarketPage ===========================  
 // --------------------------- show page ---------------------------
-
-
+$(function(){
+	let itemId = document.getElementById('itemId1').textContent;
+	axios({
+        url: '/carbon/market/medianPrice',
+        method: 'get',
+        params: {
+            itemId: itemId
+        }
+    })
+        .then(response => {
+			if(response.data != ''){
+	            medianPriceChart(response.data);
+			} else {
+				let noHistory = document.getElementById('noHistory1');
+				noHistory.innerHTML = `<h4 class="m-10 text-center">此物品尚無歷史價格</h4>`;
+			}
+        })
+        .catch(err => {
+            console.log('err: ' + err);
+        })
+	
+})
 // --------------------------- buy an item page ---------------------------
 for (i = 0; i < buyBtn.length; i++) {
     buyBtn[i].addEventListener('click', function (e) {
@@ -486,7 +506,7 @@ function inventoryPage(data) {
 
     inventoryList.innerHTML = itemListHtml;
     showItemInfo(data);
-    showSalePage();
+    showSalePage(data[0]);
 }
 
 
@@ -523,27 +543,27 @@ function showItemInfo(data) {
 			        	`;
             }
             oneItem.innerHTML = oneItemHtml;
-            showSalePage()
+            showSalePage(data[id])
         })
     }
 }
 
 
 // --------------------------- sell page ---------------------------  
-function showSalePage() {
+function showSalePage(data) {
     const sellBtn = document.getElementById('sellBtn1');
     sellBtn.addEventListener('click', function () {
         let itemId = this.getAttribute('data-itemId');
         console.log('itemId: ' + itemId);
         axios({
-            url: '/carbon/market/itemPrices',
+            url: '/carbon/market/medianPrice',
             method: 'get',
             params: {
                 itemId: itemId
             }
         })
             .then(response => {
-                showSaleInfo(response.data);
+                showSaleInfo(data, response.data);
             })
             .catch(err => {
                 console.log('err: ' + err);
@@ -554,24 +574,24 @@ function showSalePage() {
 
 // --------------------------- sale info --------------------------- 
 var salesPriceChart;
-function showSaleInfo(order) {
+function showSaleInfo(order, medianPrice) {
     let saleItem = document.getElementById('saleItem1');
     let saleHtmlString = `
         <div class="d-flex border-bottom border-secondary">
         	<div class="nk-popup-gallery col-4">
         		<div class="nk-gallery-item-box">
-                	<img src="/carbon/market/downloadImage/${order[0].itemId}" alt="${order[0].gameItem.itemImgName}">
+                	<img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}">
                 </div>
             </div>
             <div class="col-8">
-                <h3>${order[0].gameItem.itemName}</h3>
-                <span>${order[0].gameItem.game.gameName}</span>
+                <h3>${order.gameItem.itemName}</h3>
+                <span>${order.gameItem.game.gameName}</span>
             </div>
         </div>
         <hr class="text-white">`;
         saleHtmlString += `
-            <div class="">
-            	<canvas id="salesPriceChart1"></canvas>
+            <div id="noHistory1">
+            	<canvas class="salesPriceChart1"></canvas>
             </div>`;
     saleHtmlString += `
         <hr>
@@ -605,51 +625,12 @@ function showSaleInfo(order) {
     `;
     saleItem.innerHTML = saleHtmlString;
     
-    chart(order);
-    // ------------- Chart.js ------------- 
-    function chart(data){
-		const sellPriceData = data.map(order => ({
-    		 time: new Date(order.createTime).toISOString().split('T')[0], 
-    		 price: order.price 
-    	}));
-    	const footer = (soled) => {
-		  let sum = 0;
-		
-		  return '賣出: ' + sum;
-		};
-		//console.log(sellPriceData)
-	    salesPriceChart = new Chart(
-	    document.getElementById('salesPriceChart1'),
-	    {
-	      type: 'line',
-	      data: {
-	        labels: sellPriceData.map(row => row.time),
-	        datasets: [{
-	          label: 'price',
-	          data: sellPriceData.map(row => row.price),
-	        }]
-	      },
-	      options: {
-		    responsive: true,
-		    plugins: {
-		      legend: {
-		        position: 'top',
-		      },
-		      title: {
-		        display: true,
-		        text: 'Chart.js Line Chart'
-		      },
-		      tooltip: {
-		        callbacks: {
-		          footer: footer,
-		        }
-		      }
-		    }
-		  },
-	    }
-	  );
+    if(medianPrice != ''){
+	    medianPriceChart(medianPrice);
+	} else {
+		let noHistory = document.getElementById('noHistory1');
+		noHistory.innerHTML = `<h4 class="m-10 text-center">此物品尚無歷史價格</h4>`;
 	}
-    
     
     let salePrice;
     let buyPrice;
@@ -693,7 +674,7 @@ function showSaleInfo(order) {
 	                url: '/carbon/market/done',
 	                method: 'post',
 	                data: {
-	                    itemId: order[0].itemId,
+	                    itemId: order.itemId,
 	                    seller: userId,
 	                    quantity: 1,
 	                    price: price,
@@ -760,6 +741,100 @@ function showSaleInfo(order) {
 
 }
 
+// =========================== medianPrice charts.js ===========================   
+function medianPriceChart(data){
+	const sellPriceData = data.map(order => ({
+		 time: order.time, 
+		 medianPrice: order.medianPrice, 
+	}));
+	const decimation = {
+	  enabled: false,
+	  algorithm: 'min-max',
+	};
+	const footer = (tooltipItems) => {
+	  let sold = 0;
+	  tooltipItems.forEach(function(tooltipItem) {
+		 // console.log(tooltipItem)
+		  const date = new Date(tooltipItem.label);
+		  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}`;
+		  data.forEach(order=>{
+			  if(formattedDate === order.time && tooltipItem.raw == order.medianPrice){
+				  sold += order.total;
+			  }
+		  })
+	  });
+	  return '賣出: ' + sold
+	};
+	//console.log(sellPriceData)
+    salesPriceChart = new Chart(
+    $('.salesPriceChart1'),
+    {
+      type: 'line',
+      data: {
+        labels: sellPriceData.map(row => row.time),
+        datasets: [{
+          label: '中位價格 NT$',
+          data: sellPriceData.map(row => row.medianPrice),
+        }]
+      },
+      options: {
+	    animation: false,
+	    //parsing: false,
+	    interaction: {
+	      mode: 'nearest',
+	      axis: 'x',
+	      intersect: false
+	    },
+	    plugins: {
+	      decimation: decimation,
+	      title: {
+	        display: true,
+	        text: '中位販售價格',
+	        align: 'start',
+	        color: '#fff',
+	        font: { size: 16 }
+	      },
+	      legend: {
+              display: true,
+              align: 'end',
+              labels: {
+                  color: '#fff',
+                  font: { size: 16 }
+              }
+          },
+	      tooltip: {
+	        callbacks: {
+	          footer: footer,
+	        }
+	      }
+	    },
+	    scales: {
+	      x: {
+	        type: 'time',
+	        time: {
+                unit: 'day'
+            },
+	        ticks: {
+	          source: 'auto',
+	          maxRotation: 0,
+	          autoSkip: true,
+			  color: '#fff',
+			  font: { size: 16 }
+	        }
+	      },
+	      y: {
+			  ticks: {
+	            color: '#fff',
+	            font: { size: 16 }
+	          }
+		  }
+	    },
+	  },
+    }
+  );
+}
+
+
 
 // =========================== redirect to login page ===========================          
 function loginPage() {
@@ -790,4 +865,5 @@ function loginPage() {
 $('#modalSalesPage').on('hidden.bs.modal', function (e) {
 	$('body').addClass('modal-open');
 });
+
 

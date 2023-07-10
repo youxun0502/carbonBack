@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ni.dto.ItemLogDTO;
 import com.ni.model.ItemLog;
@@ -41,25 +39,6 @@ public class ItemLogService {
 		return itemLogRepo.save(convertToitemLog(itemLog));
 	}
 	
-	@Transactional
-	public ItemLog updateById(ItemLogDTO itemLogDTO) {
-		Optional<ItemLog> optional = itemLogRepo.findById(itemLogDTO.getId());
-		if(optional.isPresent()) {
-			ItemLog log = optional.get();
-			if(log.getOrdId() != null) log.setOrdId(itemLogDTO.getOrdId());
-			if(log.getItemId() != null) log.setItemId(itemLogDTO.getItemId());
-			if(log.getMember() != null) log.setMemberId(itemLogDTO.getMemberId());
-			if(log.getQuantity() != null) log.setQuantity(itemLogDTO.getQuantity());
-			if(log.getTotal() != null) log.setTotal(itemLogDTO.getTotal());
-			return log;
-		}
-		System.out.println("no update data");
-		return null;
-	}
-	
-	public void delete(Integer id) {
-		itemLogRepo.deleteById(id);
-	}
 
 	public ItemLog findTotalById(Integer memberId, Integer itemId) {
 		return itemLogRepo.findByMemberIdAndItemId(memberId, itemId);

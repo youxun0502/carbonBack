@@ -38,6 +38,14 @@ public interface OrderRepository extends JpaRepository<ItemOrder, Integer> {
 	@Query("FROM ItemOrder WHERE itemId = :id AND buyer IS NOT NULL AND seller IS NOT NULL AND status = 2")
 	public List<ItemOrder> findByItemIdAndStatus(@Param("id") Integer id);
 	
+//	================ 查詢販賣價格中位數 ================
+	@Query(value = "SELECT distinct CONCAT( CONVERT(date, createTime), ' ', DATEPART(hour, createTime)) dateHour, itemId, \r\n"
+			+ "PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY price) OVER (PARTITION BY CONVERT(date, createTime), DATEPART(hour, createTime), itemId) AS medianPrice,\r\n"
+			+ "COUNT(*) OVER (PARTITION BY CONVERT(date, createTime), DATEPART(hour, createTime), itemId) AS total \r\n"
+			+ "FROM itemOrder WHERE itemId = :id AND seller IS NOT NULL AND buyer IS NOT NULL AND status = 2 \r\n"
+			+ "ORDER BY itemId, dateHour, MedianPrice", nativeQuery = true)
+	public List<Object[]> findMedianPrice(@Param("id") Integer id);
+	
 //	================ 查詢單個道具最低價的買單 ================
 	@Query(value = "SELECT TOP 1 * FROM itemOrder WHERE itemId = :id AND buyer IS NOT NULL "
 			+ "AND seller IS NULL AND status = 1 ORDER BY price DESC, ordId", nativeQuery = true)

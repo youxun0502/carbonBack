@@ -99,6 +99,23 @@ public class itemOrderService {
 		return convertToDTOList(orderRepo.findByItemIdAndStatus(itemId));
 	}
 	
+	public List<Map<String, Object>> findMedianPrice(Integer itemId) {
+		List<Object[]> results = orderRepo.findMedianPrice(itemId);
+	    List<Map<String, Object>> medianPriceList = new ArrayList<>();
+	    if(results != null) {
+	    	for (Object[] result : results) {
+	    		Map<String, Object> medianPrice = new HashMap<>();
+	    		medianPrice.put("time", result[0]);
+	    		medianPrice.put("itemId", result[1]);
+	    		medianPrice.put("medianPrice", result[2]);
+	    		medianPrice.put("total", result[3]);
+	    		medianPriceList.add(medianPrice);
+	    	}
+	    	return medianPriceList;
+	    }
+	    return null;
+	}
+	
 	public List<ItemOrderDTO> checkBuysPrice(Integer itemId) {
 		return convertToDTOList(orderRepo.findBuysByIdAndStatus(itemId));
 	}

@@ -26,7 +26,7 @@
 </head>
 
 <body>
-<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin-gg} : ~{layout/navHome-gg} "></div>
+<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
 
 <div class="nk-main">
         
@@ -81,137 +81,145 @@
 				        <div role="tabpanel" class="tab-pane fade show active" id="tabs-1-1">
 				            <div class="nk-gap"></div>
 				            <!-- START: Forums List -->
-				            <div>販賣訂單</div>
-					        <ul class="nk-forum text-white">
-					            <li class="p-10">
-					                <div class="nk-forum-icon"></div>
-					                <div class="nk-forum-title">
-					                	名稱
-					                </div>
-					                <div class="nk-forum-activity border-start">
-					                    <div class="nk-forum-activity-title text-center">
-					                        上架日期
-					                    </div>
-					                </div>
-					                <div class="nk-forum-activity border-end border-start">
-					                    <div class="nk-forum-activity-title text-center">
-					                        價格
-					                    </div>
-					                </div>
-					                <div class="nk-forum-activity text-center">
-					                    <a href="#">棄單</a>
-					                </div>
-					            </li>
-					        </ul>
-					        <div class="nk-gap"></div>
-					        <div id="sellListings1">
-						        <ul class="nk-forum">
-						            <li>
-						                <div class="nk-forum-title">
-						                    <h3>尚無販賣訂單</h3>
-						                </div>
-						            </li>
-						        </ul>
-					        </div>
-				            <div class="nk-gap"></div>
 				            
-				            <div>購買訂單</div>
-					        <ul class="nk-forum text-white">
-					            <li class="p-10">
-					                <div class="nk-forum-icon"></div>
-					                <div class="nk-forum-title">
-					                	名稱
-					                </div>
-					                <div class="nk-forum-activity border-start">
-					                    <div class="nk-forum-activity-title text-center">
-					                        上架日期
-					                    </div>
-					                </div>
-					                <div class="nk-forum-activity border-start">
-					                    <div class="nk-forum-activity-title text-center">
-					                        數量
-					                    </div>
-					                </div>
-					                <div class="nk-forum-activity border-start border-end">
-					                    <div class="nk-forum-activity-title text-center">
-					                        出價
-					                    </div>
-					                </div>
-					                <div class="nk-forum-activity text-center">
-					                    <a href="#">棄單</a>
-					                </div>
-					            </li>
-					        </ul>
-					        <div class="nk-gap"></div>
-					        <div id="buyOrders1">
-						        <ul class="nk-forum">
-						            <li>
-						                <div class="nk-forum-title">
-						                    <h3>尚無購買訂單</h3>
-						                </div>
-						            </li>
-						        </ul>
-					        </div>
+				            <div class="nk-accordion" id="accordion-1" role="tablist" aria-multiselectable="true">
+			                    <div class="panel panel-default">
+			                        <div class="panel-heading" role="tab" id="salesList-1-1-heading">
+			                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion-1" href="#salesList-1-1" aria-expanded="true" aria-controls="salesList-1-1">
+			                                販賣訂單 <span class="panel-heading-arrow fa fa-angle-down"></span>
+			                            </a>
+			                        </div>
+			                        <div id="salesList-1-1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="salesList-1-1-heading">
+			                        	<ul class="nk-forum text-white">
+								            <li class="p-10">
+								                <div class="nk-forum-icon"></div>
+								                <div class="nk-forum-title">
+								                	名稱
+								                </div>
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        上架日期
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity border-end border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        價格
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity text-center"></div>
+								            </li>
+								        </ul>
+								        <div class="nk-gap"></div>
+								        <div id="sellListings1">
+									        <ul class="nk-forum">
+									            <li>
+									                <div class="nk-forum-title">
+									                    <h3>尚無販賣訂單</h3>
+									                </div>
+									            </li>
+									        </ul>
+								        </div>
+							            <div class="nk-gap"></div>
+			                        </div>
+			                    </div>
+			                    <div class="panel panel-default">
+			                        <div class="panel-heading" role="tab" id="buyOrder-1-2-heading">
+			                            <a data-toggle="collapse" data-parent="#accordion-1" href="#buyOrder-1-2" aria-expanded="false" aria-controls="buyOrder-1-2">
+			                                購買訂單 <span class="panel-heading-arrow fa fa-angle-down"></span>
+			                            </a>
+			                        </div>
+			                        <div id="buyOrder-1-2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="buyOrder-1-2-heading">
+			                        	<ul class="nk-forum text-white">
+								            <li class="p-10">
+								                <div class="nk-forum-icon"></div>
+								                <div class="nk-forum-title">
+								                	名稱
+								                </div>
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        上架日期
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        數量
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity border-start border-end">
+								                    <div class="nk-forum-activity-title text-center">
+								                        出價
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity text-center"></div>
+								            </li>
+								        </ul>
+								        <div class="nk-gap"></div>
+								        <div id="buyOrders1">
+									        <ul class="nk-forum">
+									            <li>
+									                <div class="nk-forum-title">
+									                    <h3>尚無購買訂單</h3>
+									                </div>
+									            </li>
+									        </ul>
+								        </div>
+							            <div class="nk-gap"></div>
+			                        </div>
+			                    </div>
+			                </div>
 				            <div class="nk-gap"></div>
 				        </div>
 				        <div role="tabpanel" class="tab-pane fade" id="tabs-1-2">
 				            <div class="nk-gap"></div>
 				            
-				            <div>歷史紀錄</div>
-					        <ul class="nk-forum">
-					            <li class="p-10">
-					                <div class="nk-forum-icon"></div>
-					                <div class="nk-forum-title">
-					                	名稱
-					                </div>
-					                <div class="nk-forum-activity">
-					                    <div class="nk-forum-activity-title">
-					                        上架日期
-					                    </div>
-					                </div>
-					                <div class="nk-forum-activity">
-					                    <div class="nk-forum-activity-title">
-					                        成交日期
-					                    </div>
-					                </div>
-					                <div class="nk-forum-activity">
-					                    <div class="nk-forum-activity-title">
-					                        價格
-					                    </div>
-					                </div>
-					                <div class="nk-forum-activity">
-					                    <a href="#">對象</a>
-					                </div>
-					            </li>
-					        </ul>
-					        <div class="nk-gap"></div>
-					        <ul class="nk-forum">
-					            <li class="p-10">
-					                <div class="nk-forum-icon">
-					                    <span class="ion-ios-game-controller-b"></span>
-					                </div>
-					                <div class="nk-forum-title">
-					                    <h3><a href="#"></a></h3>
-					                    <div class="nk-forum-title-sub">名稱</div>
-					                </div>
-					                <div class="nk-forum-activity">
-					                    <div class="nk-forum-activity-title" title="GodLike the only game that I want to play!">
-					                        <a href="forum-single-topic.html"></a>
-					                    </div>
-					                        上架日期
-					                    <div class="nk-forum-activity-date">
-					                    </div>
-					                </div>
-					                <div class="nk-forum-count">
-					                    價格
-					                </div>
-					                <div class="nk-forum-activity-avatar">
-					                    <a href="#">
-					                        <img src="" alt="Hitman">
-					                    </a>
-					                </div>
-					            </li>
-					        </ul>
+				            <div class="nk-accordion" id="accordion-1" role="tablist" aria-multiselectable="true">
+			                    <div class="panel panel-default">
+			                        <div class="panel-heading" role="tab" id="accordion-1-1-heading">
+			                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion-1" href="#accordion-1-1" aria-expanded="true" aria-controls="accordion-1-1">
+			                                歷史紀錄 <span class="panel-heading-arrow fa fa-angle-down"></span>
+			                            </a>
+			                        </div>
+			                        <div id="accordion-1-1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-1-1-heading">
+			                        	<ul class="nk-forum">
+								            <li class="p-10">
+								                <div class="nk-forum-icon"></div>
+								                <div class="nk-forum-title">
+								                	名稱
+								                </div>
+								                <div class="nk-forum-activity">
+								                    <div class="nk-forum-activity-title">
+								                        上架日期
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity">
+								                    <div class="nk-forum-activity-title">
+								                        成交日期
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity">
+								                    <div class="nk-forum-activity-title">
+								                        價格
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity">
+								                    <a href="#">對象</a>
+								                </div>
+								            </li>
+								        </ul>
+								        <div class="nk-gap"></div>
+								        <div id="orderHistory1">
+									        <ul class="nk-forum">
+									            <li>
+									                <div class="nk-forum-title">
+									                    <h3>尚無購買訂單</h3>
+									                </div>
+									            </li>
+									        </ul>
+								        </div>
+							            <div class="nk-gap"></div>
+			                        </div>
+			                    </div>
+				            </div>
 				            <div class="nk-gap"></div>
 				        </div>
 				    </div>
@@ -343,6 +351,8 @@
 
     <div th:replace="~{layout/footer}"></div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
     <script th:src="@{/js/itemMarket.js}"></script>
 </body>
 
