@@ -16,15 +16,15 @@ public class ItemEcpayService {
 	public String ecpayCheckout() {
 		
 		String uuId = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 20);
-		Date time = Calendar.getInstance().getTime();
+		Date date = Calendar.getInstance().getTime();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		String dateString = df.format(time);
+		String dateString = df.format(date);
 		
 		AllInOne all = new AllInOne("");
 		
 		AioCheckOutALL obj = new AioCheckOutALL();
 		obj.setMerchantTradeNo(uuId);
-		obj.setMerchantTradeDate("2017/01/01 08:05:23");
+		obj.setMerchantTradeDate(dateString);
 		obj.setTotalAmount("50");
 		obj.setTradeDesc("test Description");
 		obj.setItemName("TestItem");
