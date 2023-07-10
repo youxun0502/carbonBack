@@ -10,9 +10,28 @@ let removeHtml;
 
 // =========================== itemMarketPage ===========================  
 // --------------------------- show page ---------------------------
-
-
-
+$(function(){
+	let itemId = document.getElementById('itemId1').textContent;
+	axios({
+        url: '/carbon/market/medianPrice',
+        method: 'get',
+        params: {
+            itemId: itemId
+        }
+    })
+        .then(response => {
+			if(response.data != ''){
+	            medianPriceChart(response.data);
+			} else {
+				let noHistory = document.getElementById('noHistory1');
+				noHistory.innerHTML = `<h4 class="m-10 text-center">此物品尚無歷史價格</h4>`;
+			}
+        })
+        .catch(err => {
+            console.log('err: ' + err);
+        })
+	
+})
 // --------------------------- buy an item page ---------------------------
 for (i = 0; i < buyBtn.length; i++) {
     buyBtn[i].addEventListener('click', function (e) {
@@ -60,9 +79,8 @@ function showBuyInfo(order) {
     buyPageInfo.innerHTML = infoHtmlString;
 
     const submitBtn = document.getElementById('submitBtn');
-    submitBtn.addEventListener('click', function (e) {
+    submitBtn.addEventListener('click', function () {
         console.log(order.itemId);
-        e.preventDefault();
         newOrder(order, userId);
     })
 }
@@ -71,28 +89,25 @@ function showBuyInfo(order) {
 // --------------------------- insert new order ---------------------------        
 function newOrder(order, buyer) {
     axios({
-        url: '/carbon/market/newOrder',
+        url: '/carbon/market/done',
         method: 'post',
         data: {
             itemId: order.itemId,
             buyer: buyer,
             seller: order.seller,
             quantity: 1,
-            price: order.price,
-            status: 2,
+            price: order.price
         }
     })
         .then(response => {
             if (response != null) {
                 orderUpdate(order);
-                newItemLog(response.data);
             }
             return response.data;
             
         })
         .then(result => {
             if (result != null) {
-				
 	            axios.get('/carbon/market/buyAnItem',{
 					params: {ordId: result.ordId}
 					})
@@ -130,7 +145,7 @@ function orderUpdate(order) {
 }
 
 
-// --------------------------- insert new itemLog ---------------------------  		
+// --------------------------- insert new itemLog (沒用到了) ---------------------------  		
 function newItemLog(result) {
     axios({
         url: '/carbon/market/newItemLog',
@@ -175,11 +190,9 @@ function showSuccessPage(order) {
 
 // --------------------------- buy order ---------------------------  
 $('#buyOrder1').on('click', function () {
-    if (userId != '') {
-        $('#showOrderPage1').addClass('d-flex');
-    } else {
+    if (userId == '') {
         loginPage();
-    }
+    } 
     var buyPrice;
     var buyQuantity;
     $('#buyPrice1,#buyQuantity1').on('keyup change', function () {
@@ -218,7 +231,6 @@ $('#buyOrder1').on('click', function () {
 	                    buyer: userId,
 	                    quantity: buyQuantity,
 	                    price: buyPrice,
-	                    status: 1,
 	                }
 	            })
 	                .then(response => {
@@ -232,12 +244,12 @@ $('#buyOrder1').on('click', function () {
 	                        })
 	                            .then(res => {
 	                                let sales = res.data;
-	                                console.log('sales: ' + JSON.stringify(sales));
+	                                //console.log('sales: ' + JSON.stringify(sales));
 	                                if (sales != '' && buyPrice >= sales[0].price) {
 	                                    console.log('res: ' + JSON.stringify(sales[0].price))
 	                                    console.log('price: ' + buyPrice)
 	                                    axios({
-	                                        url: '/carbon/market/newOrder',
+	                                        url: '/carbon/market/done',
 	                                        method: 'post',
 	                                        data: {
 	                                            itemId: sales[0].itemId,
@@ -245,15 +257,13 @@ $('#buyOrder1').on('click', function () {
 	                                            seller: sales[0].seller,
 	                                            quantity: 1,
 	                                            price: sales[0].price,
-	                                            status: 2,
 	                                        }
 	                                    })
 	                                        .then(result => {
-	                                            console.log('result: ' + JSON.stringify(result.data))
+	                                            //console.log('result: ' + JSON.stringify(result.data))
 	                                            if (result.data != '') {
 	                                                orderUpdate(orders);
 	                                                orderUpdate(sales[0]);
-	                                                newItemLog(result.data);
 	                                            }
 	                                            return result.data;
 	                                        })
@@ -316,10 +326,102 @@ function listPage(data) {
 
 
 // =========================== itemMarketList ===========================
+// --------------------------- show active ---------------------------
+if(userId != ''){
+	
+	axios.get('/carbon/market/activeList',{
+		params: {memberId: userId}
+	})
+	.then(response =>{
+		if(response.data != ''){
+			//console.log(JSON.stringify(response.data))
+			activeList(response.data);
+		}
+	})
+	.catch(err => {
+		console.log('err: ' + err);
+	})
+}
+
+
+
+
+function activeList(data){
+	let sellListings = document.getElementById('sellListings1');
+	let buyOrders = document.getElementById('buyOrders1');
+	let sellListHtml =``;
+	let buyOrderHtml =``;
+	data.forEach((order) => {
+		const createTime = new Date(order.createTime).toISOString().split('T')[0];
+		// 拆成2個axios
+		if(order.sell != null){
+			sellListHtml +=`
+			<ul class="nk-forum">
+				<li class="p-10">
+		            <div class="nk-forum-activity me-3 d-flex">
+		            	<img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}"
+		                        class="img-fluid" style="max-width: 50px">
+		            </div>
+		            <div class="nk-forum-title my-auto">
+		            	<h3>${order.gameItem.itemName}</h3>
+		            </div>
+		            <div class="nk-forum-activity my-auto">
+		                <div class="nk-forum-activity-title text-center">
+		                    ${createTime}
+		                </div>
+		            </div>
+		            <div class="nk-forum-activity my-auto d-flex justify-content-center">
+		                <div class="nk-forum-activity-title">
+		                    NT$ ${order.price}
+		                </div>
+		            </div>
+		            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
+		            	<a href="#" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#modalDelete" data-id="${order.ordId}">
+		                    棄單
+		                </a>
+		            </div>
+		        </li>
+		    </ul>
+			`;
+		} else if(order.buy != null){
+			buyOrderHtml +=`
+			<ul class="nk-forum">
+				<li class="p-10">
+		            <div class="nk-forum-activity me-3 d-flex">
+		            	<img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}"
+		                        class="img-fluid" style="max-width: 50px">
+		            </div>
+		            <div class="nk-forum-title my-auto">
+		            	<h3>${order.gameItem.itemName}</h3>
+		            </div>
+		            <div class="nk-forum-activity my-auto">
+		                <div class="nk-forum-activity-title text-center">
+		                    ${order.buy.userId}
+		                </div>
+		            </div>
+		            <div class="nk-forum-activity my-auto d-flex justify-content-center">
+		                <div class="nk-forum-activity-title">
+		                    NT$ ${order.price}
+		                </div>
+		            </div>
+		            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
+		            	<a href="#" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#modalDelete" data-id="${order.ordId}">
+		                    棄單
+		                </a>
+		            </div>
+		        </li>
+		    </ul>
+			`;
+		}
+	})
+	sellListings.innerHTML = sellListHtml;
+	buyOrders.innerHTML = buyOrderHtml;
+}
+
+
 // --------------------------- sell an item ---------------------------  
 
 $('#sellPageBtn1').click(function () {
-    console.log('click');
     if (userId != '') {
         loadInventoryAjax();
     } else {
@@ -404,7 +506,7 @@ function inventoryPage(data) {
 
     inventoryList.innerHTML = itemListHtml;
     showItemInfo(data);
-    showSalePage();
+    showSalePage(data[0]);
 }
 
 
@@ -441,27 +543,27 @@ function showItemInfo(data) {
 			        	`;
             }
             oneItem.innerHTML = oneItemHtml;
-            showSalePage()
+            showSalePage(data[id])
         })
     }
 }
 
 
 // --------------------------- sell page ---------------------------  
-function showSalePage() {
+function showSalePage(data) {
     const sellBtn = document.getElementById('sellBtn1');
     sellBtn.addEventListener('click', function () {
         let itemId = this.getAttribute('data-itemId');
         console.log('itemId: ' + itemId);
         axios({
-            url: '/carbon/market/itemPrices',
+            url: '/carbon/market/medianPrice',
             method: 'get',
             params: {
                 itemId: itemId
             }
         })
             .then(response => {
-                showSaleInfo(response.data);
+                showSaleInfo(data, response.data);
             })
             .catch(err => {
                 console.log('err: ' + err);
@@ -471,25 +573,26 @@ function showSalePage() {
 
 
 // --------------------------- sale info --------------------------- 
-function showSaleInfo(order) {
+var salesPriceChart;
+function showSaleInfo(order, medianPrice) {
     let saleItem = document.getElementById('saleItem1');
     let saleHtmlString = `
         <div class="d-flex border-bottom border-secondary">
         	<div class="nk-popup-gallery col-4">
         		<div class="nk-gallery-item-box">
-                	<img src="/carbon/market/downloadImage/${order[0].itemId}" alt="${order[0].gameItem.itemImgName}">
+                	<img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}">
                 </div>
             </div>
             <div class="col-8">
-                <h3>${order[0].gameItem.itemName}</h3>
-                <span>${order[0].gameItem.game.gameName}</span>
+                <h3>${order.gameItem.itemName}</h3>
+                <span>${order.gameItem.game.gameName}</span>
             </div>
         </div>
         <hr class="text-white">`;
-    order.forEach(data => {
         saleHtmlString += `
-            <div class="">${data.price} ${data.createTime}</div>`;
-    })
+            <div id="noHistory1">
+            	<canvas class="salesPriceChart1"></canvas>
+            </div>`;
     saleHtmlString += `
         <hr>
         <form class="nk-form needs-validation border-top border-secondary" novalidate>
@@ -521,6 +624,14 @@ function showSaleInfo(order) {
         </form>
     `;
     saleItem.innerHTML = saleHtmlString;
+    
+    if(medianPrice != ''){
+	    medianPriceChart(medianPrice);
+	} else {
+		let noHistory = document.getElementById('noHistory1');
+		noHistory.innerHTML = `<h4 class="m-10 text-center">此物品尚無歷史價格</h4>`;
+	}
+    
     let salePrice;
     let buyPrice;
     $('#salePrice,#buyPrice').on('keyup change', function () {
@@ -557,37 +668,35 @@ function showSaleInfo(order) {
                 event.stopPropagation()
             } else {
 	            event.preventDefault()
-	            let price = salePrice.replace('NT$', '');
+	            let price = salePrice;
 	            console.log(price)
 	            axios({
-	                url: '/carbon/market/newOrder',
+	                url: '/carbon/market/done',
 	                method: 'post',
 	                data: {
-	                    itemId: order[0].itemId,
+	                    itemId: order.itemId,
 	                    seller: userId,
 	                    quantity: 1,
 	                    price: price,
-	                    status: 1,
 	                }
 	            })
 	                .then(response => {
 	                    if (response.data != '') {
-	                        let sales = response.data;
-	                        newItemLog(sales);
-	                        console.log('itemId: ' + sales.itemId)
+	                        let newSales = response.data;
+	                        console.log('itemId: ' + newSales.itemId)
 	                        axios({
 	                            method: 'get',
 	                            url: '/carbon/market/checkBuys',
-	                            params: { itemId: sales.itemId }
+	                            params: { itemId: newSales.itemId }
 	                        })
 	                            .then(res => {
 	                                let sales = res.data;
-	                                console.log(JSON.stringify(sales));
+	                                //console.log(JSON.stringify(sales));
 	                                if (sales != '' && sales[0].price >= price) {
 	                                    console.log('res: ' + JSON.stringify(sales[0].price))
 	                                    console.log('price: ' + price)
 	                                    axios({
-	                                        url: '/carbon/market/newOrder',
+	                                        url: '/carbon/market/done',
 	                                        method: 'post',
 	                                        data: {
 	                                            itemId: sales[0].itemId,
@@ -595,15 +704,13 @@ function showSaleInfo(order) {
 	                                            seller: userId,
 	                                            quantity: 1,
 	                                            price: price,
-	                                            status: 2,
 	                                        }
 	                                    })
 	                                        .then(result => {
-	                                            console.log('result: ' + JSON.stringify(result.data))
+	                                            //console.log('result: ' + JSON.stringify(result.data))
 	                                            if (result.data != '') {
 	                                                orderUpdate(sales[0]);
-	                                                orderUpdate(sales);
-	                                                newItemLog(result.data);
+	                                                orderUpdate(newSales);
 	                                            }
 	                                            return result.data;
 	                                        })
@@ -634,6 +741,100 @@ function showSaleInfo(order) {
 
 }
 
+// =========================== medianPrice charts.js ===========================   
+function medianPriceChart(data){
+	const sellPriceData = data.map(order => ({
+		 time: order.time, 
+		 medianPrice: order.medianPrice, 
+	}));
+	const decimation = {
+	  enabled: false,
+	  algorithm: 'min-max',
+	};
+	const footer = (tooltipItems) => {
+	  let sold = 0;
+	  tooltipItems.forEach(function(tooltipItem) {
+		 // console.log(tooltipItem)
+		  const date = new Date(tooltipItem.label);
+		  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}`;
+		  data.forEach(order=>{
+			  if(formattedDate === order.time && tooltipItem.raw == order.medianPrice){
+				  sold += order.total;
+			  }
+		  })
+	  });
+	  return '賣出: ' + sold
+	};
+	//console.log(sellPriceData)
+    salesPriceChart = new Chart(
+    $('.salesPriceChart1'),
+    {
+      type: 'line',
+      data: {
+        labels: sellPriceData.map(row => row.time),
+        datasets: [{
+          label: '中位價格 NT$',
+          data: sellPriceData.map(row => row.medianPrice),
+        }]
+      },
+      options: {
+	    animation: false,
+	    //parsing: false,
+	    interaction: {
+	      mode: 'nearest',
+	      axis: 'x',
+	      intersect: false
+	    },
+	    plugins: {
+	      decimation: decimation,
+	      title: {
+	        display: true,
+	        text: '中位販售價格',
+	        align: 'start',
+	        color: '#fff',
+	        font: { size: 16 }
+	      },
+	      legend: {
+              display: true,
+              align: 'end',
+              labels: {
+                  color: '#fff',
+                  font: { size: 16 }
+              }
+          },
+	      tooltip: {
+	        callbacks: {
+	          footer: footer,
+	        }
+	      }
+	    },
+	    scales: {
+	      x: {
+	        type: 'time',
+	        time: {
+                unit: 'day'
+            },
+	        ticks: {
+	          source: 'auto',
+	          maxRotation: 0,
+	          autoSkip: true,
+			  color: '#fff',
+			  font: { size: 16 }
+	        }
+	      },
+	      y: {
+			  ticks: {
+	            color: '#fff',
+	            font: { size: 16 }
+	          }
+		  }
+	    },
+	  },
+    }
+  );
+}
+
+
 
 // =========================== redirect to login page ===========================          
 function loginPage() {
@@ -660,37 +861,9 @@ function loginPage() {
 }
 
 
-// =========================== close btn ===========================          
-function closePage() {
-    $('.closeBtn1,.closeBtn2').click(function () {
-        console.log('click');
-        $('#showPage1').removeClass('d-flex');
-    })
-}
-
-
 // =========================== 控制多個modal的scroll ===========================
 $('#modalSalesPage').on('hidden.bs.modal', function (e) {
 	$('body').addClass('modal-open');
 });
 
 
-// =========================== Validation ===========================  
-(() => {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
-
-            form.classList.add('was-validated')
-        }, false)
-    })
-})()
