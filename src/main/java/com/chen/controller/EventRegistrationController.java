@@ -96,7 +96,7 @@ public class EventRegistrationController {
 	
 	// 新增資料
 	@PostMapping("/eventRegistration/insert")
-	public String inserData(@RequestParam("eventId") Integer eventId, @RequestParam("realName") String realName,
+	public String inserData(@RequestParam("eventId") Integer eventId, @RequestParam("realName") String realName,@RequestParam(value = "memberId", required = false) Integer memberId,
 			@RequestParam("email") String email, @RequestParam("phone") String phone,
 			@RequestParam(value = "address", required = false) String address) {
 		EventRegistration er = new EventRegistration();
@@ -105,6 +105,7 @@ public class EventRegistrationController {
 		er.setEmail(email);
 		er.setPhone(phone);
 		er.setAddress(address);
+		er.setMemberId(memberId);
 		erService.insert(er);
 		return "redirect:/eventPageAll";
 	}
@@ -161,10 +162,10 @@ public class EventRegistrationController {
 
 	// 修改資料
 	@PutMapping("/event/registration/update")
-	public String updatePost(@RequestParam("signupId") Integer signupId, @RequestParam("eventId") Integer eventId,
+	public String updatePost(@RequestParam("signupId") Integer signupId, 
 			@RequestParam("realName") String realName, @RequestParam("email") String email,
-			@RequestParam("phone") String phone, @RequestParam("address") String address) {
-		erService.updateRegistrationById(signupId, eventId, realName, email, phone, address);
+			@RequestParam("phone") String phone, @RequestParam(value = "address", required = false) String address) {
+		erService.updateRegistrationById(signupId, realName, email, phone, address);
 		return "redirect:/event/registration/data";
 	}
 

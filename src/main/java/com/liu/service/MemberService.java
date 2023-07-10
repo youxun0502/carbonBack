@@ -173,5 +173,9 @@ public class MemberService {
 		return false;
 
 	}
+	
+	public  List<Object[]> findRegistrationMonth(){
+		return mRepository.findRegistrationMonth();
+	}
 
 }
