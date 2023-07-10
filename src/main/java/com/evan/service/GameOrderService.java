@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.evan.dao.GameOrderRepository;
 import com.evan.dto.CartDTO;
 import com.evan.dto.OrderDTO;
+import com.evan.dto.OrderLogDTO;
 import com.evan.model.GameOrder;
 import com.evan.model.GameOrderLog;
 import com.evan.utils.ConvertToDTO;
@@ -268,6 +271,30 @@ public class GameOrderService {
 			
 		}
 	}
+
+	//尋找使用者已經擁有的遊戲
+	public List<OrderLogDTO> getMemberOwnGames(Map<String, Object> formData) {
+	    int memberId = Integer.parseInt((String) formData.get("memberId"));
+	    Member member = mRepos.findById(memberId).orElse(null);
+	    
+	    Set<String> gameNames = new HashSet<>();
+	    List<OrderLogDTO> successOrder = new ArrayList<>();
+
+	    for (OrderDTO orderDTO : cdDTO.outputOrderDTOList(member.getGameOrder())) {
+	        if ("已付款".equals(orderDTO.getStatus())) {
+	            for (OrderLogDTO orderLogDTO : orderDTO.getLogs()) {
+	                String gameName = orderLogDTO.getGameName();
+	                if (!gameNames.contains(gameName)) {
+	                    gameNames.add(gameName);
+	                    successOrder.add(orderLogDTO);
+	                }
+	            }
+	        }
+	    }
+
+	    return successOrder;
+	}
+
 	
 	
 }

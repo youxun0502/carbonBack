@@ -1,6 +1,7 @@
 package com.evan.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.evan.dao.GameRepository;
+import com.evan.dto.CartDTO;
 import com.evan.dto.GameDTO;
+import com.evan.dto.OrderLogDTO;
 import com.evan.dto.TypeDTO;
+import com.evan.service.GameOrderService;
 import com.evan.service.GameService;
 import com.evan.service.GameTypeService;
 import com.evan.utils.GetInfoToGameFront;
@@ -32,6 +36,8 @@ public class FrontGameController {
 	private SortChartJs sortChartJs;
 	@Autowired
 	private GetInfoToGameFront gifToGameFront;
+	@Autowired
+	private GameOrderService goService;
 	
 	@GetMapping("/gameFront")
 	public String GameList(Model model) {
@@ -65,6 +71,10 @@ public class FrontGameController {
 		return "evan/SingleGamePage";
 	}
 	
+	@GetMapping("/carbon/gameFront/ownGame")
+	public List<OrderLogDTO> getMemberOwnGames(@RequestParam Map<String, Object> formData,Model model){
+		return goService.getMemberOwnGames(formData);
+	}
 	
 	
 }
