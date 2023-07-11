@@ -43,24 +43,19 @@ function editboxMaker() {
 			let avatars;
 			let frames;
 			let bgs;
+			let avatarhtml;
 
 
-
-			avatar_box.innerHTML += ` <div class="col-lg-8">
-				<div class="nk-popup-gallery">
-                <div class="row vertical-gap">`;
+			avatarhtml = `<div class="avatar_collection">
+				<div class="avatarcollection_RowWrapper">
+                <div class="avatarcollection_SingleRow">`;
 			for (let i = 0; i < bonusLog.length; i++) {
 				if (bonusLog[i].bonusitem.bonusType == "avatar") {
-					avatar_box.innerHTML += `				
-						
-						<div class="col-lg-4 col-md-6">
-                        <div class="nk-gallery-item-box">
-						
-                                
-						<img class="nk-gallery-item" src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+					avatarhtml += `						
+                        <div class="avatarcollection_AvatarPreview avatarcollection_Large">
+						<img  src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
 						</div>
-						</div>
-						
+						<div class="avatarcollection_AvatarRowSpace"></div>
 					`;
 				}
 				else if (bonusLog[i].bonusitem.bonusType == "frame") {
@@ -90,9 +85,10 @@ function editboxMaker() {
 
 			}
 
-			avatar_box.innerHTML += `</div>
+			avatarhtml += `</div>
 			</div>
 			</div>`;
+			avatar_box.innerHTML = avatarhtml;
 
 
 

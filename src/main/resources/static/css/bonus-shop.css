@@ -465,6 +465,49 @@
 	font-size: 13px;
 }
 
+.avatar_collection {
+
+	padding: 15px 20px 20px 20px;
+	background-color: rgba(0, 0, 0, .2);
+	border-radius: 3px;
+	margin-bottom: 19px;
+	max-height: 600px;
+	overflow-y: auto;
+}
+
+.avatar_collection .avatarcollection_RowWrapper {
+	margin-bottom: 6px;
+}
+
+.avatarcollection_SingleRow {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.avatarcollection_SingleRow .avatarcollection_AvatarRowSpace {
+	flex: 1;
+	width: 29px;
+	min-width: 8px;
+}
+
+.avatarcollection_AvatarPreview {
+	width: 64px;
+	cursor: pointer;
+	-webkit-transition-property: -webkit-transform, filter;
+	-webkit-transition-duration: .2s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-property: transform, filter;
+	transition-duration: .2s;
+	transition-timing-function: ease-in-out;
+	margin-right: 12px;
+	margin-bottom: 12px;
+}
+
+.avatarcollection_AvatarPreview .avatarcollection_Large {
+	width: 150px;
+}
+
 .backimg {}
 
 .personal_profile {}
