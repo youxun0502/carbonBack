@@ -94,4 +94,6 @@ public class EventRegistrationService {
 		
 		return page;
 	}
+	
+	
 }

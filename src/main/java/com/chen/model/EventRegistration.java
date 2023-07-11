@@ -4,11 +4,15 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.liu.model.Member;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -47,6 +51,12 @@ public class EventRegistration {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "signupDate")
 	private Date signupDate;
+	
+	/*
+	@ManyToOne
+	@JoinColumn(name = "member_id")
+	private Member member;
+	*/
 	
 	@PrePersist
 	public void onCreate() {

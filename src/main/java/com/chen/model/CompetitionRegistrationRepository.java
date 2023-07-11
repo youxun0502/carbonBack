@@ -13,5 +13,8 @@ public interface CompetitionRegistrationRepository extends JpaRepository<Competi
 	@Query("from Competition where gameId = :gameId order by startDate asc")
 	public List<Competition> findByGameId(Integer gameId);
 	
+	@Query("from CompetitionRegistration where competitionId = :competitionId")
+	public List<CompetitionRegistration> findByEventId(Integer competitionId);
+	
 	
 }

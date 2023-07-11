@@ -16,14 +16,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chen.model.Competition;
 import com.chen.model.CompetitionRegistration;
 import com.chen.model.CompetitionRepository;
+import com.chen.model.EventRegistration;
 import com.chen.service.CompetitionRegistrationService;
 import com.chen.service.CompetitionService;
 import com.evan.dao.GameRepository;
 import com.evan.model.Game;
+import com.liu.model.Member;
+import com.liu.service.MemberService;
 
 @Controller
 public class CompetitionRegistrationController {
@@ -39,6 +43,9 @@ public class CompetitionRegistrationController {
 	
 	@Autowired
 	private CompetitionService cService;
+	
+	@Autowired
+	private MemberService mService;
 	
 	//////////    前台管理    //////////
 	
@@ -74,7 +81,13 @@ public class CompetitionRegistrationController {
 
 	// 跳轉新增頁面
 	@GetMapping("/competitionRegistration")
-	public String signupPage(@RequestParam("competitionId")Integer competitionId,Model m) {
+	public String signupPage(@RequestParam("competitionId")Integer competitionId,@RequestParam(value = "memberId", required = false)Integer memberId,Model m) {
+		
+		if(memberId != null) {
+			Member member = mService.findById(memberId);
+			m.addAttribute("member", member);
+		}
+		
 		Competition competition = cService.findById(competitionId);
 		m.addAttribute("competition", competition);
 		return "chen/competitionRegistration";
@@ -160,5 +173,6 @@ public class CompetitionRegistrationController {
 		crService.deleteById(id);
 		return "redirect:/competition/registration/data";
 	}
+	
 	
 }

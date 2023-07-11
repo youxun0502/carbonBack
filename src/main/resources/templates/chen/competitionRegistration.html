@@ -106,14 +106,14 @@
 							<div class="label">
 								行動電話
 							</div>
-							<input type="text" name="phone" required>
+							<input type="text" name="phone" th:value="${member} ? ${member.phone}" required>
 							<span class="required-label"></span>
 						</div>
 						<div class="field">
 							<div class="label">
 								電子信箱
 							</div>
-							<input type="text" name="email" required>
+							<input type="text" name="email" th:value="${member} ? ${member.email}" required>
 							<span class="required-label"></span>
 						</div>
 						<div class="field btns">

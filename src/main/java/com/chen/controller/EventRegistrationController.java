@@ -20,11 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chen.model.Event;
 import com.chen.model.EventRegistration;
+import com.chen.model.EventRegistrationRepository;
 import com.chen.model.EventRepository;
 import com.chen.service.EventRegistrationService;
 import com.chen.service.EventService;
 import com.evan.dao.GameRepository;
 import com.evan.model.Game;
+import com.liu.model.Member;
+import com.liu.service.MemberService;
 
 @Controller
 public class EventRegistrationController {
@@ -40,6 +43,12 @@ public class EventRegistrationController {
 	
 	@Autowired
 	private GameRepository gRepo;
+	
+	@Autowired
+	private MemberService mService;
+	
+	@Autowired
+	private EventRegistrationRepository erRepo;
 
 	//////////    前台管理    //////////
 	
@@ -88,7 +97,13 @@ public class EventRegistrationController {
 	
 	// 跳轉新增頁面
 	@GetMapping("/eventRegistration")
-	public String signupPage(@RequestParam("eventId")Integer eventId,Model m) {
+	public String signupPage(@RequestParam("eventId")Integer eventId,@RequestParam(value = "memberId", required = false)Integer memberId, Model m) {
+		
+		if(memberId != null) {
+			Member member = mService.findById(memberId);
+			m.addAttribute("member", member);
+		}
+		
 		Event event = eService.findById(eventId);
 		m.addAttribute("event", event);
 		return "chen/eventRegistration";
@@ -147,6 +162,9 @@ public class EventRegistrationController {
 	// 查詢全部
 	@GetMapping("/event/registration/data")
 	public String findALL(Model m) {
+		List<Event> events = eService.findAll();
+		m.addAttribute("events", events);
+		
 		List<EventRegistration> registrations = erService.findAll();
 		m.addAttribute("registrations", registrations);
 		return "chen/eventRegistrationData";
@@ -174,6 +192,14 @@ public class EventRegistrationController {
 	public String deletePost(@RequestParam("signupId") Integer id) {
 		erService.deleteById(id);
 		return "redirect:/event/registration/data";
+	}
+	
+	// 分類顯示
+	@ResponseBody
+	@GetMapping("/event/registration/category")
+	public List<EventRegistration> showByCategory(@RequestParam("eventId") Integer eventId) {
+	    List<EventRegistration> registrations = erRepo.findByEventId(eventId);
+	    return registrations;
 	}
 	
 }
