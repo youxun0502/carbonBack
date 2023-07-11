@@ -3,45 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<style>
-		body {
-			font-size: 20px !important;
-		}
-
-		table {
-			background-color: rgb(33, 37, 41);
-		}
-
-		table td,
-		table th {
-			max-width: 170px;
-		}
-
-		.tdCenter {
-			text-align: center;
-		}
-
-		.imgBox {
-			width: 100px;
-			height: 100px;
-		}
-
-		.showDesc {
-			cursor: pointer;
-		}
-
-		.section-big {
-			max-width: calc(100% - 42px);
-		}
-
-		.section-small {
-			max-width: calc(100% - 200px);
-		}
-
-		.bg-customize {
-			background-color: rgba(53, 53, 53, 0.705);
-		}
-	</style>
+	<link rel="stylesheet" th:href="@{/css/memberDataTable.css}"></link>
 	<title>Insert title here</title>
 </head>
 
@@ -91,39 +53,28 @@
 							</div>
 							<div class="col-md-6 mt-3">
 								<label for="status" class="form-label">狀態</label>
-								<select id="typeName" class="form-select" th:field="*{status}">
-									<option selected value="1">使用中</option>
-									<option value="2">已停用</option>
+								<select id="status" class="form-select" th:field="*{status}">
+									<option selected value=1>使用中</option>
+									<option value=2>已停用</option>
 								</select>
 							</div>
 							<div class="col-12 mt-5">
 								<button type="submit" class="btn btn-primary col-12" id="insertBtn">新增</button>
 							</div>
 						</form>
+						<div class="row col-12">
+							<div class="col-12 mt-3">
+								<button class="btn btn-secondary col-12" id="autoInput">一鍵輸入</button>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<script>
-		const insertCouponForm = document.querySelector("#insertCouponForm");
-		const insertBtn = document.querySelector("#insertBtn");
-		insertCouponForm.addEventListener('submit', function (event) {
-			event.preventDefault();
-			Swal.fire({
-				title: '新增成功',
-				text: '優惠券已成功加入系統',
-				icon: 'success',
-				showConfirmButton: false,
-				timer: 1000
-			})
-			setTimeout(function () {
-				insertCouponForm.submit();
-			}, 1000)
-		})
-
-	</script>
+	<script th:src="@{/js/couponInsert.js}"></script>
 </body>
 
 </html>
