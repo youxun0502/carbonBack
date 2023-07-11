@@ -13,6 +13,9 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 	public List<Event> findByNamelike(String name);
 	
 	public Page<Event> findByGameId(Integer gameId,Pageable pgb);
+	
+	@Query("from Event order by startDate asc")
+	public List<Event> findAllOrderByStartDate();
 
 	
 }

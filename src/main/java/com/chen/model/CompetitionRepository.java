@@ -13,4 +13,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Intege
 	public List<Competition> findByNamelike(String name);
 	
 	public Page<Competition> findByGameId(Integer gameId,Pageable pgb);
+	
+	@Query("from Competition order by startDate asc")
+	public List<Competition> findAllOrderByStartDate();
 }
