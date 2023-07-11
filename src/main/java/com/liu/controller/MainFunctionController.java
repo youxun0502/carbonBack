@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.evan.service.GameService;
+import com.evan.utils.SortChartJs;
 import com.liu.config.PreviousPage;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
@@ -41,6 +43,12 @@ public class MainFunctionController {
 	@Autowired
 	private GmailService gService;
 
+	@Autowired
+	private SortChartJs sortChartJs;
+	
+	@Autowired
+	private GameService gameService;
+	
 	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
 		return "liu/main";
@@ -48,11 +56,13 @@ public class MainFunctionController {
 
 	@GetMapping("/main/goBackToHome")
 	public String goBackToHome() {
-		return "liu/home";
+		return "redirect:/";
 	}
 
 	@GetMapping("/")
-	public String homePage() {
+	public String homePage(Model model) {
+		sortChartJs.sortGameDTOAll(gameService.getAllGameInfo());
+		model.addAttribute("gameList",sortChartJs.getGameList());
 		return "liu/home";
 	}
 
@@ -136,7 +146,7 @@ public class MainFunctionController {
 						|| previousPage.getPreviousPage().equals("/main/emailVerification")
 						|| previousPage.getPreviousPage().equals("/main/memberLogin")
 						|| previousPage.getPreviousPage().equals("/main/forgetPwdPage")) {
-					return "/liu/home";
+					return "redirect:/";
 				} else {
 					return "redirect:" + previousPage.getPreviousPage();
 				}
@@ -161,7 +171,7 @@ public class MainFunctionController {
 				if (previousPage.getPreviousPage() == null
 						|| previousPage.getPreviousPage().equals("/main/registerPage")
 						|| previousPage.getPreviousPage().equals("/main/memberLogin")) {
-					return "/liu/home";
+					return "redirect:/";
 				} else {
 					return "redirect:" + previousPage.getPreviousPage();
 				}
@@ -179,7 +189,7 @@ public class MainFunctionController {
 	@GetMapping("/main/logout")
 	public String memberLogout(@RequestParam(name = "id") Integer id, HttpSession session, Model m) {
 		session.invalidate();
-		return "/liu/home";
+		return "redirect:/";
 	}
 
 	@ResponseBody
@@ -325,6 +335,11 @@ public class MainFunctionController {
 	public String updatePwdForForgetPwd(@RequestParam("email")String email, @RequestParam("newPwd") String pwd) {
 		mService.changePwdForForgetPwd(email, pwd);
 		return "redirect:/main/loginPage";
+	}
+	
+	@PostMapping("/main/googleLogin")
+	public String googleLogin() {
+		return "redirect:/";
 	}
 	
 

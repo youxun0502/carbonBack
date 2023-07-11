@@ -1,7 +1,7 @@
 var cartItems;
 // 在頁面加載完成後檢查使用者的購物車資料
 $(document).ready(function() {
-	
+
 	checkUserCart();
 
 });
@@ -10,7 +10,7 @@ $(document).ready(function() {
 function checkUserCart() {
 	var memberIdElement = document.getElementById('memberId');
 	var memberId = memberIdElement.dataset.userId;
-	
+
 	// 發送 AJAX 請求到後端，檢查使用者的購物車資料
 	$.ajax({
 		url: '/carbon/gameCart',
@@ -23,6 +23,24 @@ function checkUserCart() {
 			if (data === null || data.length === 0 || data === "") {
 				// 若資料為 null 或長度為 0，表示玩家沒有購物車資料，則使用 Local Storage 的購物車資料
 				cartItems = localStorage.getItem('cartItems');
+				var cartItemsArray = JSON.parse(cartItems);
+				
+				checkMemberOwnGame(function(gameNames) {
+					console.log(gameNames);
+					// 在這裡進行遊戲名稱比對和刪除 cartItems 的操作
+				if (cartItems) {
+					// 比對遊戲名字並刪除匹配的項目
+					for (var i = cartItemsArray.length - 1; i >= 0; i--) {
+						var cartGameName = cartItemsArray[i].gameName;
+						 console.log(cartGameName)
+						if (gameNames.includes(cartGameName)) {
+							cartItemsArray.splice(i, 1);
+						}
+					}
+
+				}
+
+				console.log(cartItemsArray)
 				if (cartItems) {
 					// 將 Local Storage 的購物車資料存入資料庫
 					$.ajax({
@@ -30,7 +48,7 @@ function checkUserCart() {
 						type: 'POST',
 						data: {
 							memberId: memberId,
-							cartItems: JSON.parse(cartItems)
+							cartItems: cartItemsArray
 						},
 						success: function(e) {
 							console.log(e);
@@ -46,7 +64,7 @@ function checkUserCart() {
 						}
 					});
 					clearLocal();
-				}
+				}			});	
 			} else {
 				updateCartItems();
 				clearLocal();
@@ -66,7 +84,7 @@ function checkUserCart() {
 function updateCartItems() {
 	var memberIdElement = document.getElementById('memberId');
 	var memberId = memberIdElement.dataset.userId;
-	
+
 	if (!cartItems) {
 		// 若購物車資料不存在，清空購物車區塊的內容
 		document.getElementById('cartItems').innerHTML = '';
@@ -277,9 +295,9 @@ function removeFromCart(event, gameName, gameId, memberId) {
 }
 
 //已經擁有的遊戲就不能再購買
-function checkMemberOwnGame() {
-	var memberIdElement = document.getElementById('memberId');
-	var memberId = memberIdElement.dataset.userId;
+function checkMemberOwnGame(callback) {
+	var memberId = $('#memberId').data('userId');
+	var gameNames = [];
 
 	// 將 Local Storage 的購物車資料存入資料庫
 	$.ajax({
@@ -290,7 +308,14 @@ function checkMemberOwnGame() {
 		},
 		success: function(gameList) {
 			console.log(gameList);
+			gameNames = $.map(gameList, function(item) {
+				return item.gameName;
+			});
 			removeOwnGame(gameList);
+
+			if ($.isFunction(callback)) {
+				callback(gameNames);
+			}
 		},
 		error: function(error) {
 			// 資料庫存儲失敗後的處理
@@ -300,28 +325,28 @@ function checkMemberOwnGame() {
 }
 
 function removeOwnGame(gameList) {
-    if (gameList) {
-        $('.add-to-cart-button').each(function() {
-            var button = $(this);
-            var gameName = button.attr('data-game-name');
+	if (gameList) {
+		$('.add-to-cart-button').each(function() {
+			var button = $(this);
+			var gameName = button.attr('data-game-name');
 
-            var isGameOwned = gameList.some(function(item) {
-                console.log(item.gameName);
-                return item.gameName === gameName;
-            });
+			var isGameOwned = gameList.some(function(item) {
+				console.log(item.gameName);
+				return item.gameName === gameName;
+			});
 
-            if (isGameOwned) {
-                button.addClass('nk-btn-color-warning');
-                button.removeClass('nk-btn-hover-color-main-1 nk-btn-color-dark-3 add-to-cart-button');
-                button.text('已購買');
-                button.removeAttr('onclick'); 
-            }
-        });
-    }
+			if (isGameOwned) {
+				button.addClass('nk-btn-color-warning');
+				button.removeClass('nk-btn-hover-color-main-1 nk-btn-color-dark-3 add-to-cart-button');
+				button.text('已購買');
+				button.removeAttr('onclick');
+			}
+		});
+	}
 }
 
 //清理local
-function clearLocal(){
+function clearLocal() {
 	var localCart = JSON.parse(localStorage.getItem('cartItems'));
 	localCart = [];
 	localStorage.setItem('cartItems', JSON.stringify(localCart));
