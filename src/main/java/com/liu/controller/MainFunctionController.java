@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.chen.model.Competition;
+import com.chen.model.CompetitionRepository;
+import com.chen.model.Event;
+import com.chen.model.EventRepository;
 import com.evan.service.GameService;
 import com.evan.utils.SortChartJs;
 import com.liu.config.PreviousPage;
@@ -49,6 +54,12 @@ public class MainFunctionController {
 	@Autowired
 	private GameService gameService;
 	
+	@Autowired
+	private CompetitionRepository cRepo;
+	
+	@Autowired
+	private EventRepository eRepo;
+	
 	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
 		return "liu/main";
@@ -63,6 +74,11 @@ public class MainFunctionController {
 	public String homePage(Model model) {
 		sortChartJs.sortGameDTOAll(gameService.getAllGameInfo());
 		model.addAttribute("gameList",sortChartJs.getGameList());
+		List<Competition> competitionList = cRepo.findAllOrderByStartDate();
+		model.addAttribute("competitionList", competitionList);
+		List<Event> eventList = eRepo.findAllOrderByStartDate();
+		model.addAttribute("eventList", eventList);
+		
 		return "liu/home";
 	}
 

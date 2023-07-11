@@ -49,7 +49,7 @@ public class CompetitionRegistrationController {
 	
 	//////////    前台管理    //////////
 	
-	// 跳轉活動總覽頁面
+	// 跳轉賽事總覽頁面
 	@GetMapping("/competitionPageAll")
 	public String eventFrontPageAll(@RequestParam(name="p", defaultValue = "1") Integer pageNumber, Model m) {
 		List<Game> games = gRepo.findAll();
@@ -60,7 +60,7 @@ public class CompetitionRegistrationController {
 		return "chen/competitionFrontPageAll";
 	}
 	
-	// 跳轉活動分類頁面
+	// 跳轉賽事分類頁面
 	@GetMapping("/competitionPageOne")
 	public String eventFrontPageOne(@RequestParam(name="p", defaultValue = "1") Integer pageNumber,@RequestParam(value = "gameId", required = false)Integer gameId,Model m) {
 		List<Game> games = gRepo.findAll();
@@ -71,7 +71,7 @@ public class CompetitionRegistrationController {
 		return "chen/competitionFrontPageOne";
 	}
 	
-	// 跳轉活動細節頁面
+	// 跳轉賽事細節頁面
 	@GetMapping("/competitionPageDetail")
 	public String eventFrontPageDetail(@RequestParam("competitionId")Integer competitionId,Model m) {
 		Competition competition = cService.findById(competitionId);
@@ -123,7 +123,6 @@ public class CompetitionRegistrationController {
 		return new ResponseEntity<byte[]>(imgFile, headers, HttpStatus.OK);
 		
 	}
-	
 	
 	
 	//////////    後台管理    //////////

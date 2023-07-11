@@ -128,7 +128,7 @@
 
 
 
-	<div class="nk-main">
+	<div class="nk-main" style="margin-top:-100px">
 
 		<!-- START: Breadcrumbs -->
 		<div class="nk-gap-1"></div>
@@ -136,17 +136,17 @@
 			<ul class="nk-breadcrumbs">
 
 
-				<li><a href="index.html">Home</a></li>
+				<li><a href="index.html">總覽</a></li>
 
 
 				<li><span class="fa fa-angle-right"></span></li>
 
-				<li><a href="tournaments.html">Tournaments</a></li>
+				<li><a href="tournaments.html">分類</a></li>
 
 
 				<li><span class="fa fa-angle-right"></span></li>
 
-				<li><span>Teams</span></li>
+				<li><span>賽事分類</span></li>
 
 			</ul>
 		</div>
@@ -162,22 +162,17 @@
 
 					<!-- START: Teams -->
 					<th:block th:each=" competition : ${page.content}">
-						<div class="nk-team" style="position: relative;">
-							<div class="nk-team-logo">
-								<img th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}" alt="">
+						<div class="nk-team" style="position: relative;height: 200px;">
+							<div class="nk-team-logo" style="height: 200px;width:200px">
+								<img style="height: 200px;width: 220px;max-width: 220px;" th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}" alt="">
 							</div>
 							<div class="nk-team-cont">
 								<h3 class="h5 mb-20" th:text="${competition.name}"><span class="text-main-1">活動名稱:</span></h3>
 								<h4 class="h6 mb-5">開始日期:<span th:text="${competition.startDate}"></span></h4>
 								<h4 class="h6 mb-5">結束日期:<span th:text="${competition.endDate}"></span></h4>
-								<a href="tournaments-teammate.html">Duke</a>, <a
-									href="tournaments-teammate.html">Bangi</a>, <a
-									href="tournaments-teammate.html">Faker</a>, <a
-									href="tournaments-teammate.html">Bang</a>, <a
-									href="tournaments-teammate.html">Wolf</a>
 
 								<div class="nk-team-photo"
-									style="background-image: url('assets/images/team-photo.png');"></div>
+									style="background-image: url('assets/images/team-photo.png');position: absolute;"></div>
 							</div>
 							<form th:action="@{/competitionPageDetail}" method="get">
 								<input type="hidden" name="competitionId" th:value="${competition.competitionId}" />
@@ -447,76 +442,6 @@
 							</div>
 						</div>
 						<div class="nk-widget nk-widget-highlighted">
-							<h4 class="nk-widget-title"><span><span class="text-main-1">Next</span> Matches</span></h4>
-							<div class="nk-widget-content">
-								<div class="nk-widget-match">
-									<a href="#">
-										<span class="nk-widget-match-left">
-											<span class="nk-widget-match-teams">
-												<span class="nk-widget-match-team-logo">
-													<img src="assets/images/team-1.jpg" alt="">
-												</span>
-												<span class="nk-widget-match-vs">VS</span>
-												<span class="nk-widget-match-team-logo">
-													<img src="assets/images/team-2.jpg" alt="">
-												</span>
-											</span>
-											<span class="nk-widget-match-date">CS:GO - Apr 28, 2018 8:00 pm</span>
-										</span>
-										<span class="nk-widget-match-right">
-											<span class="nk-match-score">
-												Upcoming
-											</span>
-										</span>
-									</a>
-								</div>
-
-								<div class="nk-widget-match">
-									<a href="#">
-										<span class="nk-widget-match-left">
-											<span class="nk-widget-match-teams">
-												<span class="nk-widget-match-team-logo">
-													<img src="assets/images/team-3.jpg" alt="">
-												</span>
-												<span class="nk-widget-match-vs">VS</span>
-												<span class="nk-widget-match-team-logo">
-													<img src="assets/images/team-2.jpg" alt="">
-												</span>
-											</span>
-											<span class="nk-widget-match-date">LoL - Apr 24, 2018 7:20 pm</span>
-										</span>
-										<span class="nk-widget-match-right">
-											<span class="nk-match-score">
-												Upcoming
-											</span>
-										</span>
-									</a>
-								</div>
-
-								<div class="nk-widget-match">
-									<a href="#">
-										<span class="nk-widget-match-left">
-											<span class="nk-widget-match-teams">
-												<span class="nk-widget-match-team-logo">
-													<img src="assets/images/team-1.jpg" alt="">
-												</span>
-												<span class="nk-widget-match-vs">VS</span>
-												<span class="nk-widget-match-team-logo">
-													<img src="assets/images/team-4.jpg" alt="">
-												</span>
-											</span>
-											<span class="nk-widget-match-date">Dota 2 - Apr 12, 2018 6:40 pm</span>
-										</span>
-										<span class="nk-widget-match-right">
-											<span class="nk-match-score bg-dark-1">
-												0 : 0
-											</span>
-										</span>
-									</a>
-								</div>
-							</div>
-						</div>
-						<div class="nk-widget nk-widget-highlighted">
 							<h4 class="nk-widget-title"><span><span class="text-main-1">Top 3</span> Recent</span></h4>
 							<div class="nk-widget-content">
 
@@ -632,15 +557,6 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="nk-widget nk-widget-highlighted">
-							<h4 class="nk-widget-title"><span>Facebook</span></h4>
-							<div class="nk-widget-content">
-								<div class="fb-page" data-href="http://www.facebook.com/templatespoint.net"
-									data-width="700" data-height="350" data-small-header="false"
-									data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"
-									data-show-posts="true"></div>
 							</div>
 						</div>
 

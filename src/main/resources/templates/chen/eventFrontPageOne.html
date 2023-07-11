@@ -117,7 +117,7 @@
 
     
 
-    <div class="nk-main">
+    <div class="nk-main" style="margin-top:-100px">
         
             <!-- START: Breadcrumbs -->
 <div class="nk-gap-1"></div>
@@ -125,17 +125,17 @@
     <ul class="nk-breadcrumbs">
         
         
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html">總覽</a></li>
         
         
         <li><span class="fa fa-angle-right"></span></li>
         
-        <li><a href="#">Blog</a></li>
+        <li><a href="#">分類</a></li>
         
         
         <li><span class="fa fa-angle-right"></span></li>
         
-        <li><span>Blog List</span></li>
+        <li><span>活動分類</span></li>
         
     </ul>
 </div>
@@ -160,7 +160,6 @@
                                 <div class="col-md-5 col-lg-6">
                                     <span class="nk-post-img">
                                         <img style="width: 350px;height: 200px;" th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="">
-                                        <span class="nk-post-comments-count">4</span>
                                     </span>
                                 </div>
                                 <div class="col-md-7 col-lg-6">
@@ -170,9 +169,6 @@
                                         <p style="color: #7f8b92;" th:text="${event.description}"></p>
                                     </div>
 
-                                    <div class="nk-post-by">
-                                        <img src="assets/images/avatar-1.jpg" alt="Hitman" class="rounded-circle" width="35"> by <a href="#">Hitman</a> in Sep 18, 2018
-                                    </div>
                                 </div>
                                 <form th:action="@{/eventPageDetail}" method="get">
 									<input type="hidden" name="eventId" th:value="${event.eventId}" />
@@ -252,7 +248,7 @@
                                 <div class="nk-widget-post" style="padding-left: 0;display: flex;flex-wrap: wrap;">
 									<th:block th:each=" game : ${games} " >
                                     <div>
-										<a class="badge bg-success" style="font-size: 17px;margin-right: 21px;margin-bottom: 20px;" th:text="${game.gameName}" th:href="@{'/competitionPageOne?gameId='+${game.gameId}}"></a>
+										<a class="badge bg-success" style="font-size: 17px;margin-right: 21px;margin-bottom: 20px;" th:text="${game.gameName}" th:href="@{'/eventPageOne?gameId='+${game.gameId}}"></a>
 									</div>
 									</th:block>
                                 </div>
@@ -404,76 +400,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<div class="nk-widget nk-widget-highlighted">
-    <h4 class="nk-widget-title"><span><span class="text-main-1">Next</span> Matches</span></h4>
-    <div class="nk-widget-content">
-        <div class="nk-widget-match">
-            <a href="#">
-                <span class="nk-widget-match-left">
-                    <span class="nk-widget-match-teams">
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-1.jpg" alt="">
-                        </span>
-                        <span class="nk-widget-match-vs">VS</span>
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-2.jpg" alt="">
-                        </span>
-                    </span>
-                    <span class="nk-widget-match-date">CS:GO - Apr 28, 2018 8:00 pm</span>
-                </span>
-                <span class="nk-widget-match-right">
-                    <span class="nk-match-score">
-                        Upcoming
-                    </span>
-                </span>
-            </a>
-        </div>
-
-        <div class="nk-widget-match">
-            <a href="#">
-                <span class="nk-widget-match-left">
-                    <span class="nk-widget-match-teams">
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-3.jpg" alt="">
-                        </span>
-                        <span class="nk-widget-match-vs">VS</span>
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-2.jpg" alt="">
-                        </span>
-                    </span>
-                    <span class="nk-widget-match-date">LoL - Apr 24, 2018 7:20 pm</span>
-                </span>
-                <span class="nk-widget-match-right">
-                    <span class="nk-match-score">
-                        Upcoming
-                    </span>
-                </span>
-            </a>
-        </div>
-
-        <div class="nk-widget-match">
-            <a href="#">
-                <span class="nk-widget-match-left">
-                    <span class="nk-widget-match-teams">
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-1.jpg" alt="">
-                        </span>
-                        <span class="nk-widget-match-vs">VS</span>
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-4.jpg" alt="">
-                        </span>
-                    </span>
-                    <span class="nk-widget-match-date">Dota 2 - Apr 12, 2018 6:40 pm</span>
-                </span>
-                <span class="nk-widget-match-right">
-                    <span class="nk-match-score bg-dark-1">
-                        0 : 0
-                    </span>
-                </span>
-            </a>
         </div>
     </div>
 </div>
