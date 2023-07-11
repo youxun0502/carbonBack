@@ -103,7 +103,8 @@ public class MessagesController {
 	}
 	
 	@GetMapping("/front/insertpage")
-	public String insertpageFront() {
+	public String insertpageFront(Model model, @RequestParam String mtitle) {
+		model.addAttribute("mtitle", mtitle);
 		return "liao/MessageInsertFront";
 	}
 	

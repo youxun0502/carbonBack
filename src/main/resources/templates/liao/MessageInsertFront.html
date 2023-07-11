@@ -146,9 +146,10 @@
                                 <label class="form-label text-dark">遊戲名稱</label>
                                 <input class="form-control" type="text" name="gameName">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">文章標題</label>
-                                <input class="form-control" type="text" name="mtitle">
+                                <input  type="hidden" th:value="${mtitle}" name="mtitle">
+                                <!-- <input class="form-control" type="text" name="mtitle"> -->
                             </div>
                             <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">創建日期</label>
@@ -192,7 +193,7 @@
                 var userName = "User" + memberId;
                 var gameId = Math.floor(Math.random() * 1000) + 1;
                 var gameName = "Game" + gameId;
-                var mtitle = "SampleTitle";
+                // var mtitle = "SampleTitle";
                 var mcreated = "2023-06-18";
                 var mlikes = Math.floor(Math.random() * 10);
                 var mcontent = "Sample Content";
@@ -203,7 +204,7 @@
                 $("#newMessageForm input[name='userName']").val(userName);
                 $("#newMessageForm input[name='gameId']").val(gameId);
                 $("#newMessageForm input[name='gameName']").val(gameName);
-                $("#newMessageForm input[name='mtitle']").val(mtitle);
+                // $("#newMessageForm input[name='mtitle']").val(mtitle);
                 $("#newMessageForm input[name='mcreated']").val(mcreated);
                 $("#newMessageForm input[name='mlikes']").val(mlikes);
                 $("#newMessageForm textarea[name='mcontent']").val(mcontent);

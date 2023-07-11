@@ -142,9 +142,10 @@
                                 <label class="form-label text-dark">遊戲編號</label>
                                 <input class="form-control" type="text" name="gameId">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">遊戲名稱</label>
-                                <input class="form-control" type="text" name="gameName">
+                               
+                                <input  type="hidden" th:value="${gameName}" name="gameName">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">文章標題</label>
@@ -198,7 +199,7 @@
                 var eventId = Math.floor(Math.random() * 1000) + 1;
                 var userName = "User" + memberId;
                 var gameId = Math.floor(Math.random() * 1000) + 1;
-                var gameName = "Game" + gameId;
+                // var gameName = "Game" + gameId;
                 var title = "SampleTitle";
                 var dcontent = "Sample Content";
                 var lastReplyTime = "2023-06-19";
@@ -211,7 +212,7 @@
                 $("#newDiscussionForm input[name='eventId']").val(eventId);
                 $("#newDiscussionForm input[name='userName']").val(userName);
                 $("#newDiscussionForm input[name='gameId']").val(gameId);
-                $("#newDiscussionForm input[name='gameName']").val(gameName);
+                // $("#newDiscussionForm input[name='gameName']").val(gameName);
                 $("#newDiscussionForm input[name='title']").val(title);
                 $("#newDiscussionForm textarea[name='dcontent']").val(dcontent);
                 $("#newDiscussionForm input[name='lastReplyTime']").val(lastReplyTime);

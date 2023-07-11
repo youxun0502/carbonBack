@@ -120,7 +120,8 @@ public class DiscussionsController {
 	}
 	
 	@GetMapping("/forum/insertpage")
-	public String insertpageForum() {
+	public String insertpageForum(Model model, @RequestParam String gameName) {
+		model.addAttribute("gameName", gameName);
 		return "liao/DiscussionInsertFront";
 	}
 	
@@ -151,6 +152,8 @@ public class DiscussionsController {
 		discussions.setDcreated_at(dcreated_at);
 		discussions.setDlikes(dlikes);
 		discussions.setPhotoFile(photoFile.getBytes());
+		
+		
 		
 		dService.insert(discussions);
 		
@@ -376,6 +379,7 @@ public class DiscussionsController {
 	public String goGameDiscussion(Model model , @PathVariable String gameName) throws SQLException {
 		List<Discussions> discussions = dService.findDiscussionsByGameName(gameName);
         model.addAttribute("discussions", discussions);
+        model.addAttribute("gameName", gameName);
 		return "liao/GameDiscussion";
 	}
 	
@@ -400,6 +404,7 @@ public class DiscussionsController {
 //	          return "liao/SampleTitle";
 		   List<Messages> msg = mService.findMessagesByTitle(mtitle);
            model.addAttribute("msg", msg);
+           model.addAttribute("mtitle", mtitle);
            return "liao/SampleTitle";
 	  }
 	
