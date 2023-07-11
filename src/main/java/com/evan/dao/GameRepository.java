@@ -28,5 +28,7 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 
 	public List<Game> findGameByGameName(String gameName);
 
+	public List<Game> findGameByPriceBetween(int parseInt, int parseInt2);
+
 
 }
