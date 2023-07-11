@@ -88,7 +88,7 @@
 								<li class="nk-drop-item">
 									<a href="#">我的訂單</a>
 									<ul class="dropdown">
-										<li><a href="#">遊戲訂單</a></li>
+										<li><a th:href="@{'/gameFront/orderList?memberId='+${session.memberBeans.id}}">遊戲訂單</a></li>
 										<li><a href="#">虛寶交易訂單</a></li>
 									</ul>
 								</li>

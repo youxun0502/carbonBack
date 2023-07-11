@@ -275,7 +275,9 @@ public class GameOrderService {
 	//尋找使用者已經擁有的遊戲
 	public List<OrderLogDTO> getMemberOwnGames(Map<String, Object> formData) {
 	    int memberId = Integer.parseInt((String) formData.get("memberId"));
+	    System.out.println(memberId);
 	    Member member = mRepos.findById(memberId).orElse(null);
+	    System.out.println("step1");
 	    
 	    Set<String> gameNames = new HashSet<>();
 	    List<OrderLogDTO> successOrder = new ArrayList<>();

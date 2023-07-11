@@ -71,10 +71,13 @@ public class FrontGameController {
 		return "evan/SingleGamePage";
 	}
 	
-	@GetMapping("/carbon/gameFront/ownGame")
+	@GetMapping("/gameFront/getownGame")
+	@ResponseBody
 	public List<OrderLogDTO> getMemberOwnGames(@RequestParam Map<String, Object> formData,Model model){
+		System.out.println("hello");
 		return goService.getMemberOwnGames(formData);
 	}
+	
 	
 	
 }
