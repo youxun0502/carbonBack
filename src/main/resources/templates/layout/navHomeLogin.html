@@ -109,16 +109,7 @@
 								<span class="fa fa-shopping-cart" style="color:#fff"></span>
 								<span class="nk-badge" style="color:#fff" id="cartItemCount">0</span>
 							</div>
-				</div>
-				</li>
-				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button"
-						data-bs-toggle="dropdown" th:href="@{/gameFront}" aria-expanded="false">Game</a>
-					<ul class="dropdown-menu bg-dark text-light">
-						<li><a class="dropdown-item text-light" th:href="@{/bonus-shop/main}">Bonus Shop</a></li>
-						<li><a class="dropdown-item text-light" th:href="@{/profile}">Profile</a></li>
-						<li><a class="dropdown-item text-light"
-								th:href="@{'/gameFront/orderList?memberId='+${session.memberBeans.id}}">遊戲訂單</a>
-						</li>
+				 <div class="nk-cart-dropdown">
 
 						<!-- 購物車區塊 -->
 						<div id="cartItems"></div>
