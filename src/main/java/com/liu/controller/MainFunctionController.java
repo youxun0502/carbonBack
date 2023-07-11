@@ -1,9 +1,12 @@
 package com.liu.controller;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+
 import com.liu.config.PreviousPage;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
+import com.liu.service.GLoginService;
 import com.liu.service.GmailService;
 import com.liu.service.MemberService;
 
@@ -40,6 +46,9 @@ public class MainFunctionController {
 
 	@Autowired
 	private GmailService gService;
+
+	@Autowired
+	private GLoginService gLoginService;
 
 	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
@@ -320,17 +329,24 @@ public class MainFunctionController {
 		}
 
 	}
-	
+
 	@PutMapping("/main/updatePwdForForgetPwd")
-	public String updatePwdForForgetPwd(@RequestParam("email")String email, @RequestParam("newPwd") String pwd) {
+	public String updatePwdForForgetPwd(@RequestParam("email") String email, @RequestParam("newPwd") String pwd) {
 		mService.changePwdForForgetPwd(email, pwd);
 		return "redirect:/main/loginPage";
 	}
-	
+
 	@PostMapping("/main/googleLogin")
-	public String googleLogin() {
+	public String googleLogin(@RequestParam("credential") String credential) throws GeneralSecurityException, IOException {
+		
+		GoogleIdToken idToken = gLoginService.getIdToken(credential);
+		Map<String, String> userInfo;
+		if (idToken != null) {
+		 userInfo = gLoginService.getUserInfo(idToken);
+		}else {
+		userInfo=null;
+		}
 		return "redirect:/";
 	}
-	
 
 }

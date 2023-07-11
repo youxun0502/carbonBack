@@ -7,6 +7,7 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -24,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -35,6 +37,7 @@ public class GmailConfig {
     private static final String APPLICATION_NAME = "Gmail API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final String Client_ID = "1070702429115-en0qd5ug57uoo54tbvkaos9j1tvrle3s.apps.googleusercontent.com";
 
     /**
      * Global instance of the scopes required by this quickstart.
@@ -97,5 +100,13 @@ public class GmailConfig {
             System.out.printf("- %s\n", label.getName());
           }
         }*/
+    }
+    
+    //獲取驗證token的物件
+    @Bean
+    public static GoogleIdTokenVerifier getGoogleIdTokenVerifier() throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    	GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT,JSON_FACTORY).setAudience(Collections.singletonList(Client_ID) ).build();
+    	return verifier;
     }
 }
