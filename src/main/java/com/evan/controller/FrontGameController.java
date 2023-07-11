@@ -78,6 +78,30 @@ public class FrontGameController {
 		return goService.getMemberOwnGames(formData);
 	}
 	
+	// ----------------tpyeNameList Ajax
+	@Transactional
+	@GetMapping("/gameFront/findGameByType")
+	@ResponseBody
+	public List<GameDTO> findGameByType(@RequestParam Map<String, Object> formData) {
+		List<GameDTO> gameList = gtService.findGameByTypeName((String)formData.get("typeName"));
+		return gameList;
+	}
+	
+	@ResponseBody
+	@GetMapping("/gameFront/getGameLikesName")
+	public List<GameDTO> SearchLikeName(@RequestParam Map<String, Object> formData) {
+		List<GameDTO> gamesInfos = gService.SearchLikeName((String) formData.get("gameName"));
+		System.out.println(gamesInfos);
+		return gamesInfos;
+	}
+	@ResponseBody
+	@GetMapping("/gameFront/findPrice")
+	public List<GameDTO> SearchPrice(@RequestParam Map<String, Object> formData) {
+		List<GameDTO> gamesInfos = gService.SearchPrice((String) formData.get("minValue"),(String) formData.get("maxValue"));
+		System.out.println(gamesInfos);
+		return gamesInfos;
+	}
+
 	
 	
 }
