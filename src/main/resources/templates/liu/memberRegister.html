@@ -13,15 +13,15 @@
 
   <div class="container vh-100">
     <div class="row h-100">
-      <div class="col-12 col-lg-6 ms-lg-5 mx-auto">
+      <div class="col-12 col-lg-6 ms-lg-5 ">
         <div class="text-light mt-120 fs-3 p-3">建立您專屬的帳號</div>
         <div class=" h-50  col-12  p-3">
           <form class="col-12" id="form" th:action="@{/main/register}" method="post" th:object=${memberDto}>
             <div id="animation" class="animate__animated ">
               <div class="mb-3">
                 <label for="email" class="form-label form-control-lg col-12 text-light">電子郵件</label>
-                <input type="email" th:field="*{email}" class="form-control formInputbg text-light" id="email" placeholder="請輸入您的電子郵件"
-                  required />
+                <input type="email" th:field="*{email}" class="form-control formInputbg text-light" id="email"
+                  placeholder="請輸入您的電子郵件" required />
                 <div class="col-12 text-light space">space</div>
               </div>
               <div class="mb-3">
@@ -34,44 +34,55 @@
             <div id="animationIn" class="animate__animated" style="display: none;">
               <div class="mb-3">
                 <label for="userId" class="form-label form-control-lg col-12 text-light">帳號</label>
-                <input type="text" th:field="*{id}"class="form-control formInputbg text-light" id="userId" placeholder="請輸入公開顯示的稱呼" />
+                <input type="text" th:field="*{id}" class="form-control formInputbg text-light" id="userId"
+                  placeholder="請輸入公開顯示的稱呼" />
                 <div class="col-12 text-light space" id="userIdSpace">space</div>
               </div>
               <div class="mb-3">
                 <label for="memberName" class="form-label form-control-lg col-12 text-light">姓名</label>
-                <input type="text" th:field="*{name}"class="form-control formInputbg text-light" id="memberName" placeholder="請輸入您的姓名" />
+                <input type="text" th:field="*{name}" class="form-control formInputbg text-light" id="memberName"
+                  placeholder="請輸入您的姓名" />
                 <div class="col-12 text-light space" id="memberNameSpace">space</div>
               </div>
               <div class="mb-3">
                 <label for="birthday" class="form-label form-control-lg col-12 text-light">生日</label>
-                <input type="date" th:field="*{birthday}" class="form-control formInputbg text-light" id="birthday" value="1911-01-01" />
+                <input type="date" th:field="*{birthday}" class="form-control formInputbg text-light" id="birthday"
+                  value="1911-01-01" />
                 <div class="col-12 text-light space" id="birthdaySpace">space</div>
               </div>
               <div class="mb-3">
                 <label for="phone" class="form-label form-control-lg col-12 text-light">電話號碼</label>
-                <input type="text" th:field="*{phone}" class="form-control formInputbg text-light" id="phone" placeholder="請輸入您的電話號碼" />
+                <input type="text" th:field="*{phone}" class="form-control formInputbg text-light" id="phone"
+                  placeholder="請輸入您的電話號碼" />
                 <div class="col-12 text-light space" id="phoneSpace">space</div>
               </div>
               <div class="mb-4">
                 <label for="genderMale" class="form-label form-control-lg col-12 text-light">性別</label>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input ms-2" type="radio" th:field="*{gender}"  id="genderMale" value="1" >
-                  <label class="form-check-label text-light fs-6 ms-1" for="genderMale">男</label>
+                  <input class="form-check-input ms-2" type="radio" th:field="*{gender}" id="genderMale" value="1">
+                  <label class="form-check-label text-light ms-1 radioFond" for="genderMale">男</label>
                 </div>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input ms-3" type="radio" th:field="*{gender}" id="genderFemale" value="2">
-                  <label class="form-check-label text-light fs-6 ms-1" for="genderFemale">女</label>
+                  <label class="form-check-label text-light ms-1 radioFond" for="genderFemale">女</label>
                 </div>
                 <span class=" text-light space" id="genderSpace">space</span>
               </div>
-              <button type="submit" class="btn btn-primary col-12 col-lg-6 d-none mb-3" id="reigisterBtn"
+
+
+              <button type="submit" class="btn nextStep text-light col-12 col-lg-6 d-none mb-10" id="reigisterBtn"
                 disabled>註冊</button>
-                <button class="btn btn-secondary col-12 col-lg-6 d-none" id="autoInput2" >ㄧ鍵輸入</button>
+              <button class="btn btn-secondary col-12 col-lg-6 d-none" id="autoInput2">一鍵輸入</button>
+            </div>
+            <div id="animationIn2" class="animate__animated" style="display: none; height:600px;">
+              <div class="d-flex align-items-center">
+                <h3>帳號註冊成功 請至信箱進行驗證</h3>
+              </div>
             </div>
           </form>
-          <button class="btn btn-primary col-12 col-lg-6" id="nextStep" disabled>下一步</button>
-          <button class="btn btn-secondary col-12 col-lg-6 mt-3" id="autoInput1">ㄧ鍵輸入</button>
-        
+          <button class="btn nextStep text-light col-12 col-lg-6" id="nextStep" disabled>下一步</button>
+          <button class="btn btn-secondary col-12 col-lg-6 mt-10" id="autoInput1">一鍵輸入</button>
+
         </div>
       </div>
     </div>

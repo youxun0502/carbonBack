@@ -10,12 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.li.service.BonusPointService;
+import com.evan.service.GameService;
+import com.evan.utils.SortChartJs;
 import com.liu.config.PreviousPage;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
@@ -44,6 +47,12 @@ public class MainFunctionController {
 	@Autowired
 	private BonusPointService bpService;
 
+	@Autowired
+	private SortChartJs sortChartJs;
+	
+	@Autowired
+	private GameService gameService;
+	
 	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
 		return "liu/main";
@@ -51,11 +60,13 @@ public class MainFunctionController {
 
 	@GetMapping("/main/goBackToHome")
 	public String goBackToHome() {
-		return "liu/home";
+		return "redirect:/";
 	}
 
 	@GetMapping("/")
-	public String homePage() {
+	public String homePage(Model model) {
+		sortChartJs.sortGameDTOAll(gameService.getAllGameInfo());
+		model.addAttribute("gameList",sortChartJs.getGameList());
 		return "liu/home";
 	}
 
@@ -63,7 +74,7 @@ public class MainFunctionController {
 	public String loginPage(@CookieValue(value = "email", required = false) String cookieValue, Model m,
 			HttpServletRequest request, HttpSession session) {
 		// 有登入就不能進去登入頁面
-		System.out.println(session.getAttribute("character"));
+
 		if (session.getAttribute("character") != null) {
 			return "redirect:/";
 		}
@@ -86,7 +97,7 @@ public class MainFunctionController {
 		System.out.println(email);
 		System.out.println(memberPwd);
 		Member member = mService.isMember(email, memberPwd);
-		
+
 		if (member == null) {
 			m.addAttribute("status", "帳號或密碼輸入錯誤");
 			return "/liu/memberLoginError";
@@ -137,8 +148,9 @@ public class MainFunctionController {
 						|| previousPage.getPreviousPage().equals("/main/registerPage")
 						|| previousPage.getPreviousPage().equals("/main/logout")
 						|| previousPage.getPreviousPage().equals("/main/emailVerification")
-						|| previousPage.getPreviousPage().equals("/main/memberLogin")) {
-					return "/liu/home";
+						|| previousPage.getPreviousPage().equals("/main/memberLogin")
+						|| previousPage.getPreviousPage().equals("/main/forgetPwdPage")) {
+					return "redirect:/";
 				} else {
 					return "redirect:" + previousPage.getPreviousPage();
 				}
@@ -163,7 +175,7 @@ public class MainFunctionController {
 				if (previousPage.getPreviousPage() == null
 						|| previousPage.getPreviousPage().equals("/main/registerPage")
 						|| previousPage.getPreviousPage().equals("/main/memberLogin")) {
-					return "/liu/home";
+					return "redirect:/";
 				} else {
 					return "redirect:" + previousPage.getPreviousPage();
 				}
@@ -181,11 +193,12 @@ public class MainFunctionController {
 	@GetMapping("/main/logout")
 	public String memberLogout(@RequestParam(name = "id") Integer id, HttpSession session, Model m) {
 		session.invalidate();
-		return "/liu/home";
+		return "redirect:/";
 	}
 
-	@PostMapping("/main/register")
-	public String memberRegister(@ModelAttribute("memberDto") MemberDto memberDto, Model m)
+	@ResponseBody
+	@PostMapping("/main/api/register")
+	public String memberRegister(@RequestBody MemberDto memberDto)
 			throws AddressException, MessagingException, IOException {
 		Member member = new Member();
 		member.setUserId(memberDto.getId());
@@ -205,8 +218,7 @@ public class MainFunctionController {
 		gService.sendMessage(memberDto.getEmail(), gService.getMyEmail(), "Carbon邀請您驗證您的信箱",
 				"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + memberDto.getId() + "您好:\n" + "\n" + "點選以下連結驗證信箱\n" + "\n" + url
 						+ "\n\n" + "Carbon lys7744110@gmail.com");
-		m.addAttribute("registration", "success");
-		return "/liu/memberLogin";
+		return "success";
 	}
 
 	@GetMapping("/main/emailVerification")
@@ -228,14 +240,14 @@ public class MainFunctionController {
 
 			if (result == true) {
 				m.addAttribute("status", "信箱驗證成功");
-				return "/liu/emailVerification";
+				return "/liu/memberEmailVerification";
 			} else {
 				m.addAttribute("status", "信箱驗證失敗，請聯繫客服");
-				return "/liu/emailVerification";
+				return "/liu/memberEmailVerification";
 			}
 		} else {
 			m.addAttribute("status", "驗證網址過期，請重新取得驗證網址");
-			return "/liu/emailVerification";
+			return "/liu/memberEmailVerification";
 		}
 
 	}
@@ -279,5 +291,59 @@ public class MainFunctionController {
 				+ "您好:\n" + "\n" + "點選以下連結驗證信箱\n" + "\n" + url + "\n\n" + "Carbon lys7744110@gmail.com");
 		return "success";
 	}
+
+	@GetMapping("/main/api/forgetPwd")
+	@ResponseBody
+	public String forgetPassword(@RequestParam("email") String email)
+			throws AddressException, MessagingException, IOException {
+		String emailForFinding = email;
+
+		boolean status = mService.emailAlreadyRegistered(emailForFinding);
+
+		if (status == true) {
+			LocalDateTime nowTime = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+			String nowStringTime = nowTime.format(formatter);
+			String url = "http://localhost:8080/carbon/main/forgetPwdPage?email=" + emailForFinding + "&t="
+					+ nowStringTime;
+			gService.sendMessage(email, gService.getMyEmail(), "【Carbon】帳戶救援", "此為系統發送郵件，請勿直接回覆！！！\n" + "\n"
+					+ "點選以下連結進行帳號救援\n" + "\n" + url + "\n\n" + "Carbon lys7744110@gmail.com");
+
+		}
+		return "success";
+	}
+
+	@GetMapping("/main/forgetPwdPage")
+	public String forgetPwdPage(@RequestParam("email") String email, @RequestParam("t") String time, Model m) {
+		LocalDateTime nowTime = LocalDateTime.now();
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+		LocalDateTime oldTime = LocalDateTime.parse(time, dateTimeFormatter);
+
+		Duration duration = Duration.between(oldTime, nowTime);
+
+		long minutes = duration.toMinutes();
+
+		if (minutes <= 5) {
+			m.addAttribute("email", email);
+			m.addAttribute("isExpiration", "no");
+			return "/liu/memberForgetPwdPage";
+		} else {
+			m.addAttribute("isExpiration", "yes");
+			return "/liu/memberForgetPwdPage";
+		}
+
+	}
+	
+	@PutMapping("/main/updatePwdForForgetPwd")
+	public String updatePwdForForgetPwd(@RequestParam("email")String email, @RequestParam("newPwd") String pwd) {
+		mService.changePwdForForgetPwd(email, pwd);
+		return "redirect:/main/loginPage";
+	}
+	
+	@PostMapping("/main/googleLogin")
+	public String googleLogin() {
+		return "redirect:/";
+	}
+	
 
 }

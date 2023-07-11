@@ -144,9 +144,9 @@ function updateCartItems() {
           </a>
           <h3 class="nk-post-title">
             <a href="#" class="nk-cart-remove-item" onclick="removeFromCart(event, '${item.gameName}')"><span class="ion-android-close"></span></a>
-            <a href="/carbon/gameFront/${item.gameName}">${item.gameName}</a>
+            <a href="/carbon/gameFront/${item.gameName}" style="font-size:16px">${item.gameName}</a>
           </h3>
-          <div class="nk-product-price">NT$${item.price}</div>
+          <div class="nk-product-price" style="font-size:16px">NT$${item.price}</div>
         </div>
       `;
 

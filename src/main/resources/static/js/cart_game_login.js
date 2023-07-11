@@ -1,6 +1,7 @@
 var cartItems;
 // 在頁面加載完成後檢查使用者的購物車資料
-$(document).ready(function () {
+$(document).ready(function() {
+
 	checkUserCart();
 
 });
@@ -15,13 +16,31 @@ function checkUserCart() {
 		url: '/carbon/gameCart',
 		type: 'GET',
 		data: { memberId: memberId },
-		success: function (data) {
+		success: function(data) {
 			console.log(data);
 			cartItems = data;
 			// 根據回傳的資料進行相應的處理
 			if (data === null || data.length === 0 || data === "") {
 				// 若資料為 null 或長度為 0，表示玩家沒有購物車資料，則使用 Local Storage 的購物車資料
 				cartItems = localStorage.getItem('cartItems');
+				var cartItemsArray = JSON.parse(cartItems);
+				
+				checkMemberOwnGame(function(gameNames) {
+					console.log(gameNames);
+					// 在這裡進行遊戲名稱比對和刪除 cartItems 的操作
+				if (cartItems) {
+					// 比對遊戲名字並刪除匹配的項目
+					for (var i = cartItemsArray.length - 1; i >= 0; i--) {
+						var cartGameName = cartItemsArray[i].gameName;
+						 console.log(cartGameName)
+						if (gameNames.includes(cartGameName)) {
+							cartItemsArray.splice(i, 1);
+						}
+					}
+
+				}
+
+				console.log(cartItemsArray)
 				if (cartItems) {
 					// 將 Local Storage 的購物車資料存入資料庫
 					$.ajax({
@@ -29,9 +48,9 @@ function checkUserCart() {
 						type: 'POST',
 						data: {
 							memberId: memberId,
-							cartItems: JSON.parse(cartItems)
+							cartItems: cartItemsArray
 						},
-						success: function (e) {
+						success: function(e) {
 							console.log(e);
 							cartItems = e;
 							// 資料庫存儲成功後的處理
@@ -39,18 +58,20 @@ function checkUserCart() {
 							updateCartItems();
 
 						},
-						error: function (error) {
+						error: function(error) {
 							// 資料庫存儲失敗後的處理
 							console.error('資料庫存儲失敗', error);
 						}
 					});
-				}
+					clearLocal();
+				}			});	
 			} else {
 				updateCartItems();
+				clearLocal();
 			}
 
 		},
-		error: function (error) {
+		error: function(error) {
 			// 請求失敗後的處理
 			console.error('請求失敗', error);
 		}
@@ -76,7 +97,7 @@ function updateCartItems() {
 	console.log(cartItems);
 	// 迭代購物車項目，生成 HTML 內容
 	let itemCount = 0;
-	cartItems.forEach(function (item) {
+	cartItems.forEach(function(item) {
 		if (itemCount < 5) {
 			const html = `
         <div class="nk-widget-post">
@@ -85,9 +106,9 @@ function updateCartItems() {
           </a>
           <h3 class="nk-post-title">
             <a href="#" class="nk-cart-remove-item" onclick="removeFromCart(event, '${item.gameName}','${item.gameId}','${memberId}')"><span class="ion-android-close"></span></a>
-            <a href="/carbon/gameFront/${item.gameName}">${item.gameName}</a>
+            <a href="/carbon/gameFront/${item.gameName}" style="font-size:16px">${item.gameName}</a>
           </h3>
-          <div class="nk-product-price">NT$${item.price}</div>
+          <div class="nk-product-price" style="font-size:16px">NT$${item.price}</div>
         </div>
       `;
 
@@ -99,10 +120,11 @@ function updateCartItems() {
 			const moreText = document.createElement('div');
 			moreText.textContent = '點擊下面查看更多';
 			cartItemsContainer.appendChild(moreText);
-		  }
+		}
 	});
 	updateCartItemCount();
 	check();
+	checkMemberOwnGame();
 }
 
 // 更新購物車項目數量
@@ -123,10 +145,10 @@ function check() {
 	console.log(cartItems)
 	if (cartItems) {
 		// 為每個按鈕檢查遊戲是否已存在於購物車中
-		addToCartButtons.forEach(function (button) {
+		addToCartButtons.forEach(function(button) {
 			var gameName = button.getAttribute("data-game-name");
 
-			var isGameInCart = cartItems.some(function (item) {
+			var isGameInCart = cartItems.some(function(item) {
 				return item.gameName === gameName;
 			});
 
@@ -174,7 +196,7 @@ function addToCart(event) {
 	}
 
 	// 檢查是否已經存在相同的遊戲名字
-	var isGameNameExist = cartItems.some(function (e) {
+	var isGameNameExist = cartItems.some(function(e) {
 		return e.gameName === gameName;
 	});
 
@@ -190,13 +212,13 @@ function addToCart(event) {
 				memberId: memberId,
 				gameId: gameId
 			},
-			success: function (data) {
+			success: function(data) {
 				cartItems = data;
 				// 資料庫存儲成功後的處理
 				console.log('資料庫存儲成功');
 
 			},
-			error: function (error) {
+			error: function(error) {
 				// 資料庫存儲失敗後的處理
 				console.error('資料庫存儲失敗', error);
 			}
@@ -228,21 +250,21 @@ function removeFromCart(event, gameName, gameId, memberId) {
 	}
 
 	// 在購物車中尋找要移除的商品
-	const index = cartItems.findIndex(function (item) {
+	const index = cartItems.findIndex(function(item) {
 		return item.gameName === gameName;
 	});
 	// 在購物車中尋找要移除的商品
 	var localCart = JSON.parse(localStorage.getItem('cartItems'));
 	if (localCart) {
-	const indexlocal = localCart.findIndex(function (item) {
-		return item.gameName === gameName;
-	});
-	if(indexlocal !== -1){localCart.splice(indexlocal, 1);};
+		const indexlocal = localCart.findIndex(function(item) {
+			return item.gameName === gameName;
+		});
+		if (indexlocal !== -1) { localCart.splice(indexlocal, 1); };
 	}
 
 	// 如果找到該商品，則從購物車中移除
 	if (index !== -1) {
-		
+
 		cartItems.splice(index, 1);
 		// 將更新後的購物車資料存回 Local Storage
 		localStorage.setItem('cartItems', JSON.stringify(localCart));
@@ -253,13 +275,12 @@ function removeFromCart(event, gameName, gameId, memberId) {
 				memberId: memberId,
 				gameId: gameId
 			},
-			success: function (data) {
+			success: function(data) {
 				cartItems = data;
 				// 資料庫存儲成功後的處理
 				console.log('資料庫存儲成功');
-				refreshPage();
 			},
-			error: function (error) {
+			error: function(error) {
 				// 資料庫存儲失敗後的處理
 				console.error('資料庫存儲失敗', error);
 			}
@@ -271,4 +292,62 @@ function removeFromCart(event, gameName, gameId, memberId) {
 	updateCartItems();
 	check();
 
+}
+
+//已經擁有的遊戲就不能再購買
+function checkMemberOwnGame(callback) {
+	var memberId = $('#memberId').data('userId');
+	var gameNames = [];
+
+	// 將 Local Storage 的購物車資料存入資料庫
+	$.ajax({
+		url: '/carbon/gameFront/getownGame',
+		type: 'GET',
+		data: {
+			memberId: memberId,
+		},
+		success: function(gameList) {
+			console.log(gameList);
+			gameNames = $.map(gameList, function(item) {
+				return item.gameName;
+			});
+			removeOwnGame(gameList);
+
+			if ($.isFunction(callback)) {
+				callback(gameNames);
+			}
+		},
+		error: function(error) {
+			// 資料庫存儲失敗後的處理
+			console.error('遊戲列表讀取失敗', error);
+		}
+	});
+}
+
+function removeOwnGame(gameList) {
+	if (gameList) {
+		$('.add-to-cart-button').each(function() {
+			var button = $(this);
+			var gameName = button.attr('data-game-name');
+
+			var isGameOwned = gameList.some(function(item) {
+				console.log(item.gameName);
+				return item.gameName === gameName;
+			});
+
+			if (isGameOwned) {
+				button.addClass('nk-btn-color-warning');
+				button.removeClass('nk-btn-hover-color-main-1 nk-btn-color-dark-3 add-to-cart-button');
+				button.text('已購買');
+				button.removeAttr('onclick');
+			}
+		});
+	}
+}
+
+//清理local
+function clearLocal() {
+	var localCart = JSON.parse(localStorage.getItem('cartItems'));
+	localCart = [];
+	localStorage.setItem('cartItems', JSON.stringify(localCart));
 }

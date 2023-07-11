@@ -10,5 +10,6 @@ public class ExceptionDeal {
 	public String indexException() {
 		return "evan/404";
 	}
+
 	
 }

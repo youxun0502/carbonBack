@@ -177,5 +177,12 @@ public class MemberService {
 	public  List<Object[]> findRegistrationMonth(){
 		return mRepository.findRegistrationMonth();
 	}
+	
+	@Transactional
+	public void changePwdForForgetPwd(String email, String pwd) {
+		Member member = mRepository.findMemberByEmail(email);
+		member.setMemberPwd(pwdEncoder.encode(pwd));
+		mRepository.save(member);
+	}
 
 }

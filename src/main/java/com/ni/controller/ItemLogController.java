@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ni.dto.ItemLogDTO;
@@ -37,16 +38,14 @@ public class ItemLogController {
 	@ResponseBody
 	@PostMapping("/market/newItemLog")
 	public ItemLog insert(@RequestBody ItemLogDTO itemLog) {
-		ItemLog log = itemLogService.findTotalById(itemLog.getMemberId(), itemLog.getItemId());
-		if(log != null) {
-			itemLog.setTotal(log.getTotal() + itemLog.getQuantity()); 
-		} else {
-			itemLog.setTotal(itemLog.getQuantity());
-		}
 		return itemLogService.insert(itemLog);
 	}
 	
-	
+	@ResponseBody
+	@GetMapping("/market/history")
+	public List<ItemLogDTO> findOrderHistory(@RequestParam("memberId") Integer memberId) {
+		return itemLogService.findOrderHistory(memberId);
+	}
 	
 //	-------------- profiles Inventory -----------------------------
 	@ResponseBody

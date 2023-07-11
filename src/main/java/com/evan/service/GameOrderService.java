@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.evan.dao.GameOrderRepository;
+import com.evan.dao.GameRepository;
 import com.evan.dto.CartDTO;
 import com.evan.dto.OrderDTO;
+import com.evan.dto.OrderLogDTO;
+import com.evan.model.Game;
 import com.evan.model.GameOrder;
 import com.evan.model.GameOrderLog;
 import com.evan.utils.ConvertToDTO;
@@ -48,7 +53,8 @@ public class GameOrderService {
 	private MemberRepository mRepos;
 	@Autowired
 	private GameOrderRepository goRepos;
-
+	@Autowired
+	private GameRepository gRepos;
 	@Autowired
 	private CartService cService;
 
@@ -96,7 +102,7 @@ public class GameOrderService {
 		goRepos.deleteById(orderId);
 	}
 
-	//綠界
+	//綠界金流方法
 	public String ecpayCheckout(Map<String, Object> formData) {
 
 		AllInOne all = new AllInOne("");
@@ -125,6 +131,7 @@ public class GameOrderService {
 		return form;
 	}
 
+	//確認訂單狀態
 	public boolean ecpayTradingStatus(Map<String, Object> formData) {
 		AllInOne all = new AllInOne("");
 		QueryTradeInfoObj obj = new QueryTradeInfoObj();
@@ -155,6 +162,12 @@ public class GameOrderService {
 	@Transactional
 	private void UpdategameOrderToSuccess(int orderId) {
 		GameOrder gameOrder = goRepos.findById(orderId).orElse(null);
+		for (GameOrderLog orderLog : gameOrder.getGameOrderLog()) {
+			Game game = gRepos.findGameByGameName(orderLog.getGameName()).get(0);
+			Integer oldCount = game.getBuyerCount();
+			game.setBuyerCount(oldCount+1);
+			gRepos.save(game);
+		}
 		gameOrder.setStatus(1);
 		goRepos.save(gameOrder);
 	}
@@ -267,6 +280,32 @@ public class GameOrderService {
 			
 		}
 	}
+
+	//尋找使用者已經擁有的遊戲
+	public List<OrderLogDTO> getMemberOwnGames(Map<String, Object> formData) {
+	    int memberId = Integer.parseInt((String) formData.get("memberId"));
+	    System.out.println(memberId);
+	    Member member = mRepos.findById(memberId).orElse(null);
+	    System.out.println("step1");
+	    
+	    Set<String> gameNames = new HashSet<>();
+	    List<OrderLogDTO> successOrder = new ArrayList<>();
+
+	    for (OrderDTO orderDTO : cdDTO.outputOrderDTOList(member.getGameOrder())) {
+	        if ("已付款".equals(orderDTO.getStatus())) {
+	            for (OrderLogDTO orderLogDTO : orderDTO.getLogs()) {
+	                String gameName = orderLogDTO.getGameName();
+	                if (!gameNames.contains(gameName)) {
+	                    gameNames.add(gameName);
+	                    successOrder.add(orderLogDTO);
+	                }
+	            }
+	        }
+	    }
+
+	    return successOrder;
+	}
+
 	
 	
 }

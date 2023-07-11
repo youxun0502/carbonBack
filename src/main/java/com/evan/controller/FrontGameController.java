@@ -1,6 +1,7 @@
 package com.evan.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.evan.dao.GameRepository;
+import com.evan.dto.CartDTO;
 import com.evan.dto.GameDTO;
+import com.evan.dto.OrderLogDTO;
 import com.evan.dto.TypeDTO;
+import com.evan.service.GameOrderService;
 import com.evan.service.GameService;
 import com.evan.service.GameTypeService;
 import com.evan.utils.GetInfoToGameFront;
@@ -32,6 +36,8 @@ public class FrontGameController {
 	private SortChartJs sortChartJs;
 	@Autowired
 	private GetInfoToGameFront gifToGameFront;
+	@Autowired
+	private GameOrderService goService;
 	
 	@GetMapping("/gameFront")
 	public String GameList(Model model) {
@@ -65,6 +71,37 @@ public class FrontGameController {
 		return "evan/SingleGamePage";
 	}
 	
+	@GetMapping("/gameFront/getownGame")
+	@ResponseBody
+	public List<OrderLogDTO> getMemberOwnGames(@RequestParam Map<String, Object> formData,Model model){
+		System.out.println("hello");
+		return goService.getMemberOwnGames(formData);
+	}
+	
+	// ----------------tpyeNameList Ajax
+	@Transactional
+	@GetMapping("/gameFront/findGameByType")
+	@ResponseBody
+	public List<GameDTO> findGameByType(@RequestParam Map<String, Object> formData) {
+		List<GameDTO> gameList = gtService.findGameByTypeName((String)formData.get("typeName"));
+		return gameList;
+	}
+	
+	@ResponseBody
+	@GetMapping("/gameFront/getGameLikesName")
+	public List<GameDTO> SearchLikeName(@RequestParam Map<String, Object> formData) {
+		List<GameDTO> gamesInfos = gService.SearchLikeName((String) formData.get("gameName"));
+		System.out.println(gamesInfos);
+		return gamesInfos;
+	}
+	@ResponseBody
+	@GetMapping("/gameFront/findPrice")
+	public List<GameDTO> SearchPrice(@RequestParam Map<String, Object> formData) {
+		List<GameDTO> gamesInfos = gService.SearchPrice((String) formData.get("minValue"),(String) formData.get("maxValue"));
+		System.out.println(gamesInfos);
+		return gamesInfos;
+	}
+
 	
 	
 }
