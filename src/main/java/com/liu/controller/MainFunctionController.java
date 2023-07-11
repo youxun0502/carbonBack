@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.li.service.BonusPointService;
 import com.evan.service.GameService;
 import com.evan.utils.SortChartJs;
 import com.liu.config.PreviousPage;
@@ -42,6 +43,9 @@ public class MainFunctionController {
 
 	@Autowired
 	private GmailService gService;
+	
+	@Autowired
+	private BonusPointService bpService;
 
 	@Autowired
 	private SortChartJs sortChartJs;
@@ -206,7 +210,6 @@ public class MainFunctionController {
 		member.setPhone(memberDto.getPhone());
 		member.setAccount(null);
 		mService.insert(member);
-
 		LocalDateTime nowTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 		String nowStringTime = nowTime.format(formatter);

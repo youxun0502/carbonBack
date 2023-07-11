@@ -73,7 +73,13 @@ table td, table th {
 
 					<input th:field="*{bonusId}" type="hidden" /> 商品名稱:<input
 						class="form-control" th:field="*{bonusName}" /> 商品價格:<input
-						class="form-control" th:field="*{bonusPrice}" /> 上架狀況:<br> <input
+						class="form-control" th:field="*{bonusPrice}" /> 
+						商品類型:<br> <input
+						type="radio" name="bonusType" value="avatar" th:field="*{bonusType}">頭像
+					<input type="radio" name="bonusType" value="frame" th:field="*{bonusType}">外框
+					<input type="radio" name="bonusType" value="background" th:field="*{bonusType}">背景
+					<br>
+						上架狀況:<br> <input
 						type="radio" name="status" value="1" th:field="*{status}">上架
 					<input type="radio" name="status" value="0" th:field="*{status}">下架
 					<br> 商品描述:
