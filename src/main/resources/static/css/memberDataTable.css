@@ -1,0 +1,36 @@
+body {
+	font-size: 20px !important;
+}
+table {
+	background-color: rgb(33, 37, 41);
+}
+
+table td,
+table th {
+	max-width: 170px;
+}
+
+.tdCenter {
+	text-align: center;
+}
+
+.imgBox {
+	width: 100px;
+	height: 100px;
+}
+
+.showDesc {
+	cursor: pointer;
+}
+
+.section-big {
+	max-width: calc(100% - 42px);
+}
+
+.section-small {
+	max-width: calc(100% - 200px);
+}
+
+.bg-customize {
+	background-color: rgba(53, 53, 53, 0.705);
+}
