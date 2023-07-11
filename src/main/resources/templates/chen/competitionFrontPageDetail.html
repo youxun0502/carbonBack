@@ -204,43 +204,51 @@
                     <table>
                         <tbody>
                         <tr>
-                            <td>
-                                <strong class="h3">開始日期</strong>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">開始日期</strong>
                             </td>
-                            <td>
-                                <strong id="startDate" class="h5" th:text="${competition.startDate}"></strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong class="h3">結束日期</strong>
-                            </td>
-                            <td>
-                                <strong class="h5" th:text="${competition.endDate}"></strong>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong id="startDate" class="h6" th:text="${competition.startDate}"></strong>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <strong class="h3">活動地點</strong>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">結束日期</strong>
                             </td>
-                            <td>
-                                <strong class="h5" th:text="${competition.location}"></strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong class="h3">名額限制</strong>
-                            </td>
-                            <td>
-                                <strong class="h5" th:text="${competition} ? ${competition.quotaLimited}+'名'"></strong>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h6" th:text="${competition.endDate}"></strong>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <strong class="h3">報名費</strong>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">活動地點</strong>
                             </td>
-                            <td>
-                                <strong class="h5" th:text="${competition} ? '$'+${competition.fee}+'元'+'(會員折扣50元)'"></strong>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h6" th:text="${competition.location}"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">名額限制</strong>
+                            </td>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h6" th:text="${competition} ? ${competition.quotaLimited}+'名'"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">報名費</strong>
+                            </td>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h6" th:text="${competition} ? '$'+${competition.fee}+'元'+'(會員折50元'"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">報名截止</strong>
+                            </td>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h6" th:text="${competition.deadline}"></strong>
                             </td>
                         </tr>
                         </tbody>
@@ -295,13 +303,14 @@
 				
 				<form th:action="@{/competitionRegistration}" method="get">
 					<input type="hidden" name="competitionId" th:value="${competition.competitionId}" />
+					<input type="hidden" name="memberId" th:value="${session.memberBeans?.id}" />
 					<button style="position: absolute;right: 0;top: 0;" class="btn btn-warning btn-lg">點擊報名</button>
 				</form>
 			</div>
 
             <!-- START: Biography -->
             <div class="nk-gap-4"></div>
-            <h3 class="nk-decorated-h-2"><span>活動說明</span></h3>
+            <h3 class="nk-decorated-h-2"><span>賽事說明</span></h3>
             <p th:text="${competition.description}" style="color: white;"></p>
             <!-- END: Biography -->
 
