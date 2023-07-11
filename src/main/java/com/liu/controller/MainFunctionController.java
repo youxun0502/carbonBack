@@ -346,6 +346,7 @@ public class MainFunctionController {
 		}else {
 		userInfo=null;
 		}
+		System.out.println(userInfo);
 		return "redirect:/";
 	}
 
