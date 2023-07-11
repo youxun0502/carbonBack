@@ -70,6 +70,7 @@ public class MainFunctionController {
 	@Autowired
 	private EventRepository eRepo;
 	
+	@Autowired
 	private GLoginService gLoginService;
 
 	@GetMapping("/main/goBackToMain")
