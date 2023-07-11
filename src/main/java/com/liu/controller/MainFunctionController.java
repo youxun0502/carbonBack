@@ -1,10 +1,13 @@
 package com.liu.controller;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,11 +24,15 @@ import com.chen.model.Competition;
 import com.chen.model.CompetitionRepository;
 import com.chen.model.Event;
 import com.chen.model.EventRepository;
+import com.li.service.BonusPointService;
 import com.evan.service.GameService;
 import com.evan.utils.SortChartJs;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+
 import com.liu.config.PreviousPage;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
+import com.liu.service.GLoginService;
 import com.liu.service.GmailService;
 import com.liu.service.MemberService;
 
@@ -47,6 +54,9 @@ public class MainFunctionController {
 
 	@Autowired
 	private GmailService gService;
+	
+	@Autowired
+	private BonusPointService bpService;
 
 	@Autowired
 	private SortChartJs sortChartJs;
@@ -60,6 +70,8 @@ public class MainFunctionController {
 	@Autowired
 	private EventRepository eRepo;
 	
+	private GLoginService gLoginService;
+
 	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
 		return "liu/main";
@@ -222,7 +234,6 @@ public class MainFunctionController {
 		member.setPhone(memberDto.getPhone());
 		member.setAccount(null);
 		mService.insert(member);
-
 		LocalDateTime nowTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 		String nowStringTime = nowTime.format(formatter);
@@ -346,17 +357,25 @@ public class MainFunctionController {
 		}
 
 	}
-	
+
 	@PutMapping("/main/updatePwdForForgetPwd")
-	public String updatePwdForForgetPwd(@RequestParam("email")String email, @RequestParam("newPwd") String pwd) {
+	public String updatePwdForForgetPwd(@RequestParam("email") String email, @RequestParam("newPwd") String pwd) {
 		mService.changePwdForForgetPwd(email, pwd);
 		return "redirect:/main/loginPage";
 	}
-	
+
 	@PostMapping("/main/googleLogin")
-	public String googleLogin() {
+	public String googleLogin(@RequestParam("credential") String credential) throws GeneralSecurityException, IOException {
+		
+		GoogleIdToken idToken = gLoginService.getIdToken(credential);
+		Map<String, String> userInfo;
+		if (idToken != null) {
+		 userInfo = gLoginService.getUserInfo(idToken);
+		}else {
+		userInfo=null;
+		}
+		System.out.println(userInfo);
 		return "redirect:/";
 	}
-	
 
 }

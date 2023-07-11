@@ -50,6 +50,41 @@
 					</div>
 					<div class="nk-feature-cont">
 						<h3 class="nk-feature-title"><a href="#">虛寶</a></h3>
+						<h4 class="nk-feature-title text-main-1"><a th:href="@{/market}">虛寶列表</a></h4>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="nk-feature-1">
+					<div class="nk-feature-icon">
+						<img src="assets/images/icon-gamepad-2.png" alt="">
+					</div>
+					<div class="nk-feature-cont">
+						<h3 class="nk-feature-title"><a href="#">商城</a></h3>
+						<h4 class="nk-feature-title text-main-1"><a th:href="@{/bonus-shop/main}">獎勵商城</a></h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END: Categories -->
+		<div class="nk-gap-2"></div>
+	</div>
+
+
+	<footer class="py-5 bg-dark">
+		<div class="container">
+			<div class="row">
+				<div class="col-4 text-light h2">
+					<h3 class="">CARBON</h3>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="nk-feature-1">
+					<div class="nk-feature-icon">
+						<img src="assets/images/icon-gamepad.png" alt="">
+					</div>
+					<div class="nk-feature-cont">
+						<h3 class="nk-feature-title"><a href="#">虛寶</a></h3>
 						<h4 class="nk-feature-title text-main-1"><a href="#">虛寶列表</a></h4>
 					</div>
 				</div>
@@ -79,29 +114,31 @@
 					<div class="nano-content">
 
 						<th:block th:each=" competition : ${competitionList} ">
-						<div class="nk-news-box-item nk-news-box-item-active">
-							<div class="nk-news-box-item-img">
-								<img th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}" alt="找不到圖片">
-							</div>
-							<img th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}" alt="找不到圖片"
-								class="nk-news-box-item-full-img">
-							<h3 class="nk-news-box-item-title" th:text="${competition.name}"></h3>
+							<div class="nk-news-box-item nk-news-box-item-active">
+								<div class="nk-news-box-item-img">
+									<img th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}"
+										alt="找不到圖片">
+								</div>
+								<img th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}"
+									alt="找不到圖片" class="nk-news-box-item-full-img">
+								<h3 class="nk-news-box-item-title" th:text="${competition.name}"></h3>
 
-							<span class="nk-news-box-item-categories">
-								<span class="bg-main-4">MMO</span>
-							</span>
+								<span class="nk-news-box-item-categories">
+									<span class="bg-main-4">MMO</span>
+								</span>
 
-							<div class="nk-news-box-item-text">
-								<p th:text="${competition.description}"></p>
+								<div class="nk-news-box-item-text">
+									<p th:text="${competition.description}"></p>
+								</div>
+								<a th:href="@{'/competitionPageDetail?competitionId='+${competition.competitionId}}">Read
+									More</a>
+								<div class="nk-news-box-item-date" th:text="'開始日期: '+${competition.startDate}"></div>
 							</div>
-							<a th:href="@{'/competitionPageDetail?competitionId='+${competition.competitionId}}">Read More</a>
-							<div class="nk-news-box-item-date" th:text="'開始日期: '+${competition.startDate}"></div>
-						</div>
 						</th:block>
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="nk-news-box-each-info">
 				<div class="nano">
 					<div class="nano-content">
@@ -130,26 +167,27 @@
 			<div class="row">
 
 				<th:block th:each=" event : ${eventList} ">
-				<div class="col-md-6 col-lg-3">
-					<!-- START: Post -->
-					<div class="nk-blog-post">
-						<span href="blog-article.html" class="nk-post-img">
-							<img th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="找不到圖片">
+					<div class="col-md-6 col-lg-3">
+						<!-- START: Post -->
+						<div class="nk-blog-post">
+							<span href="blog-article.html" class="nk-post-img">
+								<img th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="找不到圖片">
 
 
-						</span>
-						<div class="nk-gap"></div>
-						<h2 class="nk-post-title h4" th:text="${event.name}"></h2>
-						<div class="nk-post-text">
-							<p th:text="${event.description}"></p>
+							</span>
+							<div class="nk-gap"></div>
+							<h2 class="nk-post-title h4" th:text="${event.name}"></h2>
+							<div class="nk-post-text">
+								<p th:text="${event.description}"></p>
+							</div>
+							<div class="nk-gap"></div>
+							<div class="nk-news-box-item-date" th:text="'開始日期: '+${event.startDate}"></div>
+							<a th:href="@{'/eventPageDetail?eventId='+${event.eventId}}"
+								class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Read
+								More</a>
 						</div>
-						<div class="nk-gap"></div>
-						<div class="nk-news-box-item-date" th:text="'開始日期: '+${event.startDate}"></div>
-						<a th:href="@{'/eventPageDetail?eventId='+${event.eventId}}"
-							class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Read More</a>
+						<!-- END: Post -->
 					</div>
-					<!-- END: Post -->
-				</div>
 				</th:block>
 
 

@@ -17,33 +17,36 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "bonuslog")
-public class BonusLog {
+@Table(name = "bonuspointlog")
+public class BonusPointLog {
 
-	@Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "logId")
 	private Integer logId;
+
 	@Column(name = "memberId")
 	private Integer memberId;
-	@Column(name = "bonusId")
-	private Integer bonusId;
-	@Column(name = "buyDate")
-	private Date buyDate;
+	@Column(name = "logtype")
+	private String logtype;
+	@Column(name = "prepoint")
+	private Integer prepoint;
+	@Column(name = "changepoint")
+	private Integer changepoint;
+	@Column(name = "point")
+	private Integer point;
+	@Column(name = "updateTime")
+	private Date updateTime;
 	
 	@ManyToOne
-	@JoinColumn(name = "BONUSID",insertable = false, updatable = false)
-	private BonusItem bonusitem;
-	@ManyToOne
-	@JoinColumn(name = "MEMBERID",insertable = false, updatable = false)
+	@JoinColumn(name = "MEMBERID", insertable = false, updatable = false)
 	private Member member;
 	
 	@PrePersist
 	public void onCreate() {
-		if(buyDate == null) {
-			buyDate = new Date();
+		if(updateTime == null) {
+			updateTime = new Date();
 		}
 			
 	}
-	
-	
 }
