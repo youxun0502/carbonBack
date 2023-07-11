@@ -59,7 +59,7 @@
 	<div class="container ">
 
 		<!-- START: Breadcrumbs -->
-		<div class="container" style=" margin-top: -100px;font-size:16px" >
+		<div class="container" style="margin-top: -100px; font-size: 16px">
 			<ul class="nk-breadcrumbs">
 
 
@@ -139,50 +139,34 @@
 											th:data-game-id="${gameDTO.gameId}"
 											th:data-game-name="${gameDTO.gameName}"
 											th:data-price="${gameDTO.price}"
-											th:data-photo="${gameDTO.gamePhotoLists[0]}" onclick="addToCart(event)">加入購物車</button>
+											th:data-photo="${gameDTO.gamePhotoLists[0]}"
+											onclick="addToCart(event)">加入購物車</button>
 									</div>
 								</div>
-								<div class="nk-gap-3"></div>
+								<div class="nk-gap-1"></div>
 								<!-- END: Add to Cart -->
 
-								<!-- START: Meta -->
-								<div class="nk-product-meta">
-									<div>
-										<strong>Tags</strong>:
-										<th:block
-											th:each='type,iterStat:${gameDTO.gameTypes.split(",")}'>
-											<a href="#">[[${type}]]</a>
-											<span th:if="${!iterStat.last}">,</span>
-										</th:block>
-									</div>
-								</div>
-								<!-- END: Meta -->
 							</div>
 						</div>
 
 						<!-- START: Share -->
 						<div class="nk-gap-2"></div>
 						<div class="nk-post-share">
-							<span class="h5">社群分享</span>
-							<ul class="nk-social-links-2">
-								<li><span class="nk-social-facebook"
-									title="Share page on Facebook" data-share="facebook"><span
-										class="fab fa-facebook"></span></span></li>
-								<li><span class="nk-social-google-plus"
-									title="Share page on Google+" data-share="google-plus"><span
-										class="fab fa-google-plus"></span></span></li>
-								<li><span class="nk-social-twitter"
-									title="Share page on Twitter" data-share="twitter"><span
-										class="fab fa-twitter"></span></span></li>
-								<li><span class="nk-social-pinterest"
-									title="Share page on Pinterest" data-share="pinterest"><span
-										class="fab fa-pinterest-p"></span></span></li>
+							<!-- START: Meta -->
+								<div class="nk-product-meta w-100">
+										<span><strong>Tags</strong>:</span>
+										
+										<span class="float-right"><th:block th:each='type,iterStat:${gameDTO.gameTypes.split(",")}'>
+											<a th:href="@{/gameFront}"><strong>[[${type}]]</strong></a>
+											<span th:if="${!iterStat.last}">,</span>
+										</th:block>
+										</sapn>
+								</div>
 
 								<!-- Additional Share Buttons
                             <li><span class="nk-social-linkedin" title="Share page on LinkedIn" data-share="linkedin"><span class="fab fa-linkedin"></span></span></li>
                             <li><span class="nk-social-vk" title="Share page on VK" data-share="vk"><span class="fab fa-vk"></span></span></li>
                         -->
-							</ul>
 						</div>
 						<!-- END: Share -->
 
@@ -353,7 +337,7 @@
 								<ul class="nk-widget-categories">
 									<th:block th:each="type, iterStat : ${typeList}"
 										th:if="${iterStat.index} &lt; 5">
-										<li><a href="#">[[${type.getTypeName}]]</a></li>
+										<li><a th:href="@{/gameFront}">[[${type.getTypeName}]]</a></li>
 									</th:block>
 								</ul>
 							</div>
@@ -375,7 +359,7 @@
 												class="text-main-1">NT$<span
 												class="nk-input-slider-value-1"></span></strong>
 										</div>
-										<a href="#"
+										<a th:href="@{/gameFront}"
 											class="nk-btn nk-btn-rounded nk-btn-color-white float-right">Apply</a>
 									</div>
 									<div class="clearfix"></div>

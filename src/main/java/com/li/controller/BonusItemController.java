@@ -43,6 +43,7 @@ public class BonusItemController {
 	public String InsertBonusItemToDB(@RequestParam("bonusName") String bonusname,
 			@RequestParam("bonusPrice") Integer bonusPrice, @RequestParam("bonusDes") String bonusDes,
 			@RequestParam("status")Boolean status,
+			@RequestParam("bonusType")String bonusType,
 			@RequestParam("img_file") MultipartFile file) {
 
 		try {
@@ -53,7 +54,7 @@ public class BonusItemController {
 			bonusItem.setImg_file(file.getBytes());
 			bonusItem.setBonusImg(bonusname);
 			bonusItem.setStatus(status);
-			
+			bonusItem.setBonusType(bonusType);
 			bService.insertBonusItem(bonusItem);
 			
 			return "redirect:/bonus/listAll";
@@ -70,16 +71,16 @@ public class BonusItemController {
 		return "li/listAll";
 	}
 	
-//	@GetMapping("/downloadImage/{id}")
-//	public ResponseEntity<byte[]> downloadImage(@PathVariable Integer id){
-//		BonusItem photo1 = bService.getBonusItemById(id);
-//		byte[] photoFile = photo1.getImg_file();
-//		
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.IMAGE_JPEG);
-//		                                // 檔案, header, HttpStatus
-//		return new ResponseEntity<byte[]>(photoFile, headers, HttpStatus.OK);
-//	}
+	@GetMapping("/downloadImage/{id}")
+	public ResponseEntity<byte[]> downloadImage(@PathVariable Integer id){
+		BonusItem photo1 = bService.getBonusItemById(id);
+		byte[] photoFile = photo1.getImg_file();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_JPEG);
+		                                // 檔案, header, HttpStatus
+		return new ResponseEntity<byte[]>(photoFile, headers, HttpStatus.OK);
+	}
 	
 	@GetMapping("/bonus/edit")
 	public String editPage(@RequestParam("id") Integer id, Model model) {
@@ -89,7 +90,7 @@ public class BonusItemController {
 	}
 	@PutMapping("/bonus/edit")
 	public String editPost(@ModelAttribute(name="bonusitem") BonusItem bi) {
-		bService.updateBonusItemById(bi.getBonusId(),bi.getBonusName(),bi.getBonusPrice(),bi.getBonusDes(),bi.isStatus());
+		bService.updateBonusItemById(bi.getBonusId(),bi.getBonusName(),bi.getBonusPrice(),bi.getBonusDes(),bi.isStatus(),bi.getBonusType());
 		
 		return "redirect:/bonus/listAll";
 	}
