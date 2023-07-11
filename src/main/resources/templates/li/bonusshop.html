@@ -367,7 +367,6 @@
 
 <body>
 	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
-	<input type="hidden" id="userinfo" th:data-id="${session.memberBeans} ? ${session.memberBeans}">
 	<section class="my-4">
 		<div class="container">
 
@@ -565,127 +564,14 @@
 	</section>
 
 
-
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<div class="row">
-				<div class="col-4 text-light h2">
-					<h3 class="">CARBON</h3>
-				</div>
-				<div class="col-6 col-md text-light">
-					<h5>STORE</h5>
-					<ul class="list-unstyled">
-						<li>HOME</li>
-						<li>GAME</li>
-						<li>BONUS SHOP</li>
-					</ul>
-				</div>
-				<div class="col-6 col-md text-light">
-					<h5>COMMUNITY</h5>
-					<ul class="list-unstyled">
-						<li>MARKET</li>
-						<li>BONUS SHOP</li>
-						<li>BONUS SHOP</li>
-					</ul>
-				</div>
-				<div class="col-6 col-md text-light">
-					<h5>CONNECT</h5>
-					<ul class="list-unstyled">
-						<li>Q&A</li>
-						<li>SUPPORT</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</footer>
-
-	<div class="fullmodal">
-		<div class="modalContent modal_bg"></div>
-		<div class="modalContent modal_active" tabindex="-1">
-			<div class="modalPosition" tabindex="1">
-				<div class="modalPosition_Content">
-					<div class="modalPosition_topbar"></div>
-					<div class="modalContainer">
-						<div class="Header_Containner">
-							<div>
-								<div class="bonusfile_header Panel Focusable">BonusName</div>
-								<div class="bonusfile_subheader">BonusType</div>
-							</div>
-						</div>
-						<div class="bgPreview_Container">
-							<div class="previewContainer itemPreviewContainer">IMG</div>
-
-							<div class="itemButtonContainer">
-								<div class="modalButton">
-									<div class="pointer_Container">
-										<div class="point_price">2000PRICE</div>
-									</div>
-								</div>
-								<div class="modal_cancelButton">取消</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-		</div>
-	</div>
-
-
-	<script>
-		let userlogin=document.getElementById('memberId');
-		let userid=0;
-		if(userlogin==null){ 
-		userid=-9999;
-		}else{
-		userid=userlogin.innerText;
-		}
-		console.log("userinfo:" + userid);
-		
-	
-		const selectItem = document.getElementsByClassName('sc_item_box');
-		for (i = 0; i < selectItem.length; i++) {
-			selectItem[i].addEventListener('click', function (e) {
-				let selectId = this.getAttribute('data-id');
-
-				axios({
-					url: 'http://localhost:8080/carbon/bonus-shop/api/getbonusitem',
-					method: 'get',
-					params: {
-						id: selectId
-					}
-				})
-					.then(reponse => {
-						console.log("res:" + reponse.data.bonusId);
-						let titletext = "是否購買?\r\n" + reponse.data.bonusName;
-						let warningtext = reponse.data.bonusDes;
-						Swal.fire({
-							title: titletext,
-							text: warningtext,
-							icon: 'warning',
-							showCancelButton: true,
-							confirmButtonColor: '#3085d6',
-							cancelButtonColor: '#d33',
-							confirmButtonText: reponse.data.bonusprice + ' Coins'
-						}).then((result) => {
-						console.log("BUY");
-						console.log("userinfo:" + selectId);
-						})
-					})
-					.catch(err => {
-						console.log("err:" + err);
-					})
+	<div th:replace="~{layout/footer}"></div>
 
 
 
 
-				e.preventDefault();
+	<script th:src="@{/js/bonusShop.js}"></script>
 
 
-			})
-		}
-	</script>
 </body>
 
 </html>
