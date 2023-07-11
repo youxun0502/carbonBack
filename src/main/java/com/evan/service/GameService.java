@@ -81,4 +81,10 @@ public class GameService {
 		return gameDTOS;
 	}
 
+	public List<GameDTO> SearchPrice(String minValue, String maxValue) {
+		List<Game> findPrice = gRepo.findGameByPriceBetween(Integer.parseInt(minValue),Integer.parseInt(maxValue));
+		List<GameDTO> gameDTOS = findPrice!=null?ctDTO.outputGameDTOList(findPrice):null;
+		return gameDTOS;
+	}
+
 }
