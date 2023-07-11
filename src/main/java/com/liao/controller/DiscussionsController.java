@@ -578,6 +578,25 @@ public class DiscussionsController {
 		
 	}
 	
+//	@GetMapping("/forum/findByGameName")
+//	public String findByGameName(@RequestParam("gameName") String gameName, Model model) {
+//		List<Discussions> discussions = dService.findDiscussionsByGameName(gameName);
+//		model.addAttribute("discussions", discussions);
+////	    model.addAttribute("userName", userName);
+////		model.addAttribute("gameName", gameName);
+////		return dService.findDiscussionsByUserName(userName);
+////		for (Discussions discussions2 : discussions) {
+////			System.out.println(discussions2.getUserName());
+////		}
+//		return "redirect:/forum/" +gameName;
+//		
+//	}
+	
+	@GetMapping("/searchByGameName")
+	public String searchByGameName(@RequestParam("gameName") String gameName) {
+	    return "redirect:/forum/" + gameName;
+	}
+	
 	
 	
 	

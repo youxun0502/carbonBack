@@ -102,6 +102,42 @@ public class MessagesController {
 		return "redirect:/messages/getAllMessages";
 	}
 	
+	@GetMapping("/front/insertpage")
+	public String insertpageFront() {
+		return "liao/MessageInsertFront";
+	}
+	
+	@PostMapping("/front/insertmessage")
+	public String insertMessagesFront(@RequestParam("articleId") Integer articleId,
+									@RequestParam("memberId") Integer memberId,
+									@RequestParam("userName") String userName,
+									@RequestParam("gameId") Integer gameId,
+									@RequestParam("gameName") String gameName,
+//									@RequestParam("mcreated_at") Date mcreated_at,
+									@RequestParam("mcreated") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated,
+									@RequestParam("mlikes") String mlikes,
+									@RequestParam("mcontent") String mcontent,
+									@RequestParam("mtitle") String mtitle,
+									@RequestParam("mphotoFile") MultipartFile mphotoFile,
+									Model model) throws IOException {
+		Messages msg = new Messages();
+		msg.setArticleId(articleId);
+		msg.setMemberId(memberId);
+		msg.setUserName(userName);
+		msg.setMcreated(mcreated);
+		msg.setMlikes(mlikes);
+		msg.setMcontent(mcontent);
+		msg.setGameId(gameId);
+		msg.setGameName(gameName);
+		msg.setMtitle(mtitle);
+		msg.setMphotoFile(mphotoFile.getBytes());
+		
+		mService.insert(msg);
+		
+		return "redirect:/forum/title/" +mtitle;
+	}
+	
+	
 	@GetMapping("/messages/getAllMessages")
 	  public String getAllMessages(Model model) throws SQLException {
 	          List<Messages> msg = mService.findAll();
@@ -234,12 +270,12 @@ public class MessagesController {
 //	@PostMapping("/messages/api/post")
 //	public Page<Messages> postMessageApi(@RequestBody Messages msg){
 //		
-////		if (msg.getArticleId() == null) {
-////		    // 處理 articleId 為空值的情況
-////		    // 可以拋出異常、設定默認值或進行其他處理
-////		    // 例如，若 articleId 不應為空，可以拋出異常提示用戶
-////		    throw new IllegalArgumentException("Article ID cannot be null");
-////		}
+//		if (msg.getArticleId() == null) {
+////		     處理 articleId 為空值的情況
+////		     可以拋出異常、設定默認值或進行其他處理
+////		     例如，若 articleId 不應為空，可以拋出異常提示用戶
+//		    throw new IllegalArgumentException("Article ID cannot be null");
+//		}
 //		
 //		mService.insert(msg);
 //		
@@ -255,14 +291,14 @@ public class MessagesController {
 //		return page;
 //	}
 	
-	@GetMapping("/messages/page")
-	public String showMessages(@RequestParam(name="p", defaultValue = "1") Integer pageNumber, Model model) {
-		Page<Messages> page = mService.findByPage(pageNumber);
-		
-		model.addAttribute("page", page);
-		
-		return "liao/SampleTitle";
-	}
+//	@GetMapping("/messages/page")
+//	public String showMessages(@RequestParam(name="p", defaultValue = "1") Integer pageNumber, Model model) {
+//		Page<Messages> page = mService.findByPage(pageNumber);
+//		
+//		model.addAttribute("page", page);
+//		
+//		return "liao/SampleTitle";
+//	}
 	
 	
 //	@PostMapping("/messages/like/{messageId}")
@@ -276,7 +312,7 @@ public class MessagesController {
 //	}
 
 	   
-
+		@ResponseBody
 	    @PostMapping("/updateLikeCount")
 	    public ResponseEntity<String> updateLikeCount(@RequestParam("messageId") Integer messageId) {
 	        // 根據messageId從資料庫中獲取相應的消息

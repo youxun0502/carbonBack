@@ -1,40 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<style>
-		table {
-			background-color: rgb(33, 37, 41);
-		}
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+<title>Discussions ByUserName</title>
+<style>
+.area1 {
+	position: absolute;
+	width: 80%;
+	margin: 180px 250px;
+}
 
-		table td,
-		table th {
-			max-width: 170px;
-		}
-
-		.tdCenter {
-			text-align: center;
-		}
-
-		.imgBox {
-			width: 100px;
-			height: 100px;
-		}
-
-		.showDesc {
-			cursor: pointer;
-		}
-
-		.section-big {
-			max-width: calc(100% - 42px);
-		}
-
-		.section-small {
-			max-width: calc(100% - 200px);
-		}
-	</style>
-	<title>Messages GetAll</title>
+table {
+	background-color: rgb(33, 37, 41);
+}
+</style>
 </head>
 
 <body>
@@ -45,9 +26,9 @@
 			<div class="content mt-3">
 				<nav class="navbar navColor">
 					<div class="container-fluid">
-						<a class="navbar-brand link-light" style="font-size: 30px;">MESSAGE ALL</a>
+						<a class="navbar-brand link-light" style="font-size: 30px;">DISCUSSIONS BY USERNAME</a>
 						<div class="d-flex" role="search">
-							<form th:action="@{/messages/findByUserName}" method="GET">
+							<form th:action="@{/discussions/findByUserName}" method="GET">
 							    <div class="row">
 							        <div class="col-8">
 							            <input class="form-control me-2" type="search" placeholder="會員名稱查詢" aria-label="Search" name="userName" id="discussionsitem_search">
@@ -62,10 +43,10 @@
 				</nav>
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link active" th:href="@{/messages/getAllMessages}">ALL</a>
+						<a class="nav-link active" th:href="@{/discussions/getAllDiscussions}">ALL</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/messages/insertpage}">CREATE</a>
+						<a class="nav-link" th:href="@{/discussions/insertpage}">CREATE</a>
 					</li>
 					
 				</ul>
@@ -75,48 +56,46 @@
 					<table id="example" class="hover row-border" style="width:100%">
 						<thead>
 							<tr>
-								<th>留言編號</th>
-								<th>圖片</th>
 								<th>文章編號</th>
 								<th>會員編號</th>
+								<th>活動編號</th>
 								<th>會員名稱</th>
 								<th>遊戲編號</th>
 								<th>遊戲名稱</th>
 								<th>文章標題</th>
+								<th>文章內容</th>
+								<th>最後回覆時間</th>
+								<th>觀看次數</th>
 								<th>創建日期</th>
 								<th>按讚次數</th>
-								<th>文章內容</th>
 								<th>更新</th>
 								<th>刪除</th>
 							</tr>
 						</thead>
 
 						<tbody>
-							<tr th:each="message : ${msg}">
-								<td th:text="${message.messageId}"></td>
-								<td class="imgBox overflow-hidden"><img width="200px"
-								    th:src="@{'/messagesdownloadImage/' + ${message.messageId}}"
-								    class="img-fluid">
-								</td>
-								<td th:text="${message.articleId}"></td>
-								<td th:text="${message.memberId}"></td>
-								<td th:text="${message.userName}"></td>
-								<td th:text="${message.gameId}"></td>
-								<td th:text="${message.gameName}"></td>
-								<td th:text="${message.mtitle}"></td>
-								<td th:text="${message.mcreated}"></td>
-								<td th:text="${message.mlikes}"></td>
-								<td th:text="${message.mcontent}"></td>
-								
+							<tr th:each="discussion : ${discussions}">
+								<td th:text="${discussion.articleId}"></td>
+								<td th:text="${discussion.memberId}"></td>
+								<td th:text="${discussion.eventId}"></td>
+								<td th:text="${discussion.userName}"></td>
+								<td th:text="${discussion.gameId}"></td>
+								<td th:text="${discussion.gameName}"></td>
+								<td th:text="${discussion.title}"></td>
+								<td th:text="${discussion.dcontent}"></td>
+								<td th:text="${discussion.lastReplyTime}"></td>
+								<td th:text="${discussion.d_views}"></td>
+								<td th:text="${discussion.dcreated_at}"></td>
+								<td th:text="${discussion.dlikes}"></td>
 								<td>
-									<form th:action="@{/messages/update}" method="GET">
-										<button type="submit" class="btn btn-primary" name="messageId"
-											th:value="${message.messageId}">更新</button>
+									<form th:action="@{/discussions/update}" method="GET">
+										<button type="submit" name="articleId"
+											th:value="${discussion.articleId}">更新</button>
 									</form>
 								</td>
 								<td>
-									<form th:action="@{/messages/delete}" th:method="DELETE">
-										<button type="submit" class="btn btn-danger" name="messageId" th:value="${message.messageId}"
+									<form th:action="@{/discussions/delete}" th:method="DELETE">
+										<button type="submit" name="articleId" th:value="${discussion.articleId}"
 											onclick="return confirm('確定要刪除嗎？')">刪除</button>
 									</form>
 								</td>

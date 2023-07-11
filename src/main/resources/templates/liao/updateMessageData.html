@@ -123,27 +123,27 @@
                     <div class="card-body">
                         <h2 class="card-title text-dark">修改文章資料</h2>
                         <form th:action="@{/messages/update}" th:method="PUT"  id="newMessageForm" class="d-inline-block" enctype="multipart/form-data">
-                        	<div class="mb-3">
+                        	<div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">留言編號</label>
                                 <input class="form-control" type="text" name="messageId" th:value="${msg.messageId}" th:readonly="true">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">文章編號</label>
                                 <input class="form-control" type="text" name="articleId" th:value="${msg.articleId}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">會員編號</label>
                                 <input class="form-control" type="text" name="memberId" th:value="${msg.memberId}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">會員名稱</label>
                                 <input class="form-control" type="text" name="userName" th:value="${msg.userName}">
                             </div>
-                             <div class="mb-3">
+                             <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">遊戲編號</label>
                                 <input class="form-control" type="text" name="gameId" th:value="${msg.gameId}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">遊戲名稱</label>
                                 <input class="form-control" type="text" name="gameName" th:value="${msg.gameName}">
                             </div>
@@ -151,11 +151,11 @@
                                 <label class="form-label text-dark">文章標題</label>
                                 <input class="form-control" type="text" name="mtitle" th:value="${msg.mtitle}">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">創建日期</label>
                                 <input class="form-control" type="text" name="mcreated" th:value="${msg.mcreated}" id="mcreated">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" style="display: none;">
                                 <label class="form-label text-dark">按讚次數</label>
                                 <input class="form-control" type="text" name="mlikes" th:value="${msg.mlikes}">
                             </div>
@@ -164,7 +164,7 @@
                                 <textarea class="form-control" name="mcontent" th:text="${msg.mcontent}"></textarea>
                             </div>
                            
-                             <div class="mb-3">
+                             <div class="mb-3" style="display: none;">
 							    <label class="form-label text-dark">圖片</label>
 							    <input class="form-control" type="file" name="mphotoFile">
 							</div>
@@ -189,7 +189,7 @@
                 var userName = "User" + memberId;
                 var gameId = Math.floor(Math.random() * 1000) + 1;
                 var gameName = "Game" + gameId;
-                var mtitle = "Sample Title";
+                var mtitle = "SampleTitle";
                 var mcreated = "2023-06-18";
                 var mlikes = Math.floor(Math.random() * 10);
                 var mcontent = "Sample Content";

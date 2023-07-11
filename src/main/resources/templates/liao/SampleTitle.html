@@ -29,7 +29,7 @@
             font-family: Arial, sans-serif;
         }
     </style>
-    
+
     <meta name="description" content="GoodGames - Bootstrap template for communities and games store">
     <meta name="keywords" content="game, gaming, template, HTML template, responsive, Bootstrap, premium">
     <meta name="author" content="_nK">
@@ -39,6 +39,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- START: Styles -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-wSKXaxGhQer34QOvChR+TBnV1qK8ff2r4vaUCssWJQNOyrqVGlME8cO9yO0G8o3ojjyykIfKVb9uO3k5h5MDvg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <!-- Google Fonts -->
     <link th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700}" rel="stylesheet"
@@ -500,10 +505,11 @@
             <!-- START: Pagination -->
             <div class="row justify-content-end">
                 <div class="col-md-3 text-right">
-                    <input id="myMessage" required />
-                    <a id="replyButton" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a>
-                    
-                    <!-- <a th:href="@{#forum-reply}" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a> -->
+                    <!-- <input id="myMessage" required /> -->
+                    <!-- <a id="replyButton" class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a> -->
+
+                    <a th:href="@{/front/insertpage}"
+                        class="nk-btn nk-btn-rounded nk-btn-color-white nk-anchor">Reply</a>
                 </div>
             </div>
             <!-- END: Pagination -->
@@ -556,15 +562,17 @@
                         </div>
                         <div class="nk-forum-topic-footer">
                             <span class="nk-forum-topic-date">June 18, 2018</span>
-                            
+
                             <span class="nk-forum-action-btn">
                                 <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span>
                                     Reply</a>
                             </span>
-                            <button th:id="'likeButton-' + ${message.messageId}" class="likeButton">按讚</button>
+                            <button th:id="'likeButton-' + ${message.messageId}" class="likeButton">
+                                <i class="fas fa-heart"></i>
+                            </button>
                             <span th:id="'likesCount-' + ${message.messageId}" class="likesCount">0</span> 個讚
                         </div>
-                
+
                 </th:block>
                 </li>
                 <!-- <li>
@@ -686,14 +694,15 @@
 
             <div id="forum-reply"></div>
             <div class="nk-gap-4">
-                <textarea id="messageTextarea" name="message" rows="5" placeholder="Type your message here..."></textarea>
+                <textarea id="messageTextarea" name="message" rows="5"
+                    placeholder="Type your message here..."></textarea>
             </div>
             <!-- START: Reply -->
             <form action="#" novalidate>
                 <div class="containerf">
                     <div class="editor-container">
                         <!-- <textarea id="editor"></textarea> -->
-                        
+
 
                     </div>
                 </div>
@@ -938,7 +947,7 @@
     </div>
     <!-- END: Login Modal -->
 
-    
+
     <!-- <script>
         ClassicEditor
             .create(document.querySelector('#editor'))
@@ -1000,9 +1009,9 @@
 
     </script> -->
 
-    
 
-        <!-- <script>
+
+    <!-- <script>
             $(document).ready(function() {
     // 按讚按鈕點擊事件處理函式
     $('.likeButton').click(function() {
@@ -1020,19 +1029,19 @@
         </script> -->
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // 按讚按鈕點擊事件處理函式
-            $('.likeButton').click(function() {
+            $('.likeButton').click(function () {
                 var messageId = $(this).attr('id').split('-')[1];
                 var likesCountElement = $('#likesCount-' + messageId);
-                
+
                 // 模擬後端處理按讚+1的動作
                 var likesCount = parseInt(likesCountElement.text());
                 likesCount++;
-                
+
                 // 更新按讚數量的顯示
                 likesCountElement.text(likesCount);
-                
+
                 // 發送AJAX請求更新後端的mlike值
                 $.ajax({
                     type: 'POST',
@@ -1040,11 +1049,11 @@
                     data: {
                         messageId: messageId
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log('按讚數量已更新');
                         // 更新成功時的處理邏輯
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         // 處理錯誤
                         console.error('更新按讚數量時發生錯誤:', error);
                     }
@@ -1090,7 +1099,7 @@
     </script> -->
 
 
-<!-- <script>
+    <!-- <script>
     CKEDITOR.config.toolbar = [
         { name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] },
         { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
