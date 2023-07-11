@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.evan.service.GameService;
+import com.evan.utils.SortChartJs;
 import com.liu.config.PreviousPage;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
@@ -41,6 +43,12 @@ public class MainFunctionController {
 	@Autowired
 	private GmailService gService;
 
+	@Autowired
+	private SortChartJs sortChartJs;
+	
+	@Autowired
+	private GameService gameService;
+	
 	@GetMapping("/main/goBackToMain")
 	public String goBackToMain() {
 		return "liu/main";
@@ -52,7 +60,9 @@ public class MainFunctionController {
 	}
 
 	@GetMapping("/")
-	public String homePage() {
+	public String homePage(Model model) {
+		sortChartJs.sortGameDTOAll(gameService.getAllGameInfo());
+		model.addAttribute("gameList",sortChartJs.getGameList());
 		return "liu/home";
 	}
 

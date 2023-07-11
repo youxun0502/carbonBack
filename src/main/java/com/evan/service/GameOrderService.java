@@ -25,9 +25,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.evan.dao.GameOrderRepository;
+import com.evan.dao.GameRepository;
 import com.evan.dto.CartDTO;
 import com.evan.dto.OrderDTO;
 import com.evan.dto.OrderLogDTO;
+import com.evan.model.Game;
 import com.evan.model.GameOrder;
 import com.evan.model.GameOrderLog;
 import com.evan.utils.ConvertToDTO;
@@ -51,7 +53,8 @@ public class GameOrderService {
 	private MemberRepository mRepos;
 	@Autowired
 	private GameOrderRepository goRepos;
-
+	@Autowired
+	private GameRepository gRepos;
 	@Autowired
 	private CartService cService;
 
@@ -159,6 +162,12 @@ public class GameOrderService {
 	@Transactional
 	private void UpdategameOrderToSuccess(int orderId) {
 		GameOrder gameOrder = goRepos.findById(orderId).orElse(null);
+		for (GameOrderLog orderLog : gameOrder.getGameOrderLog()) {
+			Game game = gRepos.findGameByGameName(orderLog.getGameName()).get(0);
+			Integer oldCount = game.getBuyerCount();
+			game.setBuyerCount(oldCount+1);
+			gRepos.save(game);
+		}
 		gameOrder.setStatus(1);
 		goRepos.save(gameOrder);
 	}

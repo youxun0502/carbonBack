@@ -1,6 +1,8 @@
 package com.evan.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,6 +30,7 @@ public class GameOrderLog {
 
     private Integer priceLog;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderId")
     private GameOrder gameOrder;
