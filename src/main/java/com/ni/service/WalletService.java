@@ -28,8 +28,8 @@ public class WalletService {
 		return walletRepo.findAll();
 	}
 	
-	public Wallet findBalance(Integer memberId) {
-		return walletRepo.findBalance(memberId);
+	public WalletDTO findBalance(Integer memberId) {
+		return convertToDTO(walletRepo.findBalance(memberId));
 	}
 	
 	public WalletDTO insert(Wallet wallet) {

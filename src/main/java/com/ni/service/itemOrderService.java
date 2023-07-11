@@ -58,7 +58,7 @@ public class itemOrderService {
 	}
 	
 	public List<ItemOrderDTO> findSellItemList(Integer gameId, String itemName, Integer pageNumber) {
-		Pageable pgb = PageRequest.of(pageNumber - 1, 10);
+		Pageable pgb = PageRequest.of(pageNumber - 1, 3);
 		return convertToDTOList(orderRepo.findSellItemList(gameId, itemName, pgb));
 	}
 	
@@ -124,8 +124,12 @@ public class itemOrderService {
 		return convertToDTOList(orderRepo.findSalesByIdAndStatus(itemId));
 	}
 	
-	public List<ItemOrderDTO> findActiveList(Integer memberId) {
-		return convertToDTOList(orderRepo.findActiveList(memberId));
+	public List<ItemOrderDTO> findBuyOrder(Integer memberId) {
+		return convertToDTOList(orderRepo.findBuyOrder(memberId));
+	}
+	
+	public List<ItemOrderDTO> findSaleList(Integer memberId) {
+		return convertToDTOList(orderRepo.findSaleList(memberId));
 	}
 	
 //	======================= 轉換 DTO 和 Entity =======================

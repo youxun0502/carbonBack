@@ -3,30 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <style>
-        .showPage,
-        .showSalePage {
-            position: fixed;
-            left: 0;
-            top: 0;
-            background-color: #525252b4;
-            width: 100%;
-            height: 100%;
-            display: none;
-        }
-
-        .myPage,
-        .mySalePage {
-            background-color: whitesmoke;
-            border-radius: 14px;
-            padding: 20px 50px;
-        }
-    </style>
     <title>Carbon | 虛寶交易</title>
 </head>
 
-<body>
-<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+<body onload=myWallet()>
+<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome}"></div>
 
 <div class="nk-main">
         
@@ -64,14 +45,6 @@
 				        </li>
 				    </ul>
 			        <div class="me-3">
-			        	<form th:action="@{/profiles/wallet/addFunds}" method="post" th:if="${session.memberBeans}">
-			        		<input type="hidden" name="memberId" th:value="${session.memberBeans} ? ${session.memberBeans.id} : ''">
-			        		<input type="hidden" name="change" value="300">
-			        		<input type="hidden" name="desc" value="儲值300元">
-			        		<button type="submit" class="btn btn-info">儲值</button>
-			        	</form>
-			        </div>
-			        <div class="me-3">
 			        	<a href="#" class="btn btn-info sellPageBtn" data-toggle="modal" data-target="#modalInventory" id="sellPageBtn1">
 		                    販賣物品
 		                </a>
@@ -85,7 +58,7 @@
 				            <div class="nk-accordion" id="accordion-1" role="tablist" aria-multiselectable="true">
 			                    <div class="panel panel-default">
 			                        <div class="panel-heading" role="tab" id="salesList-1-1-heading">
-			                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion-1" href="#salesList-1-1" aria-expanded="true" aria-controls="salesList-1-1">
+			                            <a class="collapsed" id="sales1" data-toggle="collapse" data-parent="#accordion-1" href="#salesList-1-1" aria-expanded="true" aria-controls="salesList-1-1" onclick=saleList()>
 			                                販賣訂單 <span class="panel-heading-arrow fa fa-angle-down"></span>
 			                            </a>
 			                        </div>
@@ -113,7 +86,7 @@
 								        <div id="sellListings1">
 									        <ul class="nk-forum">
 									            <li>
-									                <div class="nk-forum-title">
+									                <div class="nk-forum-title loginToView" id="">
 									                    <h3>尚無販賣訂單</h3>
 									                </div>
 									            </li>
@@ -124,7 +97,7 @@
 			                    </div>
 			                    <div class="panel panel-default">
 			                        <div class="panel-heading" role="tab" id="buyOrder-1-2-heading">
-			                            <a data-toggle="collapse" data-parent="#accordion-1" href="#buyOrder-1-2" aria-expanded="false" aria-controls="buyOrder-1-2">
+			                            <a class="collapsed" id="buys1" data-toggle="collapse" data-parent="#accordion-1" href="#buyOrder-1-2" aria-expanded="true" aria-controls="buyOrder-1-2" onclick=buyOrder()>
 			                                購買訂單 <span class="panel-heading-arrow fa fa-angle-down"></span>
 			                            </a>
 			                        </div>
@@ -157,17 +130,15 @@
 								        <div id="buyOrders1">
 									        <ul class="nk-forum">
 									            <li>
-									                <div class="nk-forum-title">
+									                <div class="nk-forum-title loginToView">
 									                    <h3>尚無購買訂單</h3>
 									                </div>
 									            </li>
 									        </ul>
 								        </div>
-							            <div class="nk-gap"></div>
 			                        </div>
 			                    </div>
 			                </div>
-				            <div class="nk-gap"></div>
 				        </div>
 				        <div role="tabpanel" class="tab-pane fade" id="tabs-1-2">
 				            <div class="nk-gap"></div>
@@ -175,34 +146,36 @@
 				            <div class="nk-accordion" id="accordion-1" role="tablist" aria-multiselectable="true">
 			                    <div class="panel panel-default">
 			                        <div class="panel-heading" role="tab" id="accordion-1-1-heading">
-			                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion-1" href="#accordion-1-1" aria-expanded="true" aria-controls="accordion-1-1">
+			                            <a class="collapsed" id="history1" data-toggle="collapse" data-parent="#accordion-1" href="#accordion-1-1" aria-expanded="true" aria-controls="accordion-1-1" onclick=history()>
 			                                歷史紀錄 <span class="panel-heading-arrow fa fa-angle-down"></span>
 			                            </a>
 			                        </div>
 			                        <div id="accordion-1-1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-1-1-heading">
-			                        	<ul class="nk-forum">
+			                        	<ul class="nk-forum text-white">
 								            <li class="p-10">
 								                <div class="nk-forum-icon"></div>
 								                <div class="nk-forum-title">
 								                	名稱
 								                </div>
-								                <div class="nk-forum-activity">
-								                    <div class="nk-forum-activity-title">
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
 								                        上架日期
 								                    </div>
 								                </div>
-								                <div class="nk-forum-activity">
-								                    <div class="nk-forum-activity-title">
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
 								                        成交日期
 								                    </div>
 								                </div>
-								                <div class="nk-forum-activity">
-								                    <div class="nk-forum-activity-title">
+								                <div class="nk-forum-activity border-start border-end">
+								                    <div class="nk-forum-activity-title text-center">
 								                        價格
 								                    </div>
 								                </div>
 								                <div class="nk-forum-activity">
-								                    <a href="#">對象</a>
+								                	<div class="nk-forum-activity-title text-center">
+								                        交易對象
+								                    </div>
 								                </div>
 								            </li>
 								        </ul>
@@ -210,17 +183,15 @@
 								        <div id="orderHistory1">
 									        <ul class="nk-forum">
 									            <li>
-									                <div class="nk-forum-title">
-									                    <h3>尚無購買訂單</h3>
+									                <div class="nk-forum-title loginToViewH">
+									                    <h3>尚無歷史訂單</h3>
 									                </div>
 									            </li>
 									        </ul>
 								        </div>
-							            <div class="nk-gap"></div>
 			                        </div>
 			                    </div>
 				            </div>
-				            <div class="nk-gap"></div>
 				        </div>
 				    </div>
 			</div>
@@ -261,7 +232,21 @@
 		    	<div class="nk-gap-2"></div>
 		        <!-- START: Sidebar -->
 			    <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
-			        <div class="nk-widget nk-widget-highlighted">
+			        <div th:if="${session.memberBeans} != null" class="nk-widget nk-widget-highlighted">
+					    <h4 class="nk-widget-title"><span><span class="text-main-1">我的</span> 錢包</span></h4>
+					    <div class="nk-widget-content">
+					        <div class="text-white">
+					        	<div class="myWallet1"></div>
+					        	<span>錢包餘額 : NT$ </span><span id="myWallet1" th:text="${session.memberBeans} ? ${session.memberBeans.wallets[session.memberBeans.wallets.size() - 1].balance} : ''"></span>
+					            <div class="nk-gap"></div>
+					            <div>
+					                <a th:href="@{/profiles/wallet}" class="nk-btn nk-btn-rounded nk-btn-color-white float-right">儲值</a>
+					            </div>
+					            <div class="clearfix"></div>
+					        </div>
+					    </div>
+					</div>
+					<div class="nk-widget nk-widget-highlighted">
 					    <h4 class="nk-widget-title"><span><span class="text-main-1">進階</span> 搜尋</span></h4>
 					    <div class="nk-widget-content">
 					        <div class="nk-input-slider">

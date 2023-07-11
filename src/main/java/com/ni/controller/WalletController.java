@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.liu.model.Member;
 import com.liu.service.GmailService;
 import com.liu.service.MemberService;
+import com.ni.dto.WalletDTO;
+import com.ni.model.Wallet;
 import com.ni.service.WalletService;
 
 import jakarta.mail.MessagingException;
@@ -31,8 +33,15 @@ public class WalletController {
 	@Autowired
 	private MemberService mService;
 	
-	@GetMapping("/profiles/{id}/wallet")
-	public void findByMemberId() {
+	@GetMapping("/profiles/wallet")
+	public String findByMemberId() {
+		return "ni/myWallet";
+	}
+	
+	@ResponseBody
+	@GetMapping("/profiles/myWallet")
+	public WalletDTO findBalance(@RequestParam("memberId") Integer memberId) {
+		return walletService.findBalance(memberId);
 	}
 	
 	@ResponseBody

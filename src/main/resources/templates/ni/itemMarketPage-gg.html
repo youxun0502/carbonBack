@@ -153,6 +153,33 @@
 			</div>
 	        </th:block>
 	     </div>
+    	 
+    	 <!--
+            START: Pagination
+
+            Additional Classes:
+                .nk-pagination-center
+                .nk-pagination-right
+        -->
+        <div class="nk-gap-2"></div>
+        <div class="nk-pagination nk-pagination-center">
+            <a href="#" class="nk-pagination-prev">
+                <span class="ion-ios-arrow-back"></span>
+            </a>
+            <nav>
+                <a class="nk-pagination-current" href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <span>...</span>
+                <a href="#">14</a>
+            </nav>
+            <a href="#" class="nk-pagination-next">
+                <span class="ion-ios-arrow-forward"></span>
+            </a>
+        </div>
+        <!-- END: Pagination -->
+        
     	<div class="nk-gap-3"></div>
     </div>
 </div>
@@ -171,60 +198,62 @@
 			            <div class="col-lg-12">
 			                <h3><span class="text-main-1">購買</span> - [[${item.itemName}]]</h3>
 			                <div class="nk-gap"></div>
-			                <form class="nk-form needs-validation" novalidate>
-			                    <div class="row vertical-gap sm-gap">
-			                    	<div class="d-flex col-xl-7">
-							            <div class="nk-popup-gallery col-4 p-0 d-flex align-items-center">
-		                            		<div class="nk-gallery-item-box">
-								                <img th:src="@{'/market/downloadImage/' + ${item.itemId}}" th:alt="${item.itemImgName}">
+			                <div id="buyOrderSuccess">
+				                <form class="nk-form needs-validation" novalidate>
+				                    <div class="row vertical-gap sm-gap">
+				                    	<div class="d-flex col-xl-7">
+								            <div class="nk-popup-gallery col-4 p-0 d-flex align-items-center">
+			                            		<div class="nk-gallery-item-box">
+									                <img th:src="@{'/market/downloadImage/' + ${item.itemId}}" th:alt="${item.itemImgName}">
+									            </div>
 								            </div>
-							            </div>
-							            <div class="col-8">
-							                <h3>[[${item.itemName}]]</h3>
-							                <span>[[${item.game.gameName}]]</span>
-							            </div>
-							        </div>
-							        <div class="col-xl-5">
-							        	<div class="my-3 row">
-							                <label class="col-sm-4 col-form-label">願意出價: </label>
-							                <div class="col-5">
-							                	<input type="text" id="buyPrice1" class="form-control" value="NT$" required>
+								            <div class="col-8">
+								                <h3>[[${item.itemName}]]</h3>
+								                <span>[[${item.game.gameName}]]</span>
+								            </div>
+								        </div>
+								        <div class="col-xl-5">
+								        	<div class="my-3 row">
+								                <label class="col-sm-4 col-form-label">願意出價: </label>
+								                <div class="col-5">
+								                	<input type="text" id="buyPrice1" class="form-control" value="NT$" required>
+								                </div>
+							                	<span class="col-3">(每件)</span>
 							                </div>
-						                	<span class="col-3">(每件)</span>
-						                </div>
-							            <div class="my-3 row">
-							                <label class="col-sm-4 col-form-label">購買數量: </label>
-							                <div class="col-5">
-								                <input type="number" id="buyQuantity1" class="form-control" value="1" required>
+								            <div class="my-3 row">
+								                <label class="col-sm-4 col-form-label">購買數量: </label>
+								                <div class="col-5">
+									                <input type="number" id="buyQuantity1" class="form-control" value="1" required>
+								                </div>
+								            </div>
+								            <div class="my-3 row">
+								            	<label for="maxPrice1" class="col-sm-4 col-form-label">最高價格: </label>
+											    <div class="col-sm-8">
+											      <input type="text" readonly class="form-control-plaintext text-white" id="maxPrice1" value=" NT$ ">
+											    </div>
+								            </div>
+							                <div class="invalid-feedback">
+							                        請輸入價格..
 							                </div>
-							            </div>
-							            <div class="my-3 row">
-							            	<label for="maxPrice1" class="col-sm-4 col-form-label">最高價格: </label>
-										    <div class="col-sm-8">
-										      <input type="text" readonly class="form-control-plaintext text-white" id="maxPrice1" value=" NT$ ">
-										    </div>
-							            </div>
-						                <div class="invalid-feedback">
-						                        請輸入價格..
+								        </div>
+				                    </div>
+				                    <div class="nk-gap-1"></div>
+				                    <div>
+						                <div class="form-check">
+						                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+						                    <label class="form-check-label" for="invalidCheck">
+						                        我同意協議條款
+						                    </label>
+						                    <div class="invalid-feedback">
+						                        必須勾選同意條款
+						                    </div>
 						                </div>
-							        </div>
-			                    </div>
-			                    <div class="nk-gap-1"></div>
-			                    <div>
-					                <div class="form-check">
-					                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-					                    <label class="form-check-label" for="invalidCheck">
-					                        我同意協議條款
-					                    </label>
-					                    <div class="invalid-feedback">
-					                        必須勾選同意條款
-					                    </div>
-					                </div>
-					            </div>
-			                    <div class="mt-3 d-flex justify-content-end">
-					                <button class="btn btn-info buyOrderBtn" id="buyOrderBtn1">新增訂單</button>
-					            </div>
-			                </form>
+						            </div>
+				                    <div class="mt-3 d-flex justify-content-end">
+						                <button class="btn btn-info buyOrderBtn" id="buyOrderBtn1">新增訂單</button>
+						            </div>
+				                </form>
+			                </div>
                         </div>
                     </div>
                 </div>
@@ -267,15 +296,22 @@
 			            <div class="col-lg-12">
 			                <div class="nk-box-5 bg-dark-4" id="userInfo1">
 			                	<div class="col d-flex">
-			                        <div class="col-9 d-flex gap-3">
-			                            <span>帳號: </span>
+			                        <div class="col-12 gap-3">
+			                            <span>帳號 : </span>
+			                            
 			                            <span th:text="${session.memberBeans} ? ${session.memberBeans.userId} : ''"></span>
 			                            <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class=" d-none"></span>
-			                        </div>
-			                        <div class="mt-5 col-3 d-flex justify-content-md-end">
-			                            <button class="btn btn-info" id="submitBtn">立即購買</button>
+					            		<div class="nk-gap"></div>
+			                            <div class="myWallet1"></div>
+			                            <span>錢包餘額 : NT$ </span><span id="myWallet1" th:text="${session.memberBeans} ? ${session.memberBeans.wallets[session.memberBeans.wallets.size() - 1].balance} : ''"></span>
 			                        </div>
 			                    </div>
+		                        <div class="mt-5 col-12">
+		                        	<th:block th:if="${session.memberBeans != null}" th:switch="${session.memberBeans.wallets[session.memberBeans.wallets.size() - 1].balance} > 0">
+			                            <button th:case="true" class="btn btn-info float-right" id="submitBtn">立即購買</button>
+			                            <a th:case="false" class="btn btn-info float-right" th:herf="@{/profiles/wallet}" id="addFunds">儲值</a>
+		                        	</th:block>
+		                        </div>
 			                </div>
 			            </div>
 			        </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -7,34 +7,65 @@
 </head>
 
 <body>
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md text-light h2">
-                    <h3 class="">CARBON</h3>
+	<footer class="nk-footer cb-footer">
+
+    <div class="container">
+        <div class="nk-gap-3"></div>
+        <div class="row vertical-gap">
+        	<div class="nk-gap-2"></div>
+            <div class="col-lg-6">
+                <div class="nk-widget">
+                    <div class="nk-widget-content">
+                        <div class="row vertical-gap sm-gap">
+                            <div class="col-sm-7">
+                            	<a th:href="@{/main/goBackToHome}" class="nk-nav-logo">
+									<i class="d-inline-block align-text-top fa-solid " style="color: #f8f9fa; font-size: 2em;">
+										<span style="color: #dd163b;font-size: 1.7em;">C</span>ARB<span
+											style="color: #dd163b;font-size: 1.5em;">O</span><span style="color: #dd163b;">2</span>
+									</i>
+								</a>
+                            </div>
+                            <div class="col-sm-5">
+                            	<h4 class="nk-widget-title"><a th:href="@{/gameFront}">遊戲</a></h4>
+								<div class="nk-gap-2"></div>                   
+			                    <h4 class="nk-widget-title"><a href="#">論壇</a></h4>
+                            </div>
+                        </div>
+                        <div class="nk-gap"></div>
+                    </div>
                 </div>
-                <div class="col-6 col-md text-light">
-                    <h5>遊戲</h5>
-					 <div class="nk-gap-2"></div>                   
-                    <h5>論壇</h5>
-                </div>
-                <div class="col-6 col-md text-light">
-                    <h5>市集</h5>
-                    <ul class="list-unstyled">
-                        <li>虛寶交易</li>
-                        <li>獎勵商城</li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md text-light">
-                    <h5>活動</h5>
-                    <ul class="list-unstyled">
-                        <li>賽事報名</li>
-                        <li>活動</li>
-                    </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="nk-widget">
+                    <div class="row vertical-gap sm-gap">
+	                    <div class="col-sm-6">
+		                    <h4 class="nk-widget-title">市集</h4>
+		                    <div class="nk-gap"></div>
+		                    <div class="nk-widget-content">
+			                    <ul class="list-unstyled ms-1">
+			                        <li><a th:href="@{/market}">虛寶交易</a></li>
+			                        <li><a th:href="@{/bonus-shop/main}">獎勵商城</a></li>
+			                    </ul>
+                            </div>
+                        </div>
+	                    <div class="col-sm-6">
+	                    	<h4 class="nk-widget-title">活動</h4>
+	                    	<div class="nk-gap"></div>
+		                    <div class="nk-widget-content">
+	                        	<ul class="list-unstyled ms-1">
+			                        <li><a th:href="@{/competitionRegistration}">賽事</a></li>
+			                        <li><a th:href="@{/eventPageAll}">活動總攬</a></li>
+			                    </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+        <div class="nk-gap-3"></div>
+    </div>
+</footer>
+
 </body>
 
 </html>

@@ -29,6 +29,7 @@ import com.ni.model.GameItem;
 import com.ni.model.ItemOrder;
 import com.ni.service.GameItemService;
 import com.ni.service.ItemLogService;
+import com.ni.service.WalletService;
 import com.ni.service.itemOrderService;
 
 import jakarta.mail.MessagingException;
@@ -47,6 +48,8 @@ public class ItemOrderController {
 	private GmailService gService;
 	@Autowired
 	private MemberService mService;
+	@Autowired
+	private WalletService walletService;
 	
 	@GetMapping("/gameitem/allOrder")
 	public String getAllOrder(Model m) {
@@ -80,10 +83,6 @@ public class ItemOrderController {
 	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, @PathVariable Integer itemId, 
 							 @RequestParam(name = "p", defaultValue = "1") Integer pageNumber, Model m) {
 		List<ItemOrderDTO> result = orderService.findSellItemList(gameId, itemName, pageNumber);
-		if(result.isEmpty()) {
-			m.addAttribute("item", itemService.findById(itemId));
-			return "ni/itemMarketPage-gg";
-		} 
 		m.addAttribute("item", itemService.findById(itemId));
 		m.addAttribute("orders", result);
 //		改成ResponseBody? 
@@ -98,9 +97,14 @@ public class ItemOrderController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/market/activeList")
-	public List<ItemOrderDTO> findActiveList(@RequestParam("memberId") Integer memberId) {
-		return orderService.findActiveList(memberId);
+	@GetMapping("/market/buyOrder")
+	public List<ItemOrderDTO> findBuyOrder(@RequestParam("memberId") Integer memberId) {
+		return orderService.findBuyOrder(memberId);
+	}
+	@ResponseBody
+	@GetMapping("/market/saleList")
+	public List<ItemOrderDTO> findsaleList(@RequestParam("memberId") Integer memberId) {
+		return orderService.findSaleList(memberId);
 	}
 	
 	@ResponseBody
@@ -125,14 +129,15 @@ public class ItemOrderController {
 			Member buyer = mService.findById(orderInfo.getBuyer());
 			Member seller = mService.findById(orderInfo.getSeller());
 			
-			String url = "http://localhost:8080/carbon/profiles/inventory";
+			String buyerUrl = "http://localhost:8080/carbon/profile/" + buyer.getId() + "/inventory";
+			String sellerUrl = "http://localhost:8080/carbon/profile/" + seller.getId() + "/inventory";
 			gService.sendMessage(buyer.getEmail(), gService.getMyEmail(), "Carbon虛寶市集交易成功通知",
 					"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + buyer.getUserId() + "您好:\n" + "\n" + 
-					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + url
+					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + buyerUrl
 					+ "\n\n" + "Carbon lys7744110@gmail.com");
 			gService.sendMessage(seller.getEmail(), gService.getMyEmail(), "Carbon虛寶市集交易成功通知",
 					"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + seller.getUserId() + "您好:\n" + "\n" + 
-					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + url
+					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + sellerUrl
 					+ "\n\n" + "Carbon lys7744110@gmail.com");
 			
 		} else {

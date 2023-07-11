@@ -43,3 +43,17 @@
 	color: inherit;
     text-decoration: none;
 }
+
+.nk-navbar .nk-nav li > .btnColor:hover, .nk-navbar .nk-nav li > .btnColor.hover {
+    color: inherit;
+}
+
+.cb-footer a {
+    color: inherit;
+}
+
+.cb-footer a:hover, .cb-footer a:focus {
+    text-decoration: none;
+    color: #dd163b;
+}
+

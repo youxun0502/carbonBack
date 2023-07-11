@@ -2,6 +2,7 @@ package com.ni.controller;
 
 import java.util.List;
 
+import org.checkerframework.checker.units.qual.m;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,8 +49,14 @@ public class ItemLogController {
 	}
 	
 //	-------------- profiles Inventory -----------------------------
+	@GetMapping("/profile/{memberId}/inventory")
+	public String myInventory(@PathVariable Integer memberId, Model m) {
+		m.addAttribute("items", itemLogService.findByMemberId(memberId));
+		return "ni/myInventory";
+	}
+	
 	@ResponseBody
-	@GetMapping("/profiles/inventory/{memberId}")
+	@GetMapping("/profile/inventory/{memberId}")
 	public List<ItemLogDTO> findByMemberId(@PathVariable Integer memberId) {
 		return itemLogService.findByMemberId(memberId);
 	}
