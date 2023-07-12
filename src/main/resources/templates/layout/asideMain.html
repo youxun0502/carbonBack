@@ -41,85 +41,90 @@
 </head>
 
 <body>
-	<aside class="aside aside-toggle min-vh-100 position-relative flex-shrink-0 dm_aside collapse-horizontal" id="asideWidth">
-    <nav class="nav flex-column navColor navbar-expand-lg bg-body-tertiary">
-        <div class="navbar-toggler d-flex" style="margin-left:calc(100% - 42px)">
-            <button class="btn btn-outline-warning invisible" id="asideBtn-left" type="button" data-bs-toggle="collapse" data-bs-target="#asideWidth" aria-expanded="false" aria-controls="collapseWidthExample">
-                <i class="fa-solid fa-angles-left"></i>
-            </button>
-        </div>
-        <a class="nav-link active link-light" aria-current="page"
-            th:href="@{/member/allMember}">會員管理系統</a>
-        <a class="nav-link link-light" th:href="@{/game}">遊戲管理系統</a>
-        <a class="nav-link link-light" th:href="@{/gameitem/allGameitem}">GAME ITEM</a>
-        <a class="nav-link link-light" th:href="@{/bonus/main}">SHOP</a>
-        <a class="nav-link link-light" th:href="@{/competition/data}">EVENT</a>
-        <a class="nav-link link-light" th:href="@{/discussions}">DISCUSSIONS</a>
-        <a class="nav-link link-light" th:href="@{/coupon/couponManagementPage}">優惠券管理系統</a>
-    </nav>
-</aside>
-<div>
-    <nav class="nav navbar-expand-lg bg-body-tertiary">
-    <div class="navbar-toggler">
-        <button class="btn btn-outline-warning" id="asideBtn-right" type="button" data-bs-toggle="collapse" data-bs-target="#asideWidth" aria-expanded="false" aria-controls="collapseWidthExample">
-            <i class="fa-solid fa-angles-right"></i>
-        </button>
-    </div>
-    </nav>
-</div>
-<script>
-    $(function () {
-        // show aside
-        $(window).on('resize', function(){
-            showAside();
-            $('#asideWidth').addClass('aside-toggle');
-            if(!$('#asideBtn-right').hasClass('d-none')){
-                $('.section').addClass('section-big');
-                $('.section').removeClass('section-small');
-            }else{
-                $('.section').removeClass('section-big');
-                $('.section').addClass('section-small');
-            }
-        })
-        
-        $('#asideBtn-right').on('click', function(){
+	<aside class="aside aside-toggle min-vh-100 position-relative flex-shrink-0 dm_aside collapse-horizontal"
+		id="asideWidth">
+		<nav class="nav flex-column navColor navbar-expand-lg bg-body-tertiary">
+			<div class="navbar-toggler d-flex" style="margin-left:calc(100% - 42px)">
+				<button class="btn btn-outline-warning invisible" id="asideBtn-left" type="button"
+					data-bs-toggle="collapse" data-bs-target="#asideWidth" aria-expanded="false"
+					aria-controls="collapseWidthExample">
+					<i class="fa-solid fa-angles-left"></i>
+				</button>
+			</div>
+			<a class="nav-link active link-light" aria-current="page" th:href="@{/member/allMember}">會員管理系統</a>
+			<a class="nav-link link-light" th:href="@{/game}">遊戲管理系統</a>
+			<a class="nav-link link-light" th:href="@{/gameitem/allGameitem}">GAME ITEM</a>
+			<a class="nav-link link-light" th:href="@{/bonus/main}">SHOP</a>
+			<a class="nav-link link-light" th:href="@{/competition/data}">EVENT</a>
+			<a class="nav-link link-light" th:href="@{/discussions}">DISCUSSIONS</a>
+			<a class="nav-link link-light" th:href="@{/coupon/couponManagementPage}">優惠券管理系統</a>
+		</nav>
+	</aside>
+	<div>
+		<nav class="nav navbar-expand-lg bg-body-tertiary">
+			<div class="navbar-toggler">
+				<button class="btn btn-outline-warning" id="asideBtn-right" type="button" data-bs-toggle="collapse"
+					data-bs-target="#asideWidth" aria-expanded="false" aria-controls="collapseWidthExample">
+					<i class="fa-solid fa-angles-right"></i>
+				</button>
+			</div>
+		</nav>
+	</div>
 
-					            $('#asideBtn-right').addClass('d-none');
-            $('#asideBtn-left').removeClass('invisible');
-            $('#asideWidth').removeClass('aside-toggle');
-            $('.section').removeClass('section-big');
-            $('.section').addClass('section-small');
-        })
-        
-        $('#asideBtn-left').on('click', function(){
-            $('#asideBtn-right').removeClass('d-none');
-            $('#asideBtn-left').addClass('invisible');
-            $('#asideWidth').removeClass('aside-toggle');
-            $('.section').addClass('section-big');
-            $('.section').removeClass('section-small');
-        })
-        
-        
-    })
-    
-    let bodyWidth =0;
-    function showAside(){
-        bodyWidth = $('body').width();
-       
-        if(bodyWidth >= 992){
-            $('.aside').addClass('show');
-            $('#asideBtn-right').addClass('d-none');
-            $('#asideBtn-left').addClass('invisible');
-        } else {
-            $('.aside').removeClass('show')
-            if($('.aside').hasClass('show')){
-                $('#asideBtn-left').removeClass('invisible');
-            }else{
-                $('#asideBtn-right').removeClass('d-none');
-            }
-        }
-    }
-</script>
+	<script>
+		$(function () {
+			// show aside
+			$(window).on('resize', function () {
+				showAside();
+				$('#asideWidth').addClass('aside-toggle');
+				if (!$('#asideBtn-right').hasClass('d-none')) {
+					$('.section').addClass('section-big');
+					$('.section').removeClass('section-small');
+				} else {
+					$('.section').removeClass('section-big');
+					$('.section').addClass('section-small');
+				}
+			})
+
+			$('#asideBtn-right').on('click', function () {
+
+				$('#asideBtn-right').addClass('d-none');
+				$('#asideBtn-left').removeClass('invisible');
+				$('#asideWidth').removeClass('aside-toggle');
+				$('.section').removeClass('section-big');
+				$('.section').addClass('section-small');
+			})
+
+			$('#asideBtn-left').on('click', function () {
+
+				$('#asideBtn-right').removeClass('d-none');
+				$('#asideBtn-left').addClass('invisible');
+				$('#asideWidth').removeClass('aside-toggle');
+				$('.section').addClass('section-big');
+				$('.section').removeClass('section-small');
+			})
+
+
+		})
+
+		let bodyWidth = 0;
+		function showAside() {
+			bodyWidth = $('body').width();
+
+			if (bodyWidth >= 992) {
+				$('.aside').addClass('show');
+				$('#asideBtn-right').addClass('d-none');
+				$('#asideBtn-left').addClass('invisible');
+			} else {
+				$('.aside').removeClass('show')
+				if ($('.aside').hasClass('show')) {
+					$('#asideBtn-left').removeClass('invisible');
+				} else {
+					$('#asideBtn-right').removeClass('d-none');
+				}
+			}
+		}
+	</script>
 </body>
 
 </html>
