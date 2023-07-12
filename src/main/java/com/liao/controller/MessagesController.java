@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.liao.model.Discussions;
 import com.liao.model.Messages;
 import com.liao.service.MessagesService;
+import com.liao.service.DiscussionsService;
 
 @Controller
 public class MessagesController {
@@ -33,6 +38,7 @@ public class MessagesController {
 	@Autowired
 	private MessagesService mService;
 	
+	private DiscussionsService dService;
 	
 	//顯示圖片
 	@GetMapping("/messagesdownloadImage/{messageId}")
@@ -70,25 +76,68 @@ public class MessagesController {
 	public String insertMessages(@RequestParam("articleId") Integer articleId,
 									@RequestParam("memberId") Integer memberId,
 									@RequestParam("userName") String userName,
+									@RequestParam("gameId") Integer gameId,
+									@RequestParam("gameName") String gameName,
 //									@RequestParam("mcreated_at") Date mcreated_at,
-									@RequestParam("mcreated_at") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated_at,
+									@RequestParam("mcreated") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated,
 									@RequestParam("mlikes") String mlikes,
 									@RequestParam("mcontent") String mcontent,
+									@RequestParam("mtitle") String mtitle,
 									@RequestParam("mphotoFile") MultipartFile mphotoFile,
 									Model model) throws IOException {
 		Messages msg = new Messages();
 		msg.setArticleId(articleId);
 		msg.setMemberId(memberId);
 		msg.setUserName(userName);
-		msg.setMcreated_at(mcreated_at);
+		msg.setMcreated(mcreated);
 		msg.setMlikes(mlikes);
 		msg.setMcontent(mcontent);
+		msg.setGameId(gameId);
+		msg.setGameName(gameName);
+		msg.setMtitle(mtitle);
 		msg.setMphotoFile(mphotoFile.getBytes());
 		
 		mService.insert(msg);
 		
 		return "redirect:/messages/getAllMessages";
 	}
+	
+	@GetMapping("/front/insertpage")
+	public String insertpageFront(Model model, @RequestParam String mtitle) {
+		model.addAttribute("mtitle", mtitle);
+		return "liao/MessageInsertFront";
+	}
+	
+	@PostMapping("/front/insertmessage")
+	public String insertMessagesFront(@RequestParam("articleId") Integer articleId,
+									@RequestParam("memberId") Integer memberId,
+									@RequestParam("userName") String userName,
+									@RequestParam("gameId") Integer gameId,
+									@RequestParam("gameName") String gameName,
+//									@RequestParam("mcreated_at") Date mcreated_at,
+									@RequestParam("mcreated") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated,
+									@RequestParam("mlikes") String mlikes,
+									@RequestParam("mcontent") String mcontent,
+									@RequestParam("mtitle") String mtitle,
+									@RequestParam("mphotoFile") MultipartFile mphotoFile,
+									Model model) throws IOException {
+		Messages msg = new Messages();
+		msg.setArticleId(articleId);
+		msg.setMemberId(memberId);
+		msg.setUserName(userName);
+		msg.setMcreated(mcreated);
+		msg.setMlikes(mlikes);
+		msg.setMcontent(mcontent);
+		msg.setGameId(gameId);
+		msg.setGameName(gameName);
+		msg.setMtitle(mtitle);
+		msg.setMphotoFile(mphotoFile.getBytes());
+		
+		mService.insert(msg);
+		
+		return "redirect:/forum/title/" +mtitle;
+	}
+	
 	
 	@GetMapping("/messages/getAllMessages")
 	  public String getAllMessages(Model model) throws SQLException {
@@ -151,9 +200,12 @@ public class MessagesController {
             @RequestParam("articleId") Integer articleId,
             @RequestParam("memberId") Integer memberId,
             @RequestParam("userName") String userName,
-            @RequestParam("mcreated_at") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated_at,
+            @RequestParam("mcreated") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated,
             @RequestParam("mlikes") String mlikes,
             @RequestParam("mcontent") String mcontent,
+            @RequestParam("gameId") Integer gameId,
+            @RequestParam("gameName") String gameName,
+            @RequestParam("mtitle") String mtitle,
             @RequestParam(value = "mphotoFile", required = false) MultipartFile mphotoFile,
             Model model) throws IOException {
 			Messages msg = mService.findById(messageId);
@@ -161,8 +213,11 @@ public class MessagesController {
 			msg.setArticleId(articleId);
 			msg.setMemberId(memberId);
 			msg.setUserName(userName);
-			msg.setMcreated_at(mcreated_at);
+			msg.setMcreated(mcreated);
 			msg.setMlikes(mlikes);
+			msg.setGameId(gameId);
+			msg.setGameName(gameName);
+			msg.setMtitle(mtitle);
 			msg.setMcontent(mcontent);
 			
 			if (mphotoFile != null && !mphotoFile.isEmpty()) {
@@ -195,6 +250,87 @@ public class MessagesController {
 		
 	}
 	
+//	@GetMapping("/forum/title/{title}")
+//	  public String getSampleTitle(Model model , @PathVariable String title) throws SQLException {
+//	          List<Messages> msg = mService.findMessagesByTitle(mtitle);
+//	          model.addAttribute("msg", msg);
+//	          return "liao/SampleTitle";
+//		
+//
+//	}
+	
+//	@GetMapping("/forum/{gameName}")
+//	public String goGameDiscussion(Model model , @PathVariable String gameName) throws SQLException {
+//		List<Messages> msg = mService.findMessagesByGameName(gameName);
+//        model.addAttribute("msg", msg);
+//		return "liao/GameDiscussion";
+//	}
+	
+	
+//	@ResponseBody
+//	@PostMapping("/messages/api/post")
+//	public Page<Messages> postMessageApi(@RequestBody Messages msg){
+//		
+//		if (msg.getArticleId() == null) {
+////		     處理 articleId 為空值的情況
+////		     可以拋出異常、設定默認值或進行其他處理
+////		     例如，若 articleId 不應為空，可以拋出異常提示用戶
+//		    throw new IllegalArgumentException("Article ID cannot be null");
+//		}
+//		
+//		mService.insert(msg);
+//		
+//		Page<Messages> page = mService.findByPage(1);
+//		
+//		return page;
+//	}
+	
+//	@ResponseBody
+//	@GetMapping("/forum/api/page")
+//	public Page<Messages> showMessagesApi(@RequestParam(name="p",defaultValue = "1") Integer pageNumber){
+//		Page<Messages> page = mService.findByPage(pageNumber);
+//		return page;
+//	}
+	
+//	@GetMapping("/messages/page")
+//	public String showMessages(@RequestParam(name="p", defaultValue = "1") Integer pageNumber, Model model) {
+//		Page<Messages> page = mService.findByPage(pageNumber);
+//		
+//		model.addAttribute("page", page);
+//		
+//		return "liao/SampleTitle";
+//	}
+	
+	
+//	@PostMapping("/messages/like/{messageId}")
+//	public ResponseEntity<Integer> likeMessage(@PathVariable("messageId") Integer messageId) {
+//	    // 根據訊息 ID 執行按讚邏輯
+//	    // 假設您的 MessagesService 類處理按讚邏輯
+//	    int likeCount = mService.likeMessage(messageId);
+//	    
+//	    // 返回按讚後的數量
+//	    return ResponseEntity.ok(likeCount);
+//	}
+
+	   
+		@ResponseBody
+	    @PostMapping("/updateLikeCount")
+	    public ResponseEntity<String> updateLikeCount(@RequestParam("messageId") Integer messageId) {
+	        // 根據messageId從資料庫中獲取相應的消息
+	        Messages message = mService.findById(messageId);
+	        if (message == null) {
+	            return ResponseEntity.notFound().build();
+	        }
+	        
+	        // 更新mlike的值
+	        int currentLikes = Integer.parseInt(message.getMlikes());
+	        currentLikes++;
+	        message.setMlikes(String.valueOf(currentLikes));
+	        mService.insert(message);
+	        // 假設有相應的MessageService提供保存消息的方法
+	        
+	        return ResponseEntity.ok("按讚數量已更新");
+	    }
 	
 
 	

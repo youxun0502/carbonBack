@@ -113,13 +113,13 @@
 								<td th:text="${discussion.dlikes}"></td>
 								<td>
 									<form th:action="@{/discussions/update}" method="GET">
-										<button type="submit" name="articleId"
+										<button type="submit" class="btn btn-primary" name="articleId"
 											th:value="${discussion.articleId}">更新</button>
 									</form>
 								</td>
 								<td>
 									<form th:action="@{/discussions/delete}" th:method="DELETE">
-										<button type="submit" name="articleId" th:value="${discussion.articleId}"
+										<button type="submit" class="btn btn-danger" name="articleId" th:value="${discussion.articleId}"
 											onclick="return confirm('確定要刪除嗎？')">刪除</button>
 									</form>
 								</td>

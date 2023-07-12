@@ -80,7 +80,7 @@
 								<li><a th:href="@{/eventPageAll}">活 動</a></li>
 							</ul>
 						</li>
-						<li><a href="#">論 壇</a></li>
+						<li><a href="@{/forum/getfront}">論 壇</a></li>
 						<li class="nk-drop-item">
 							<a href="#" th:text="${session.memberBeans.userId}"></a>
 							<ul class="dropdown">
@@ -109,35 +109,35 @@
 								<span class="fa fa-shopping-cart" style="color:#fff"></span>
 								<span class="nk-badge" style="color:#fff" id="cartItemCount">0</span>
 							</div>
-				 <div class="nk-cart-dropdown">
+							<div class="nk-cart-dropdown">
 
-						<!-- 購物車區塊 -->
-						<div id="cartItems"></div>
-
-
-						<div class="nk-gap-2"></div>
-						<div class="text-center">
-							<a th:href="@{/gameFront/cartList(memberId=${session.memberBeans.id})}"
-								class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">前往購物車</a>
-						</div>
-			</div>
-			</li>
-			</ul>
-			<ul class="nk-nav nk-nav-right nk-nav-icons">
-
-				<li class="single-icon d-lg-none">
-					<a href="#" class="no-link-effect" data-nav-toggle="#nk-nav-mobile">
-						<span class="nk-icon-burger">
-							<span class="nk-t-1"></span>
-							<span class="nk-t-2"></span>
-							<span class="nk-t-3"></span>
-						</span>
-					</a>
-				</li>
+								<!-- 購物車區塊 -->
+								<div id="cartItems"></div>
 
 
-			</ul>
-			</div>
+								<div class="nk-gap-2"></div>
+								<div class="text-center">
+									<a th:href="@{/gameFront/cartList(memberId=${session.memberBeans.id})}"
+										class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">前往購物車</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ul class="nk-nav nk-nav-right nk-nav-icons">
+
+						<li class="single-icon d-lg-none">
+							<a href="#" class="no-link-effect" data-nav-toggle="#nk-nav-mobile">
+								<span class="nk-icon-burger">
+									<span class="nk-t-1"></span>
+									<span class="nk-t-2"></span>
+									<span class="nk-t-3"></span>
+								</span>
+							</a>
+						</li>
+
+
+					</ul>
+				</div>
 			</div>
 			<div class="d-none" id="memberId" th:data-user-id="${session.memberBeans.id}">[[${session.memberBeans.id}]]
 			</div>
