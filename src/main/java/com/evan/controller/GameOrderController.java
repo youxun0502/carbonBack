@@ -18,6 +18,7 @@ public class GameOrderController {
 	@Autowired
 	private GameOrderService goService;
 
+
 	//第一支呼叫綠界的controller
 	@PostMapping("/gameFront/order/ecpayCheckout")
 	public String ecpayCheckout(@RequestParam Map<String, Object> formData) {
@@ -32,6 +33,7 @@ public class GameOrderController {
 		return goService.linePayFirstRequest(formData);
     }
 	
+
 
 
 }
