@@ -125,4 +125,9 @@ public class MemberController {
 	public List<Object[]> memberRegistrationDateAnalysis() {
 		return mService.findRegistrationMonth();
 	}
+	
+	@GetMapping("/memberFront/memberInformationPage")
+	public String memberInformationPage() {
+		return "/liu/memberInformationPage";
+	}
 }

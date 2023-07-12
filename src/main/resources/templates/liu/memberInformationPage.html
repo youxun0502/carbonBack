@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Member Information</title>
+	<style>
+		.btn-game-download {
+
+			background-color: #F2542D !important;
+			border-color: #F2542D !important;
+			font-weight: bold !important;
+
+		}
+
+		.btn-game-download:hover {
+
+			background-color: #f22d2d !important;
+			border-color: #f22d2d !important;
+			font-weight: bold !important;
+		}
+
+		.btn-game-description {
+			font-weight: bold !important;
+
+		}
+
+		.btn-game-description:hover {
+			font-weight: bold !important;
+
+		}
+	</style>
+</head>
+
+<body>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+
+	<div class="nk-main">
+		<img class="nk-page-background-top" th:src="@{/assets/images/bg-top-3.png}">
+		<div class="container">
+			<ul class="nk-breadcrumbs">
+				<li><a th:href="@{/main/goBackToHome}">首頁</a></li>
+				<li><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" data-prefix="fa"
+						data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"
+						data-fa-i2svg="">
+						<path fill="currentColor"
+							d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z">
+						</path>
+					</svg></li>
+				<li><span>個人資料</span></li>
+			</ul>
+			<!-- 已購項目區隔線 -->
+			<div class="nk-gap-2"></div>
+			<h3 class="nk-decorated-h-2"><span>已購遊戲</span></h3>
+			<div class="nk-gap"></div>
+			<!-- 已購項目區隔線 -->
+
+			<!-- 已購項目視圖 -->
+			<div class="row vertical-gap">
+				<div class="col-lg-4 col-md-6">
+					<div class="nk-gallery-item-box">
+						<div class="nk-gallery-item-overlay">
+							<div class="d-grid h-50 col-12">
+								<button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
+								<button class=" col-8 btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>
+							</div>
+						</div>
+						<img th:src="@{/assets/images/gallery-1-thumb.jpg}" alt="">
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<div class="nk-gallery-item-box">
+						<div class="nk-gallery-item-overlay">
+							<div class="d-grid h-50 col-12">
+								<button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
+								<button class=" col-8 btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>
+							</div>
+						</div>
+						<img th:src="@{/assets/images/gallery-1-thumb.jpg}" alt="">
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<div class="nk-gallery-item-box">
+						<div class="nk-gallery-item-overlay">
+							<div class="d-grid h-50 col-12">
+								<button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
+								<button class=" col-8 btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>
+							</div>
+						</div>
+						<img th:src="@{/assets/images/gallery-1-thumb.jpg}" alt="">
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6">
+					<div class="nk-gallery-item-box">
+						<div class="nk-gallery-item-overlay">
+							<div class="d-grid h-50 col-12">
+								<button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
+								<button class=" col-8 btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>
+							</div>
+						</div>
+						<img th:src="@{/assets/images/gallery-1-thumb.jpg}" alt="">
+					</div>
+				</div>
+			</div>
+			<!-- 已購項目視圖 -->
+		</div>
+		<div class="nk-gap-2"></div>
+	</div>
+
+	<div th:replace="~{layout/footer}"></div>
+</body>
+
+</html>

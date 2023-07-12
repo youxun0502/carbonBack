@@ -140,8 +140,8 @@ public class MainFunctionController {
 				Cookie[] cookies = request.getCookies();
 				Cookie cookie = null;
 
-				if (cookies != null) {
-					for (Cookie cookie1 : cookies) {
+				if (cookies != null) { 
+					for (Cookie cookie1 : cookies) { //看現有的cookie有沒有重複叫做email的
 						if (cookie1.getName().equals("email")) {
 							cookie = cookie1;
 
@@ -149,11 +149,11 @@ public class MainFunctionController {
 					}
 
 					if (cookie != null && cookie.getValue() != email) {
-						cookie.setMaxAge(0);
+						cookie.setMaxAge(0);	//清除舊的cookie(1)
 						Cookie newCookie = new Cookie("email", email);
 						newCookie.setMaxAge(60 * 60 * 24);
 						newCookie.setHttpOnly(true);
-						response.addCookie(cookie);
+						response.addCookie(cookie); //清除舊的cookie(2)
 						response.addCookie(newCookie);
 					}
 
@@ -165,19 +165,7 @@ public class MainFunctionController {
 					response.addCookie(cookie);
 					System.out.println("沒有cookie");
 				}
-				session.setAttribute("memberBeans", member);
-				session.setAttribute("character", "member");
-
-				if (previousPage.getPreviousPage() == null
-						|| previousPage.getPreviousPage().equals("/main/registerPage")
-						|| previousPage.getPreviousPage().equals("/main/logout")
-						|| previousPage.getPreviousPage().equals("/main/emailVerification")
-						|| previousPage.getPreviousPage().equals("/main/memberLogin")
-						|| previousPage.getPreviousPage().equals("/main/forgetPwdPage")) {
-					return "redirect:/";
-				} else {
-					return "redirect:" + previousPage.getPreviousPage();
-				}
+				return memberLogin(session, member);
 
 			} else { // 沒有rememberMe 就刪掉cookie
 				Cookie[] cookies = request.getCookies();
@@ -194,15 +182,7 @@ public class MainFunctionController {
 					cookie.setMaxAge(0); // 清除cookie
 					response.addCookie(cookie);// 清除cookie
 				}
-				session.setAttribute("memberBeans", member);
-				session.setAttribute("character", "member");
-				if (previousPage.getPreviousPage() == null
-						|| previousPage.getPreviousPage().equals("/main/registerPage")
-						|| previousPage.getPreviousPage().equals("/main/memberLogin")) {
-					return "redirect:/";
-				} else {
-					return "redirect:" + previousPage.getPreviousPage();
-				}
+				return memberLogin(session, member);
 			}
 
 		}
@@ -375,6 +355,7 @@ public class MainFunctionController {
 			String email = "G" + userInfo.get("email");
 			boolean emailAlreadyRegistered = mService.emailAlreadyRegistered(email);
 			if (!emailAlreadyRegistered) {
+				System.out.println("沒有帳號");
 				// 沒註冊就註冊後登入
 				Member member = new Member();
 				member.setUserId(userInfo.get("name"));
@@ -393,23 +374,28 @@ public class MainFunctionController {
 				m.addAttribute("status", "此帳戶已被凍結");
 				return "/liu/memberLoginError";
 			} else {
-				session.setAttribute("memberBeans", member);
-				session.setAttribute("character", "member");
-
-				if (previousPage.getPreviousPage() == null
-						|| previousPage.getPreviousPage().equals("/main/registerPage")
-						|| previousPage.getPreviousPage().equals("/main/logout")
-						|| previousPage.getPreviousPage().equals("/main/emailVerification")
-						|| previousPage.getPreviousPage().equals("/main/memberLogin")
-						|| previousPage.getPreviousPage().equals("/main/forgetPwdPage")) {
-					return "redirect:/";
-				} else {
-					return "redirect:" + previousPage.getPreviousPage();
-				}
+				return memberLogin(session,member);
 			}
 
 		}
 		return "redirect:/";
+	}
+	
+	/*方法:會員登入*/
+	private String memberLogin(HttpSession session, Member member) {
+		session.setAttribute("memberBeans", member);
+		session.setAttribute("character", "member");
+
+		if (previousPage.getPreviousPage() == null
+				|| previousPage.getPreviousPage().equals("/main/registerPage")
+				|| previousPage.getPreviousPage().equals("/main/logout")
+				|| previousPage.getPreviousPage().equals("/main/emailVerification")
+				|| previousPage.getPreviousPage().equals("/main/memberLogin")
+				|| previousPage.getPreviousPage().equals("/main/forgetPwdPage")) {
+			return "redirect:/";
+		} else {
+			return "redirect:" + previousPage.getPreviousPage();
+		}
 	}
 
 }
