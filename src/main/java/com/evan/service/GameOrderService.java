@@ -39,10 +39,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.services.gmail.Gmail.Users.Drafts.Update;
 import com.liu.model.Member;
 import com.liu.model.MemberRepository;
+import com.liu.service.GmailService;
 
 import ecpay.payment.integration.AllInOne;
 import ecpay.payment.integration.domain.AioCheckOutALL;
 import ecpay.payment.integration.domain.QueryTradeInfoObj;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.criteria.Order;
 
 @Service
@@ -57,6 +59,8 @@ public class GameOrderService {
 	private GameRepository gRepos;
 	@Autowired
 	private CartService cService;
+	@Autowired 
+	private GmailService gmailService;
 
 	@Autowired
 	private ConvertToDTO cdDTO;
@@ -109,13 +113,13 @@ public class GameOrderService {
 
 		AioCheckOutALL obj = new AioCheckOutALL();
 		String uuId = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 20);
-		
+
 		Date payTime = new Date();
-        String dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(payTime);
+		String dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(payTime);
 		formData.get("logs");
 		System.out.println(formData.get("logs"));
-		
-		
+
+
 		obj.setMerchantTradeNo(uuId);
 		obj.setMerchantTradeDate(dateFormat);
 		obj.setTotalAmount((String)formData.get("totalSum"));
@@ -138,25 +142,34 @@ public class GameOrderService {
 		obj.setMerchantTradeNo((String)formData.get("uuid"));
 		String queryTradeInfo = all.queryTradeInfo(obj);
 		System.out.println(queryTradeInfo);
-		
+
 		String tradeStatus = null;
-		
+
 		String[] keyvaluePair = queryTradeInfo.split("&");
 		for (String pair : keyvaluePair) {
 			String[] keyValue = pair.split("=");
-            if (keyValue.length == 2 && keyValue[0].equals("TradeStatus")) {
-                tradeStatus = keyValue[1];
-                break;
-            }
+			if (keyValue.length == 2 && keyValue[0].equals("TradeStatus")) {
+				tradeStatus = keyValue[1];
+				break;
+			}
 		}
-		
+
 		if(Integer.parseInt(tradeStatus) == 1) {
 			UpdategameOrderToSuccess(Integer.parseInt((String)formData.get("orderId")));
+			Member member = mRepos.findById(Integer.parseInt((String)formData.get("memberId"))).orElse(null);
+			try {
+				gmailService.sendMessage(member.getEmail(),gmailService.getMyEmail(),"訂單編號：\""+(String)formData.get("orderId")+"\"交易結果通知信"
+						,"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + member.getMemberName() + "您好:\n" + "\n" + 
+						 "感謝您此次於Carbon完成訂單交易" + "\n" 
+						 + "\n\n" + "Carbon lys7744110@gmail.com");
+			} catch (MessagingException | IOException e) {
+				e.printStackTrace();
+			}
 			return true;
 		}else {
 			return false;
 		}
-		
+
 	}
 
 	@Transactional
@@ -171,7 +184,7 @@ public class GameOrderService {
 		gameOrder.setStatus(1);
 		goRepos.save(gameOrder);
 	}
-	
+
 	public RedirectView linePayFirstRequest(Map<String, Object> formData) {
 		String uuId = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 20);
 
@@ -180,9 +193,9 @@ public class GameOrderService {
 		requestBody.put("amount", (String)formData.get("totalSum"));
 		requestBody.put("productName", (String)formData.get("logs"));
 		requestBody.put("confirmUrl", "http://localhost:8080/carbon/gameFront/order/linePay?orderId="
-									+(String)formData.get("orderId")+"&memberId="
-									+(String)formData.get("memberId")+"&totalSum="
-									+(String)formData.get("totalSum"));
+				+(String)formData.get("orderId")+"&memberId="
+				+(String)formData.get("memberId")+"&totalSum="
+				+(String)formData.get("totalSum"));
 		requestBody.put("orderId", uuId);
 		requestBody.put("currency", "TWD");
 
@@ -210,37 +223,37 @@ public class GameOrderService {
 				HttpMethod.POST, httpEntity, String.class);
 
 		// 處理響應
-        if (response.getStatusCode().is2xxSuccessful()) {
-            // 解析響應
-            ObjectMapper objectMapper1 = new ObjectMapper();
-            try {
-                JsonNode responseJson = objectMapper1.readTree(response.getBody());
-                String paymentWebUrl = responseJson.get("info").get("paymentUrl").get("web").asText();
-                // 將 paymentWebUrl 返回給前端進行跳轉
-                return new RedirectView(paymentWebUrl);
-            } catch (IOException e) {
-                e.printStackTrace();
-    			return new RedirectView("/");
-            }
-        } else {
-        	//付款失敗
+		if (response.getStatusCode().is2xxSuccessful()) {
+			// 解析響應
+			ObjectMapper objectMapper1 = new ObjectMapper();
+			try {
+				JsonNode responseJson = objectMapper1.readTree(response.getBody());
+				String paymentWebUrl = responseJson.get("info").get("paymentUrl").get("web").asText();
+				// 將 paymentWebUrl 返回給前端進行跳轉
+				return new RedirectView(paymentWebUrl);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return new RedirectView("/");
+			}
+		} else {
+			//付款失敗
 			return new RedirectView("/");
 
-        }
+		}
 	}
 	public boolean linePaySecondRequest(Map<String, Object> formData) {
-		
+
 		// 構建請求參數
 		Map<String, String> requestBody = new HashMap<>();
 		requestBody.put("amount", (String)formData.get("totalSum"));
 		requestBody.put("currency", "TWD");
-		
+
 		// 構建Header
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.add("X-LINE-ChannelId", "2000063549");
 		headers.add("X-LINE-ChannelSecret", "2097997c3d54c6fafc5d7746b962975b");
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		String jsonBody;
 		try {
@@ -249,16 +262,16 @@ public class GameOrderService {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		// 建構請求實體
 		HttpEntity<String> httpEntity = new HttpEntity<>(jsonBody, headers);
-		
+
 		// 發送請求
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.exchange("https://sandbox-api-pay.line.me/v2/payments/"
 				+ (String)formData.get("transactionId")+"/confirm",
 				HttpMethod.POST, httpEntity, String.class);
-		
+
 		// 處理響應
 		if (response.getStatusCode().is2xxSuccessful()) {
 			// 解析響應
@@ -268,44 +281,52 @@ public class GameOrderService {
 				String result = responseJson.get("returnMessage").asText();
 				// 將 paymentWebUrl 返回給前端進行跳轉
 				System.out.println(result);
-				if("Success.".equals(result))UpdategameOrderToSuccess(Integer.parseInt((String)formData.get("orderId")));
+				if("Success.".equals(result)) {
+					UpdategameOrderToSuccess(Integer.parseInt((String)formData.get("orderId")));
+					Member member = mRepos.findById(Integer.parseInt((String)formData.get("memberId"))).orElse(null);
+					gmailService.sendMessage(member.getEmail(),gmailService.getMyEmail(),"訂單編號：\""+(String)formData.get("orderId")+"\"交易結果通知信"
+							,"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + member.getMemberName() + "您好:\n" + "\n" + 
+							 "感謝您此次於Carbon完成訂單交易" + "\n" 
+							 + "\n\n" + "Carbon lys7744110@gmail.com");
+					
+					}
 				return "Success.".equals(result);
-			} catch (IOException e) {
+			} catch (IOException | MessagingException e) {
 				e.printStackTrace();
 				return false;
 			}
 		} else {
 			//付款失敗
 			return false;
-			
+
 		}
 	}
 
 	//尋找使用者已經擁有的遊戲
 	public List<OrderLogDTO> getMemberOwnGames(Map<String, Object> formData) {
-	    int memberId = Integer.parseInt((String) formData.get("memberId"));
-	    System.out.println(memberId);
-	    Member member = mRepos.findById(memberId).orElse(null);
-	    System.out.println("step1");
-	    
-	    Set<String> gameNames = new HashSet<>();
-	    List<OrderLogDTO> successOrder = new ArrayList<>();
+		int memberId = Integer.parseInt((String) formData.get("memberId"));
+		System.out.println(memberId);
+		Member member = mRepos.findById(memberId).orElse(null);
+		System.out.println("step1");
 
-	    for (OrderDTO orderDTO : cdDTO.outputOrderDTOList(member.getGameOrder())) {
-	        if ("已付款".equals(orderDTO.getStatus())) {
-	            for (OrderLogDTO orderLogDTO : orderDTO.getLogs()) {
-	                String gameName = orderLogDTO.getGameName();
-	                if (!gameNames.contains(gameName)) {
-	                    gameNames.add(gameName);
-	                    successOrder.add(orderLogDTO);
-	                }
-	            }
-	        }
-	    }
+		Set<String> gameNames = new HashSet<>();
+		List<OrderLogDTO> successOrder = new ArrayList<>();
 
-	    return successOrder;
+		for (OrderDTO orderDTO : cdDTO.outputOrderDTOList(member.getGameOrder())) {
+			if ("已付款".equals(orderDTO.getStatus())) {
+				for (OrderLogDTO orderLogDTO : orderDTO.getLogs()) {
+					String gameName = orderLogDTO.getGameName();
+					if (!gameNames.contains(gameName)) {
+						gameNames.add(gameName);
+						successOrder.add(orderLogDTO);
+					}
+				}
+			}
+		}
+
+		return successOrder;
 	}
 
-	
-	
+
+
 }
