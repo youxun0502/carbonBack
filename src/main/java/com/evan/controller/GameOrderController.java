@@ -18,6 +18,7 @@ public class GameOrderController {
 	@Autowired
 	private GameOrderService goService;
 
+	//第一支呼叫綠界的controller
 	@PostMapping("/gameFront/order/ecpayCheckout")
 	public String ecpayCheckout(@RequestParam Map<String, Object> formData) {
 		String aioCheckOutALLForm = goService.ecpayCheckout(formData);
@@ -25,6 +26,7 @@ public class GameOrderController {
 		return aioCheckOutALLForm;
 	}
 
+	//第一支呼叫linepay的controller
 	@PostMapping("/gameFront/order/makePayment")
 	public RedirectView  makeLinePayment(@RequestParam Map<String, Object> formData) {
 		return goService.linePayFirstRequest(formData);

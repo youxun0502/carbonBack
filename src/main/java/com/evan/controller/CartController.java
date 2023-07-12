@@ -30,6 +30,7 @@ public class CartController {
 	@Autowired
 	private GameOrderService goService;
 
+	//會員ID查詢她的購物車
 	@ResponseBody
 	@GetMapping("/gameCart")
 	public List<CartDTO> getCartByMemberId(@RequestParam Map<String, Object> formData) {
@@ -38,6 +39,7 @@ public class CartController {
 		return cService.getMemberCart(memberId);
 	}
 	
+	//新增購物車把local存進來
 	@ResponseBody
 	@PostMapping("/gameCart/add")
 	public List<CartDTO> addCartByMemberId(@RequestParam Map<String, Object> formData) {
@@ -46,6 +48,7 @@ public class CartController {
 		return cService.addMemberCart(formData);
 	}
 	
+	//新增一筆到購物車
 	@ResponseBody
 	@PostMapping("/gameCart/addOne")
 	public List<CartDTO> addOneCartByMemberId(@RequestParam Map<String, Object> formData) {
@@ -54,6 +57,7 @@ public class CartController {
 		return cService.addMemberCart(formData);
 	}
 	
+	//刪除一筆購物車資料
 	@ResponseBody
 	@DeleteMapping("/gameCart/delete")
 	public List<CartDTO> deleteOneCartByMemberId(@RequestParam Map<String, Object> formData) {
@@ -62,6 +66,7 @@ public class CartController {
 		return cService.addMemberCart(formData);
 	}
 	
+	//進入購物車頁面
 	@GetMapping("/gameFront/cartList")
 	public String cartList(@RequestParam("memberId") String memberId,Model model) {
 		List<CartDTO> memberCart = cService.getMemberCart(Integer.parseInt(memberId));
@@ -74,7 +79,7 @@ public class CartController {
 		return "evan/cartList";
 	}
 	
-	
+	//將購物車加入訂單
 	@PostMapping("/gameFront/orderList")
 	public String addOrderList(@RequestParam Map<String, Object> formData,Model model) {
 		
@@ -85,6 +90,7 @@ public class CartController {
 		return "evan/orderList";
 	}
 	
+	//訂單頁面
 	@GetMapping("/gameFront/orderList")
 	public String getOrderList(@RequestParam Map<String, Object> formData,Model model) {
 		
@@ -92,6 +98,7 @@ public class CartController {
 		return "evan/orderList";
 	}
 	
+	//刪除訂單
 	@DeleteMapping("/gameFront/orderList/delete")
 	public String deleteOrderList(@RequestParam Map<String, Object> formData,Model model) {
 		
