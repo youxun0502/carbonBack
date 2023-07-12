@@ -20,8 +20,8 @@ public class AzureConnService {
 	
 	public void uploadFile(String originalFilename, InputStream inputStream, long size) {
 		
-		 String connectionString = storageAccountEndpoint;
-         String containerName = storageAccountName;
+		 String connectionString = "your-connection-string";
+         String containerName = "your-container-name";
          String blobName = originalFilename;
 
          BlobContainerClient containerClient = new BlobContainerClientBuilder()
