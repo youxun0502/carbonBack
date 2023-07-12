@@ -294,6 +294,7 @@ public class DiscussionsController {
 	
 	
 	
+	
 //	@GetMapping("/discussions/getAllDiscussions")
 //	@ResponseBody
 //	public  List<Discussions> getAllDiscussions(Model model) throws SQLException {

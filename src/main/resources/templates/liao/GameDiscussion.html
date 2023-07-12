@@ -469,6 +469,8 @@
 
                 <li><span>[[${discussions[0].gameName}]]</span></li>
 
+                <!-- <li><span>[[${discussions[0].gameName}]]</span></li> -->
+
             </ul>
         </div>
         <div class="nk-gap-1"></div>
@@ -486,7 +488,8 @@
                     <!-- <form>
                         <button id="submitBtn" class="nk-btn nk-btn-rounded nk-btn-color-white">New Topic</button>
                     </form> -->
-                    <a th:href="@{/forum/insertpage(gameName=${gameName})}" class="nk-btn nk-btn-rounded nk-btn-color-white">New Topic</a>
+                    <a th:href="@{/forum/insertpage(gameName=${gameName})}"
+                        class="nk-btn nk-btn-rounded nk-btn-color-white">New Topic</a>
                 </div>
             </div>
             <!-- END: Pagination -->
@@ -502,7 +505,7 @@
                         <div class="nk-forum-icon">
                             <span class="ion-locked"></span>
                         </div>
-                        <div class="nk-forum-title">
+                        <div class="nk-forum-title">class
                             <h3><a th:href="@{'/forum/' +'title/' + ${discussion.title}}"><span
                                         th:text="${discussion.title}"></span></a></h3>
                             <div class="nk-forum-title-sub"><span th:text="${discussion.lastReplyTime}"></span>
