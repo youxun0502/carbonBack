@@ -39,7 +39,7 @@
 	display: block;
 }
 
-.gameItem a {
+.gameItem .cb-a {
 	color: inherit;
     text-decoration: none;
 }

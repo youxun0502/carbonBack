@@ -131,6 +131,15 @@ public class GameItemController {
 		return new ResponseEntity<byte[]>(itemImgFile, headers, HttpStatus.OK);
 	}
 	
+	@GetMapping("/market/downloadImage/{itemId}")
+	private ResponseEntity<byte[]> downloadMarketImage(@PathVariable Integer itemId) {
+		GameItem img1 = itemService.findById(itemId);
+		byte[] itemImgFile = img1.getItemImg();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_JPEG);
+		return new ResponseEntity<byte[]>(itemImgFile, headers, HttpStatus.OK);
+	}
+	
 	@ResponseBody
 	@GetMapping("/gameitem/checkItemName")
 	public boolean checkItemName(@RequestParam("itemName") String itemName, @RequestParam("gameId") Integer gameId) {

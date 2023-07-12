@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <style>
         .area1 {
-            background-color: rgba(53, 53, 53, 0.705);
+            background-color: rgb(88 88 88 / 22%);
             border-radius: 14px;
             padding: 20px 50px;
         }
@@ -13,7 +13,7 @@
         .imgBox {
             height: 350px;
             border: 2px dashed rgb(40, 44, 49);
-            background-color: rgba(65, 65, 65, 0.418);
+            background-color: rgb(237 234 220 / 19%);
         }
 
         .errMsg {
@@ -23,7 +23,7 @@
             color: #dc3545;
         }
     </style>
-    <title>新增道具資料</title>
+    <title>Carbon管理系統 | 遊戲虛寶</title>
 </head>
 
 <body>
@@ -34,26 +34,26 @@
             <div class="content mt-3">
                 <nav class="navbar navColor">
                     <div class="container-fluid">
-                        <a class="navbar-brand link-light" th:href="@{/gameitem}" style="font-size: 30px;">GAME ITEM</a>
+                        <a class="navbar-brand link-light" th:href="@{/gameitem}" style="font-size: 30px;">遊戲虛寶</a>
                         <form class="d-flex" role="search" method="get" th:action="@{/gameitem/getGameitemByName}">
                             <input class="form-control me-2" type="search" placeholder="道具名稱查詢" aria-label="Search"
                                 name="itemName">
-                            <button class="btn btn-outline-warning" type="submit">Search</button>
+                            <button class="btn btn-outline-warning col-3" type="submit">查詢</button>
                         </form>
                     </div>
                 </nav>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/gameitem/allGameitem}">ALL</a>
+                        <a class="nav-link" th:href="@{/gameitem/allGameitem}">查詢全部</a>
                     </li>
                     <li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/allOrder}">ORDER</a>
+						<a class="nav-link" th:href="@{/gameitem/allOrder}">訂單</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/allItemLog}">INVENTORY</a>
+						<a class="nav-link" th:href="@{/gameitem/allItemLog}">虛寶倉庫</a>
 					</li>
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
+                        <a class="nav-link active" th:href="@{/gameitem/newGameitem}">新增</a>
                     </li>
                 </ul>
             </div>
@@ -119,8 +119,9 @@
                                 placeholder="TYPE" />
                         </div>
                         <div class="gap-2 d-md-flex justify-content-md-end mt-5">
-                            <input type="submit" value="確定" class="btn btn-warning col-3" />
-                            <input type="reset" value="清空" class="btn btn-secondary col-3" />
+                            <button class="btn btn-outline-warning col-2" id="autoInput">一鍵輸入</button>
+                            <input type="submit" value="確定" class="btn btn-warning col-2" />
+                            <input type="reset" value="清空" class="btn btn-secondary col-2" />
                         </div>
                     </form>
                 </div>
@@ -168,6 +169,19 @@
                 })
         })()
 
+		//==================== check itemName ====================
+		$('#autoInput').on('click',function(e){
+			e.preventDefault();
+			$('select[name="gameId"]').val(1);
+			$('#itemName1').val('AK-47 | 幻影破壞者');
+			$('select[name="status"]').val(1);
+			$('textarea[name="itemDesc"]').val('威力強大且可靠，身為世界上最受青睞的突擊步槍之一的 AK-47 在收放得當的點放射擊之下最能彰顯其致命性。 '+
+												'其在磨砂黑基底上客製化塗裝上一個霧狀的迷幻生物。 '+
+												'「牠可以變成任何牠想變的，去任何牠想去的地方，然而牠卻選擇與你同在……」');
+			$('input[name="itemGrade"]').val('機密');
+			$('input[name="itemType"]').val('武器外觀');
+		})
+		
 		////////// check itemName //////////
         function checkItemName(name, id) {
             return new Promise(function (resolve, reject) {

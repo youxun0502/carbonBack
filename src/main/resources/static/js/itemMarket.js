@@ -4,15 +4,15 @@ const salePage = document.getElementById('showSalePage1');
 const buyPageInfo = document.getElementById('buyPageInfo');
 const inventoryList = document.getElementById('inventoryList1');
 const userId = document.getElementById('user1').textContent;
-const myWallet1 = document.getElementById('myWallet1').textContent;
+const myWallet = document.getElementById('myWallet1').textContent;
 console.log('userId: ' + userId);
-console.log('myWallet: ' + myWallet1);
+console.log('myWallet: ' + myWallet);
 let removeHtml;
 
 
 // =========================== itemMarketPage ===========================  
-// --------------------------- wallet ---------------------------
-function myWallet(){
+// --------------------------- wallet (沒用到)---------------------------
+function myWalletAjax(){
 	axios.get('/carbon/profile/myWallet', {
 		params: { memberId: userId}
 	})
@@ -70,7 +70,6 @@ function buyAnItem(buyId) {
             // console.log('response: ' + JSON.stringify(response.data));
             if (userId != '') {
                 showBuyInfo(response.data);
-                myWallet()
             } else {
                 loginPage();
             }
@@ -84,18 +83,24 @@ function buyAnItem(buyId) {
 // --------------------------- show buy order info page ---------------------------
 function showBuyInfo(order) {
     let infoHtmlString = `
-        <div class="col d-flex justify-content-between align-items-center">
-            <div class="imgBox overflow-hidden col-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex overflow-hidden col-6 align-items-center">
                 <img src="/carbon/market/downloadImage/${order.itemId}"
-                    alt="${order.gameItem.itemImgName}" class="img-fluid" style="max-width: 90px">
+                    alt="${order.gameItem.itemImgName}" class="img-fluid" style="max-width: 80px">
+                <div class="ms-1">${order.gameItem.itemName}</div>
             </div>
-            <div class="col-5">${order.gameItem.itemName}</div>
-            <div class="col-2">${order.sell.memberName}</div>
+            <div class="col-3">${order.sell.userId}</div>
             <div class="col-2">$ ${order.price}</div>
         </div>`;
 
     buyPageInfo.innerHTML = infoHtmlString;
-
+    
+    if(order.price > myWallet){
+		document.getElementById('changeAddFund1').innerHTML=`
+			<a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white float-right" href="/carbon/profile/wallet" id="addFunds">儲值</a>
+		`;
+	}
+	
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.addEventListener('click', function () {
         console.log(order.itemId);
@@ -193,12 +198,12 @@ function showSuccessPage(order) {
                     alt="" class="img-fluid" style="max-width: 90px">
             </div>
             <div class="col-5">${order.gameItem.itemName}</div>
-            <div class="col-2">${order.sell.memberName}</div>
+            <div class="col-2">${order.sell.userId}</div>
             <div class="col-2">$ ${order.price}</div>
         </div>
         <div class="gap-2 col d-flex justify-content-end" id="btnGroup">
-            <a class="btn btn-info submitBtn col-3" href="#">查看物品庫</a>
-            <a class="btn btn-info closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">關閉</a>
+            <a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 submitBtn col-3" href="/carbon/profile/${userId}/inventory">查看物品庫</a>
+            <a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-dark-3 closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">關閉</a>
         </div>`;
     buyPageInfo.innerHTML = infoHtmlString;
     $('#pageMsg').removeClass('d-none');
@@ -208,24 +213,33 @@ function showSuccessPage(order) {
 
 // --------------------------- buy order ---------------------------  
 $('#buyOrder1').on('click', function () {
+	let buyId = $(this).attr('data-buyId');
     if (userId == '') {
         loginPage();
     } 
     var buyPrice;
     var buyQuantity;
-    $('#buyPrice1,#buyQuantity1').on('keyup change', function () {
+    var maxPrice;
+    $('#buyPrice1,#buyQuantity1').on('keyup', function () {
         buyPrice = Number($('#buyPrice1').val().replace('NT$', ''));
         buyQuantity = Number($('#buyQuantity1').val());
+        maxPrice = $('#maxPrice1');
         if($('#buyPrice1').val().indexOf('NT$') < 0 ){
 	        $('#buyPrice1').val('NT$ 0');
 		}
         if(buyPrice * buyQuantity == 0 || isNaN(buyPrice * buyQuantity)){
-			$('#maxPrice1').val('NT$  --');
+			maxPrice.val('NT$  --');
 		} else{
-        	$('#maxPrice1').val('NT$ ' + buyPrice * buyQuantity);
+        	maxPrice.val('NT$ ' + buyPrice * buyQuantity);
 		}
     })
-    let buyId = $(this).attr('data-buyId');
+    
+    if(maxPrice > myWallet){
+		document.getElementById('changeAddFund2').innerHTML=`
+			<a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white" href="/carbon/profile/wallet" id="addFunds">儲值</a>
+		`;
+	}
+	
     console.log(buyId);
 
     // ------------- Validation -------------  
@@ -255,41 +269,7 @@ $('#buyOrder1').on('click', function () {
 	                    if (response.data != '') {
 	                        let orders = response.data;
 	                        console.log('itemId: ' + orders.itemId)
-	                        axios({
-	                            method: 'get',
-	                            url: '/carbon/market/checkSales',
-	                            params: { itemId: buyId }
-	                        })
-	                            .then(res => {
-	                                let sales = res.data;
-	                                //console.log('sales: ' + JSON.stringify(sales));
-	                                if (sales != '' && buyPrice >= sales[0].price) {
-	                                    console.log('res: ' + JSON.stringify(sales[0].price))
-	                                    console.log('price: ' + buyPrice)
-	                                    axios({
-	                                        url: '/carbon/market/done',
-	                                        method: 'post',
-	                                        data: {
-	                                            itemId: sales[0].itemId,
-	                                            buyer: userId,
-	                                            seller: sales[0].seller,
-	                                            quantity: 1,
-	                                            price: sales[0].price,
-	                                        }
-	                                    })
-	                                        .then(result => {
-	                                            //console.log('result: ' + JSON.stringify(result.data))
-	                                            if (result.data != '') {
-	                                                orderUpdate(orders);
-	                                                orderUpdate(sales[0]);
-	                                            }
-	                                            return result.data;
-	                                        })
-	                                        .catch(err => {
-	                                            console.log('err: ' + err);
-	                                        })
-	                                }
-	                            })
+	                        checkSales(buyId, buyPrice, orders);
 	                    }
 	                    return response.data;
 	                })
@@ -298,7 +278,7 @@ $('#buyOrder1').on('click', function () {
 	                        let bohtml = `
 	                        	<h3 class="text-center">新增購買訂單成功</h3>
 	                        	<div class="mt-3 d-flex justify-content-end">
-						            <a class="btn btn-info closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">關閉</a>
+						            <a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-dark-3 closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">關閉</a>
 						        </div>
 	                        `;
 							$('#buyOrderSuccess').html(bohtml);
@@ -312,6 +292,50 @@ $('#buyOrder1').on('click', function () {
         }, false)
     })
 })
+
+
+// --------------------------- 確認賣單價錢 --------------------------- 
+function checkSales(buyId, buyPrice, orders){
+	axios({
+	    method: 'get',
+	    url: '/carbon/market/checkSales',
+	    params: { itemId: buyId }
+	})
+	    .then(res => {
+	        let sales = res.data;
+	        //console.log('sales: ' + JSON.stringify(sales));
+	        if (sales != '' && buyPrice >= sales[0].price) {
+	            console.log('res: ' + JSON.stringify(sales[0].price))
+	            console.log('price: ' + buyPrice)
+	            axios({
+	                url: '/carbon/market/done',
+	                method: 'post',
+	                data: {
+	                    itemId: sales[0].itemId,
+	                    buyer: userId,
+	                    seller: sales[0].seller,
+	                    quantity: 1,
+	                    price: sales[0].price,
+	                }
+	            })
+	                .then(result => {
+	                    //console.log('result: ' + JSON.stringify(result.data))
+	                    if (result.data != '') {
+	                        orderUpdate(orders);
+	                        orderUpdate(sales[0]);
+	                    }
+	                    return result.data;
+	                })
+	                .catch(err => {
+	                    console.log('err: ' + err);
+	                })
+	        }
+	    })
+	    .catch(err => {
+			console.log('err: ' + err)
+		})
+}
+
 
 // --------------------------- sell list ajax ---------------------------          
 function listPage(data) {
@@ -329,7 +353,7 @@ function listPage(data) {
                 </div>
                 <div class="nk-forum-activity my-auto">
                     <div class="nk-forum-activity-title text-center">
-                        [[${order.sell.memberName}]]
+                        [[${order.sell.userId}]]
                     </div>
                 </div>
                 <div class="nk-forum-activity my-auto d-flex justify-content-center">
@@ -338,7 +362,7 @@ function listPage(data) {
                     </div>
                 </div>
                 <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
-                	<a href="#" class="btn btn-info buyBtn" data-toggle="modal" data-target="#modalBuyPage" th:data-id="${order.ordId}">
+                	<a href="#" class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 buyBtn" data-toggle="modal" data-target="#modalBuyPage" th:data-id="${order.ordId}">
                         立即購買
                     </a>
                 </div>
@@ -349,9 +373,97 @@ function listPage(data) {
 
 
 // =========================== itemMarketList ===========================
-// --------------------------- show active ---------------------------
+// --------------------------- list page ajax (待完成)---------------------------
+function loadListPage (){
+	let itemListHtml = ``;
+	`<th:block th:each="order: ${items}">
+	    <div class="col-md-4 col-6">
+	        <div class="nk-blog-post border border-secondary px-3 gameItem">
+	            <a th:href="@{'/market/'+ ${order.gameId} + '/' + ${order.itemId} + '/' + ${order.itemName}}" class="nk-post-img cb-a">
+	                <img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.itemImgName}">
+	                <h2 class="nk-post-title h5" style="height: 45px">
+	                	[[${order.itemName}]]
+	                </h2>
+	                <div class="text-main-1" style="height: 58px">起跳價格: 
+	                	<th:block th:each="ord: ${orders}">
+	                        <h3 th:if="${ord.itemId} == ${order.itemId}" class="nk-post-title h6 text-end">NT$ [[${ord.minPrice}]]</h3>
+	                   	</th:block>
+	               	</div>
+	            </a>
+	            <div class="nk-post-by">
+	                <img th:src="@{'/gameFront/getImg/' + ${order.game.gamePhotoLists[0].photoId}}" alt="" class="rounded-circle" width="35">
+	                <a th:href="@{'/gameFront/' + ${order.game.gameName}}">[[${order.game.gameName}]]</a>
+	            </div>
+	            <div class="nk-gap"></div>
+	        </div>
+	    </div>
+	</th:block>`;
+	
+	$('#listPage1').html(itemListHtml);
+	
+	let listPageHtml = ``;
+	let totalPages = data.totalPages;
+	let thisPage = data.pageable.pageNumber;
+	listPageHtml +=`
+				<div class="nk-gap-2"></div>
+		        <div class="nk-pagination nk-pagination-center">
+		            <a href="#" class="pageBtn nk-pagination-prev" data-pageid="${thisPage}">
+		                <span class="ion-ios-arrow-back"></span>
+		            </a>
+		            <nav>`;
+		    for(i = 1; i <= totalPages ;i++){
+				if(i == thisPage + 1){
+					listPageHtml +=`
+		                <a class="pageBtn nk-pagination-current" href="#" data-pageid="${i}">${i}</a>`;
+				} else {
+					listPageHtml +=`
+		                <a class="pageBtn" href="#" data-pageid="${i}">${i}</a>`;
+				}
+			}
+			listPageHtml +=`
+		            </nav>
+		            <a href="#" class="pageBtn nk-pagination-next" data-pageid="${thisPage + 2}">
+		                <span class="ion-ios-arrow-forward"></span>
+		            </a>
+		        </div>`;
+		        
+			$('#itemListPage1').html(listPageHtml);
+			
+			let pageBtns = document.getElementsByClassName('pageBtn');
+		    for (i = 0; i < pageBtns.length; i++) {
+		        pageBtns[i].addEventListener('click', function (e) {
+					e.preventDefault();
+		            let pageId = this.getAttribute('data-pageid');
+		            console.log('pageId: ' + pageId);
+		            if (pageId == 0 || pageId == totalPages + 1) {
+		                this.setAttribute('disabled', '');
+		            } else {
+		                loadThatPage(pageId);
+		            }
+		        });
+		    }
+	
+}
 
 
+
+
+function loadThatPage(thatPage) {
+	axios.get('/market/page',{
+			params: {
+				p: thatPage
+			}
+		})
+		.then(response => {
+            orderHistory(response.data);
+        })
+        .catch(err => {
+			console.log('err: ' + err);
+		})
+}
+
+
+// --------------------------- active listing ajax ---------------------------
 function saleList(){
 	if(userId != ''){
 		axios.get('/carbon/market/saleList',{
@@ -388,6 +500,8 @@ function buyOrder(){
 	}
 }
 
+
+// --------------------------- order history ajax ---------------------------
 function history(){
 	if(userId != ''){
 		axios.get('/carbon/market/history',{
@@ -407,15 +521,13 @@ function history(){
 }
 
 
-
-
+// --------------------------- show active listing ---------------------------
 function activeList(data, elm){
 	let sellListings = document.getElementById('sellListings1');
 	let buyOrders = document.getElementById('buyOrders1');
 	let activeListHtml =``;
-	data.forEach((order) => {
+	data.content.forEach((order) => {
 		let createTime = new Date(order.createTime).toISOString().split('T')[0];
-		// 拆成2個axios
 			activeListHtml +=`
 			<ul class="nk-forum text-white">
 				<li class="p-10">
@@ -437,7 +549,13 @@ function activeList(data, elm){
 		                <div class="nk-forum-activity-title">
 		                    NT$ ${order.price}
 		                </div>
-		            </div>`;
+		            </div>
+		            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
+		            	<a href="#" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#modalDelete" data-id="${order.ordId}" data-type="sell">
+		                    移除
+		                </a>
+		            </div>
+		            `;
 		} else if(order.buy != null){
 			activeListHtml +=`
 				<div class="nk-forum-activity my-auto">
@@ -449,14 +567,15 @@ function activeList(data, elm){
 		                <div class="nk-forum-activity-title">
 		                    NT$ ${order.price}
 		                </div>
-		            </div>`;
-		}
-			activeListHtml +=`
+		            </div>
 		            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
-		            	<a href="#" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#modalDelete" data-id="${order.ordId}">
+		            	<a href="#" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#modalDelete" data-id="${order.ordId}" data-type="buy">
 		                    移除
 		                </a>
 		            </div>
+		            `;
+		}
+			activeListHtml +=`
 		        </li>
 		    </ul>
 			`;
@@ -469,13 +588,86 @@ function activeList(data, elm){
 			buyOrders.innerHTML = activeListHtml;
 			break;
 	}
+	
+	let deleteBtn = document.getElementsByClassName('deleteBtn');
+	for(i = 0; i < deleteBtn.length; i++){
+		deleteBtn[i].addEventListener('click', function(){
+			let ordId =  this.getAttribute('data-id');
+			let ordType =  this.getAttribute('data-type');
+			console.log(ordType);
+			
+			Swal.fire({
+				title: '確定要移除此筆訂單?',
+				text: "注意! 此操作不可復原!",
+				icon: 'warning',
+				iconColor: '#ef9e2b',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '確定移除',
+				cancelButtonText: '取消'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					axios({
+					    url: '/carbon/market/orderUpdate',
+					    method: 'put',
+					    data: {
+					        ordId: ordId,
+					        status: 0
+					    }
+					})
+					.then(response => {
+						if(response.data != null){
+							if(ordType == 'sell'){
+								axios({
+							        url: '/carbon/market/newItemLog',
+							        method: 'post',
+							        data: {
+							            ordId: response.data.ordId,
+							            itemId: response.data.itemId,
+							            memberId: response.data.seller,
+							            quantity: response.data.quantity,
+							        }
+							    })
+							        .then(res => {
+									})
+							        .catch(err => {
+							            console.log('err: ' + err);
+							        })
+							}
+							saleList();
+							buyOrder();
+						}
+					})
+					.then(function(){
+						Swal.fire(
+							'移除成功!',
+							'此筆訂單已被移除',
+							'success'
+						)
+					})
+					.catch(err => {
+						console.log('err: ' + err);
+						Swal.fire({
+							icon: 'error',
+							title: '哦不...',
+							text: '出了些狀況，請稍後再嘗試!',
+						})
+					})
+				}
+			})
+		})
+	}
 }
 
 
+// --------------------------- show order history ---------------------------
 function orderHistory(data){
 	let orderHistory = document.getElementById('orderHistory1');
 	let historyListHtml =``;
-	data.forEach((order) => {
+	let totalPages = data.totalPages;
+    let thisPage = data.pageable.pageNumber;
+	data.content.forEach((order) => {
 		let createTime = new Date(order.createTime).toISOString().split('T')[0];
 		let orderTime = new Date(order.itemOrder.createTime).toISOString().split('T')[0];
 		historyListHtml +=`
@@ -516,11 +708,62 @@ function orderHistory(data){
 	        </li>
 	    </ul>
 		`;
+	})
+		historyListHtml +=`
+			<div class="nk-gap-2"></div>
+	        <div class="nk-pagination nk-pagination-center">
+	            <a href="#" class="pageBtn nk-pagination-prev" data-pageid="${thisPage}">
+	                <span class="ion-ios-arrow-back"></span>
+	            </a>
+	            <nav>`;
+	    for(i = 1; i <= totalPages ;i++){
+			if(i == thisPage + 1){
+				historyListHtml +=`
+	                <a class="pageBtn nk-pagination-current" href="#" data-pageid="${i}">${i}</a>`;
+			} else {
+				historyListHtml +=`
+	                <a class="pageBtn" href="#" data-pageid="${i}">${i}</a>`;
+			}
+		}
+		historyListHtml +=`
+	            </nav>
+	            <a href="#" class="pageBtn nk-pagination-next" data-pageid="${thisPage + 2}">
+	                <span class="ion-ios-arrow-forward"></span>
+	            </a>
+	        </div>`;
 		orderHistory.innerHTML = historyListHtml;
-})
+		
+		let pageBtns = document.getElementsByClassName('pageBtn');
+	    for (i = 0; i < pageBtns.length; i++) {
+	        pageBtns[i].addEventListener('click', function (e) {
+				e.preventDefault();
+	            let pageId = this.getAttribute('data-pageid');
+	            console.log('pageId: ' + pageId);
+	            if (pageId == 0 || pageId == totalPages + 1) {
+	                this.setAttribute('disabled', '');
+	            } else {
+	                loadThatPage(pageId);
+	            }
+	        });
+	    }
 }
-// --------------------------- sell an item ---------------------------  
+function loadThatPage(thatPage) {
+	axios.get('/carbon/market/history',{
+			params: {
+				memberId: userId,
+				p: thatPage
+			}
+		})
+		.then(response => {
+            orderHistory(response.data);
+        })
+        .catch(err => {
+			console.log('err: ' + err);
+		})
+}
 
+
+// --------------------------- sell an item ---------------------------  
 $('#sellPageBtn1').click(function () {
     if (userId != '') {
         loadInventoryAjax();
@@ -586,7 +829,7 @@ function inventoryPage(data) {
     if (data[0].gameItem.status != 0) {
         itemListHtml += ` 
 			<div class="position-absolute bottom-0 end-0"> 
-				<a href="#" class="btn btn-info sellBtn" data-toggle="modal" data-target="#modalSalesPage" id="sellBtn1" data-itemId="${data[0].itemId}">
+				<a href="#" class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 sellBtn" data-toggle="modal" data-target="#modalSalesPage" id="sellBtn1" data-itemId="${data[0].itemId}">
                     販賣
                 </a>          
 	        </div>`;
@@ -632,7 +875,7 @@ function showItemInfo(data) {
             if (data[id].gameItem.status != 0) {
                 oneItemHtml += `            
 	               <div class="position-absolute bottom-0 end-0"> 
-						<a href="#" class="btn btn-info sellBtn" data-toggle="modal" data-target="#modalSalesPage" id="sellBtn1" data-itemId="${data[id].itemId}">
+						<a href="#" class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 sellBtn" data-toggle="modal" data-target="#modalSalesPage" id="sellBtn1" data-itemId="${data[id].itemId}">
 		                    販賣
 		                </a>          
 			        </div>`;
@@ -721,7 +964,7 @@ function showSaleInfo(order, medianPrice) {
                         必須勾選同意條款
                     </div>
                 </div>
-                <button class="btn btn-info sellSubmitBtn" id="sellSubmitBtn1">確定上架</button>
+                <button class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 sellSubmitBtn" id="sellSubmitBtn1">確定上架</button>
             </div>
         </form>
     `;
@@ -736,28 +979,30 @@ function showSaleInfo(order, medianPrice) {
     
     let salePrice;
     let buyPrice;
-    $('#salePrice,#buyPrice').on('keyup change', function () {
-        salePrice = Number($('#salePrice').val().replace('NT$', ''));
+    $('#salePrice').on('keyup change', function () {
+        salePrice = parseFloat($('#salePrice').val().replace('NT$', ''));
         if($('#salePrice').val().indexOf('NT$') < 0){
 	        $('#salePrice').val('NT$ 0');
 		}
         if(salePrice == 0 || isNaN(salePrice)){
 			$('#salePrice').val('NT$  --');
 		} else{
-        	$('#buyPrice').val('NT$ ' + salePrice);
+        	$('#buyPrice').val('NT$ ' + (salePrice * 1.05).toFixed(2));
 		}
     })
-    $('#salePrice,#buyPrice').on('keyup change', function () {
-        buyPrice = Number($('#buyPrice').val().replace('NT$', ''));
+    $('#buyPrice').on('keyup change', function () {
+        buyPrice = parseFloat($('#buyPrice').val().replace('NT$', ''));
         if($('#buyPrice').val().indexOf('NT$') < 0){
 	        $('#buyPrice').val('NT$ 0');
 		}
         if(buyPrice == 0 || isNaN(buyPrice)){
 			$('#buyPrice').val('NT$  --');
 		} else{
-        	$('#salePrice').val('NT$ ' + buyPrice);
+        	$('#salePrice').val('NT$ ' + (buyPrice / 1.05).toFixed(2));
 		}
     })
+    console.log('buy: '+buyPrice)
+    console.log('sell: '+salePrice)
     
     // ------------- Validation -------------   
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -770,7 +1015,7 @@ function showSaleInfo(order, medianPrice) {
                 event.stopPropagation()
             } else {
 	            event.preventDefault()
-	            let price = salePrice;
+	            let price = $('#buyPrice').val().replace('NT$', '');
 	            console.log(price)
 	            axios({
 	                url: '/carbon/market/done',
@@ -786,41 +1031,7 @@ function showSaleInfo(order, medianPrice) {
 	                    if (response.data != '') {
 	                        let newSales = response.data;
 	                        console.log('itemId: ' + newSales.itemId)
-	                        axios({
-	                            method: 'get',
-	                            url: '/carbon/market/checkBuys',
-	                            params: { itemId: newSales.itemId }
-	                        })
-	                            .then(res => {
-	                                let sales = res.data;
-	                                //console.log(JSON.stringify(sales));
-	                                if (sales != '' && sales[0].price >= price) {
-	                                    console.log('res: ' + JSON.stringify(sales[0].price))
-	                                    console.log('price: ' + price)
-	                                    axios({
-	                                        url: '/carbon/market/done',
-	                                        method: 'post',
-	                                        data: {
-	                                            itemId: sales[0].itemId,
-	                                            buyer: sales[0].buyer,
-	                                            seller: userId,
-	                                            quantity: 1,
-	                                            price: price,
-	                                        }
-	                                    })
-	                                        .then(result => {
-	                                            //console.log('result: ' + JSON.stringify(result.data))
-	                                            if (result.data != '') {
-	                                                orderUpdate(sales[0]);
-	                                                orderUpdate(newSales);
-	                                            }
-	                                            return result.data;
-	                                        })
-	                                        .catch(err => {
-	                                            console.log('err: ' + err);
-	                                        })
-	                                }
-	                            })
+	                        checkBuys(newSales, price);
 	                    }
 	                    return response.data;
 	                })
@@ -830,10 +1041,11 @@ function showSaleInfo(order, medianPrice) {
 	                    	    <div class="nk-gap"></div>
 	                        	<h3 class="text-center">物品成功上架販售</h3>
 	                        	<div class="mt-3 d-flex justify-content-end">
-						            <a class="btn btn-info closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">關閉</a>
+						            <a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-dark-3 closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">關閉</a>
 						        </div>
 	                        `;
 							$('#saleItem1').html(bohtml);
+							loadInventoryAjax()
 	                    }
 	                })
 	                .catch(err => {
@@ -847,6 +1059,50 @@ function showSaleInfo(order, medianPrice) {
     })
 
 }
+
+
+// --------------------------- 確認買單價錢 --------------------------- 
+function checkBuys(newSales, price){
+	axios({
+        method: 'get',
+        url: '/carbon/market/checkBuys',
+        params: { itemId: newSales.itemId }
+    })
+        .then(res => {
+            let sales = res.data;
+            //console.log(JSON.stringify(sales));
+            if (sales != '' && sales[0].price >= price) {
+                console.log('res: ' + JSON.stringify(sales[0].price))
+                console.log('price: ' + price)
+                axios({
+                    url: '/carbon/market/done',
+                    method: 'post',
+                    data: {
+                        itemId: sales[0].itemId,
+                        buyer: sales[0].buyer,
+                        seller: userId,
+                        quantity: 1,
+                        price: price,
+                    }
+                })
+                    .then(result => {
+                        //console.log('result: ' + JSON.stringify(result.data))
+                        if (result.data != '') {
+                            orderUpdate(sales[0]);
+                            orderUpdate(newSales);
+                        }
+                        return result.data;
+                    })
+                    .catch(err => {
+                        console.log('err: ' + err);
+                    })
+            }
+        })
+        .catch(err => {
+			console.log('err: ' + err);
+		})
+}
+
 
 // =========================== medianPrice charts.js ===========================   
 function medianPriceChart(data){
@@ -955,9 +1211,9 @@ function loginPage() {
 	                </button>
 			        <h4 class="text-center my-5">您需要登入或建立帳戶才能進行相關動作。</h4>
 			        <div class="gap-2 row col d-flex justify-content-center" id="btnGroup">
-			            <a class="btn btn-info submitBtn col-md-3" href="/carbon/main/loginPage">登入</a>
-			            <a class="btn btn-info col-md-3" href="/carbon/main/registerPage">註冊帳號</a>
-			            <a class="btn btn-info closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">取消</a>
+			            <a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 submitBtn col-md-3" href="/carbon/main/loginPage">登入</a>
+			            <a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white nk-btn-hover-main-1 col-md-3" href="/carbon/main/registerPage">註冊帳號</a>
+			            <a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-dark-4 closeBtn2 col-md-2" href="#" class="close" data-dismiss="modal" aria-label="Close">取消</a>
 			        </div>
 			    </div>
 			</div>

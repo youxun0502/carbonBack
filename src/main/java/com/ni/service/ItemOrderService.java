@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +18,18 @@ import com.ni.model.ItemOrder;
 import com.ni.model.OrderRepository;
 
 @Service
-public class itemOrderService {
+public class ItemOrderService {
 
 	@Autowired
 	private OrderRepository orderRepo;
 	
 	public List<ItemOrderDTO> findAll() {
 		return convertToDTOList(orderRepo.findAll());
+	}
+	
+	public Page<ItemOrder> findAllByPage(Integer pageNumber) {
+		Pageable pgb = PageRequest.of(pageNumber - 1, 6);
+		return orderRepo.findAll(pgb);
 	}
 	
 	public ItemOrderDTO findById(Integer ordId) {
@@ -36,12 +40,20 @@ public class itemOrderService {
 		return null;
 	}
 	
+//	====================== 成交訂單 ======================
 	public ItemOrder insert(ItemOrderDTO itemOrder) {
-		if(itemOrder.getBuyer() != null && itemOrder.getSeller() != null) {
+		if(itemOrder.getBuyer() != null) {
 			itemOrder.setStatus(2);
 		} else {
 			itemOrder.setStatus(1);
 		}
+		ItemOrder newOrder = orderRepo.save(convertToOrder(itemOrder));
+		return newOrder;
+	}
+	
+//	====================== 上架訂單 ======================
+	public ItemOrder insertOrder(ItemOrderDTO itemOrder) {
+		itemOrder.setStatus(1);
 		return orderRepo.save(convertToOrder(itemOrder));
 	}
 	
@@ -50,7 +62,7 @@ public class itemOrderService {
 		Optional<ItemOrder> optional = orderRepo.findById(ordId);
 		if(optional.isPresent()) {
 			ItemOrder order = optional.get();
-			order.setStatus(status);;
+			order.setStatus(status);
 			return order;
 		}
 		System.out.println("no update data");
@@ -124,12 +136,14 @@ public class itemOrderService {
 		return convertToDTOList(orderRepo.findSalesByIdAndStatus(itemId));
 	}
 	
-	public List<ItemOrderDTO> findBuyOrder(Integer memberId) {
-		return convertToDTOList(orderRepo.findBuyOrder(memberId));
+	public Page<ItemOrder> findBuyOrder(Integer memberId, Integer pageNumber) {
+		Pageable pgb = PageRequest.of(pageNumber - 1, 5);
+		return orderRepo.findBuyOrder(memberId, pgb);
 	}
 	
-	public List<ItemOrderDTO> findSaleList(Integer memberId) {
-		return convertToDTOList(orderRepo.findSaleList(memberId));
+	public Page<ItemOrder> findSaleList(Integer memberId, Integer pageNumber) {
+		Pageable pgb = PageRequest.of(pageNumber - 1, 5);
+		return orderRepo.findSaleList(memberId, pgb);
 	}
 	
 //	======================= 轉換 DTO 和 Entity =======================

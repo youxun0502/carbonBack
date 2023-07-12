@@ -34,7 +34,7 @@
 			max-width: calc(100% - 200px);
 		}
 	</style>
-	<title>Game Item</title>
+	<title>Carbon管理系統 | 遊戲虛寶</title>
 </head>
 
 <body>
@@ -45,26 +45,26 @@
 			<div class="content mt-3">
 				<nav class="navbar navColor">
 					<div class="container-fluid">
-						<a class="navbar-brand link-light" th:href="@{/gameitem}" style="font-size: 30px;">GAME ITEM</a>
+						<a class="navbar-brand link-light" th:href="@{/gameitem}" style="font-size: 30px;">遊戲虛寶</a>
 						<div class="d-flex" role="search">
 							<input class="form-control me-2" type="search" placeholder="道具名稱查詢" aria-label="Search"
 								name="itemName" id="gameitem_search">
-							<button class="btn btn-outline-warning" type="submit" id="name_search_btn">Search</button>
+							<button class="btn btn-outline-warning col-3" type="submit" id="name_search_btn">查詢</button>
 						</div>
 					</div>
 				</nav>
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link active" th:href="@{/gameitem/allGameitem}">ALL</a>
+						<a class="nav-link active" th:href="@{/gameitem/allGameitem}">查詢全部</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/allOrder}">ORDER</a>
+						<a class="nav-link" th:href="@{/gameitem/allOrder}">訂單</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/allItemLog}">INVENTORY</a>
+						<a class="nav-link" th:href="@{/gameitem/allItemLog}">虛寶倉庫</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/gameitem/newGameitem}">NEW ITEM</a>
+						<a class="nav-link" th:href="@{/gameitem/newGameitem}">新增</a>
 					</li>
 				</ul>
 			</div>
@@ -140,12 +140,6 @@
 	</div>
 	<script>
 		$(function () {
-			////////// dataTable ////////// 
-			$('#example').DataTable({
-				scrollX: true,
-				"dom": 'lrtip'
-			});
-		
 			////////// showDesc //////////
 			$('.showDesc').on('click', function () {
 				$(this).toggleClass('text-truncate');
@@ -159,6 +153,12 @@
 			// 		.search(thisval)
 			// 		.draw();
 			// })
+		
+			////////// dataTable ////////// 
+			$('#example').DataTable({
+				scrollX: true,
+				"dom": 'lrtip'
+			});
 		})
 
 		//////////  Delete //////////
@@ -172,13 +172,14 @@
 				e.preventDefault();
 
 				Swal.fire({
-					title: 'Are you sure?',
-					text: "You won't be able to revert this!",
+					title: '確定要刪除 道具編號 = ' + deleteId + ' 的資料?',
+					text: "注意! 此操作不可復原!",
 					icon: 'warning',
 					showCancelButton: true,
 					confirmButtonColor: '#3085d6',
 					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, delete it!'
+					confirmButtonText: '確定，刪除它',
+					cancelButtonText: '取消'
 				}).then((result) => {
 					if (result.isConfirmed) {
 						axios({
@@ -198,8 +199,8 @@
 							})
 							.then(function () {
 								Swal.fire(
-									'Deleted!',
-									'Your file has been deleted.',
+									'刪除!',
+									'道具ID = ' + deleteId + ' 的資料已被刪除.',
 									'success'
 								)
 							})
@@ -207,8 +208,8 @@
 								console.log('err: ' + err);
 								Swal.fire({
 									icon: 'error',
-									title: 'Oops...',
-									text: 'Something went wrong!',
+									title: '哦不...',
+									text: '出了些狀況!',
 								})
 							})
 					}
@@ -311,16 +312,16 @@
 			itemTable.getElementsByTagName('tbody')[0].innerHTML = tbody;
 			
 			deleteEvent();
+			////////// showDesc //////////
+			$('.showDesc').on('click', function () {
+				$(this).toggleClass('text-truncate');
+			});
 
 			$('#example').DataTable({
 				scrollX: true,
 				"dom": 'lrtip'
 			});
 
-			////////// showDesc //////////
-			$('.showDesc').on('click', function () {
-				$(this).toggleClass('text-truncate');
-			});
 		}
 	</script>
 </body>

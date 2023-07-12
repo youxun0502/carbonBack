@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ni.dto.ItemLogDTO;
@@ -48,8 +51,9 @@ public class ItemLogService {
 		return convertToDTOList(itemLogRepo.findByMemberId(memberId));
 	}
 	
-	public List<ItemLogDTO> findOrderHistory(Integer memberId) {
-		return convertToDTOList(itemLogRepo.findOrderHistory(memberId));
+	public Page<ItemLog> findOrderHistory(Integer memberId, Integer pageNumber) {
+		Pageable pgb = PageRequest.of(pageNumber - 1, 10);
+		return itemLogRepo.findOrderHistory(memberId, pgb);
 	}
 	
 //	======================= 轉換 DTO 和 Entity =======================

@@ -2,6 +2,7 @@ package com.ni.model;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -55,11 +56,11 @@ public interface OrderRepository extends JpaRepository<ItemOrder, Integer> {
 	@Query("FROM ItemOrder WHERE itemId = :id AND buyer IS NULL AND seller IS NOT NULL AND status = 1 ORDER BY price, ordId")
 	public List<ItemOrder> findSalesByIdAndStatus(@Param("id") Integer id);
 	
-//	================ 查詢會員前5筆掛單中的買單 ================
-	@Query(value = "SELECT TOP 5 * FROM itemOrder WHERE buyer = :id AND status = 1 ORDER BY ordId DESC", nativeQuery = true)
-	public List<ItemOrder> findBuyOrder(@Param("id") Integer id);
+//	================ 查詢會員掛單中的買單 ================
+	@Query("FROM ItemOrder WHERE buyer = :id AND status = 1 ORDER BY ordId DESC")
+	public Page<ItemOrder> findBuyOrder(@Param("id") Integer id, Pageable page);
 	
-//	================ 查詢會員前5筆掛單中的賣單 ================
-	@Query(value = "SELECT TOP 5 * FROM itemOrder WHERE seller = :id AND [status] = 1 ORDER BY ordId DESC", nativeQuery = true)
-	public List<ItemOrder> findSaleList(@Param("id") Integer id);
+//	================ 查詢會員掛單中的賣單 ================
+	@Query("FROM ItemOrder WHERE seller = :id AND status = 1 ORDER BY ordId DESC")
+	public Page<ItemOrder> findSaleList(@Param("id") Integer id, Pageable page);
 }

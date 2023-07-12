@@ -2,8 +2,8 @@ package com.ni.controller;
 
 import java.util.List;
 
-import org.checkerframework.checker.units.qual.m;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,8 +44,9 @@ public class ItemLogController {
 	
 	@ResponseBody
 	@GetMapping("/market/history")
-	public List<ItemLogDTO> findOrderHistory(@RequestParam("memberId") Integer memberId) {
-		return itemLogService.findOrderHistory(memberId);
+	public Page<ItemLog> findOrderHistory(@RequestParam("memberId") Integer memberId, 
+						@RequestParam(name = "p", defaultValue = "1") Integer pageNumber) {
+		return itemLogService.findOrderHistory(memberId, pageNumber);
 	}
 	
 //	-------------- profiles Inventory -----------------------------
@@ -53,6 +54,11 @@ public class ItemLogController {
 	public String myInventory(@PathVariable Integer memberId, Model m) {
 		m.addAttribute("items", itemLogService.findByMemberId(memberId));
 		return "ni/myInventory";
+	}
+	
+	@GetMapping("/profile/orderHistory")
+	public String myOrderHistory() {
+		return "ni/myOrderHistory";
 	}
 	
 	@ResponseBody

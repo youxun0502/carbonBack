@@ -84,7 +84,7 @@
 	            	<h3></h3>
 	            </div>
 	            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
-	            	<a href="#" class="btn btn-info" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${item.itemId}">
+	            	<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${item.itemId}">
 	                    下單訂購
 	                </a>
 	            </div>
@@ -130,7 +130,7 @@
 		                </div>
 		                <div class="nk-forum-activity my-auto">
 		                    <div class="nk-forum-activity-title text-center">
-		                        [[${order.sell.memberName}]]
+		                        [[${order.sell.userId}]]
 		                    </div>
 		                </div>
 		                <div class="nk-forum-activity my-auto d-flex justify-content-center">
@@ -139,7 +139,7 @@
 		                    </div>
 		                </div>
 		                <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
-		                	<a href="#" class="btn btn-info buyBtn" data-toggle="modal" data-target="#modalBuyPage" th:data-id="${order.ordId}">
+		                	<a href="#" class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 buyBtn" data-toggle="modal" data-target="#modalBuyPage" th:data-Id="${order.ordId}">
 		                        立即購買
 		                    </a>
 		                </div>
@@ -249,8 +249,8 @@
 						                    </div>
 						                </div>
 						            </div>
-				                    <div class="mt-3 d-flex justify-content-end">
-						                <button class="btn btn-info buyOrderBtn" id="buyOrderBtn1">新增訂單</button>
+				                    <div class="mt-3 d-flex justify-content-end" id="changeAddFund2">
+						                <button class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 buyOrderBtn" id="buyOrderBtn1">新增訂單</button>
 						            </div>
 				                </form>
 			                </div>
@@ -281,9 +281,9 @@
 			        <div class="row vertical-gap text-white">
 			            <div class="col-lg-12">
 			                <div class="nk-box-5 bg-dark-4 d-flex justify-content-between">
-			                	<div class="col-7">名稱</div>
+			                	<div class="col-6">名稱</div>
 	                            <div class="vr"></div>
-	                            <div class="col-2">賣方</div>
+	                            <div class="col-3">賣方</div>
 	                            <div class="vr"></div>
 	                            <div class="col-2">價格</div>
 			                </div>
@@ -295,7 +295,7 @@
 			            </div>
 			            <div class="col-lg-12">
 			                <div class="nk-box-5 bg-dark-4" id="userInfo1">
-			                	<div class="col d-flex">
+			                	<div class="d-flex">
 			                        <div class="col-12 gap-3">
 			                            <span>帳號 : </span>
 			                            
@@ -306,10 +306,9 @@
 			                            <span>錢包餘額 : NT$ </span><span id="myWallet1" th:text="${session.memberBeans} ? ${session.memberBeans.wallets[session.memberBeans.wallets.size() - 1].balance} : ''"></span>
 			                        </div>
 			                    </div>
-		                        <div class="mt-5 col-12">
+		                        <div class="mt-5 col-12" id="changeAddFund1">
 		                        	<th:block th:if="${session.memberBeans != null}" th:switch="${session.memberBeans.wallets[session.memberBeans.wallets.size() - 1].balance} > 0">
-			                            <button th:case="true" class="btn btn-info float-right" id="submitBtn">立即購買</button>
-			                            <a th:case="false" class="btn btn-info float-right" th:herf="@{/profiles/wallet}" id="addFunds">儲值</a>
+			                            <button th:case="true" class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 float-right" id="submitBtn">立即購買</button>
 		                        	</th:block>
 		                        </div>
 			                </div>

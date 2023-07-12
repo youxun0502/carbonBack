@@ -63,7 +63,7 @@ public class WalletService {
         obj.setReturnURL("http://127.0.0.1:4040");
 		obj.setNeedExtraPaidInfo("N");
         // 商店轉跳網址 (Optional)
-        obj.setClientBackURL("http://localhost:8080/carbon/profiles/wallet/status?id="+ uuId +"&memberId="+ wallet.get("memberId") +"&desc="+ wallet.get("desc"));
+        obj.setClientBackURL("http://localhost:8080/carbon/profile/wallet/status?id="+ uuId +"&memberId="+ wallet.get("memberId") +"&desc="+ wallet.get("desc"));
 		String form = all.aioCheckOut(obj, null);
 		
 		return form;

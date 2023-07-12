@@ -33,19 +33,19 @@ public class WalletController {
 	@Autowired
 	private MemberService mService;
 	
-	@GetMapping("/profiles/wallet")
+	@GetMapping("/profile/wallet")
 	public String findByMemberId() {
 		return "ni/myWallet";
 	}
 	
 	@ResponseBody
-	@GetMapping("/profiles/myWallet")
+	@GetMapping("/profile/myWallet")
 	public WalletDTO findBalance(@RequestParam("memberId") Integer memberId) {
 		return walletService.findBalance(memberId);
 	}
 	
 	@ResponseBody
-	@PostMapping("/profiles/wallet/addFunds")
+	@PostMapping("/profile/wallet/addFunds")
 	public String addFund(@RequestParam Map<String, Object> wallet) 
 			throws AddressException, MessagingException, IOException {
 		String aioCheckOutALLForm = walletService.ecpayCheckout(wallet);
@@ -60,13 +60,13 @@ public class WalletController {
 		return aioCheckOutALLForm;
 	}
 	
-	@GetMapping("/profiles/wallet/status")
+	@GetMapping("/profile/wallet/status")
 	public String checkStatus(@RequestParam Map<String, Object> walletForm, Model m) 
 			throws AddressException, MessagingException, IOException {
 		walletService.postQueryTradeInfo(walletForm);
 		Member member = mService.findById(Integer.parseInt((String)walletForm.get("memberId")));
 		
-		String url = "http://localhost:8080/carbon/profiles/"+ member.getId() +"/wallet";
+		String url = "http://localhost:8080/carbon/profile/"+ member.getId() +"/wallet";
 		
 		gService.sendMessage(member.getEmail(), gService.getMyEmail(), "Carbon錢包儲值成功",
 				"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + member.getUserId() + "您好:\n" + "\n" + 
