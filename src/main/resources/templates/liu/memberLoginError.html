@@ -12,7 +12,7 @@
 
 	<div class="container h-100">
 		<div class="row justify-content-lg-end justify-content-center mt-80 h-100">
-			<div class="formContainer col-4 p-3 rounded">
+			<div class="formContainer col-12 col-lg-4 p-3 rounded">
 				<div class="text-center mt-5 col-12" id="managerLogin">
 					<i class="fa-solid fa-circle-user color-white"></i>
 					<div class="fs-1 color-white">會員登入</div>
@@ -30,23 +30,32 @@
 					</div>
 					<div class="text-danger ml-20" id="error" style="font-size:20px;">[[${status}]]</div>
 					<div class="mb-3 col-12 d-flex">
-						<div class="col-6 ml-10">
+						<div class="col-lg-4 col-md-8 col-6 ml-10">
 							<Input type="checkbox" class="form-check-input mt-7" name="rememberMe" id="rememberMe" value="1"
 								checked></Input>
 							<label for="rememberMe" class="form-check-label text-light">記住我</label>
 						</div>
-						<div class="col-6 d-flex justify-content-end">
-							<button type="submit" class="btn col-8 nextStep text-light">下一步</button>
+						<div>
+							<div id="g_id_onload"
+								data-client_id="1070702429115-en0qd5ug57uoo54tbvkaos9j1tvrle3s.apps.googleusercontent.com"
+								data-context="signin" data-ux_mode="popup"
+								data-login_uri="http://localhost:8080/carbon/main/googleLogin" data-auto_prompt="false">
+							</div>
+							<div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+								data-text="signin" data-size="large" data-logo_alignment="left" data-width="100">
+							</div>
+						</div>
+						<div class="col-6">
+							<button type="submit" class="btn nextStep text-light" style="width:100px;height:42px;">下一步</button>
 						</div>
 					</div>
-
-
 				</form>
 				<hr>
 				<a th:href="@{/main/registerPage}" class="btn col-12 mb-10 registrationPage text-light">註冊帳號</a>
 				<button class="btn col-12 mb-10 forgetPwd text-light" data-bs-toggle="modal" data-bs-target="#forgetPassword">忘記密碼</button>
-				<button class="btn col-12 mb-10 oneClick text-light" id="oneClick">一鍵登入</button>
+				<button class="btn col-12 mb-10 oneClick text-light" id="oneClick">一鍵登入</button>			
 			</div>
+			
 		</div>
 	</div>	
 	
@@ -71,7 +80,7 @@
 		</div>
 	</div>
 	
-	
+	<script src="https://accounts.google.com/gsi/client" async></script>
 	<script>
 		$("#email").on("focus", function () {
 			$("#error").css("visibility", "hidden");

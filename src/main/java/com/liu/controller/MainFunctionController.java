@@ -5,6 +5,7 @@ import java.security.GeneralSecurityException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import java.util.Map;
@@ -54,22 +55,22 @@ public class MainFunctionController {
 
 	@Autowired
 	private GmailService gService;
-	
+
 	@Autowired
 	private BonusPointService bpService;
 
 	@Autowired
 	private SortChartJs sortChartJs;
-	
+
 	@Autowired
 	private GameService gameService;
-	
+
 	@Autowired
 	private CompetitionRepository cRepo;
-	
+
 	@Autowired
 	private EventRepository eRepo;
-	
+
 	@Autowired
 	private GLoginService gLoginService;
 
@@ -86,12 +87,12 @@ public class MainFunctionController {
 	@GetMapping("/")
 	public String homePage(Model model) {
 		sortChartJs.sortGameDTOAll(gameService.getAllGameInfo());
-		model.addAttribute("gameList",sortChartJs.getGameList());
+		model.addAttribute("gameList", sortChartJs.getGameList());
 		List<Competition> competitionList = cRepo.findAllOrderByStartDate();
 		model.addAttribute("competitionList", competitionList);
 		List<Event> eventList = eRepo.findAllOrderByStartDate();
 		model.addAttribute("eventList", eventList);
-		
+
 		return "liu/home";
 	}
 
@@ -119,8 +120,6 @@ public class MainFunctionController {
 	public String memberLogin(@RequestParam("email") String email, @RequestParam("memberPwd") String memberPwd,
 			@RequestParam(name = "rememberMe", required = false) String rememberMe, Model m, HttpSession session,
 			HttpServletResponse response, HttpServletRequest request) {
-		System.out.println(email);
-		System.out.println(memberPwd);
 		Member member = mService.isMember(email, memberPwd);
 
 		if (member == null) {
@@ -366,16 +365,50 @@ public class MainFunctionController {
 	}
 
 	@PostMapping("/main/googleLogin")
-	public String googleLogin(@RequestParam("credential") String credential) throws GeneralSecurityException, IOException {
-		
+	public String googleLoginAndRegistration(@RequestParam("credential") String credential, Model m,
+			HttpSession session) throws GeneralSecurityException, IOException {
+
 		GoogleIdToken idToken = gLoginService.getIdToken(credential);
 		Map<String, String> userInfo;
 		if (idToken != null) {
-		 userInfo = gLoginService.getUserInfo(idToken);
-		}else {
-		userInfo=null;
+			userInfo = gLoginService.getUserInfo(idToken);
+			String email = "G" + userInfo.get("email");
+			boolean emailAlreadyRegistered = mService.emailAlreadyRegistered(email);
+			if (!emailAlreadyRegistered) {
+				// 沒註冊就註冊後登入
+				Member member = new Member();
+				member.setUserId(userInfo.get("name"));
+				member.setEmail(email);
+				member.setMemberPwd(userInfo.get("userId"));
+				member.setMemberName(userInfo.get("name"));
+				member.setBirthday(new Date());
+				member.setGender(3);
+				member.setPhone(null);
+				member.setAccount(null);
+				mService.insert(member);
+			}
+			// 登入
+			Member member = mService.isMember(email, userInfo.get("userId"));
+			if (member.getStatus() == 2) {
+				m.addAttribute("status", "此帳戶已被凍結");
+				return "/liu/memberLoginError";
+			} else {
+				session.setAttribute("memberBeans", member);
+				session.setAttribute("character", "member");
+
+				if (previousPage.getPreviousPage() == null
+						|| previousPage.getPreviousPage().equals("/main/registerPage")
+						|| previousPage.getPreviousPage().equals("/main/logout")
+						|| previousPage.getPreviousPage().equals("/main/emailVerification")
+						|| previousPage.getPreviousPage().equals("/main/memberLogin")
+						|| previousPage.getPreviousPage().equals("/main/forgetPwdPage")) {
+					return "redirect:/";
+				} else {
+					return "redirect:" + previousPage.getPreviousPage();
+				}
+			}
+
 		}
-		System.out.println(userInfo);
 		return "redirect:/";
 	}
 
