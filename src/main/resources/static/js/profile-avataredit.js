@@ -4,9 +4,14 @@ const userlogin = document.getElementById('memberId');
 const avatar_box = document.getElementById('edit-avatar');
 const frame_box = document.getElementById('edit-frame');
 const bg_box = document.getElementById('edit-bg');
-let select_avatar = 0;
-let select_frame = 0;
-let select_bg = 0;
+const avatar_input = document.getElementById('the-new-avatar');
+const frame_input = document.getElementById('the-new-frame');
+const bg_input = document.getElementById('the-new-bg');
+const avatar_confirm = document.getElementById('avatar-confirm');
+const avatar_cancel = document.getElementById('avatar-cancel');
+let select_avatar = avatar_input.getAttribute('value');
+let select_frame = frame_input.getAttribute('value');
+let select_bg = bg_input.getAttribute('value');
 
 
 let userid = 0;
@@ -21,6 +26,38 @@ if (avatarselects) {
 	console.log("avatarselects is exist!!");
 }
 editboxMaker();
+//--------------------------------確認按鈕-----------------------------------------------------------//
+avatar_confirm.addEventListener('click', function (e) {
+	e.preventDefault();
+	avatar_input.setAttribute('value', select_avatar);
+	frame_input.setAttribute('value', select_frame);
+	bg_input.setAttribute('value', select_bg);
+	// console.log("av:" + avatar_input.getAttribute('value'));
+	// console.log("fr:" + frame_input.getAttribute('value'));
+	// console.log("bg:" + bg_input.getAttribute('value'));
+	let user_avatar = document.getElementById('user_avatar');
+	let user_frame = document.getElementById('user_frame');
+	let user_bg = document.getElementById('user_bg');
+	user_avatar.setAttribute('src', '/downloadImage/' + select_avatar);
+	user_frame.setAttribute('src', '/downloadImage/' + select_frame);
+	user_bg.setAttribute('src', '/downloadImage/' + select_bg);
+	console.log("user:" + user_avatar.getAttribute("src"));
+
+	let form_submit = document.getElementById('avatar-modal-form');
+	form_submit.submit();
+	// axios({
+	// 	url: '/carbon/bonus-shop/api/selectEdit',
+	// 	method: 'get',
+	// 	params: {
+	// 		memberId: userid,
+	// 		avatar: select_frame,
+	// 		frame: select_frame,
+	// 		background: select_bg,
+	// 	}
+	// })
+})
+
+
 //--------------------------click personal_avatar-------------------------------------------//
 personal_avatar.addEventListener('click', function (e) {
 	e.preventDefault();
@@ -45,15 +82,25 @@ function editboxMaker() {
 			console.log("length:" + res.data.length);
 			bonusLog = res.data;
 			let avatar_index = 0;
-			let frames;
-			let bgs;
+			let frame_index = 0;
+			let bgs_index = 0;
 			let avatarhtml;
+			let framehtml;
+			let bghtml;
 
 
 			avatarhtml = `<div class="avatar_collection">
 				<div class="avatarcollection_RowWrapper">
                 <div class="avatarcollection_SingleRow">`;
+			framehtml = `<div class="avatar_collection">
+				<div class="avatarcollection_RowWrapper">
+                <div class="avatarcollection_SingleRow">`;
+			bghtml = `<div class="avatar_collection">
+				<div class="avatarcollection_RowWrapper">
+                <div class="avatarcollection_SingleRow">`;
+
 			for (let i = 0; i < bonusLog.length; i++) {
+				/*-----------------------------------------------AVATAR 區域網頁生成------------------------------------*/
 				if (bonusLog[i].bonusitem.bonusType == "avatar") {
 					if (avatar_index >= 4) {
 						avatarhtml += `</div>
@@ -68,55 +115,60 @@ function editboxMaker() {
 					</div>
 					`;
 					avatar_index++;
-					// <div class="avatarcollection_AvatarRowSpace avatar_select" data-img=${bonusLog[i].bonusitem.bonusId}></div>
 				}
+				/*-----------------------------------------------FRAME 區域網頁生成------------------------------------*/
 				else if (bonusLog[i].bonusitem.bonusType == "frame") {
-					frame_box.innerHTML += `
-					<div class="personal_avatar">
-					<div class="personal_avatar_innersize">
-						<div class="profile_avatar_frame">
-							
-						</div>
-		
-						<img class="profile_avatar_img" src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+					if (frame_index >= 4) {
+						framehtml += `</div>
+						<div class="avatarcollection_SingleRow">`;
+						frame_index = 0;
+					}
+					framehtml += `						
+						<div class="avatarcollection_AvatarPreview avatarcollection_Large">
+						<div class="select_frame_frame">
+					<img class="frame_select"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
 					</div>
-				</div>`;
+					</div>
+					`;
+					frame_index++;
 				}
+				/*-----------------------------------------------BG 區域網頁生成------------------------------------*/
 				else if (bonusLog[i].bonusitem.bonusType == "background") {
-					bg_box.innerHTML += `
-					<div class="personal_avatar">
-					<div class="personal_avatar_innersize">
-						<div class="profile_avatar_frame">
-							
-						</div>
-		
-						<img class="profile_avatar_img" src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+					if (frame_index >= 4) {
+						bghtml += `</div>
+						<div class="avatarcollection_SingleRow">`;
+						bgs_index = 0;
+					}
+					bghtml += `						
+						<div class="avatarcollection_AvatarPreview avatarcollection_Large">
+						<div class="select_bg_frame">
+					<img class="bg_select" style="width:224px;"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
 					</div>
-				</div>`;
+					</div>
+					`;
+					bgs_index++;
 				}
+
+
 
 			}
-
 			avatarhtml += `</div>
 			</div>
 			</div>`;
+			framehtml += `</div>
+			</div>
+			</div>`;
+			bghtml += `</div>
+			</div>
+			</div>`;
+
+
 			avatar_box.innerHTML = avatarhtml;
+			frame_box.innerHTML = framehtml;
+			bg_box.innerHTML = bghtml;
 
 
 			edit_select();
-			// 	avatar_box.innerHTML = `
-			// 	<div class="personal_avatar">
-			// 	<div class="personal_avatar_innersize">
-			// 		<div class="profile_avatar_frame">
-
-			// 		</div>
-
-			// 		<img class="profile_avatar_img" src="/carbon/downloadImage/${bonusLog[0].bonusitem.bonusId}">
-			// 	</div>
-			// </div>`;
-
-
-			console.log("DONE~~~~~~~~~~~~~~~");
 		})
 		.catch(err => {
 			console.log("err:" + err);
@@ -126,30 +178,72 @@ function editboxMaker() {
 
 function edit_select() {
 	let avatar_select = document.getElementsByClassName('avatar_select');
+	let frame_select = document.getElementsByClassName('frame_select');
+	let bg_select = document.getElementsByClassName('bg_select');
 
 	for (let i = 0; i < avatar_select.length; i++) {
 		avatar_select[i].addEventListener('click', function (e) {
-			removeAvatarFrame();
-			console.log("avatar_select[" + i + "]:" + this.parentElement.innerHTML);
-			// 為目前點擊的 select_avatar_frame 添加 active 類別
-			// this.parentElement.classList.add('active_select');
-
+			select_avatar = this.getAttribute('data-img');
+			removeAvatarFrame(this);
+		})
+	}
+	for (let i = 0; i < frame_select.length; i++) {
+		frame_select[i].addEventListener('click', function (e) {
+			select_frame = this.getAttribute('data-img');
+			removeFrameFrame(this);
+		})
+	}
+	for (let i = 0; i < bg_select.length; i++) {
+		bg_select[i].addEventListener('click', function (e) {
+			select_bg = this.getAttribute('data-img');
+			removeBgFrame(this);
 		})
 	}
 }
-
-function removeAvatarFrame() {
+//------------------------------------------------選擇AVATAR的紅框------------------------------------------------------------------//
+function removeAvatarFrame(e) {
 	// 移除所有 select_avatar_frame 的 active 類別
 	let aframes = document.getElementsByClassName('select_avatar_frame');
-	console.log("aframes " + aframes[2].classList);
-	for (let j = 0; j < frames.length; j++) {
+	for (let j = 0; j < aframes.length; j++) {
 		// 判斷是否為目前點擊的元素的父元素
-		if (aframes[j].parentNode === this.parentNode) {
-			console.log("aframes[j].classList.add('active');");
-			aframes[j].classList.add('active');
+		if (aframes[j] === e.parentNode) {
+
+			aframes[j].classList.add('active_select');
 		} else {
-			console.log("aframes[j].classList.remove('active');");
-			aframes[j].classList.remove('active');
+
+			aframes[j].classList.remove('active_select');
 		}
+
 	}
 }
+function removeFrameFrame(e) {
+	// 移除所有 select_avatar_frame 的 active 類別
+	let aframes = document.getElementsByClassName('select_frame_frame');
+	for (let j = 0; j < aframes.length; j++) {
+		// 判斷是否為目前點擊的元素的父元素
+		if (aframes[j] === e.parentNode) {
+
+			aframes[j].classList.add('active_select');
+		} else {
+
+			aframes[j].classList.remove('active_select');
+		}
+
+	}
+}
+function removeBgFrame(e) {
+	// 移除所有 select_avatar_frame 的 active 類別
+	let aframes = document.getElementsByClassName('select_bg_frame');
+	for (let j = 0; j < aframes.length; j++) {
+		// 判斷是否為目前點擊的元素的父元素
+		if (aframes[j] === e.parentNode) {
+
+			aframes[j].classList.add('active_select');
+		} else {
+
+			aframes[j].classList.remove('active_select');
+		}
+
+	}
+}
+

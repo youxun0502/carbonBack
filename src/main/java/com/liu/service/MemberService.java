@@ -185,4 +185,18 @@ public class MemberService {
 		mRepository.save(member);
 	}
 
+	//-------修改頭像，外框，背景
+	@Transactional
+	public boolean updateAvatar(Integer id,Integer avatar,Integer frame,Integer background) {
+		Optional<Member> optional = mRepository.findById(id);
+
+		if (optional.isPresent()) {
+			Member updateMember = optional.get();
+			updateMember.setUseAvatar(avatar);
+			updateMember.setUseFrame(frame);
+			updateMember.setUseBackground(background);			
+			return true;
+		}
+		return false;
+	}
 }

@@ -381,7 +381,7 @@
 			transparent 500px),
 		radial-gradient(farthest-corner at bottom left, var(--gradient-left),
 			transparent 600px);
-	background-color: gray;
+
 	background-repeat: no-repeat;
 	background-position: center;
 	background-repeat: no-repeat;

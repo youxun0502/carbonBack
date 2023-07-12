@@ -63,7 +63,7 @@
 						<span class="ion-android-close"></span>
 					</button>
 
-					<h4 class="mb-0"><span class="text-main-1">Sign</span> In</h4>
+					<h4 class="mb-0"><span class="text-main-1">個人樣式</span> 編輯</h4>
 
 					<div class="nk-gap-1"></div>
 
@@ -112,17 +112,18 @@
 
 					<div class="nk-gap-1"></div>
 					<div class="row vertical-gap">
-						<div class="col-md-6">
-							<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block">Sign
-								In</a>
-						</div>
-						<div class="col-md-6">
-							<div class="mnt-5">
-								<small><a href="#">Forgot your password?</a></small>
-							</div>
-							<div class="mnt-5">
-								<small><a href="#">Not a member? Sign up</a></small>
-							</div>
+					<div class="col-6">
+					<form id="avatar-modal-form" th:action="@{/bonus-shop/api/selectEdit}" method="post">
+							<input type="hidden" id="the-new-avatar" name="the-new-avatar" th:value="@{${session.memberBeans.useAvatar}}"/>
+							<input type="hidden" id="the-new-frame" name="the-new-frame" th:value="@{${session.memberBeans.useFrame}}"/>
+							<input type="hidden" id="the-new-bg" name="the-new-bg" th:value="@{${session.memberBeans.useBackground}}"/>
+							<button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-block" id="avatar-confirm">確定</button>
+					
+					</form>
+						
+					</div>
+						<div class="col-6">
+							<button type="button" data-dismiss="modal" aria-label="Close" id="avatar-cancel" class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block">取消</button>
 						</div>
 					</div>
 
