@@ -24,47 +24,48 @@ function checkUserCart() {
 				// 若資料為 null 或長度為 0，表示玩家沒有購物車資料，則使用 Local Storage 的購物車資料
 				cartItems = localStorage.getItem('cartItems');
 				var cartItemsArray = JSON.parse(cartItems);
-				
+
 				checkMemberOwnGame(function(gameNames) {
 					console.log(gameNames);
 					// 在這裡進行遊戲名稱比對和刪除 cartItems 的操作
-				if (cartItems) {
-					// 比對遊戲名字並刪除匹配的項目
-					for (var i = cartItemsArray.length - 1; i >= 0; i--) {
-						var cartGameName = cartItemsArray[i].gameName;
-						 console.log(cartGameName)
-						if (gameNames.includes(cartGameName)) {
-							cartItemsArray.splice(i, 1);
+					if (cartItems) {
+						// 比對遊戲名字並刪除匹配的項目
+						for (var i = cartItemsArray.length - 1; i >= 0; i--) {
+							var cartGameName = cartItemsArray[i].gameName;
+							console.log(cartGameName)
+							if (gameNames.includes(cartGameName)) {
+								cartItemsArray.splice(i, 1);
+							}
 						}
+
 					}
 
-				}
+					console.log(cartItemsArray)
+					if (cartItems) {
+						// 將 Local Storage 的購物車資料存入資料庫
+						$.ajax({
+							url: '/carbon/gameCart/add',
+							type: 'POST',
+							data: {
+								memberId: memberId,
+								cartItems: cartItemsArray
+							},
+							success: function(e) {
+								console.log(e);
+								cartItems = e;
+								// 資料庫存儲成功後的處理
+								console.log('資料庫存儲成功');
+								updateCartItems();
 
-				console.log(cartItemsArray)
-				if (cartItems) {
-					// 將 Local Storage 的購物車資料存入資料庫
-					$.ajax({
-						url: '/carbon/gameCart/add',
-						type: 'POST',
-						data: {
-							memberId: memberId,
-							cartItems: cartItemsArray
-						},
-						success: function(e) {
-							console.log(e);
-							cartItems = e;
-							// 資料庫存儲成功後的處理
-							console.log('資料庫存儲成功');
-							updateCartItems();
-
-						},
-						error: function(error) {
-							// 資料庫存儲失敗後的處理
-							console.error('資料庫存儲失敗', error);
-						}
-					});
-					clearLocal();
-				}			});	
+							},
+							error: function(error) {
+								// 資料庫存儲失敗後的處理
+								console.error('資料庫存儲失敗', error);
+							}
+						});
+						clearLocal();
+					}
+				});
 			} else {
 				updateCartItems();
 				clearLocal();
@@ -340,9 +341,44 @@ function removeOwnGame(gameList) {
 				button.removeClass('nk-btn-hover-color-main-1 nk-btn-color-dark-3 add-to-cart-button');
 				button.text('已購買');
 				button.removeAttr('onclick');
+				button.hover(
+					function() {
+						$(this).text('下載');
+						$(this).removeClass('nk-btn-color-warning');
+						$(this).addClass('nk-btn-color-success');
+						var gameName = $(this).data('game-name');
+						$(this).attr('title', '點擊下載遊戲：' + gameName);
+						$(this).click(function() {
+							download(gameName);
+						});
+					},
+					function() {
+						$(this).text('已購買');
+						$(this).removeClass('nk-btn-color-success');
+						$(this).addClass('nk-btn-color-warning');
+						$(this).off('click')
+						
+					}
+				);
 			}
 		});
 	}
+}
+
+function download(gameName){
+	  var downloadUrl = '/carbon/gameFront/downloadGame?gameName=' + encodeURIComponent(gameName);
+      // 創建一个带有下载的<a>
+      var downloadLink = $('<a>')
+        .attr('href', downloadUrl)
+        .attr('download', gameName + '.jar') 
+        .hide()
+        .appendTo('body');
+      
+      // 觸發點擊
+      downloadLink[0].click();
+      
+      // 删除下载
+      downloadLink.remove();
 }
 
 //清理local

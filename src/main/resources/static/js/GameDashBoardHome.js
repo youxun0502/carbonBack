@@ -198,9 +198,9 @@ function printGameListonType(gamesInfo) {
 
 		let buyerCount = document.createElement('td');
 		buyerCount.textContent = game.buyerCount;
-		
+
 		let totalSales = document.createElement('td');
-		totalSales.textContent = game.buyerCount*game.price;
+		totalSales.textContent = game.buyerCount * game.price;
 
 		tr.appendChild(gamPic);
 		tr.appendChild(gname);
@@ -372,9 +372,9 @@ function showGames() {
 function showGameContent(gamesInfos) {
 	let tbody = document.getElementById('showAllGame');
 	let today = document.getElementsByClassName('today');
-	today[0].setAttribute('min',gamesInfos[0].today);
-	today[0].setAttribute('value',gamesInfos[0].today);
-	today[1].setAttribute('min',gamesInfos[0].today);
+	today[0].setAttribute('min', gamesInfos[0].today);
+	today[0].setAttribute('value', gamesInfos[0].today);
+	today[1].setAttribute('min', gamesInfos[0].today);
 	console.log(gamesInfos);
 	tbody.innerHTML = '';
 
@@ -438,7 +438,7 @@ function showGameContent(gamesInfos) {
 		let action = document.createElement('td');
 		let imgButton = document.createElement('button');
 		imgButton.setAttribute('value', game.gameId);
-		imgButton.setAttribute('class', 'btn btn-success me-3');
+		imgButton.setAttribute('class', 'btn btn-success me-2');
 		imgButton.setAttribute('data-bs-toggle', 'modal');
 		imgButton.setAttribute('data-bs-target', '#updateImageModal');
 		imgButton.setAttribute('onclick', 'getPhotoIdList(this)');
@@ -451,7 +451,7 @@ function showGameContent(gamesInfos) {
 		let updateButton = document.createElement('button');
 		updateButton.setAttribute('value', game.gameId);
 		updateButton.setAttribute('name', 'id');
-		updateButton.setAttribute('class', 'btn btn-primary me-3');
+		updateButton.setAttribute('class', 'btn btn-primary me-2');
 		updateButton.setAttribute('data-bs-toggle', 'modal');
 		updateButton.setAttribute('data-bs-target', '#updatemessage');
 		updateButton.setAttribute('onclick', 'updateGame(this)');
@@ -467,7 +467,7 @@ function showGameContent(gamesInfos) {
 		let deleteButton = document.createElement('button');
 		deleteButton.setAttribute('value', game.gameId);
 		deleteButton.setAttribute('name', 'id');
-		deleteButton.setAttribute('class', 'btn btn-danger');
+		deleteButton.setAttribute('class', 'btn btn-danger me-2');
 		deleteButton.setAttribute('data-bs-toggle', 'modal');
 		deleteButton.setAttribute('data-bs-target', '#deletemessage');
 		deleteButton.setAttribute('onclick', 'deleteGame(this)');
@@ -479,6 +479,15 @@ function showGameContent(gamesInfos) {
 		//插入刪除彈跳表格
 		//let deleteFormContent = document.createRange().createContextualFragment(deleteMsg(game));
 		//deleteMethod.appendChild(deleteFormContent);
+
+		let uploadFile = document.createElement('button');
+		uploadFile.setAttribute('id', 'uploadBtn');
+		uploadFile.setAttribute('class', 'btn btn-warning');
+		uploadIcon = document.createElement('i');
+		uploadIcon.setAttribute('class', 'fa-solid fa-upload fa-xl');
+		uploadIcon.setAttribute('style', 'color: #ffffff;');
+		uploadFile.appendChild(uploadIcon);
+		action.appendChild(uploadFile);
 
 		tr.appendChild(th);
 		tr.appendChild(gname);
@@ -527,6 +536,41 @@ function showGameContent(gamesInfos) {
 		})
 
 		$(':checkbox').checkboxpicker();//checkbox 套件
+
+
+		//上傳================================================
+		$('#uploadBtn').click(function() {
+			// 创建一个隐藏的文件输入框
+			 var button = $(this);
+			var fileInput = $('<input type="file">').hide().appendTo('body');
+			var gameName = button.parent().siblings('.gameName').text();
+			// 監聽文件
+			fileInput.change(function() {
+				var file = fileInput[0].files[0];
+
+				var formData = new FormData();
+				formData.append('gameFile', file);
+				formData.append('gameName', gameName);
+				$.ajax({
+					url: 'game/uploadGame',
+					type: 'Post',
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function(response) {
+						Swal.fire('上傳成功', '', 'success').then(function() {
+							
+						});
+					},
+					error: function() {
+						Swal.fire('上傳失敗', '', 'error');
+					}
+				});
+			});
+
+			// 触发点击事件
+			fileInput.click();
+		});
 
 
 		//更新狀態 Ajex---------------------------------------------

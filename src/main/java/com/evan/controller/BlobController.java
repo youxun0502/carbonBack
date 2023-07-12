@@ -1,8 +1,13 @@
 package com.evan.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,7 +16,6 @@ import com.evan.service.AzureConnService;
 
 
 @RestController
-@RequestMapping("blob")
 public class BlobController {
 
 	@Autowired
@@ -19,8 +23,21 @@ public class BlobController {
 	    
 		//azure 上傳檔案
 		@PostMapping("/game/uploadGame")
-		public String uplaodFileFromAzure(MultipartFile file) throws IOException {
-			aService.uploadFile(file.getOriginalFilename(),file.getInputStream(),file.getSize());
+		public String uplaodFileFromAzure(@RequestParam Map<String, Object> formData,@RequestParam("gameFile")MultipartFile file) throws IOException {
+			aService.uploadFile((String)formData.get("gameName"),file.getInputStream(),file.getSize());
 			return "done";
 		}
+		//azure 下載檔案
+		@GetMapping("/gameFront/downloadGame")
+		public ResponseEntity<byte[]> downLoadFileFromAzure(@RequestParam Map<String, Object> formData )  {
+			
+			byte[] downLoad = aService.downloadFile((String)formData.get("gameName")).toByteArray();
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			// 檔案,header,Httpstatus
+			return new ResponseEntity<byte[]>(downLoad, headers, HttpStatus.OK);
+		}
+		
+		
 }
