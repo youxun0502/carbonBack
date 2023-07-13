@@ -2,6 +2,7 @@ package com.liu.controller;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +14,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.evan.dto.OrderLogDTO;
+import com.evan.service.GameOrderService;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
 import com.liu.service.MemberService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MemberController {
 
 	@Autowired
 	MemberService mService;
+	
+	@Autowired
+	GameOrderService gameOrderService;
 
 	@GetMapping("/member/allMember")
 	public String findAllMember(Model m) {
@@ -124,5 +132,15 @@ public class MemberController {
 	@ResponseBody
 	public List<Object[]> memberRegistrationDateAnalysis() {
 		return mService.findRegistrationMonth();
+	}
+	
+	@GetMapping("/memberFront/memberInformationPage")
+	public String memberInformationPage(HttpSession session, Model m) {
+		Member member = (Member)session.getAttribute("memberBeans");
+		Map<String, Object> formData = new HashMap<>();
+		formData.put("memberId",member.getId().toString());
+		List<OrderLogDTO> memberOwnGames = gameOrderService.getMemberOwnGames(formData);
+		m.addAttribute("memberOwnGames", memberOwnGames);
+		return "/liu/memberInformationPage";
 	}
 }

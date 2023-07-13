@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,6 +74,23 @@ public class DiscussionsService {
 	public List<Discussions> findDiscussionsByUserName(String userName) {
         return dRepo.findDiscussionsByUserName(userName);
     }
+	
+	public List<Discussions> findDiscussionsByGameName(String gameName) {
+        return dRepo.findDiscussionsByGameName(gameName);
+    }
+	
+	public List<Discussions> findDiscussionsByTitle(String title) {
+        return dRepo.findDiscussionsByTitle(title);
+    }
+	
+	public Page<Discussions> findByPage(Integer pageNumber){
+		Pageable pgb = PageRequest.of(pageNumber-1, 5, Sort.Direction.DESC, "lastReplyTime");
+		
+		Page<Discussions> page = dRepo.findAll(pgb);
+		
+		return page;
+	}
+	
 }
 	
 

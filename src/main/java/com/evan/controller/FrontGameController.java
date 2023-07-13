@@ -9,13 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.evan.dao.GameRepository;
-import com.evan.dto.CartDTO;
 import com.evan.dto.GameDTO;
 import com.evan.dto.OrderLogDTO;
 import com.evan.dto.TypeDTO;
@@ -87,6 +83,7 @@ public class FrontGameController {
 		return gameList;
 	}
 	
+	//模糊查詢遊戲名字
 	@ResponseBody
 	@GetMapping("/gameFront/getGameLikesName")
 	public List<GameDTO> SearchLikeName(@RequestParam Map<String, Object> formData) {
@@ -94,6 +91,8 @@ public class FrontGameController {
 		System.out.println(gamesInfos);
 		return gamesInfos;
 	}
+	
+	//以價格查詢遊戲
 	@ResponseBody
 	@GetMapping("/gameFront/findPrice")
 	public List<GameDTO> SearchPrice(@RequestParam Map<String, Object> formData) {

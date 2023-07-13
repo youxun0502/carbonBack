@@ -1,10 +1,10 @@
-const status = document.querySelector("#status").innerText;
-console.log(status);
+const status1 = document.querySelector("#status").innerText;
+console.log(status1);
 const verification = document.querySelector("#verification");
 const alreadySend = document.querySelector("#alreadySend");
 const restore = document.querySelector("#restore");
-if (status == '驗證網址過期，請重新取得驗證網址') {
-  verification.classList.remove('d-none');
+if (status1 == '驗證網址過期，請重新取得驗證網址') {
+  verification.style.display='block';
 }
 const verifyBtn = document.querySelector("#verifyBtn");
 verifyBtn.addEventListener('click', function () {

@@ -68,6 +68,8 @@
 		</div>
 		<!-- END: Categories -->
 		<div class="nk-gap-2"></div>
+
+		<!-- END: Categories -->
 		<div class="nk-gap-2"></div>
 		<!-- START: Latest News -->
 		<div class="nk-gap-2"></div>
@@ -98,7 +100,7 @@
 								</div>
 								<div class="nk-news-box-item-date" th:text="'開始日期: '+${competition.startDate}"></div>
 								<a th:href="@{'/competitionPageDetail?competitionId='+${competition.competitionId}}"
-								style="position: absolute; right: 5px; bottom: 10px;">Read More</a>
+									style="position: absolute; right: 5px; bottom: 10px;">Read More</a>
 							</div>
 						</th:block>
 					</div>
@@ -110,7 +112,7 @@
 					<div class="nano-content">
 						<!-- There will be inserted info about selected news-->
 						<div class="nk-news-box-item-image">
-							<img src="assets/images/post-1.jpg" alt=""  style="height: 310px;">
+							<img src="assets/images/post-1.jpg" alt="" style="height: 310px;">
 						</div>
 						<h3 class="nk-news-box-item-title">Smell magic in the air. Or maybe barbecue</h3>
 						<div class="nk-news-box-item-text">
@@ -159,19 +161,22 @@
 
 			</div>
 		</div>
-		<!-- END: Latest News -->
 	</div>
+	<!-- END: Latest News -->
+	<<<<<<< HEAD </div>
 
 
 		<!-- END: Categories -->
-		
+
 
 
 		<div th:replace="~{layout/footer}"></div>
+		=======
+		>>>>>>> f109609271747f373684325edae8411b62b4c8b7
 		<!-- GoodGames -->
 		<script th:src="@{/assets/js/goodgames-init.js}"></script>
 		<!-- END: Scripts -->
-
+		<div th:replace="~{layout/footer}"></div>
 </body>
 
 
