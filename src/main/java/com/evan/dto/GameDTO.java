@@ -33,7 +33,6 @@ public class GameDTO {
 //	
 	private Set<GameType> gameTypes = new HashSet<>();
 	
-	@Transactional
 	public List<Integer> getGamePhotoLists() {
 		List<Integer> photoIdList = new ArrayList<>();
 		for (GamePhoto photo : gamePhotoLists) {

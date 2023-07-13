@@ -37,6 +37,7 @@ public class SortChartJs {
 
 	private List<TypeDTO> typeList;
 
+	@JsonIgnore
 	private List<GameDTO> gameList;
 
 	public  SortChartJs() {
