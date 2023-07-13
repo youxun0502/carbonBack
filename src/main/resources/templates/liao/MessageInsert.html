@@ -34,7 +34,7 @@
         .section-small {
             max-width: calc(100% - 200px);
         }
-        
+
         /* 自訂日期選擇器外層容器的樣式 */
         .datepicker-container {
             font-family: Arial, sans-serif;
@@ -117,14 +117,15 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/messages/insertpage}">CREATE</a>
                     </li>
-                    
+
                 </ul>
             </div>
             <div class="container">
-                <div class="card mt-3">
+                <div class="card mt-3" style="width: 400px;">
                     <div class="card-body">
                         <h2 class="card-title text-dark">新增留言資料</h2>
-                        <form th:action="@{/messages/insertmessage}" method="POST" id="newMessageForm" class="d-inline-block" enctype="multipart/form-data">
+                        <form th:action="@{/messages/insertmessage}" method="POST" id="newMessageForm"
+                            class="d-inline-block" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label class="form-label text-dark">文章編號</label>
                                 <input class="form-control" type="text" name="articleId">
@@ -162,16 +163,19 @@
                                 <textarea class="form-control" name="mcontent"></textarea>
                             </div>
                             <div class="mb-3">
-							    <label class="form-label text-dark">圖片</label>
-							    <input class="form-control" type="file" name="mphotoFile">
-							</div>
-                             
-							    <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
-							    <button class="btn btn-secondary" type="button" onclick="window.history.back();" style="display: inline-block;">取消</button>
-							
+                                <label class="form-label text-dark">圖片</label>
+                                <input class="form-control" type="file" name="mphotoFile">
+                            </div>
+
+                            <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
+                            <button class="btn btn-secondary" type="button" onclick="window.history.back();"
+                                style="display: inline-block;">取消</button>
+
                         </form>
-                        	<button class="btn btn-success" id="generateDataBtn" style="display: inline-block;">一鍵新增</button>	
-                        	
+                        <hr>
+                        <button class="btn btn-success" id="generateDataBtn"
+                            style="display: inline-block;">一鍵新增</button>
+
                     </div>
                 </div>
             </div>
@@ -188,7 +192,7 @@
                 var memberId = Math.floor(Math.random() * 1000) + 1;
                 var userName = "User" + memberId;
                 var gameId = Math.floor(Math.random() * 1000) + 1;
-                var gameName = "Game" + gameId; 
+                var gameName = "Game" + gameId;
                 var mtitle = "SampleTitle";
                 var mcreated = "2023-06-18";
                 var mlikes = Math.floor(Math.random() * 10);
@@ -203,11 +207,11 @@
                 $("#newMessageForm input[name='mtitle']").val(mtitle);
                 $("#newMessageForm input[name='mcreated']").val(mcreated);
                 $("#newMessageForm input[name='mlikes']").val(mlikes);
-                $("#newMessageForm input[name='mcontent']").val(mcontent);
-                
+                $("#newMessageForm textarea[name='mcontent']").val(mcontent);
+
             });
         });
-        
+
     </script>
 </body>
 
