@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.evan.dao.GameRepository;
 import com.evan.dto.GameDTO;
 import com.evan.dto.TypeDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.annotation.PostConstruct;
 import lombok.Data;
@@ -35,6 +36,7 @@ public class SortChartJs {
 	private Integer allNum ;
 
 	private List<TypeDTO> typeList;
+
 	private List<GameDTO> gameList;
 
 	public  SortChartJs() {

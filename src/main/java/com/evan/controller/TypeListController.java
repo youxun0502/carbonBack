@@ -26,6 +26,7 @@ public class TypeListController {
 	private SortChartJs sortChartJs;
 	
 	//====================跳轉主頁===========================
+	@Transactional
 	@GetMapping("/game/type")
 	public String TypeMain() {
 		return "evan/TagAllList";
