@@ -62,6 +62,8 @@ public class GameOrderService {
 	private CartService cService;
 	@Autowired 
 	private GmailService gmailService;
+	@Autowired
+	private BonusPointService bpService;
 
 	@Autowired
 	private ConvertToDTO cdDTO;
@@ -185,8 +187,7 @@ public class GameOrderService {
 			game.setBuyerCount(oldCount+1);
 			gRepos.save(game);
 		}
-		BonusPointService bonusPointService = new BonusPointService();
-		bonusPointService.newPointLog("buygame", id, orderPrice);
+//		bpService.newPointLog("buygame", id, orderPrice);
 		gameOrder.setStatus(1);
 		goRepos.save(gameOrder);
 	}

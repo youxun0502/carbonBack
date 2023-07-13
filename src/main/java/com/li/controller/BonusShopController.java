@@ -120,13 +120,13 @@ public class BonusShopController {
 			@RequestParam("the-new-bg")Integer background
 			) {
 		Member member =(Member) sesstion.getAttribute("memberBeans");
-		System.out.println("member.getId()   "+member.getId());
-		System.out.println("avatar   "+avatar);
-		System.out.println("frame   "+frame);
-		System.out.println("background   "+background);
+//		System.out.println("member.getId()   "+member.getId());
+//		System.out.println("avatar   "+avatar);
+//		System.out.println("frame   "+frame);
+//		System.out.println("background   "+background);
 		mService.updateAvatar(member.getId(), avatar, frame, background);
 		
-		return "redirect:/profile";
+		return "redirect:/memberFront/memberInformationPage";
 	}
 
 }

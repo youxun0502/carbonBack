@@ -141,7 +141,7 @@
 			font-size: 1.05rem;
 			color: #c5cbd8;
 			text-transform: uppercase;
-			font-weight: 300;
+			font-weight: 500;
 			letter-spacing: .1rem;
 			display: flex;
 			align-items: center;
@@ -374,7 +374,7 @@
 				<div class="container">
 
 					<div class="section_header">
-						<div class="section_header_title">個人圖示</div>
+						<div class="section_header_title text-main-1">個人圖示</div>
 						<div class="section_header_action">
 							<a href="#">
 								<button class="header_actionbutton">查看全部</button>
@@ -395,7 +395,7 @@
 						<div class="section_body_row">
 
 							<th:block th:each="oneBonusitem : ${bonusitemList}">
-								<th:block th:switch="${oneBonusitem.status == true}">
+								<th:block th:switch="${oneBonusitem.status == true && oneBonusitem.bonusType =='avatar'}">
 									<div th:case="true" class="sc_item_container">
 										<div class="sc_item_box" th:data-id="${oneBonusitem.bonusId}">
 
@@ -443,7 +443,7 @@
 				<div class="container">
 
 					<div class="section_header">
-						<div class="section_header_title">個人圖示</div>
+						<div class="section_header_title text-main-1">裝飾外框</div>
 						<div class="section_header_action">
 							<a href="#">
 								<button class="header_actionbutton">查看全部</button>
@@ -460,7 +460,7 @@
 						<div class="section_body_row">
 
 							<th:block th:each="oneBonusitem : ${bonusitemList}">
-								<th:block th:switch="${oneBonusitem.status == true}">
+								<th:block th:switch="${oneBonusitem.status == true && oneBonusitem.bonusType =='frame'}">
 									<div th:case="true" class="sc_item_container">
 										<div class="sc_item_box" th:data-id="${oneBonusitem.bonusId}">
 
@@ -508,7 +508,7 @@
 				<div class="container">
 
 					<div class="section_header">
-						<div class="section_header_title">個人圖示</div>
+						<div class="section_header_title text-main-1">個人圖示背景</div>
 						<div class="section_header_action">
 							<a href="#">
 								<button class="header_actionbutton">查看全部</button>
@@ -525,7 +525,7 @@
 						<div class="section_body_row">
 
 							<th:block th:each="oneBonusitem : ${bonusitemList}">
-								<th:block th:switch="${oneBonusitem.status == true}">
+								<th:block th:switch="${oneBonusitem.status == true && oneBonusitem.bonusType =='background'}">
 									<div th:case="true" class="sc_item_container">
 										<div class="sc_item_box" th:data-id="${oneBonusitem.bonusId}">
 

@@ -17,6 +17,6 @@ public interface EventRegistrationRepository extends JpaRepository<EventRegistra
 	public List<EventRegistration> findByEventId(Integer eventId);
 	
 	@Query("from EventRegistration where memberId = :memberId")
-	public List<EventRegistration> findByMemberId(Integer memberId);
+	public List<EventRegistration> findMemberRecord(Integer memberId);
 	
 }

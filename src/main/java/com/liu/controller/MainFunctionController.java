@@ -25,6 +25,7 @@ import com.chen.model.Competition;
 import com.chen.model.CompetitionRepository;
 import com.chen.model.Event;
 import com.chen.model.EventRepository;
+import com.li.service.BonusLogService;
 import com.li.service.BonusPointService;
 import com.evan.service.GameService;
 import com.evan.utils.SortChartJs;
@@ -58,6 +59,9 @@ public class MainFunctionController {
 
 	@Autowired
 	private BonusPointService bpService;
+	
+	@Autowired
+	private BonusLogService blService;
 
 	@Autowired
 	private SortChartJs sortChartJs;
@@ -213,7 +217,12 @@ public class MainFunctionController {
 		member.setGender(memberDto.getGender());
 		member.setPhone(memberDto.getPhone());
 		member.setAccount(null);
+		member.setUseAvatar(1);
+		member.setUseFrame(2);
+		member.setUseBackground(3);
 		mService.insert(member);
+		blService.initAccountAvatar( mService.findByEmail(memberDto.getEmail()).getId());
+		bpService.newPointLog("register", mService.findByEmail(memberDto.getEmail()).getId(), 2000);
 		LocalDateTime nowTime = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 		String nowStringTime = nowTime.format(formatter);
@@ -366,7 +375,12 @@ public class MainFunctionController {
 				member.setGender(3);
 				member.setPhone(null);
 				member.setAccount(null);
+				member.setUseAvatar(1);
+				member.setUseFrame(2);
+				member.setUseBackground(3);
 				mService.insert(member);
+				blService.initAccountAvatar( mService.findByEmail(email).getId());
+				bpService.newPointLog("register", mService.findByEmail(email).getId(), 2000);
 			}
 			// 登入
 			Member member = mService.isMember(email, userInfo.get("userId"));
