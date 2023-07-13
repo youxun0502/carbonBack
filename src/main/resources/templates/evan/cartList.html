@@ -58,7 +58,7 @@
 <body>
 	<div
 		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
-	<div class="container " style=" margin-top: -100px;font-size:16px">
+	<div class="container " style="margin-top: -100px; font-size: 16px">
 
 		<div class="nk-gap-1"></div>
 		<ul class="nk-breadcrumbs">
@@ -136,7 +136,7 @@
 					<form action="#" class="nk-form">
 						<label for="country-sel">電子郵件 <span class="text-main-1">*</span>:
 						</label> <input type="text" class="form-control required"
-							th:value="${session.memberBeans.email}"> 
+							th:value="${session.memberBeans.email}">
 
 						<div class="nk-gap-1"></div>
 						<div class="row vertical-gap">
@@ -216,10 +216,10 @@
 							</thead>
 							<tbody>
 								<th:block th:each="game:${cartList}">
-								<tr>
-									<td class="nk-product-cart-title">[[${game.gameName}]]</td>
-									<td class="nk-product-cart-total">NT$[[${game.price}]]</td>
-								</tr>
+									<tr>
+										<td class="nk-product-cart-title">[[${game.gameName}]]</td>
+										<td class="nk-product-cart-total">NT$[[${game.price}]]</td>
+									</tr>
 								</th:block>
 
 							</tbody>
@@ -229,13 +229,19 @@
 
 					<div class="nk-gap-2"></div>
 					<h5>
-					<span class="float-right"><span class="text-main-1 ">總價: </span> NT$[[${countSum}]]</span></h5>
-					
+						<span class="float-right"><span class="text-main-1 ">總價:
+						</span> NT$[[${countSum}]]</span>
+					</h5>
+
 					<div class="nk-gap-1"></div>
 					<form th:action="@{/gameFront/orderList}" method="post">
-					    <!-- ... 其他表單內容 ... -->
-					    <input type="hidden" name="memberId" th:value="${session.memberBeans.id}" />
-					    <button type="submit" th:attr="disabled=${countSum == 0 ? 'disabled' : null}" class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" onclick="clearLocal()">確認訂單</button>
+						<!-- ... 其他表單內容 ... -->
+						<input type="hidden" name="memberId"
+							th:value="${session.memberBeans.id}" />
+						<button type="submit"
+							th:attr="disabled=${countSum == 0 ? 'disabled' : null}"
+							class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right"
+							onclick="clearLocal()">確認訂單</button>
 					</form>
 				</div>
 			</div>
@@ -243,39 +249,7 @@
 	</div>
 	<!-- END: Login Modal -->
 
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<div class="row">
-				<div class="col-4 text-light h2">
-					<h3 class="">CARBON</h3>
-				</div>
-				<div class="col-6 col-md text-light">
-					<h5>STORE</h5>
-					<ul class="list-unstyled">
-						<li>HOME</li>
-						<li>GAME</li>
-						<li>BONUS SHOP</li>
-					</ul>
-				</div>
-				<div class="col-6 col-md text-light">
-					<h5>COMMUNITY</h5>
-					<ul class="list-unstyled">
-						<li>MARKET</li>
-						<li>BONUS SHOP</li>
-						<li>BONUS SHOP</li>
-					</ul>
-				</div>
-				<div class="col-6 col-md text-light">
-					<h5>CONNECT</h5>
-					<ul class="list-unstyled">
-						<li>Q&A</li>
-						<li>SUPPORT</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-
-	</footer>
+	<div th:replace="~{layout/footer}"></div>
 	<!-- START: Scripts -->
 	<script th:src="@{/js/cart_list.js}"></script>
 	<!-- Object Fit Polyfill -->

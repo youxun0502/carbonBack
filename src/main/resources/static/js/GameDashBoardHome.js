@@ -296,6 +296,39 @@ function deleteGame(button) {
 	$('#deleteTitle').html('你確定要刪除 : ' + gameName);
 	$("#selectedInput").val(value);
 }
+//上傳================================================
+function uploadGame(button) {
+	// 创建一个隐藏的文件输入框
+	var button = $(this);
+	var fileInput = $('<input type="file">').hide().appendTo('body');
+	var gameName = button.parent().siblings('.gameName').text();
+	// 監聽文件
+	fileInput.change(function() {
+		var file = fileInput[0].files[0];
+
+		var formData = new FormData();
+		formData.append('gameFile', file);
+		formData.append('gameName', gameName);
+		$.ajax({
+			url: 'game/uploadGame',
+			type: 'Post',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(response) {
+				Swal.fire('上傳成功', '', 'success').then(function() {
+
+				});
+			},
+			error: function() {
+				Swal.fire('上傳失敗', '', 'error');
+			}
+		});
+	});
+
+	// 触发点击事件
+	fileInput.click();
+}
 
 //更新遊戲的按鈕事件====================================================================
 function updateGame(button) {
@@ -341,11 +374,11 @@ function RunForm() {
 
 }
 
-function oneClickEnter(){
-   document.getElementById("copyName").value = "排數字大賽";
-    document.getElementsByName("Price")[0].value = "500";
-    document.getElementsByName("GameIntroduce")[0].value = "一款好玩又可以考驗頭腦的遊戲，傳說製作者自己都還沒有破關過";
-    document.getElementsByName("GameTypes")[0].value = "趣味,動腦,數字,邏輯,好玩,java小遊戲";
+function oneClickEnter() {
+	document.getElementById("copyName").value = "排數字大賽";
+	document.getElementsByName("Price")[0].value = "500";
+	document.getElementsByName("GameIntroduce")[0].value = "一款好玩又可以考驗頭腦的遊戲，傳說製作者自己都還沒有破關過";
+	document.getElementsByName("GameTypes")[0].value = "趣味,動腦,數字,邏輯,好玩,java小遊戲";
 }
 //清除表單===================================================================
 function clearButton() {
@@ -489,6 +522,7 @@ function showGameContent(gamesInfos) {
 		let uploadFile = document.createElement('button');
 		uploadFile.setAttribute('id', 'uploadBtn');
 		uploadFile.setAttribute('class', 'btn btn-warning');
+		uploadFile.setAttribute('onclick', 'uploadGame(this)');
 		uploadIcon = document.createElement('i');
 		uploadIcon.setAttribute('class', 'fa-solid fa-upload fa-xl');
 		uploadIcon.setAttribute('style', 'color: #ffffff;');
@@ -544,39 +578,6 @@ function showGameContent(gamesInfos) {
 		$(':checkbox').checkboxpicker();//checkbox 套件
 
 
-		//上傳================================================
-		$('#uploadBtn').click(function() {
-			// 创建一个隐藏的文件输入框
-			 var button = $(this);
-			var fileInput = $('<input type="file">').hide().appendTo('body');
-			var gameName = button.parent().siblings('.gameName').text();
-			// 監聽文件
-			fileInput.change(function() {
-				var file = fileInput[0].files[0];
-
-				var formData = new FormData();
-				formData.append('gameFile', file);
-				formData.append('gameName', gameName);
-				$.ajax({
-					url: 'game/uploadGame',
-					type: 'Post',
-					data: formData,
-					processData: false,
-					contentType: false,
-					success: function(response) {
-						Swal.fire('上傳成功', '', 'success').then(function() {
-							
-						});
-					},
-					error: function() {
-						Swal.fire('上傳失敗', '', 'error');
-					}
-				});
-			});
-
-			// 触发点击事件
-			fileInput.click();
-		});
 
 
 		//更新狀態 Ajex---------------------------------------------
