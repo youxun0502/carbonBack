@@ -51,27 +51,30 @@
 </head>
 
 <body>
-<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	
 	<section class="my-4">
 		<div class="container">
 			<div class="profile_header_bg">
+			<img id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/downloadImage/}+${session.memberBeans.useBackground}">
 				<div class="profile_header_bg_text">
 					<div class="profile_header">
 						<div class="profile_header_layout">
 							<div class="profile_header_personalinfo">
-								<div class="personal_name">NAME</div>
+								<div class="personal_name">[[${session.memberBeans.userId}]]</div>
 							</div>
-							<a href="#" data-toggle="modal" data-target="#modalAvatar">
+							<div  data-toggle="modal" data-target="#modalAvatar">
 								<div class="personal_avatar">
 									<div class="personal_avatar_innersize">
 										<div class="profile_avatar_frame">
-											<img src="/carbon/img/userFrameDefault.png">
+											<img id="user_frame" th:src="@{/downloadImage/}+${session.memberBeans.useFrame}">
 										</div>
 
-										<img class="profile_avatar_img" src="/carbon/img/userAvatarDefault.gif">
+										<img id="user_avatar" class="profile_avatar_img"
+											th:src="@{/downloadImage/}+${session.memberBeans.useAvatar}">
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -87,8 +90,8 @@
 
 
 
-<div th:replace="~{li/avatar-edit}"></div>
-<div th:replace="~{layout/footer}"></div>
+	<div th:replace="~{li/avatar-edit}"></div>
+	<div th:replace="~{layout/footer}"></div>
 
 
 
@@ -152,9 +155,6 @@
 	<!-- nK Share -->
 	<script src="assets/plugins/nk-share/nk-share.js"></script>
 
-	<!-- GoodGames -->
-	<script src="assets/js/goodgames.min.js"></script>
-	<script src="assets/js/goodgames-init.js"></script>
 	<!-- END: Scripts -->
 </body>
 

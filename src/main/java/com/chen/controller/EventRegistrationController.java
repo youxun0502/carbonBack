@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.chen.model.Event;
 import com.chen.model.EventRegistration;
 import com.chen.model.EventRegistrationRepository;
@@ -28,6 +29,7 @@ import com.evan.dao.GameRepository;
 import com.evan.model.Game;
 import com.liu.model.Member;
 import com.liu.service.MemberService;
+
 
 @Controller
 public class EventRegistrationController {
@@ -49,9 +51,18 @@ public class EventRegistrationController {
 	
 	@Autowired
 	private EventRegistrationRepository erRepo;
+	
 
 	//////////    前台管理    //////////
-	
+	// 跳轉報名紀錄頁面
+	@GetMapping("/registrationRecord")
+	public String registrationRecordPage(@RequestParam(value = "memberId", required = false)Integer memberId, Model m) {
+		
+		List<EventRegistration> recordList = erRepo.findByMemberId(memberId);
+		m.addAttribute("recordList", recordList);
+		
+		return "chen/registrationRecord";
+	}
 	
 	// 跳轉活動總覽頁面
 	@GetMapping("/eventPageAll")
@@ -112,17 +123,17 @@ public class EventRegistrationController {
 	// 新增資料
 	@PostMapping("/eventRegistration/insert")
 	public String inserData(@RequestParam("eventId") Integer eventId, @RequestParam("realName") String realName,@RequestParam(value = "memberId", required = false) Integer memberId,
-			@RequestParam("email") String email, @RequestParam("phone") String phone,
-			@RequestParam(value = "address", required = false) String address) {
-		EventRegistration er = new EventRegistration();
-		er.setEventId(eventId);
-		er.setRealName(realName);
-		er.setEmail(email);
-		er.setPhone(phone);
-		er.setAddress(address);
-		er.setMemberId(memberId);
-		erService.insert(er);
-		return "redirect:/eventPageAll";
+	        @RequestParam("email") String email, @RequestParam("phone") String phone,
+	        @RequestParam(value = "address", required = false) String address) {
+	    EventRegistration er = new EventRegistration();
+	    er.setEventId(eventId);
+	    er.setRealName(realName);
+	    er.setEmail(email);
+	    er.setPhone(phone);
+	    er.setAddress(address);
+	    er.setMemberId(memberId);
+	    erService.insert(er);
+	    return "redirect:/eventPageAll";
 	}
 	
 	//顯示前台圖片

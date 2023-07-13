@@ -3,7 +3,9 @@ package com.liao.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -347,9 +349,11 @@ public class DiscussionsController {
 	    List<Discussions> uniqueGameNames = new ArrayList<>();
 	    List<String> gameName = new ArrayList<>();
 	    List<GameDTO> gameDto = gameService.getAllGameInfo();
+	    Map<String, Integer> photos = new HashMap<>();
 	    
 	    for (GameDTO gameDTO2 : gameDto) {
 	        gameName.add(gameDTO2.getGameName());
+	        photos.put(gameDTO2.getGameName(), gameDTO2.getGamePhotoLists().get(0));
 	    }
 
 	    Iterator<String> iterator = gameName.iterator();
@@ -357,6 +361,8 @@ public class DiscussionsController {
 	        String game = iterator.next();
 	        for (Discussions discussion : discussions) {
 	            if (discussion.getGameName().equals(game)) {
+	            	
+	            	discussion.setPhotoId(photos.get(game));
 	                System.out.println(discussion.getGameName());
 	                uniqueGameNames.add(discussion);
 	                iterator.remove(); // 使用Iterator的remove()方法刪除元素
