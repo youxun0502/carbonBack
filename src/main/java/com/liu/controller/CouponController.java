@@ -118,7 +118,10 @@ public class CouponController {
 	@PostMapping("/coupon/insert")
 	public String insertCouponLog(@ModelAttribute("couponDto") CouponDto couponDto) {
 		Coupon coupon = new Coupon();
-		coupon.setTypeId(Integer.parseInt(couponDto.getTypeName())) ;
+		if(!("null".equals(couponDto.getTypeName()))) {
+			coupon.setTypeId(Integer.parseInt(couponDto.getTypeName())) ;
+		}
+				
 		coupon.setCoupon(couponDto.getDiscount());
 		coupon.setDesc(couponDto.getCouponName());
 		coupon.setWeight(couponDto.getWeight());

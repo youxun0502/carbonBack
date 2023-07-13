@@ -117,9 +117,14 @@ public class CouponService {
 	
 	public Boolean insertCoupon(Coupon coupon) {
 		
+		if(coupon.getTypeId()!=null) {
 		Integer typeId = coupon.getTypeId();
 		GameType type = gameTypeRepository.getReferenceById(typeId);
 		coupon.setGameType(type);
+		}
+
+		
+		
 		couponRepository.save(coupon);
 		createNewRamdomForCoupon();
 		return true;
