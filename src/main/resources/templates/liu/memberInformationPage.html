@@ -27,7 +27,10 @@
 				<li><span>個人資料</span></li>
 
 						<div class="profile_header_bg">
-			<img id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/downloadImage/}+${session.memberBeans.useBackground}">
+			<th:block th:switch="${session.memberBeans.useBackground == 3}">			
+				<img th:case="true" id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/img/userBgDefault.jpg}">
+				<img th:case="false" id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/downloadImage/}+${session.memberBeans.useBackground}">
+		    </th:block>
 				<div class="profile_header_bg_text">
 					<div class="profile_header">
 						<div class="profile_header_layout">
@@ -38,11 +41,17 @@
 								<div class="personal_avatar">
 									<div class="personal_avatar_innersize">
 										<div class="profile_avatar_frame">
-											<img id="user_frame" th:src="@{/downloadImage/}+${session.memberBeans.useFrame}">
+										<th:block th:switch="${session.memberBeans.useFrame == 2}">
+											<img th:case="true" id="user_frame" th:src="@{/img/userFrameDefault.png}">
+											<img th:case="false" id="user_frame" th:src="@{/downloadImage/}+${session.memberBeans.useFrame}">
+										</th:block>
 										</div>
+										<th:block th:switch="${session.memberBeans.useAvatar == 1}">
+											<img th:case="true"  id="user_avatar" class="profile_avatar_img" th:src="@{/img/userAvatarDefault.gif}">
+											<img th:case="false" id="user_avatar" class="profile_avatar_img" th:src="@{/downloadImage/}+${session.memberBeans.useAvatar}">
+										</th:block>
 
-										<img id="user_avatar" class="profile_avatar_img"
-											th:src="@{/downloadImage/}+${session.memberBeans.useAvatar}">
+										
 									</div>
 								</div>
 							</div>
