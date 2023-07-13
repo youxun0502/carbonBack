@@ -37,6 +37,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.services.gmail.Gmail.Users.Drafts.Update;
+import com.li.service.BonusPointService;
 import com.liu.model.Member;
 import com.liu.model.MemberRepository;
 import com.liu.service.GmailService;
@@ -61,6 +62,8 @@ public class GameOrderService {
 	private CartService cService;
 	@Autowired 
 	private GmailService gmailService;
+	@Autowired
+	private BonusPointService bpService;
 
 	@Autowired
 	private ConvertToDTO cdDTO;
@@ -175,12 +178,16 @@ public class GameOrderService {
 	@Transactional
 	private void UpdategameOrderToSuccess(int orderId) {
 		GameOrder gameOrder = goRepos.findById(orderId).orElse(null);
+		Integer id = gameOrder.getMember().getId();
+		Integer orderPrice=0;
 		for (GameOrderLog orderLog : gameOrder.getGameOrderLog()) {
 			Game game = gRepos.findGameByGameName(orderLog.getGameName()).get(0);
+			orderPrice += game.getPrice();
 			Integer oldCount = game.getBuyerCount();
 			game.setBuyerCount(oldCount+1);
 			gRepos.save(game);
 		}
+//		bpService.newPointLog("buygame", id, orderPrice);
 		gameOrder.setStatus(1);
 		goRepos.save(gameOrder);
 	}
@@ -316,6 +323,7 @@ public class GameOrderService {
 			if ("已付款".equals(orderDTO.getStatus())) {
 				for (OrderLogDTO orderLogDTO : orderDTO.getLogs()) {
 					String gameName = orderLogDTO.getGameName();
+					System.out.println(orderLogDTO.getPhotoId());
 					if (!gameNames.contains(gameName)) {
 						gameNames.add(gameName);
 						successOrder.add(orderLogDTO);

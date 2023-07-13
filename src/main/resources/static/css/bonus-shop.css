@@ -381,7 +381,7 @@
 			transparent 500px),
 		radial-gradient(farthest-corner at bottom left, var(--gradient-left),
 			transparent 600px);
-	background-color: gray;
+
 	background-repeat: no-repeat;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -486,13 +486,12 @@
 }
 
 .avatarcollection_SingleRow .avatarcollection_AvatarRowSpace {
-	flex: 1;
-	width: 29px;
-	min-width: 8px;
+	flex: 0.25;
+
 }
 
 .avatarcollection_AvatarPreview {
-	width: 64px;
+
 	cursor: pointer;
 	-webkit-transition-property: -webkit-transform, filter;
 	-webkit-transition-duration: .2s;
@@ -500,12 +499,23 @@
 	transition-property: transform, filter;
 	transition-duration: .2s;
 	transition-timing-function: ease-in-out;
-	margin-right: 12px;
-	margin-bottom: 12px;
+	margin-right: 50px;
+	margin-bottom: 20px;
 }
+
 
 .avatarcollection_AvatarPreview .avatarcollection_Large {
 	width: 150px;
+}
+
+.select_avatar_frame {
+	padding: 0;
+}
+
+.active_select {
+
+	border: 8px solid #dd163b;
+	border-radius: 10px;
 }
 
 .backimg {}

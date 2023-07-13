@@ -68,7 +68,7 @@
 		</div>
 		<!-- END: Categories -->
 		<div class="nk-gap-2"></div>
-		
+
 		<!-- END: Categories -->
 		<div class="nk-gap-2"></div>
 		<!-- START: Latest News -->
@@ -82,7 +82,7 @@
 					<div class="nano-content">
 
 						<th:block th:each=" competition : ${competitionList} ">
-							<div class="nk-news-box-item nk-news-box-item-active">
+							<div class="nk-news-box-item nk-news-box-item-active" style="position: relative;">
 								<div class="nk-news-box-item-img">
 									<img th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}"
 										alt="找不到圖片">
@@ -98,9 +98,9 @@
 								<div class="nk-news-box-item-text">
 									<p th:text="${competition.description}"></p>
 								</div>
-								<a th:href="@{'/competitionPageDetail?competitionId='+${competition.competitionId}}">Read
-									More</a>
 								<div class="nk-news-box-item-date" th:text="'開始日期: '+${competition.startDate}"></div>
+								<a th:href="@{'/competitionPageDetail?competitionId='+${competition.competitionId}}"
+									style="position: absolute; right: 5px; bottom: 10px;">Read More</a>
 							</div>
 						</th:block>
 					</div>
@@ -112,7 +112,7 @@
 					<div class="nano-content">
 						<!-- There will be inserted info about selected news-->
 						<div class="nk-news-box-item-image">
-							<img src="assets/images/post-1.jpg" alt="">
+							<img src="assets/images/post-1.jpg" alt="" style="height: 310px;">
 						</div>
 						<h3 class="nk-news-box-item-title">Smell magic in the air. Or maybe barbecue</h3>
 						<div class="nk-news-box-item-text">
@@ -161,8 +161,9 @@
 
 			</div>
 		</div>
-		</div>
-		<!-- END: Latest News -->
+	</div>
+	<!-- END: Latest News -->
+
 		<!-- GoodGames -->
 		<script th:src="@{/assets/js/goodgames-init.js}"></script>
 		<!-- END: Scripts -->

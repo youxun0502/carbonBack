@@ -13,6 +13,7 @@ public class TypeDTO {
 	private String typeName;
 	@JsonIgnore
 	private Set<Game> games = new HashSet<>();
+	
 	private Integer totalSalesRev ;
 	private Integer gameNum;
 	private Integer typeBuyer;
