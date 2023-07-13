@@ -60,7 +60,7 @@ public class GmailConfig {
     
     //獲取token並建立授權物件
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-    	if(true)return null;
+   
         // Load client secrets.
         InputStream in = GmailConfig.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
