@@ -235,7 +235,7 @@ $('#buyOrder1').on('click', function () {
     var buyPrice;
     var buyQuantity;
     var maxPrice;
-    if(0 > $('.myWallet2').attr('data-balance')){
+    if(0 >= $('.myWallet2').attr('data-balance')){
 		document.getElementById('changeAddFund2').innerHTML=`
 			<a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white" href="/carbon/profile/wallet" id="addFunds">儲值</a>
 		`;
@@ -504,7 +504,7 @@ function saleList(){
 			params: {memberId: userId}
 		})
 		.then(response =>{
-			if(response.data != ''){
+			if(response.data.content != ''){
 				activeList(response.data, 'saleList');
 			} 
 		})
@@ -522,7 +522,7 @@ function buyOrder(){
 			params: {memberId: userId}
 		})
 		.then(response =>{
-			if(response.data != ''){
+			if(response.data.content != ''){
 				activeList(response.data, 'buyOrder');
 			} 
 		})
@@ -542,7 +542,7 @@ function history(){
 			params: {memberId: userId}
 		})
 		.then(response => {
-			if(response.data != ''){
+			if(response.data.content != ''){
 				orderHistory(response.data);
 			} else {
 				
