@@ -96,7 +96,7 @@
 								</li>
 								<li><a th:href="@{/wallet}">我的錢包</a></li>
 								<li><a href="#">虛寶倉庫</a></li>
-								<li><a href="#">其他</a></li>
+								<li><a th:href="@{'/registrationRecord?memberId='+${session.memberBeans.id}}">報名紀錄</a></li>
 								<li><a th:href="@{/coupon/couponPage}">抽取優惠</a></li>
 								<!-- 延遲跳轉 -->
 								<li><a href="#" class="logout_btn">登 出</a></li>

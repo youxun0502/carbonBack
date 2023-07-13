@@ -88,7 +88,7 @@ public class EventRegistrationService {
 	
 	//分類分頁
 	public Page<Event> findByPageOne(Integer pageNumber,Integer gameId){
-		Pageable pgb = PageRequest.of(pageNumber-1, 2, Sort.Direction.DESC, "startDate");
+		Pageable pgb = PageRequest.of(pageNumber-1, 6, Sort.Direction.DESC, "startDate");
 				
 		Page<Event> page = eRepo.findByGameId(gameId,pgb);
 		

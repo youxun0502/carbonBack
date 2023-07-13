@@ -166,9 +166,7 @@
                             </span>
                             <div class="nk-gap"></div>
                             <h2 class="nk-post-title h4"><a href="blog-article.html" th:text="${competition.name}" style="font-weight: 600;"></a></h2>
-                            <div class="nk-post-by">
-                                <img src="assets/images/avatar-1.jpg" alt="Hitman" class="rounded-circle" width="35"> by <a href="#">Hitman</a> in Sep 18, 2018
-                            </div>
+                            <div class="nk-post-by" th:text="'開始日期:'+${competition.startDate}"></div>
                             <div class="nk-gap"></div>
                             <div class="nk-post-text">
                                 <p th:text="${competition.description}" style="color: #7f8b92;"></p>
