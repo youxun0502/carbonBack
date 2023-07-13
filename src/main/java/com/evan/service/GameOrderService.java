@@ -316,6 +316,7 @@ public class GameOrderService {
 			if ("已付款".equals(orderDTO.getStatus())) {
 				for (OrderLogDTO orderLogDTO : orderDTO.getLogs()) {
 					String gameName = orderLogDTO.getGameName();
+					System.out.println(orderLogDTO.getPhotoId());
 					if (!gameNames.contains(gameName)) {
 						gameNames.add(gameName);
 						successOrder.add(orderLogDTO);
