@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.evan.dao.GameRepository;
 import com.evan.dao.GameTypeRepository;
 import com.evan.dto.CartDTO;
 import com.evan.dto.GameDTO;
@@ -15,6 +16,7 @@ import com.evan.dto.TypeDTO;
 import com.evan.model.Game;
 import com.evan.model.GameOrder;
 import com.evan.model.GameOrderLog;
+import com.evan.model.GamePhoto;
 import com.evan.model.GameType;
 import com.liu.model.Member;
 
@@ -23,6 +25,8 @@ public class ConvertToDTO {
 
 	@Autowired
 	private GameTypeRepository gtRepo;
+	@Autowired
+	private GameRepository gRepos;
 
 	public List<GameDTO> outputGameDTOList(List<Game> games) {
 
@@ -105,6 +109,8 @@ public class ConvertToDTO {
 				OrderLogDTO orderLogDTO = new OrderLogDTO();
 				orderLogDTO.setGameName(log.getGameName());
 				orderLogDTO.setPrice(log.getPriceLog());
+				GamePhoto gamePhoto = gRepos.findGameByGameName(log.getGameName()).get(0).getGamePhotoLists().get(0);
+				orderLogDTO.setPhotoId(gamePhoto.getPhotoId());
 				countPrice += log.getPriceLog();
 				orderLogDtos.add(orderLogDTO);
 			}
