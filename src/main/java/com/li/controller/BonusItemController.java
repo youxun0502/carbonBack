@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.li.dto.BonusShopDto;
 import com.li.model.BonusItem;
+import com.li.service.BonusLogService;
 import com.li.service.BonusService;
 
 @Controller
@@ -28,6 +30,9 @@ public class BonusItemController {
 
 	@Autowired
 	private BonusService bService;
+	
+	@Autowired
+	private BonusLogService blService;
 
 	@GetMapping("bonus/main")
 	public String goBackToBounusMain(Model model) {
@@ -35,7 +40,12 @@ public class BonusItemController {
 		model.addAttribute("bonusitemList", list);
 		return "redirect:/bonus/listAll";
 	}
-
+	@GetMapping("bonus/bonuslog")
+	public String gotoBonusLogPage(Model model) {
+		List<BonusShopDto> listDto=blService.findAlltoDto();
+		model.addAttribute("Dtos",listDto);
+		return "li/listBonusLog" ;
+	}
 	@GetMapping("bonus/insert")
 	public String gotoBonusInsert() {
 		return "li/Insert";

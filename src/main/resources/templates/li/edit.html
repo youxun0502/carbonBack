@@ -33,7 +33,7 @@ table td, table th {
 	max-width: calc(100% - 200px);
 }
 </style>
-<title>Bonus Shop</title>
+<title>獎勵商城</title>
 </head>
 
 <body>
@@ -45,24 +45,25 @@ table td, table th {
 				<nav class="navbar navColor">
 					<div class="container-fluid">
 						<a class="navbar-brand link-light" th:href="@{/bonus/main}"
-							style="font-size: 30px;">Bonus Shop</a>
+							style="font-size: 30px;">獎勵商城</a>
 						<form th:action="@{/bonus/search}" method="get" class="d-flex" role="search">
 							<input class="form-control me-2" type="search"
 								placeholder="商品名稱查詢" aria-label="Search" name="bonusitem_search"
 								id="bonusitem_search">
-							<button class="btn btn-outline-warning" type="submit"
-								id="name_search_btn">Search</button>
+							<button class="btn btn-outline-warning col-3" type="submit"
+								id="name_search_btn">查詢</button>
 						</form>
 					</div>
 				</nav>
 				<ul class="nav nav-tabs">
-					<li class="nav-item"><a class="nav-link active"
-						th:href="@{/bonus/listAll}">ALL</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/bonus/insert}">NEW ITEM</a></li>
+					<li class="nav-item"><a class="nav-link active" th:href="@{/bonus/listAll}">全部商品</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/insert}">新增商品</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/bonuslog}">購買紀錄</a></li>
 				</ul>
 			</div>
 			<div class="container-fluid">
+				<div class="d-flex justify-content-center">
+				<div class="area1 my-4 mx-5 w-75">
 				<div class="overflow-hidden">
 					<img width="400px"
 						th:src="@{'/downloadImage/' + ${bonusitem.bonusId}}">
@@ -89,7 +90,7 @@ table td, table th {
 					<button type="submit">送出</button>
 				</form>
 			</div>
-		</div>
+		</div></div></div>
 	</div>
 
 

@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import com.li.dto.BonusShopDto;
 import com.li.model.BonusLog;
 import com.li.model.BonusLogRepository;
-import com.ni.dto.ItemLogDTO;
-import com.ni.model.ItemLog;
 
 import jakarta.transaction.Transactional;
 
@@ -34,24 +32,6 @@ public class BonusLogService {
 		return blRepo.findByMemberId(id);
 	}
 	
-	public List<BonusShopDto> findByMemberIdtoDto(Integer id){
-		return converttoDtoList(findByMemberId(id));
-	}
-	
-	public List<BonusShopDto> converttoDtoList(List<BonusLog> bonusLogs){
-		List<BonusShopDto> LogDTOList = new ArrayList<>();
-		for(BonusLog bonusLog : bonusLogs) {
-			BonusShopDto itemLogDTO = new BonusShopDto();
-			if(bonusLog.getLogId() != null) itemLogDTO.setLogId(bonusLog.getLogId());
-			if(bonusLog.getMember() != null) itemLogDTO.setMember(bonusLog.getMember());
-			if(bonusLog.getMemberId() != null) itemLogDTO.setMemberId(bonusLog.getMemberId());
-			if(bonusLog.getBonusitem() != null) itemLogDTO.setBonusitem(bonusLog.getBonusitem());
-			if(bonusLog.getBuyDate() != null) itemLogDTO.setBuyDate(bonusLog.getBuyDate());
-			LogDTOList.add(itemLogDTO);
-		}
-		return LogDTOList;
-	}
-	
 	public void initAccountAvatar(Integer memberId) {
 		BonusLog bonusLog1 = new BonusLog();
 		BonusLog bonusLog2 = new BonusLog();
@@ -67,4 +47,26 @@ public class BonusLogService {
 		newBonusLog(bonusLog3);
 		
 	}
+	//----------------------------------------------Dto------------------------------------//
+	public List<BonusShopDto> findAlltoDto(){
+		return converttoDtoList(findAll());
+	}
+	public List<BonusShopDto> findByMemberIdtoDto(Integer id){
+		return converttoDtoList(findByMemberId(id));
+	}
+	public List<BonusShopDto> converttoDtoList(List<BonusLog> bonusLogs){
+		List<BonusShopDto> LogDTOList = new ArrayList<>();
+		for(BonusLog bonusLog : bonusLogs) {
+			BonusShopDto itemLogDTO = new BonusShopDto();
+			if(bonusLog.getLogId() != null) itemLogDTO.setLogId(bonusLog.getLogId());
+			if(bonusLog.getBonusId() != null) itemLogDTO.setBonusId(bonusLog.getBonusId());
+			if(bonusLog.getMember() != null) itemLogDTO.setMember(bonusLog.getMember());
+			if(bonusLog.getMemberId() != null) itemLogDTO.setMemberId(bonusLog.getMemberId());
+			if(bonusLog.getBonusitem() != null) itemLogDTO.setBonusitem(bonusLog.getBonusitem());
+			if(bonusLog.getBuyDate() != null) itemLogDTO.setBuyDate(bonusLog.getBuyDate());
+			LogDTOList.add(itemLogDTO);
+		}
+		return LogDTOList;
+	}
+	
 }
