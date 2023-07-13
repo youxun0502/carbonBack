@@ -146,6 +146,7 @@ public class MemberController {
 		formData.put("memberId",member.getId().toString());
 		List<OrderLogDTO> memberOwnGames = gameOrderService.getMemberOwnGames(formData);
 		List<BonusItem> list = bService.findAll();
+		session.setAttribute("memberBeans", mService.findById(member.getId()));
 		m.addAttribute("bonusitemList", list);
 		m.addAttribute("memberOwnGames", memberOwnGames);
 		return "/liu/memberInformationPage";

@@ -26,24 +26,26 @@
 					</svg></li>
 				<li><span>個人資料</span></li>
 
-			<div class="profile_header_bg">
+						<div class="profile_header_bg">
+			<img id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/downloadImage/}+${session.memberBeans.useBackground}">
 				<div class="profile_header_bg_text">
 					<div class="profile_header">
 						<div class="profile_header_layout">
 							<div class="profile_header_personalinfo">
-								<div class="personal_name">NAME</div>
+								<div class="personal_name">[[${session.memberBeans.userId}]]</div>
 							</div>
-							<a href="#" data-toggle="modal" data-target="#modalAvatar">
+							<div  data-toggle="modal" data-target="#modalAvatar">
 								<div class="personal_avatar">
 									<div class="personal_avatar_innersize">
 										<div class="profile_avatar_frame">
-											<img src="/carbon/img/userFrameDefault.png">
+											<img id="user_frame" th:src="@{/downloadImage/}+${session.memberBeans.useFrame}">
 										</div>
 
-										<img class="profile_avatar_img" src="/carbon/img/userAvatarDefault.gif">
+										<img id="user_avatar" class="profile_avatar_img"
+											th:src="@{/downloadImage/}+${session.memberBeans.useAvatar}">
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -82,65 +84,7 @@
 	<div th:replace="~{li/avatar-edit}"></div>
 	<div th:replace="~{layout/footer}"></div>
 	<script th:src="@{/js/profile-avataredit.js}"></script>
-	<script src="assets/vendor/object-fit-images/dist/ofi.min.js"></script>
-
-	<!-- GSAP -->
-	<script src="assets/vendor/gsap/src/minified/TweenMax.min.js"></script>
-	<script src="assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js"></script>
-
-	<!-- Popper -->
-	<script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
-
-	<!-- Bootstrap -->
-	<script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-
-	<!-- Sticky Kit -->
-	<script src="assets/vendor/sticky-kit/dist/sticky-kit.min.js"></script>
-
-	<!-- Jarallax -->
-	<script src="assets/vendor/jarallax/dist/jarallax.min.js"></script>
-	<script src="assets/vendor/jarallax/dist/jarallax-video.min.js"></script>
-
-	<!-- imagesLoaded -->
-	<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-
-	<!-- Flickity -->
-	<script src="assets/vendor/flickity/dist/flickity.pkgd.min.js"></script>
-
-	<!-- Photoswipe -->
-	<script src="assets/vendor/photoswipe/dist/photoswipe.min.js"></script>
-	<script src="assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js"></script>
-
-	<!-- Jquery Validation -->
-	<script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-
-	<!-- Jquery Countdown + Moment -->
-	<script src="assets/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
-	<script src="assets/vendor/moment/min/moment.min.js"></script>
-	<script src="assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
-
-	<!-- Hammer.js -->
-	<script src="assets/vendor/hammerjs/hammer.min.js"></script>
-
-	<!-- NanoSroller -->
-	<script src="assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
-
-	<!-- SoundManager2 -->
-	<script src="assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js"></script>
-
-	<!-- Seiyria Bootstrap Slider -->
-	<script src="assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
-
-	<!-- Summernote -->
-	<script src="assets/vendor/summernote/dist/summernote-bs4.min.js"></script>
-
-	<!-- nK Share -->
-	<script src="assets/plugins/nk-share/nk-share.js"></script>
-
-	<!-- GoodGames -->
-	<script src="assets/js/goodgames.min.js"></script>
-	<script src="assets/js/goodgames-init.js"></script>
-	<!-- END: Scripts -->
+	
 </body>
 
 </html>
