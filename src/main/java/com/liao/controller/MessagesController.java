@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.li.service.BonusPointService;
 import com.liao.model.Discussions;
 import com.liao.model.Messages;
 import com.liao.service.MessagesService;
@@ -39,6 +40,8 @@ public class MessagesController {
 
 	@Autowired
 	private MessagesService mService;
+	@Autowired
+	private BonusPointService bpService;
 	
 	private DiscussionsService dService;
 	
@@ -79,7 +82,7 @@ public class MessagesController {
 	public Map<String, Object> addMessages(
 //									@RequestParam("articleId") Integer articleId,
 //									@RequestParam("memberId") Integer memberId,
-									@RequestParam("userName") String userName,
+//									@RequestParam("userName") String userName,
 //									@RequestParam("gameId") Integer gameId,
 //									@RequestParam("gameName") String gameName,
 //									@RequestParam("mcreated_at") Date mcreated_at,
@@ -92,6 +95,7 @@ public class MessagesController {
 		Messages msg = new Messages();
 		Integer articleId = 111;
 		Integer memberId = 222;
+		String userName = "liao";
 		msg.setArticleId(articleId );
 		
 		msg.setMemberId(memberId);
@@ -104,6 +108,7 @@ public class MessagesController {
 //		msg.setMtitle(mtitle);
 //		msg.setMphotoFile(mphotoFile.getBytes());
 		
+//		bpService.newPointLog("sendmessage", memberId, 10);
 		Map<String, Object> retMap = new HashMap<>();
 		try {
 			mService.insert(msg);

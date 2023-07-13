@@ -53,13 +53,11 @@
 						<div class="btn-group btn-group-toggle" role="group" aria-label="Discussion and Messages">
 					
 					
-					<form th:action="@{/discussions}" method="GET">
+				<!--  	<form th:action="@{/discussions}" method="GET">
 						<input class="btn btn-primary" type="submit" value="DISCUSSIONS" style="font-size: 30px;" />
-					</form>
+					</form>  -->
 					
-					<form th:action="@{/messages}" method="GET">
-						<input class="btn btn-light" type="submit" value="MESSAGES" style="font-size: 30px;" />
-					</form>
+					<a class="navbar-brand link-light" th:href="@{/discussions}" style="font-size: 30px;">文章</a>
 					
 					
 							
