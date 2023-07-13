@@ -61,6 +61,9 @@ public class Discussions {
 	@Column(name = "dlikes")
 	private Integer dlikes;
 	
+	@Column(name= "photoId")
+	private Integer photoId;
+	
 //	@OneToMany(mappedBy = "discussion")
 //	private List<Messages> messages;
 	
