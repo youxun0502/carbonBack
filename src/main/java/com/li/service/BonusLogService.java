@@ -1,6 +1,7 @@
 package com.li.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,21 @@ public class BonusLogService {
 			LogDTOList.add(itemLogDTO);
 		}
 		return LogDTOList;
+	}
+	
+	public void initAccountAvatar(Integer memberId) {
+		BonusLog bonusLog1 = new BonusLog();
+		BonusLog bonusLog2 = new BonusLog();
+		BonusLog bonusLog3 = new BonusLog();
+		bonusLog1.setBonusId(1);
+		bonusLog1.setMemberId(memberId);
+		bonusLog2.setBonusId(2);
+		bonusLog2.setMemberId(memberId);
+		bonusLog3.setBonusId(3);
+		bonusLog3.setMemberId(memberId);
+		newBonusLog(bonusLog1);
+		newBonusLog(bonusLog2);
+		newBonusLog(bonusLog3);
+		
 	}
 }

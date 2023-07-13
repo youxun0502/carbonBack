@@ -30,8 +30,10 @@ public class BonusItemController {
 	private BonusService bService;
 
 	@GetMapping("bonus/main")
-	public String goBackToBounusMain() {
-		return "li/main";
+	public String goBackToBounusMain(Model model) {
+		List<BonusItem> list = bService.findAll();
+		model.addAttribute("bonusitemList", list);
+		return "redirect:/bonus/listAll";
 	}
 
 	@GetMapping("bonus/insert")

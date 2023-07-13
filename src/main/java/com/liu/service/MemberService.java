@@ -142,6 +142,10 @@ public class MemberService {
 		}
 		return false;
 	}
+	public Member findByEmail(String email) {
+		return mRepository.findMemberByEmail(email);
+		
+	}
 
 	// 註冊驗證phone
 	public boolean phoneAlreadyRegistered(String phone) {
