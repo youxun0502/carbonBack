@@ -102,7 +102,7 @@ public class MessagesService {
             Messages message = optionalMessage.get();
             
             // 更新按讚數量
-            int likeCount = Integer.parseInt(message.getMlikes());
+            int likeCount = Integer.parseInt(message.getMlikes()==null?"0":message.getMlikes());
             likeCount++;
             message.setMlikes(String.valueOf(likeCount));
             

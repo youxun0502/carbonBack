@@ -89,7 +89,7 @@ public class MessagesController {
 //									@RequestParam("mcreated") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated,
 //									@RequestParam("mlikes") String mlikes,
 									@RequestParam("mcontent") String mcontent,
-//									@RequestParam("mtitle") String mtitle,
+									@RequestParam("mtitle") String mtitle,
 //									@RequestParam("mphotoFile") MultipartFile mphotoFile,
 									Model model) throws IOException {
 		Messages msg = new Messages();
@@ -101,11 +101,11 @@ public class MessagesController {
 		msg.setMemberId(memberId);
 		msg.setUserName(userName);
 //		msg.setMcreated(mcreated);
-//		msg.setMlikes(mlikes);
+		msg.setMlikes("0");
 		msg.setMcontent(mcontent);
 //		msg.setGameId(gameId);
 //		msg.setGameName(gameName);
-//		msg.setMtitle(mtitle);
+		msg.setMtitle(mtitle);
 //		msg.setMphotoFile(mphotoFile.getBytes());
 		
 //		bpService.newPointLog("sendmessage", memberId, 10);
@@ -126,6 +126,14 @@ public class MessagesController {
 	@GetMapping("/messages/find")
 	  public List<Messages> getAllAjax(Model model) throws SQLException {
 	          List<Messages> msgs = mService.findAll();
+	          return msgs;
+	  }
+	
+	@ResponseBody
+	@GetMapping("/messages/findByMtitle")
+	  public List<Messages> getByMtitleAjax(Model modelm,@RequestParam String mtitle) throws SQLException {
+	          List<Messages> msgs = mService.findMessagesByTitle(mtitle);
+	          System.out.println("msgs"+msgs.size());
 	          return msgs;
 	  }
 	@PostMapping("/messages/insertmessage")
@@ -367,6 +375,18 @@ public class MessagesController {
 //	    // 返回按讚後的數量
 //	    return ResponseEntity.ok(likeCount);
 //	}
+//	
+	
+	@PostMapping("/messages/like")
+	public ResponseEntity<Integer> likeMessage2(@RequestParam("messageId") Integer messageId) {
+	    // 根據訊息 ID 執行按讚邏輯
+	    // 假設您的 MessagesService 類處理按讚邏輯
+	    int likeCount = mService.likeMessage(messageId);
+	    
+	    // 返回按讚後的數量
+	    return ResponseEntity.ok(likeCount);
+	}
+
 
 	   
 		@ResponseBody
