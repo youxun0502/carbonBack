@@ -26,8 +26,7 @@
 <!-- END: Breadcrumbs -->
 
 <div class="container">
-    
-    
+	<span class="d-none" id="myWallet1"></span>
 	<th:block th:switch="${session.memberBeans != null}">
 	    <div th:case="true" class="row vertical-gap">
 	    
@@ -46,11 +45,6 @@
 				            <a class="nav-link" href="#tabs-1-2" role="tab" data-toggle="tab" onclick=history()>交易歷史紀錄</a>
 				        </li>
 				    </ul>
-			        <div class="me-3">
-			        	<a href="#" class="btn btn-info sellPageBtn" data-toggle="modal" data-target="#modalInventory" id="sellPageBtn1">
-		                    販賣物品
-		                </a>
-			        </div>
 			    </div>
 			    <div class="tab-content">
 			        <div role="tabpanel" class="tab-pane fade show active" id="tabs-1-1">

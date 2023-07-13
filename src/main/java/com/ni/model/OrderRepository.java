@@ -14,7 +14,7 @@ public interface OrderRepository extends JpaRepository<ItemOrder, Integer> {
 	@Query("FROM ItemOrder o JOIN GameItem i ON o.itemId = i.itemId "
 			+ "JOIN Game g ON i.gameId = g.gameId WHERE i.gameId = :id AND itemName = :name "
 			+ "AND buyer IS NULL AND seller IS NOT NULL AND o.status = 1 ORDER BY o.price")
-	public List<ItemOrder> findSellItemList(@Param("id") Integer id, @Param("name") String name, Pageable page);
+	public List<ItemOrder> findSellItemList(@Param("id") Integer id, @Param("name") String name);
 	
 //	================ 查詢每個道具最低價的賣單 ================
 	@Query("SELECT o.itemId, i.itemName, i.itemImgName, g.gameId, MIN(o.price) price FROM ItemOrder o "

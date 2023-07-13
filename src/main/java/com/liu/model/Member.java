@@ -229,6 +229,10 @@ public class Member {
 		return wallets;
 	}
 
+	public void setWallets(List<Wallet> wallets) {
+		this.wallets = wallets;
+	}
+
 	
 
 

@@ -69,9 +69,8 @@ public class ItemOrderService {
 		return null;
 	}
 	
-	public List<ItemOrderDTO> findSellItemList(Integer gameId, String itemName, Integer pageNumber) {
-		Pageable pgb = PageRequest.of(pageNumber - 1, 3);
-		return convertToDTOList(orderRepo.findSellItemList(gameId, itemName, pgb));
+	public List<ItemOrderDTO> findSellItemList(Integer gameId, String itemName) {
+		return convertToDTOList(orderRepo.findSellItemList(gameId, itemName));
 	}
 	
 	public List<Map<String, Object>> findOrderList() {

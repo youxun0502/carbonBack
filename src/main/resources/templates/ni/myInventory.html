@@ -26,7 +26,9 @@
 
 <div class="container">
     
-    
+    <div class="d-none">
+	    <span>錢包餘額 : NT$ </span><span id="myWallet1" th:text="${session.memberBeans} ? ${session.memberBeans.wallets[session.memberBeans.wallets.size() - 1].balance} : ''"></span>
+    </div>
 	<th:block th:switch="${session.memberBeans != null}">
 	    <div th:case="true" class="row vertical-gap">
 	    	<div class="col-lg-12">

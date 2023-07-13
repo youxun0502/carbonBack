@@ -4,26 +4,36 @@ const salePage = document.getElementById('showSalePage1');
 const buyPageInfo = document.getElementById('buyPageInfo');
 const inventoryList = document.getElementById('inventoryList1');
 const userId = document.getElementById('user1').textContent;
-const myWallet = document.getElementById('myWallet1').textContent;
 console.log('userId: ' + userId);
-console.log('myWallet: ' + myWallet);
+let myWallet ;
+if(userId != ''){
+	myWallet = document.getElementById('myWallet1').textContent;
+	console.log('myWallet: ' + myWallet);
+}
 let removeHtml;
-
+let myBalance;
 
 // =========================== itemMarketPage ===========================  
 // --------------------------- wallet (沒用到)---------------------------
-function myWalletAjax(){
-	axios.get('/carbon/profile/myWallet', {
-		params: { memberId: userId}
-	})
-	.then(response => {
-		$('.myWallet1').html('<span>錢包餘額 : NT$ '+ response.data.balance +'</span>');
-	})
-	.catch(err => {
-		console.log('err: ' + err);
-	})
-}
-
+//if(userId != ''){
+//	myWalletAjax()
+//}
+//function myWalletAjax(){
+$(document).ready(function(){
+	if(userId != ''){
+		axios.get('/carbon/profile/myWallet', {
+			params: { memberId: userId}
+		})
+		.then(response => {
+			$('.myWallet2').html(`<span class="myWallet3" data-balance="${response.data.balance}">錢包餘額 : NT$ ${response.data.balance}</span>`);
+			$('.myWallet2').attr('data-balance', response.data.balance);
+		})
+		.catch(err => {
+			console.log('err: ' + err);
+		})
+	}
+	
+})
 
 // --------------------------- load medianPrice ---------------------------
 $(function(){
@@ -64,7 +74,9 @@ for (i = 0; i < buyBtn.length; i++) {
 // --------------------------- get order info ---------------------------        
 function buyAnItem(buyId) {
     axios.get('/carbon/market/buyAnItem',
-        { params: { ordId: buyId } }
+        { params: { ordId: buyId,
+        			id: userId			
+         } }
     )
         .then(response => {
             // console.log('response: ' + JSON.stringify(response.data));
@@ -95,7 +107,7 @@ function showBuyInfo(order) {
 
     buyPageInfo.innerHTML = infoHtmlString;
     
-    if(order.price > myWallet){
+    if(order.needFund != 1){
 		document.getElementById('changeAddFund1').innerHTML=`
 			<a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white float-right" href="/carbon/profile/wallet" id="addFunds">儲值</a>
 		`;
@@ -220,6 +232,12 @@ $('#buyOrder1').on('click', function () {
     var buyPrice;
     var buyQuantity;
     var maxPrice;
+    if(0 > $('.myWallet2').attr('data-balance')){
+		document.getElementById('changeAddFund2').innerHTML=`
+			<a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white" href="/carbon/profile/wallet" id="addFunds">儲值</a>
+		`;
+	}
+    
     $('#buyPrice1,#buyQuantity1').on('keyup', function () {
         buyPrice = Number($('#buyPrice1').val().replace('NT$', ''));
         buyQuantity = Number($('#buyQuantity1').val());
@@ -232,13 +250,14 @@ $('#buyOrder1').on('click', function () {
 		} else{
         	maxPrice.val('NT$ ' + buyPrice * buyQuantity);
 		}
+		
+	    if(maxPrice.val().replace('NT$', '') > $('.myWallet2').attr('data-balance')){
+			document.getElementById('changeAddFund2').innerHTML=`
+				<a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white" href="/carbon/profile/wallet" id="addFunds">儲值</a>
+			`;
+		}
     })
     
-    if(maxPrice > myWallet){
-		document.getElementById('changeAddFund2').innerHTML=`
-			<a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white" href="/carbon/profile/wallet" id="addFunds">儲值</a>
-		`;
-	}
 	
     console.log(buyId);
 
@@ -373,31 +392,47 @@ function listPage(data) {
 
 
 // =========================== itemMarketList ===========================
-// --------------------------- list page ajax (待完成)---------------------------
-function loadListPage (){
+// --------------------------- list page ajax ---------------------------
+function loadItemList(){
+	axios.get('/carbon/market/page')
+		.then(response => {
+	        loadListPage (response.data);
+	    })
+	    .catch(err => {
+			console.log('err: ' + err);
+		})
+}
+		
+function loadListPage (data){
 	let itemListHtml = ``;
-	`<th:block th:each="order: ${items}">
-	    <div class="col-md-4 col-6">
-	        <div class="nk-blog-post border border-secondary px-3 gameItem">
-	            <a th:href="@{'/market/'+ ${order.gameId} + '/' + ${order.itemId} + '/' + ${order.itemName}}" class="nk-post-img cb-a">
-	                <img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.itemImgName}">
-	                <h2 class="nk-post-title h5" style="height: 45px">
-	                	[[${order.itemName}]]
-	                </h2>
-	                <div class="text-main-1" style="height: 58px">起跳價格: 
-	                	<th:block th:each="ord: ${orders}">
-	                        <h3 th:if="${ord.itemId} == ${order.itemId}" class="nk-post-title h6 text-end">NT$ [[${ord.minPrice}]]</h3>
-	                   	</th:block>
-	               	</div>
-	            </a>
-	            <div class="nk-post-by">
-	                <img th:src="@{'/gameFront/getImg/' + ${order.game.gamePhotoLists[0].photoId}}" alt="" class="rounded-circle" width="35">
-	                <a th:href="@{'/gameFront/' + ${order.game.gameName}}">[[${order.game.gameName}]]</a>
-	            </div>
-	            <div class="nk-gap"></div>
-	        </div>
-	    </div>
-	</th:block>`;
+	data.content.forEach(order => {
+		itemListHtml += `
+		    <div class="col-md-4 col-6">
+		        <div class="nk-blog-post border border-secondary px-3 gameItem">
+		            <a href="/carbon/market/${order.gameItem.gameId}/${order.itemId}/${order.gameItem.itemName}" class="nk-post-img cb-a">
+		                <img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}">
+		                <h2 class="nk-post-title h5" style="height: 45px">
+		                	${order.gameItem.itemName}
+		                </h2>
+		                <div class="text-main-1" style="height: 58px">起跳價格: `;
+		if(order.minPrice != null){
+				itemListHtml += `
+		                    <h3 class="nk-post-title h5 text-end">NT$ ${order.minPrice}</h3>`;
+		} else {
+				itemListHtml += `
+		                    <h3 class="nk-post-title h5 text-end">NT$ --</h3>`;
+		}
+		itemListHtml += `
+		               	</div>
+		            </a>
+		            <div class="nk-post-by">
+		                <img src="/carbon/gameFront/getImg/${order.gameItem.game.gamePhotoLists[0].photoId}" alt="" class="rounded-circle" width="35">
+		                <a href="/carbon/gameFront/${order.gameItem.game.gameName}">${order.gameItem.game.gameName}</a>
+		            </div>
+		            <div class="nk-gap"></div>
+		        </div>
+		    </div>`;
+	})
 	
 	$('#listPage1').html(itemListHtml);
 	
@@ -438,7 +473,7 @@ function loadListPage (){
 		            if (pageId == 0 || pageId == totalPages + 1) {
 		                this.setAttribute('disabled', '');
 		            } else {
-		                loadThatPage(pageId);
+		                loadPage(pageId);
 		            }
 		        });
 		    }
@@ -446,16 +481,12 @@ function loadListPage (){
 }
 
 
-
-
-function loadThatPage(thatPage) {
-	axios.get('/market/page',{
-			params: {
-				p: thatPage
-			}
+function loadPage(thatPage) {
+	axios.get('/carbon/market/page',{
+			params: { p: thatPage }
 		})
 		.then(response => {
-            orderHistory(response.data);
+            loadListPage (response.data);
         })
         .catch(err => {
 			console.log('err: ' + err);
@@ -709,6 +740,10 @@ function orderHistory(data){
 	    </ul>
 		`;
 	})
+	
+	if(myWallet != ''){
+		orderHistory.innerHTML = historyListHtml;
+	} else {
 		historyListHtml +=`
 			<div class="nk-gap-2"></div>
 	        <div class="nk-pagination nk-pagination-center">
@@ -746,6 +781,8 @@ function orderHistory(data){
 	            }
 	        });
 	    }
+		
+	} 
 }
 function loadThatPage(thatPage) {
 	axios.get('/carbon/market/history',{
@@ -1224,9 +1261,6 @@ function loginPage() {
 }
 
 
-// =========================== 控制多個modal的scroll ===========================
-$('#modalSalesPage').on('hidden.bs.modal', function () {
-	$('body').addClass('modal-open');
-});
+
 
 

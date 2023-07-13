@@ -27,6 +27,8 @@ public class ItemOrderDTO {
 	private Float minPrice;
 	private Float total;
 	
+	private Integer needFund;
+	
 	private Float getTotal() {
 		total = (float) 0;
 		total += price * quantity;

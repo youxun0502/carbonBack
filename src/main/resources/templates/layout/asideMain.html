@@ -34,6 +34,9 @@
 	}
 	}
 
+	aside nav a {
+		padding: 18px 20px!important;
+	}
 </style>
 <title></title>
 </head>
@@ -47,12 +50,44 @@
 		</div>
         <a class="nav-link active link-light" aria-current="page"
             th:href="@{/member/allMember}">會員管理系統</a>
-        <a class="nav-link link-light" th:href="@{/game}">GAME</a>
-        <a class="nav-link link-light" th:href="@{/gameitem/allGameitem}">GAME ITEM</a>
+        <a class="nav-link link-light" th:href="@{/game}">遊戲管理系統</a>
+        <a class="nav-link link-light" th:href="@{/gameitem/allGameitem}">遊戲虛寶</a>
         <a class="nav-link link-light" th:href="@{/bonus/main}">SHOP</a>
         <a class="nav-link link-light" th:href="@{/competition/data}">EVENT</a>
         <a class="nav-link link-light" th:href="@{/discussions}">DISCUSSIONS</a>
-        <a class="nav-link link-light" th:href="@{/coupon/couponManagementPage}">優惠券管理系統</a>
+	    <div class="accordion" id="accordionExample">
+		  <div class="accordion-item bg-dark border-0">
+		    <h2 class="accordion-header">
+		      <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="font-size:20px">
+		        賽事活動
+		      </button>
+		    </h2>
+		    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+		      <div class="accordion-body">
+		      	<ul class="ps-0">
+	              <li><a class="nav-link" href="#">賽事</a></li>
+	              <li><a class="nav-link" href="#">活動</a></li>
+	            </ul>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="accordion-item bg-dark border-0">
+		    <h2 class="accordion-header">
+		      <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="font-size:20px">
+		        論壇
+		      </button>
+		    </h2>
+		    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+		      <div class="accordion-body">
+		      	<ul class="ps-0">
+	              <li><a class="nav-link" href="#">文章</a></li>
+	              <li><a class="nav-link" href="#">留言</a></li>
+	            </ul>
+		      </div>
+		    </div>
+		  </div>
+		 </div>
+		<a class="nav-link link-light" th:href="@{/coupon/couponManagementPage}">優惠券管理系統</a>
     </nav>
 </aside>
 <div>

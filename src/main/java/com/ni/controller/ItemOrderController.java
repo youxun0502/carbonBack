@@ -1,11 +1,15 @@
 package com.ni.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +24,12 @@ import com.liu.model.Member;
 import com.liu.service.GmailService;
 import com.liu.service.MemberService;
 import com.ni.dto.ItemOrderDTO;
+import com.ni.model.GameItem;
 import com.ni.model.ItemOrder;
+import com.ni.model.Wallet;
 import com.ni.service.GameItemService;
 import com.ni.service.ItemOrderService;
+import com.ni.service.WalletService;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.AddressException;
@@ -38,6 +45,8 @@ public class ItemOrderController {
 	private GmailService gService;
 	@Autowired
 	private MemberService mService;
+	@Autowired
+	private WalletService walletService;
 	
 	@GetMapping("/gameitem/allOrder")
 	public String getAllOrder(Model m) {
@@ -69,27 +78,45 @@ public class ItemOrderController {
 	
 	@ResponseBody
 	@GetMapping("/market/page")
-	public String marketListPage(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber, Model m) {
-		m.addAttribute("orders", orderService.findMinPrice());
-		m.addAttribute("items", itemService.findAllByPage(pageNumber));
-		return "ni/itemMarketList-gg";
+	public Page<ItemOrderDTO> marketListPage(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber) {
+		List<GameItem> gameItems = itemService.findAllByPage(pageNumber).getContent();
+		List<ItemOrderDTO> orderList = new ArrayList<>();
+		for (GameItem gameItem : gameItems) {
+			ItemOrderDTO orderDTO = new ItemOrderDTO();
+			orderDTO.setItemId(gameItem.getItemId());
+			orderDTO.setGameItem(gameItem);
+			orderList.add(orderDTO);
+		}
+		
+		List<Map<String, Object>> priceList = orderService.findMinPrice();
+		for(ItemOrderDTO order : orderList) {
+			for (Map<String, Object> price : priceList) {
+				if(Integer.parseInt(price.get("itemId").toString()) == order.getItemId()) {
+					order.setItemId(Integer.parseInt(price.get("itemId").toString()));
+					order.setMinPrice(Float.parseFloat(price.get("minPrice").toString()));
+				}
+			}
+		}
+		Pageable pgb = PageRequest.of(pageNumber - 1, 5);
+
+	    // 将orderList转换为Page对象
+	    Page<ItemOrderDTO> page = new PageImpl<>(orderList, pgb, orderList.size());
+		
+		return page;
 	}
 	
 	@GetMapping("/market/{gameId}/{itemId}/{itemName}")
-	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, @PathVariable Integer itemId, 
-							 @RequestParam(name = "p", defaultValue = "1") Integer pageNumber, Model m) {
-		List<ItemOrderDTO> result = orderService.findSellItemList(gameId, itemName, pageNumber);
+	public String marketItem(@PathVariable Integer gameId, @PathVariable String itemName, @PathVariable Integer itemId, Model m) {
+		List<ItemOrderDTO> result = orderService.findSellItemList(gameId, itemName);
 		m.addAttribute("item", itemService.findById(itemId));
 		m.addAttribute("orders", result);
-//		改成ResponseBody? 
 		return "ni/itemMarketPage-gg";
 	}
 	
 	@ResponseBody
 	@GetMapping("/market/orderLIst")
-	public List<ItemOrderDTO> orderList(@PathVariable Integer gameId, @PathVariable String itemName, 
-										@RequestParam(name = "p", defaultValue = "1") Integer pageNumber, Model m) {
-		return orderService.findSellItemList(gameId, itemName, pageNumber);
+	public List<ItemOrderDTO> orderList(@PathVariable Integer gameId, @PathVariable String itemName, Model m) {
+		return orderService.findSellItemList(gameId, itemName);
 	}
 	
 	@ResponseBody
@@ -107,8 +134,12 @@ public class ItemOrderController {
 	
 	@ResponseBody
 	@GetMapping("/market/buyAnItem")
-	public ItemOrderDTO buyPage(@RequestParam("ordId") Integer ordId ,Model m) {
-		return orderService.findById(ordId);
+	public ItemOrderDTO buyPage(@RequestParam("ordId") Integer ordId, @RequestParam("id") Integer memberId, Model m) {
+		ItemOrderDTO order = orderService.findById(ordId);
+		if(walletService.findBalance(memberId).getBalance() >= order.getPrice()) {
+			order.setNeedFund(1);
+		}
+		return order;
 	}
 	
 	@ResponseBody
