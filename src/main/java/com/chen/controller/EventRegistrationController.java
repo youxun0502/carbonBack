@@ -58,7 +58,7 @@ public class EventRegistrationController {
 	@GetMapping("/registrationRecord")
 	public String registrationRecordPage(@RequestParam(value = "memberId", required = false)Integer memberId, Model m) {
 		
-		List<EventRegistration> recordList = erRepo.findByMemberId(memberId);
+		List<EventRegistration> recordList = erRepo.findMemberRecord(memberId);
 		m.addAttribute("recordList", recordList);
 		
 		return "chen/registrationRecord";
@@ -154,6 +154,17 @@ public class EventRegistrationController {
 		Page<Event> page = erService.findByPageAll(pageNumber);
 		return page;
 	}
+	
+	// 刪除資料
+	@DeleteMapping("/registrationRecord/delete")
+	public String deleteRegistrationRecord(@RequestParam("signupId") Integer id,@RequestParam(value = "memberId", required = false)Integer memberId, Model m) {
+		erService.deleteById(id);
+		List<EventRegistration> recordList = erRepo.findMemberRecord(memberId);
+		m.addAttribute("recordList", recordList);
+		
+		return "chen/registrationRecord";
+	}
+	
 
 	
 	
