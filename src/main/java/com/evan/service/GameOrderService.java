@@ -37,6 +37,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.services.gmail.Gmail.Users.Drafts.Update;
+import com.li.service.BonusPointService;
 import com.liu.model.Member;
 import com.liu.model.MemberRepository;
 import com.liu.service.GmailService;
@@ -175,12 +176,17 @@ public class GameOrderService {
 	@Transactional
 	private void UpdategameOrderToSuccess(int orderId) {
 		GameOrder gameOrder = goRepos.findById(orderId).orElse(null);
+		Integer id = gameOrder.getMember().getId();
+		Integer orderPrice=0;
 		for (GameOrderLog orderLog : gameOrder.getGameOrderLog()) {
 			Game game = gRepos.findGameByGameName(orderLog.getGameName()).get(0);
+			orderPrice += game.getPrice();
 			Integer oldCount = game.getBuyerCount();
 			game.setBuyerCount(oldCount+1);
 			gRepos.save(game);
 		}
+		BonusPointService bonusPointService = new BonusPointService();
+		bonusPointService.newPointLog("buygame", id, orderPrice);
 		gameOrder.setStatus(1);
 		goRepos.save(gameOrder);
 	}

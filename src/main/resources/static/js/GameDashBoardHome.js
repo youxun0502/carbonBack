@@ -341,6 +341,12 @@ function RunForm() {
 
 }
 
+function oneClickEnter(){
+   document.getElementById("copyName").value = "排數字大賽";
+    document.getElementsByName("Price")[0].value = "500";
+    document.getElementsByName("GameIntroduce")[0].value = "一款好玩又可以考驗頭腦的遊戲，傳說製作者自己都還沒有破關過";
+    document.getElementsByName("GameTypes")[0].value = "趣味,動腦,數字,邏輯,好玩,java小遊戲";
+}
 //清除表單===================================================================
 function clearButton() {
 	console.log(1)
