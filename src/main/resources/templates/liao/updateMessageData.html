@@ -93,7 +93,7 @@
             <div class="content mt-3">
                 <nav class="navbar navColor">
                     <div class="container-fluid">
-                        <a class="navbar-brand link-light" style="font-size: 30px;">MESSAGE UPDATE</a>
+                        <a class="navbar-brand link-light" style="font-size: 30px;">修改文章資料</a>
                         <div class="d-flex" role="search">
                             <form th:action="@{/messages/findByUserName}" method="GET">
                                 <div class="row">
@@ -112,10 +112,10 @@
                 </nav>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/messages/getAllMessages}">ALL</a>
+                        <a class="nav-link active" th:href="@{/messages/getAllMessages}">全部留言</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/messages/insertpage}">CREATE</a>
+                        <a class="nav-link" th:href="@{/messages/insertpage}">新增留言</a>
                     </li>
 
                 </ul>
