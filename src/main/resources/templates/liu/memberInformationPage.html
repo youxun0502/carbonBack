@@ -57,50 +57,24 @@
 
 			<!-- 已購項目視圖 -->
 			<div class="row vertical-gap">
+			<th:block th:each="memberOwnGame: ${memberOwnGames}">
 				<div class="col-lg-4 col-md-6">
 					<div class="nk-gallery-item-box">
 						<div class="nk-gallery-item-overlay">
-							<div class="d-grid h-50 col-12">
-								<button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
-								<button class=" col-8 btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>
+							<div class=" h-50 col-12">
+								<!--  <button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
+								<button class=" col-8 nk-btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>-->
+								<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-main-4 nk-btn-hover-main-1 nk-btn-x3 d-block">下載</a>
+										<div class="nk-gap-2"></div>
+								<a th:href="@{'/gameFront/'+${memberOwnGame.gameName}}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-dark-2 nk-btn-x3 d-block">詳細資料</a>								
 							</div>
 						</div>
 						<img th:src="@{/assets/images/gallery-1-thumb.jpg}" alt="">
+						<h3 class="text-center mb-0">[[${memberOwnGame.gameName}]]</h3>
 					</div>
 				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="nk-gallery-item-box">
-						<div class="nk-gallery-item-overlay">
-							<div class="d-grid h-50 col-12">
-								<button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
-								<button class=" col-8 btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>
-							</div>
-						</div>
-						<img th:src="@{/assets/images/gallery-1-thumb.jpg}" alt="">
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="nk-gallery-item-box">
-						<div class="nk-gallery-item-overlay">
-							<div class="d-grid h-50 col-12">
-								<button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
-								<button class=" col-8 btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>
-							</div>
-						</div>
-						<img th:src="@{/assets/images/gallery-1-thumb.jpg}" alt="">
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="nk-gallery-item-box">
-						<div class="nk-gallery-item-overlay">
-							<div class="d-grid h-50 col-12">
-								<button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
-								<button class=" col-8 btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>
-							</div>
-						</div>
-						<img th:src="@{/assets/images/gallery-1-thumb.jpg}" alt="">
-					</div>
-				</div>
+			</th:block>
+			
 			</div>
 			<!-- 已購項目視圖 -->
 		</div>
