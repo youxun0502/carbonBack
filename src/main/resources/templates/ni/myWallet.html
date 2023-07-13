@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Carbon | 會員中心</title>
+</head>
+<body>
+<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome}"></div>
+
+<div class="nk-main">
+        
+            <!-- START: Breadcrumbs -->
+<div class="nk-gap-1"></div>
+<div class="container">
+    <ul class="nk-breadcrumbs">
+        
+        <li><a th:href="@{/main/goBackToHome}">首頁</a></li>
+        <li><span class="fa fa-angle-right"></span></li>
+        
+        <li><span>我的錢包</span></li>
+        
+    </ul>
+</div>
+<div class="nk-gap-1"></div>
+<!-- END: Breadcrumbs -->
+
+    <div class="container">
+	    <th:block th:switch="${session.memberBeans != null}">
+	    	<div th:case="true" class="row vertical-gap">
+		    	<div class="col-lg-12"> 
+		    		<div class="nk-gap-2"></div>
+			        <h3 class="mb-0"><span class="text-main-1">儲值</span>錢包</h3>
+			     </div>
+		    	<div class="col-lg-8"> 
+			        <div class="row vertical-gap text-white">
+			            <div class="col-lg-12">
+			                <div class="nk-box-2 bg-dark-2 d-flex justify-content-between">
+			                    <h4 class="mb-0">儲值 150 元</h4>
+								<form th:action="@{/profile/wallet/addFunds}" method="post" th:if="${session.memberBeans}">
+					        		<input type="hidden" name="memberId" th:value="${session.memberBeans.id}">
+					        		<input type="hidden" name="change" value="150">
+					        		<input type="hidden" name="desc" value="儲值 150 元">
+					        		<button type="submit" class="btn btn-danger">儲值</button>
+					        	</form>
+			                </div>
+			            </div>
+			            <div class="col-lg-12">
+			                <div class="nk-box-2 bg-dark-2 d-flex justify-content-between">
+			                    <h4 class="mb-0">儲值 300 元</h4>
+			                    <form th:action="@{/profile/wallet/addFunds}" method="post" th:if="${session.memberBeans}">
+					        		<input type="hidden" name="memberId" th:value="${session.memberBeans.id}">
+					        		<input type="hidden" name="change" value="300">
+					        		<input type="hidden" name="desc" value="儲值 300 元">
+					        		<button type="submit" class="btn btn-danger">儲值</button>
+					        	</form>
+			                </div>
+			            </div>
+			            <div class="col-lg-12">
+			                <div class="nk-box-2 bg-dark-2 d-flex justify-content-between">
+			                    <h4 class="mb-0">儲值 750 元</h4>
+			                    <form th:action="@{/profile/wallet/addFunds}" method="post" th:if="${session.memberBeans}">
+					        		<input type="hidden" name="memberId" th:value="${session.memberBeans.id}">
+					        		<input type="hidden" name="change" value="750">
+					        		<input type="hidden" name="desc" value="儲值 750 元">
+					        		<button type="submit" class="btn btn-danger">儲值</button>
+					        	</form>
+			                </div>
+			            </div>
+			            <div class="col-lg-12">
+			                <div class="nk-box-2 bg-dark-2 d-flex justify-content-between">
+			                    <h4 class="mb-0">儲值 1500 元</h4>
+			                    <form th:action="@{/profile/wallet/addFunds}" method="post" th:if="${session.memberBeans}">
+					        		<input type="hidden" name="memberId" th:value="${session.memberBeans.id}">
+					        		<input type="hidden" name="change" value="1500">
+					        		<input type="hidden" name="desc" value="儲值 1500 元">
+					        		<button type="submit" class="btn btn-danger">儲值</button>
+					        	</form>
+			                </div>
+			            </div>
+			            <div class="col-lg-12">
+			                <div class="nk-box-2 bg-dark-2 d-flex justify-content-between">
+			                    <h4 class="mb-0">儲值 3000 元</h4>
+			                    <form th:action="@{/profile/wallet/addFunds}" method="post" th:if="${session.memberBeans}">
+					        		<input type="hidden" name="memberId" th:value="${session.memberBeans.id}">
+					        		<input type="hidden" name="change" value="3000">
+					        		<input type="hidden" name="desc" value="儲值 3000 元">
+					        		<button type="submit" class="btn btn-danger">儲值</button>
+					        	</form>
+			                </div>
+			            </div>
+			        </div>
+		    	</div>
+		    	<div class="col-lg-4"> 
+			        <!-- START: Sidebar -->
+				    <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
+				        <div th:if="${session.memberBeans} != null" class="nk-widget nk-widget-highlighted">
+						    <h4 class="nk-widget-title"><span><span class="text-main-1">我的</span> 錢包</span></h4>
+						    <div class="nk-widget-content">
+						        <div class="nk-input-slider text-white">
+						        	<span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class="d-none"></span>
+						        	<div class="myWallet2"></div>
+						            <div class="nk-gap"></div>
+						            <div class="clearfix"></div>
+						        </div>
+						    </div>
+						</div>
+					</aside>
+				</div>
+			</div>
+			<div th:case="false" class="row vertical-gap">
+		    	<div class="col-lg-12"> 
+		    		<div class="nk-gap-2"></div>
+			        <h3 class="text-center">請先登入進行操作</h3>
+			     </div>
+		     </div>
+		</th:block>
+    </div>
+</div>
+<div class="nk-gap-3"></div>
+<div th:replace="~{layout/footer}"></div>
+<script>
+$(document).ready(function(){
+const userId = document.getElementById('user1').textContent;
+	if(userId != ''){
+		axios.get('/carbon/profile/myWallet', {
+			params: { memberId: userId}
+		})
+		.then(response => {
+			if(response.data != ''){
+				$('.myWallet2').html(`<span class="myWallet3" data-balance="${response.data.balance}">錢包餘額 : NT$ ${response.data.balance}</span>`);
+				$('.myWallet2').attr('data-balance', response.data.balance);
+			} else {
+				$('.myWallet2').html(`<span class="myWallet3" data-balance="${response.data.balance}">錢包餘額 : NT$ 0</span>`);
+				$('.myWallet2').attr('data-balance', 0);
+			}
+		})
+		.catch(err => {
+			console.log('err: ' + err);
+		})
+	}
+	
+})
+</script>
+</body>
+</html>

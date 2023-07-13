@@ -2,6 +2,7 @@ package com.ni.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liu.model.Member;
 
 import jakarta.persistence.Entity;
@@ -27,6 +28,7 @@ public class Wallet {
 	private String changeDesc;
 	private Date createTime;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "MEMBERID", insertable = false, updatable = false)
 	private Member member;

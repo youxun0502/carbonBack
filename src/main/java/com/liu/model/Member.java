@@ -13,6 +13,7 @@ import com.evan.model.GameOrder;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ni.model.GameItem;
+import com.ni.model.Wallet;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -109,6 +110,8 @@ public class Member {
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private List<GameOrder> gameOrder = new ArrayList<>();
 	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "member", cascade = CascadeType.ALL)
+	private List<Wallet> wallets = new ArrayList<>();
 	
 	public Integer getStatus() {
 		return status;
@@ -253,7 +256,15 @@ public class Member {
 		this.gameOrder = gameOrder;
 	}
 
+	public List<Wallet> getWallets() {
+		return wallets;
+	}
 
+	public void setWallets(List<Wallet> wallets) {
+		this.wallets = wallets;
+	}
+
+	
 
 
 }

@@ -40,7 +40,6 @@ public class GameOrder {
 	@JoinColumn(name = "Id")
 	private Member member;
 	
-	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gameOrder", cascade = CascadeType.ALL)
 	private List<GameOrderLog> gameOrderLog;
 	

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.liu.model.Member;
 import com.liu.service.GmailService;
 import com.liu.service.MemberService;
+import com.ni.dto.WalletDTO;
+import com.ni.model.Wallet;
 import com.ni.service.WalletService;
 
 import jakarta.mail.MessagingException;
@@ -31,12 +33,19 @@ public class WalletController {
 	@Autowired
 	private MemberService mService;
 	
-	@GetMapping("/profiles/{id}/wallet")
-	public void findByMemberId() {
+	@GetMapping("/profile/wallet")
+	public String findByMemberId() {
+		return "ni/myWallet";
 	}
 	
 	@ResponseBody
-	@PostMapping("/profiles/wallet/addFunds")
+	@GetMapping("/profile/myWallet")
+	public WalletDTO findBalance(@RequestParam("memberId") Integer memberId) {
+		return walletService.findBalance(memberId);
+	}
+	
+	@ResponseBody
+	@PostMapping("/profile/wallet/addFunds")
 	public String addFund(@RequestParam Map<String, Object> wallet) 
 			throws AddressException, MessagingException, IOException {
 		String aioCheckOutALLForm = walletService.ecpayCheckout(wallet);
@@ -51,13 +60,13 @@ public class WalletController {
 		return aioCheckOutALLForm;
 	}
 	
-	@GetMapping("/profiles/wallet/status")
+	@GetMapping("/profile/wallet/status")
 	public String checkStatus(@RequestParam Map<String, Object> walletForm, Model m) 
 			throws AddressException, MessagingException, IOException {
 		walletService.postQueryTradeInfo(walletForm);
 		Member member = mService.findById(Integer.parseInt((String)walletForm.get("memberId")));
 		
-		String url = "http://localhost:8080/carbon/profiles/"+ member.getId() +"/wallet";
+		String url = "http://localhost:8080/carbon/profile/"+ member.getId() +"/wallet";
 		
 		gService.sendMessage(member.getEmail(), gService.getMyEmail(), "Carbon錢包儲值成功",
 				"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + member.getUserId() + "您好:\n" + "\n" + 

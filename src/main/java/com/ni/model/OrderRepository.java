@@ -2,6 +2,7 @@ package com.ni.model;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +14,7 @@ public interface OrderRepository extends JpaRepository<ItemOrder, Integer> {
 	@Query("FROM ItemOrder o JOIN GameItem i ON o.itemId = i.itemId "
 			+ "JOIN Game g ON i.gameId = g.gameId WHERE i.gameId = :id AND itemName = :name "
 			+ "AND buyer IS NULL AND seller IS NOT NULL AND o.status = 1 ORDER BY o.price")
-	public List<ItemOrder> findSellItemList(@Param("id") Integer id, @Param("name") String name, Pageable page);
+	public List<ItemOrder> findSellItemList(@Param("id") Integer id, @Param("name") String name);
 	
 //	================ 查詢每個道具最低價的賣單 ================
 	@Query("SELECT o.itemId, i.itemName, i.itemImgName, g.gameId, MIN(o.price) price FROM ItemOrder o "
@@ -55,7 +56,11 @@ public interface OrderRepository extends JpaRepository<ItemOrder, Integer> {
 	@Query("FROM ItemOrder WHERE itemId = :id AND buyer IS NULL AND seller IS NOT NULL AND status = 1 ORDER BY price, ordId")
 	public List<ItemOrder> findSalesByIdAndStatus(@Param("id") Integer id);
 	
-//	================ 查詢會員所有掛單中的訂單 ================
-	@Query(value = "SELECT * FROM itemOrder WHERE [status] = 1 AND (seller = :id OR buyer = :id) ORDER BY ordId DESC", nativeQuery = true)
-	public List<ItemOrder> findActiveList(@Param("id") Integer id);
+//	================ 查詢會員掛單中的買單 ================
+	@Query("FROM ItemOrder WHERE buyer = :id AND status = 1 ORDER BY ordId DESC")
+	public Page<ItemOrder> findBuyOrder(@Param("id") Integer id, Pageable page);
+	
+//	================ 查詢會員掛單中的賣單 ================
+	@Query("FROM ItemOrder WHERE seller = :id AND status = 1 ORDER BY ordId DESC")
+	public Page<ItemOrder> findSaleList(@Param("id") Integer id, Pageable page);
 }

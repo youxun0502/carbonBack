@@ -28,8 +28,8 @@ public class WalletService {
 		return walletRepo.findAll();
 	}
 	
-	public Wallet findBalance(Integer memberId) {
-		return walletRepo.findBalance(memberId);
+	public WalletDTO findBalance(Integer memberId) {
+		return convertToDTO(walletRepo.findBalance(memberId));
 	}
 	
 	public WalletDTO insert(Wallet wallet) {
@@ -63,7 +63,7 @@ public class WalletService {
         obj.setReturnURL("http://127.0.0.1:4040");
 		obj.setNeedExtraPaidInfo("N");
         // 商店轉跳網址 (Optional)
-        obj.setClientBackURL("http://localhost:8080/carbon/profiles/wallet/status?id="+ uuId +"&memberId="+ wallet.get("memberId") +"&desc="+ wallet.get("desc"));
+        obj.setClientBackURL("http://localhost:8080/carbon/profile/wallet/status?id="+ uuId +"&memberId="+ wallet.get("memberId") +"&desc="+ wallet.get("desc"));
 		String form = all.aioCheckOut(obj, null);
 		
 		return form;
@@ -115,8 +115,27 @@ public class WalletService {
 //	======================= 轉換 DTO 和 Entity =======================
 	public List<WalletDTO> convertToDTOList(List<Wallet> wallets) {
 		List<WalletDTO> walletDTOs = new ArrayList<>();
-		for(Wallet wallet : wallets) {
-			WalletDTO walletDTO = new WalletDTO();
+		if(wallets != null) {
+			for(Wallet wallet : wallets) {
+				WalletDTO walletDTO = new WalletDTO();
+				if(wallet.getId() != null) walletDTO.setId(wallet.getId());
+				if(wallet.getTradeNo() != null) walletDTO.setTradeNo(wallet.getTradeNo());
+				if(wallet.getMemberId() != null) walletDTO.setMemberId(wallet.getMemberId());
+				if(wallet.getChange() != null) walletDTO.setChange(wallet.getChange());
+				if(wallet.getBalance() != null) walletDTO.setBalance(wallet.getBalance());
+				if(wallet.getChangeDesc() != null) walletDTO.setChangeDesc(wallet.getChangeDesc());
+				if(wallet.getCreateTime() != null) walletDTO.setCreateTime(wallet.getCreateTime());
+				if(wallet.getMember() != null) walletDTO.setMember(wallet.getMember());
+				walletDTOs.add(walletDTO);
+			}
+			return walletDTOs;
+		}
+		return null;
+	}
+	
+	public WalletDTO convertToDTO(Wallet wallet) {
+		WalletDTO walletDTO = new WalletDTO();
+		if(wallet != null) {
 			if(wallet.getId() != null) walletDTO.setId(wallet.getId());
 			if(wallet.getTradeNo() != null) walletDTO.setTradeNo(wallet.getTradeNo());
 			if(wallet.getMemberId() != null) walletDTO.setMemberId(wallet.getMemberId());
@@ -125,21 +144,8 @@ public class WalletService {
 			if(wallet.getChangeDesc() != null) walletDTO.setChangeDesc(wallet.getChangeDesc());
 			if(wallet.getCreateTime() != null) walletDTO.setCreateTime(wallet.getCreateTime());
 			if(wallet.getMember() != null) walletDTO.setMember(wallet.getMember());
-			walletDTOs.add(walletDTO);
- 		}
-		return walletDTOs;
-	}
-	
-	public WalletDTO convertToDTO(Wallet wallet) {
-		WalletDTO walletDTO = new WalletDTO();
-		if(wallet.getId() != null) walletDTO.setId(wallet.getId());
-		if(wallet.getTradeNo() != null) walletDTO.setTradeNo(wallet.getTradeNo());
-		if(wallet.getMemberId() != null) walletDTO.setMemberId(wallet.getMemberId());
-		if(wallet.getChange() != null) walletDTO.setChange(wallet.getChange());
-		if(wallet.getBalance() != null) walletDTO.setBalance(wallet.getBalance());
-		if(wallet.getChangeDesc() != null) walletDTO.setChangeDesc(wallet.getChangeDesc());
-		if(wallet.getCreateTime() != null) walletDTO.setCreateTime(wallet.getCreateTime());
-		if(wallet.getMember() != null) walletDTO.setMember(wallet.getMember());
-		return walletDTO;
+			return walletDTO;
+		}
+		return null;
 	}
 }

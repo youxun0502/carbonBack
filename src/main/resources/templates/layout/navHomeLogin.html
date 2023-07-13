@@ -91,12 +91,13 @@
 										<li><a
 												th:href="@{'/gameFront/orderList?memberId='+${session.memberBeans.id}}">遊戲訂單</a>
 										</li>
-										<li><a href="#">虛寶交易訂單</a></li>
+										<li><a th:href="@{/profile/orderHistory}">虛寶交易訂單</a></li>
 									</ul>
 								</li>
-								<li><a th:href="@{/wallet}">我的錢包</a></li>
-								<li><a href="#">虛寶倉庫</a></li>
-								<li><a th:href="@{'/registrationRecord?memberId='+${session.memberBeans.id}}">報名紀錄</a></li>
+								<li><a th:href="@{/profile/wallet}">我的錢包</a></li>
+								<li><a th:href="@{'/profile/'+ ${session.memberBeans.id} +'/inventory'}">虛寶倉庫</a></li>
+								<li><a th:href="@{'/registrationRecord?memberId='+${session.memberBeans.id}}">報名紀錄</a>
+								</li>
 								<li><a th:href="@{/coupon/couponPage}">抽取優惠</a></li>
 								<!-- 延遲跳轉 -->
 								<li><a href="#" class="logout_btn">登 出</a></li>
