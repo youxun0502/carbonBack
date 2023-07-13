@@ -3,7 +3,9 @@ package com.liao.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -72,6 +74,55 @@ public class MessagesController {
 		return "liao/MessageInsert";
 	}
 	
+	@ResponseBody
+	@PostMapping("/messages/add")
+	public Map<String, Object> addMessages(
+//									@RequestParam("articleId") Integer articleId,
+//									@RequestParam("memberId") Integer memberId,
+									@RequestParam("userName") String userName,
+//									@RequestParam("gameId") Integer gameId,
+//									@RequestParam("gameName") String gameName,
+//									@RequestParam("mcreated_at") Date mcreated_at,
+//									@RequestParam("mcreated") @DateTimeFormat(pattern = "yyyy-MM-dd") Date mcreated,
+//									@RequestParam("mlikes") String mlikes,
+									@RequestParam("mcontent") String mcontent,
+//									@RequestParam("mtitle") String mtitle,
+//									@RequestParam("mphotoFile") MultipartFile mphotoFile,
+									Model model) throws IOException {
+		Messages msg = new Messages();
+		Integer articleId = 111;
+		Integer memberId = 222;
+		msg.setArticleId(articleId );
+		
+		msg.setMemberId(memberId);
+		msg.setUserName(userName);
+//		msg.setMcreated(mcreated);
+//		msg.setMlikes(mlikes);
+		msg.setMcontent(mcontent);
+//		msg.setGameId(gameId);
+//		msg.setGameName(gameName);
+//		msg.setMtitle(mtitle);
+//		msg.setMphotoFile(mphotoFile.getBytes());
+		
+		Map<String, Object> retMap = new HashMap<>();
+		try {
+			mService.insert(msg);
+			retMap.put("code", 200);
+			retMap.put("message", "成功");
+			
+		} catch (Exception e) {
+			retMap.put("code", 400);
+			retMap.put("message", e.getMessage());
+		}
+		
+		return retMap;
+	}
+	@ResponseBody
+	@GetMapping("/messages/find")
+	  public List<Messages> getAllAjax(Model model) throws SQLException {
+	          List<Messages> msgs = mService.findAll();
+	          return msgs;
+	  }
 	@PostMapping("/messages/insertmessage")
 	public String insertMessages(@RequestParam("articleId") Integer articleId,
 									@RequestParam("memberId") Integer memberId,
@@ -170,7 +221,7 @@ public class MessagesController {
 //		
 ////		byte[] photoFileBytes = null;
 ////	    if (!photoFile.isEmpty()) {
-////	        photoFileBytes = photoFile.getBytes();
+////	   )     photoFileBytes = photoFile.getBytes();
 ////	    }
 //		 MultipartFile photoFile = discussions.getPhotoFile();
 //		    byte[] photoFileBytes = null;
