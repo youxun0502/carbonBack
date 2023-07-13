@@ -69,7 +69,7 @@
 								<a th:href="@{'/gameFront/'+${memberOwnGame.gameName}}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-dark-2 nk-btn-x3 d-block">詳細資料</a>								
 							</div>
 						</div>
-						<img th:src="@{/assets/images/gallery-1-thumb.jpg}" alt="">
+						<img th:src="@{'/gameFront/getImg/'+${memberOwnGame.photoId}}" alt="">
 						<h3 class="text-center mb-0">[[${memberOwnGame.gameName}]]</h3>
 					</div>
 				</div>
