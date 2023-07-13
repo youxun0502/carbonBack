@@ -316,7 +316,7 @@ function uploadGame(button) {
 			processData: false,
 			contentType: false,
 			success: function(response) {
-				Swal.fire('上傳成功', '', 'success').then(function() {
+				Swal.fire('上傳成功目前成功上傳遊戲有：'+response, '', 'success').then(function() {
 
 				});
 			},

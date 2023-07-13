@@ -1,6 +1,7 @@
 package com.evan.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,10 @@ public class BlobController {
 	    
 		//azure 上傳檔案
 		@PostMapping("/game/uploadGame")
-		public String uplaodFileFromAzure(@RequestParam Map<String, Object> formData,@RequestParam("gameFile")MultipartFile file) throws IOException {
+		public List<String> uplaodFileFromAzure(@RequestParam Map<String, Object> formData,@RequestParam("gameFile")MultipartFile file) throws IOException {
 			aService.uploadFile((String)formData.get("gameName"),file.getInputStream(),file.getSize());
-			return "done";
+			aService.getAzureList();
+			return aService.getAzureList();
 		}
 		//azure 下載檔案
 		@GetMapping("/gameFront/downloadGame")
@@ -39,5 +41,6 @@ public class BlobController {
 			return new ResponseEntity<byte[]>(downLoad, headers, HttpStatus.OK);
 		}
 		
+
 		
 }
