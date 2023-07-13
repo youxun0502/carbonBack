@@ -25,7 +25,7 @@ public class GameItemService {
 	}
 	
 	public Page<GameItem> findAllByPage(Integer pageNumber) {
-		Pageable pgb = PageRequest.of(pageNumber - 1, 6);
+		Pageable pgb = PageRequest.of(pageNumber - 1, 9);
 		return itemRepo.findAll(pgb);
 	}
 	

@@ -17,6 +17,9 @@ public interface DiscussionsReposity extends JpaRepository<Discussions, Integer>
 	
 	@Query("FROM Discussions d WHERE d.title LIKE %:title%")
 	public List<Discussions> findDiscussionsByTitle(@PathVariable("title") String title);
+
+	
+
 }
 
 

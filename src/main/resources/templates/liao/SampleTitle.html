@@ -488,10 +488,10 @@
 
 
                 <li><span class="fa fa-angle-right"></span></li> -->
-                <!--/* <li><span>[[${msg[0].mtitle}]]</span></li> */-->
+        <!--/* <li><span>[[${msg[0].mtitle}]]</span></li> */-->
 
         <!-- <li><span>Suggestions</span></li> -->
-     
+
         <!-- <li><span>"@{${mtitle}}"</span></li> -->
         <!-- </ul>
         </div>
@@ -518,7 +518,67 @@
 
             <div class="nk-gap-2"></div>
 
-           
+
+            <ul class="nk-forum nk-forum-topic">
+
+                <!-- <th:block th:if="${message.gameName == 'apex'}"> -->
+                <li>
+                    <div class="nk-forum-topic-author">
+                        <a href="#">
+                            <img th:src="@{/assets/images/avatar-1.jpg}" alt="Hitman">
+                        </a>
+                        <!-- <div class="nk-forum-topic-author-name" title="Hitman"> -->
+                        <div class="nk-forum-topic-author-name" th:text="${discussions[0].userName}" title="Hitman">
+                            <a href="#">Hitman</a>
+                        </div>
+                        <!-- <div class="nk-forum-topic-author-role">Keymaster</div>
+                            <div class="nk-forum-topic-author-since">
+                                Member since January 13, 2018
+                            </div> -->
+                    </div>
+                    <div class="nk-forum-topic-content">
+                        <p th:text="${discussions[0].dcontent}">Void whose god was over image signs creature sea
+                            air
+                            moved winged whose image creepeth
+                            two
+                            yielding. Moving made night firmament hath god sea waters were. It she'd
+                            dominion
+                            the of
+                            upon, night evening us yielding made form land darkness third. Lights lesser was
+                            darkness
+                            dominion two. Greater i every subdue shall form, had under i sixth fowl moving.
+                            Gathering
+                            moveth under given his very created. Beast.</p>
+                        <!-- <p>His, divided grass female first void firmament tree years gathering whose saw moving air
+                                upon
+                                first lights. Fill female give Divided signs above. Green sixth fruitful you seasons.
+                                Fly
+                                saying. Place appear After.</p> -->
+
+                        <!-- <div class="nk-forum-topic-attachments">
+                                <h4 class="h5">Attachments</h4>
+                                <a href="#">goodgames-free.zip</a>
+                                <br>
+                                (14.86 MiB) Downloaded 185 times
+                            </div> -->
+                    </div>
+                    <div class="nk-forum-topic-footer">
+                        <span class="nk-forum-topic-date">June 18, 2018</span>
+
+                        <span class="nk-forum-action-btn">
+                            <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span>
+                                Reply</a>
+                        </span>
+                        <!-- <button th:id="'likeButton-' + ${message.messageId}" class="likeButton">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <span th:id="'likesCount-' + ${message.messageId}" class="likesCount">0</span> 個讚 -->
+                    </div>
+
+                    </th:block>
+                </li>
+
+            </ul>
 
 
             <!-- START: Forums List -->
@@ -580,106 +640,14 @@
 
                 </th:block>
                 </li>
-                <!-- <li>
-                    <div class="nk-forum-topic-author">
-                        <a href="#">
-                            <img th:src="@{/assets/images/avatar-2.jpg}" alt="Witch Murder">
-                        </a>
-                        <div class="nk-forum-topic-author-name" title="Witch Murder">
-                            <a href="#">Witch Murder</a>
-                        </div>
-                        <div class="nk-forum-topic-author-role">Participant</div>
-                        <div class="nk-forum-topic-author-since">
-                            Member since March 27, 2018
-                        </div>
-                    </div>
-                    <div class="nk-forum-topic-content">
-                        <p>Whose so, make moving beginning fowl place make form years lights wherein don't seas grass.
-                            Fruitful likeness appear bearing evening be. Earth form day form gathered whose place
-                            bearing creeping meat open had meat they're likeness shall waters won't can't one multiply
-                            sea seed green don't their beginning can't one fruit seasons the.</p>
-                        <p>Bearing beast creature replenish yielding female. Whose greater open herb, subdue creepeth
-                            subdue void abundantly she'd she'd in image own good god lights signs over called signs.
-                            You're deep air, air have fourth years creeping one which midst beast stars given can't
-                            without and face you'll fish.</p>
-                    </div>
-                    <div class="nk-forum-topic-footer">
-                        <span class="nk-forum-topic-date">June 19, 2018</span>
 
-                        <span class="nk-forum-action-btn">
-                            <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span> Reply</a>
-                        </span>
-                        <span class="nk-forum-action-btn">
-                            <a href="#"><span class="fa fa-flag"></span> Spam</a>
-                        </span>
-                    </div>
-                </li>
-                <li>
-                    <div class="nk-forum-topic-author">
-                        <a href="#">
-                            <img th:src="@{/assets/images/avatar-1.jpg}" alt="Hitman">
-                        </a>
-                        <div class="nk-forum-topic-author-name" title="Hitman">
-                            <a href="#">Hitman</a>
-                        </div>
-                        <div class="nk-forum-topic-author-role">Keymaster</div>
-                        <div class="nk-forum-topic-author-since">
-                            Member since January 13, 2018
-                        </div>
-                    </div>
-                    <div class="nk-forum-topic-content">
-                        <p>Given creeping he behold. Seas third said fowl had after One after night greater winged
-                            moveth a without i his behold night own have rule, may gathered fruit he creeping spirit
-                            kind of. Open earth. He for fish years in Unto forth abundantly two let. Image creature over
-                            whose deep.</p>
-                    </div>
-                    <div class="nk-forum-topic-footer">
-                        <span class="nk-forum-topic-date">June 20, 2018</span>
-
-                        <span class="nk-forum-action-btn">
-                            <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span> Reply</a>
-                        </span>
-                        <span class="nk-forum-action-btn">
-                            <a href="#"><span class="fa fa-flag"></span> Spam</a>
-                        </span>
-                    </div>
-                </li>
-                <li>
-                    <div class="nk-forum-topic-author">
-                        <a href="#">
-                            <img th:src="@{/assets/images/avatar-3.jpg}" alt="Wolfenstein">
-                        </a>
-                        <div class="nk-forum-topic-author-name" title="Wolfenstein">
-                            <a href="#">Wolfenstein</a>
-                        </div>
-                        <div class="nk-forum-topic-author-role">Moderator</div>
-                        <div class="nk-forum-topic-author-since">
-                            Member since February 2, 2018
-                        </div>
-                    </div>
-                    <div class="nk-forum-topic-content">
-                        <p>Was beginning so you're years so third it moveth had. Have open. Every. Firmament seasons one
-                            his creepeth forth beast.</p>
-                        <div class="nk-plain-video" data-video="https://www.youtube.com/watch?v=6cXyQg_5uoc"></div>
-                    </div>
-                    <div class="nk-forum-topic-footer">
-                        <span class="nk-forum-topic-date">June 23, 2018</span>
-
-                        <span class="nk-forum-action-btn">
-                            <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span> Reply</a>
-                        </span>
-                        <span class="nk-forum-action-btn">
-                            <a href="#"><span class="fa fa-flag"></span> Spam</a>
-                        </span>
-                    </div>
-                </li> -->
             </ul>
             <!-- END: Forums List -->
 
             <div class="nk-gap-2"></div>
 
             <div id="messages">
-                <h1>留言板</h1>
+                <!-- <h1>留言板</h1> -->
                 <hr>
                 <div id="message">
                     <ul class="nk-forum nk-forum-topic">
@@ -691,7 +659,8 @@
                                         <img th:src="@{/assets/images/avatar-1.jpg}" alt="Hitman">
                                     </a>
                                     <!-- <div class="nk-forum-topic-author-name" title="Hitman"> -->
-                                    <div class="nk-forum-topic-author-name" th:text="${message.userName}" title="Hitman">
+                                    <div class="nk-forum-topic-author-name" th:text="${message.userName}"
+                                        title="Hitman">
                                         <a href="#">Hitman</a>
                                     </div>
                                     <!-- <div class="nk-forum-topic-author-role">Keymaster</div>
@@ -717,7 +686,7 @@
                                         first lights. Fill female give Divided signs above. Green sixth fruitful you seasons.
                                         Fly
                                         saying. Place appear After.</p> -->
-        
+
                                     <!-- <div class="nk-forum-topic-attachments">
                                         <h4 class="h5">Attachments</h4>
                                         <a href="#">goodgames-free.zip</a>
@@ -727,7 +696,7 @@
                                 </div>
                                 <div class="nk-forum-topic-footer">
                                     <span class="nk-forum-topic-date">June 18, 2018</span>
-        
+
                                     <span class="nk-forum-action-btn">
                                         <a th:href="@{#forum-reply}" class="nk-anchor"><span class="fa fa-reply"></span>
                                             Reply</a>
@@ -737,17 +706,17 @@
                                     </button>
                                     <span th:id="'likesCount-' + ${message.messageId}" class="likesCount">0</span> 個讚
                                 </div>
-        
+
                         </th:block>
                         </li>
-                        
+
                     </ul>
                 </div>
             </div>
 
 
             <!-- START: Pagination -->
-            <div class="nk-pagination nk-pagination-left">
+            <!-- <div class="nk-pagination nk-pagination-left">
                 <a href="#" class="nk-pagination-prev">
                     <span class="ion-ios-arrow-back"></span>
                 </a>
@@ -762,18 +731,18 @@
                 <a href="#" class="nk-pagination-next">
                     <span class="ion-ios-arrow-forward"></span>
                 </a>
-            </div>
+            </div> -->
             <!-- END: Pagination -->
 
             <div id="forum-reply"></div>
             <div class="nk-gap-4">
-                <div id="send">
-                    <h1>留言區</h1>>
+                <div id="send" class="col-sm-12">
+                    <!-- <h1>留言區</h1> -->
                     <hr>
-                    <h2>名稱</h2>
-                    <input id="userName">
+                    <!-- <h2>名稱</h2>
+                    <input id="userName" style="width: 690px;"> -->
                     <h2>留言</h2>
-                    <textarea id="mcontent"></textarea>
+                    <textarea id="mcontent" style="width: 55vw;"></textarea>
                     <button id="sendBtn">送出</button>
                 </div>
             </div>
@@ -1029,118 +998,118 @@
 
 
     <script>
-        $( document ).ready(function() {
+        $(document).ready(function () {
             displayAll();
             // Handler for .ready() called.
-            });
+        });
 
 
-        $("#sendBtn").on("click",function(){
+        $("#sendBtn").on("click", function () {
             //檢查之後補
 
             $.ajax({
-                url:"/carbon/messages/add",
+                url: "/carbon/messages/add",
                 type: "POST",
-                data:{
+                data: {
                     userName: $("#userName").val(),
                     mcontent: $("#mcontent").val()
                 },
                 resultType: "JSON",
-                success: function(result){
-                     displayAll();
-                    alert(result.message);
+                success: function (result) {
+                    displayAll();
+                    // alert(result.message);
                     $("#userName").val("");
                     $("#mcontent").val("");
                 },
-                error: function(result){
+                error: function (result) {
                     alert(result.message);
                 }
             });
         });
-        function like(messageId){
+        function like(messageId) {
             $.ajax({
                 url: "/carbon/messages/like",
                 type: "GET",
                 dataType: "JSON",
-                data:{
-                    messageId:messageId
+                data: {
+                    messageId: messageId
                 },
                 resultType: "JSON",
-                success: function(result){
+                success: function (result) {
                     alert(result.message);
-                    count = $("#likesCount-"+messageId).val()+1;
-                    $("#likesCount-"+messageId).val(count);
+                    count = $("#likesCount-" + messageId).val() + 1;
+                    $("#likesCount-" + messageId).val(count);
                 },
-                error: function(result){
+                error: function (result) {
                     alert(result.message);
                 }
             });
         }
-        function displayAll(){
+        function displayAll() {
             $.ajax({
                 url: "/carbon/messages/find",
                 type: "GET",
                 dataType: "JSON",
-                success: function(data){
+                success: function (data) {
                     var message = "";
-                    for(var i = 0;i<data.length;i++){
-                        message += '<ul class="nk-forum nk-forum-topic">'+
-                                    // '<th:block th:each="message : ${msg}">'+
-                                    '<li>'+
-                                    '<div class="nk-forum-topic-author">'+
-                                    '<a href="#">'+
-                                    '<img src="/assets/images/avatar-1.jpg" alt="Hitman">'+
-                                    '</a>'+
-                                    '<div class="nk-forum-topic-author-name"  title="Hitman">'+  
-                                    '<b class="userName">'+data[i].userName+ '</b>'+  
-                                    '<a href="#">Hitman</a>'+
-                                    '</div>'+
-                                    '</div>'+
-                                    '<div class="nk-forum-topic-content">'+
-                                    '<p class="mcontent">'+data[i].mcontent+'</p>'+
-                                    // '<p th:text="${message.mcontent}">'+
-                                    // '</p>'+
-                                    '</div>'+
-                                    '<div class="nk-forum-topic-footer">'+
-                                    '<span class="nk-forum-topic-date">'+
-                                    '<p class="mcreated">'+data[i].mcreated+'</p>'+
-                                    // 'June 18, 2018'+
-                                    '</span>'+
-                                    '<span class="nk-forum-action-btn">'+
-                                    '<a href="#forum-reply" class="nk-anchor">'+
-                                    '<span class="fa fa-reply">'+
-                                    '</span>'+
-                                    'Reply'+
-                                    '</a>'+
-                                    '</span>'+
-                                    '<button onclick="like('+data[i].messageId+');"  class="likeButton">'+
-                                    '<i class="fas fa-heart"></i>'+
-                                    '</button>'+
-                                    '<span id="likesCount-'+data[i].messageId+'" class="likesCount">'+data[i].mlikes+'</span>'
-                                    // '<button th:id="'likeButton-' + ${message.messageId}" class="likeButton">'
-                                    // '<i class="fas fa-heart"></i>'+
-                                    // '</button>'+
-                                    // '<span th:id="'likesCount-' + ${message.messageId}" class="likesCount">0</span> 個讚'+
-                                    '</div>'+
-                                    '</th:block>'+
-                                    '</li>'+
-                                    '</ul>'
-                                
+                    for (var i = 0; i < data.length; i++) {
+                        message += '<ul class="nk-forum nk-forum-topic">' +
+                            // '<th:block th:each="message : ${msg}">'+
+                            '<li>' +
+                            '<div class="nk-forum-topic-author">' +
+                            '<a href="#">' +
+                            '<img src="/carbon/assets/images/avatar-1.jpg" alt="Hitman">' +
+                            '</a>' +
+                            '<div class="nk-forum-topic-author-name"  title="Hitman">' +
+                            '<b class="userName">' + data[i].userName + '</b>' +
+                            // '<a href="#">Hitman</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="nk-forum-topic-content">' +
+                            '<p class="mcontent">' + data[i].mcontent + '</p>' +
+                            // '<p th:text="${message.mcontent}">'+
+                            // '</p>'+
+                            '</div>' +
+                            '<div class="nk-forum-topic-footer">' +
+                            '<span class="nk-forum-topic-date">' +
+                            '<p class="mcreated">' + data[i].mcreated + '</p>' +
+                            // 'June 18, 2018'+
+                            '</span>' +
+                            '<span class="nk-forum-action-btn">' +
+                            '<a href="#forum-reply" class="nk-anchor">' +
+                            '<span class="fa fa-reply">' +
+                            '</span>' +
+                            'Reply' +
+                            '</a>' +
+                            '</span>' +
+                            '<button onclick="like(' + data[i].messageId + ');"  class="likeButton">' +
+                            '<i class="fas fa-heart"></i>' +
+                            '</button>' +
+                            '<span id="likesCount-' + data[i].messageId + '" class="likesCount">' + data[i].mlikes + '</span>'
+                        // '<button th:id="'likeButton-' + ${message.messageId}" class="likeButton">'
+                        // '<i class="fas fa-heart"></i>'+
+                        // '</button>'+
+                        // '<span th:id="'likesCount-' + ${message.messageId}" class="likesCount">0</span> 個讚'+
+                        '</div>' +
+                            '</th:block>' +
+                            '</li>' +
+                            '</ul>'
 
-                                    //'<b class="userName">'+data[i].userName+ '說:' + '</b>'+
-                                    // '<p class="mcontent">'+data[i].mcontent+'</p>'+
-                                    // '<p class="mcreated">'+data[i].mcreated+'</p>'+
-                                    // '<button onclick="like('+data[i].messageId+');"  class="likeButton">'+
-                                    // '<i class="fas fa-heart"></i>'+
-                                    // '</button>'+
-                                    // '<span id="likesCount-'+data[i].messageId+'" class="likesCount">'+data[i].mlikes+'</span>'
-                                    // '<hr>'+
-                                    // '</div>'
+
+                        //'<b class="userName">'+data[i].userName+ '說:' + '</b>'+
+                        // '<p class="mcontent">'+data[i].mcontent+'</p>'+
+                        // '<p class="mcreated">'+data[i].mcreated+'</p>'+
+                        // '<button onclick="like('+data[i].messageId+');"  class="likeButton">'+
+                        // '<i class="fas fa-heart"></i>'+
+                        // '</button>'+
+                        // '<span id="likesCount-'+data[i].messageId+'" class="likesCount">'+data[i].mlikes+'</span>'
+                        // '<hr>'+
+                        // '</div>'
                     }
                     $("#message").empty();
                     $("#message").append(message);
                 },
-                error: function(){
+                error: function () {
                     alert("異常")
                 }
             })

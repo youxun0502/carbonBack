@@ -121,7 +121,7 @@
                 </ul>
             </div>
             <div class="container">
-                <div class="card mt-3">
+                <div class="card mt-3" style="width: 400px;">
                     <div class="card-body">
                         <h2 class="card-title text-dark">新增文章資料</h2>
                         <form th:action="@{/discussions/insertDiscussion}" method="POST" id="newDiscussionForm"
@@ -176,9 +176,11 @@
                             </div>
 
                             <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
-							<button class="btn btn-secondary" type="button" onclick="window.history.back();" style="display: inline-block;">取消</button>
+                            <button class="btn btn-secondary" type="button" onclick="window.history.back();"
+                                style="display: inline-block;">取消</button>
 
                         </form>
+                        <hr>
                         <button class="btn btn-success" id="generateDataBtn"
                             style="display: inline-block;">一鍵新增</button>
 
@@ -213,7 +215,7 @@
                 $("#newDiscussionForm input[name='gameId']").val(gameId);
                 $("#newDiscussionForm input[name='gameName']").val(gameName);
                 $("#newDiscussionForm input[name='title']").val(title);
-                $("#newDiscussionForm input[name='dcontent']").val(dcontent);
+                $("#newDiscussionForm textarea[name='dcontent']").val(dcontent);
                 $("#newDiscussionForm input[name='lastReplyTime']").val(lastReplyTime);
                 $("#newDiscussionForm input[name='d_views']").val(d_views);
                 $("#newDiscussionForm input[name='dcreated_at']").val(dcreated_at);
