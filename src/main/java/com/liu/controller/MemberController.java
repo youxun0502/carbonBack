@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.evan.dto.OrderLogDTO;
 import com.evan.service.GameOrderService;
+import com.li.model.BonusItem;
+import com.li.service.BonusService;
 import com.liu.dto.MemberDto;
 import com.liu.model.Member;
 import com.liu.service.MemberService;
@@ -30,6 +32,9 @@ public class MemberController {
 	
 	@Autowired
 	GameOrderService gameOrderService;
+	
+	@Autowired
+	BonusService bService;
 
 	@GetMapping("/member/allMember")
 	public String findAllMember(Model m) {
@@ -140,6 +145,9 @@ public class MemberController {
 		Map<String, Object> formData = new HashMap<>();
 		formData.put("memberId",member.getId().toString());
 		List<OrderLogDTO> memberOwnGames = gameOrderService.getMemberOwnGames(formData);
+		List<BonusItem> list = bService.findAll();
+		session.setAttribute("memberBeans", mService.findById(member.getId()));
+		m.addAttribute("bonusitemList", list);
 		m.addAttribute("memberOwnGames", memberOwnGames);
 		return "/liu/memberInformationPage";
 	}

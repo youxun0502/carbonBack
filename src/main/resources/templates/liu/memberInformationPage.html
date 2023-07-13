@@ -3,33 +3,10 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link th:href="@{/css/bonus-shop.css}" rel="stylesheet">
 	<title>Member Information</title>
-	<style>
-		.btn-game-download {
+	
 
-			background-color: #F2542D !important;
-			border-color: #F2542D !important;
-			font-weight: bold !important;
-
-		}
-
-		.btn-game-download:hover {
-
-			background-color: #f22d2d !important;
-			border-color: #f22d2d !important;
-			font-weight: bold !important;
-		}
-
-		.btn-game-description {
-			font-weight: bold !important;
-
-		}
-
-		.btn-game-description:hover {
-			font-weight: bold !important;
-
-		}
-	</style>
 </head>
 
 <body>
@@ -48,6 +25,32 @@
 						</path>
 					</svg></li>
 				<li><span>個人資料</span></li>
+
+						<div class="profile_header_bg">
+			<img id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/downloadImage/}+${session.memberBeans.useBackground}">
+				<div class="profile_header_bg_text">
+					<div class="profile_header">
+						<div class="profile_header_layout">
+							<div class="profile_header_personalinfo">
+								<div class="personal_name">[[${session.memberBeans.userId}]]</div>
+							</div>
+							<div  data-toggle="modal" data-target="#modalAvatar">
+								<div class="personal_avatar">
+									<div class="personal_avatar_innersize">
+										<div class="profile_avatar_frame">
+											<img id="user_frame" th:src="@{/downloadImage/}+${session.memberBeans.useFrame}">
+										</div>
+
+										<img id="user_avatar" class="profile_avatar_img"
+											th:src="@{/downloadImage/}+${session.memberBeans.useAvatar}">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			</ul>
 			<!-- 已購項目區隔線 -->
 			<div class="nk-gap-2"></div>
@@ -62,8 +65,6 @@
 					<div class="nk-gallery-item-box">
 						<div class="nk-gallery-item-overlay">
 							<div class=" h-50 col-12">
-								<!--  <button class=" col-8 btn nk-btn-rounded mx-auto h-75 text-light btn-game-download">下載</button>
-								<button class=" col-8 nk-btn nk-btn-rounded btn-secondary mx-auto h-75 btn-game-description">詳細資料</button>-->
 								<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-main-4 nk-btn-hover-main-1 nk-btn-x3 d-block">下載</a>
 										<div class="nk-gap-2"></div>
 								<a th:href="@{'/gameFront/'+${memberOwnGame.gameName}}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-dark-2 nk-btn-x3 d-block">詳細資料</a>								
@@ -80,8 +81,10 @@
 		</div>
 		<div class="nk-gap-2"></div>
 	</div>
-
+	<div th:replace="~{li/avatar-edit}"></div>
 	<div th:replace="~{layout/footer}"></div>
+	<script th:src="@{/js/profile-avataredit.js}"></script>
+	
 </body>
 
 </html>
