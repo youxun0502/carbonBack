@@ -49,7 +49,9 @@ public class BonusShopController {
 	}
 
 	@GetMapping("/profile")
-	public String goBackToProfile(Model model) {
+	public String goBackToProfile(Model model,HttpSession session) {
+		Member member =(Member)session.getAttribute("memberBeans");
+		session.setAttribute("memberBeans", mService.findById(member.getId()));
 		List<BonusItem> list = bService.findAll();
 		model.addAttribute("bonusitemList", list);
 		return "li/profile";
