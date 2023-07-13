@@ -406,8 +406,8 @@ public class DiscussionsController {
 	
 	@GetMapping("/forum/title/{mtitle}")
 	  public String getTitle(Model model , @PathVariable String mtitle) throws SQLException {
-//	          List<Discussions> discussions = dService.findDiscussionsByTitle(title);
-//	          model.addAttribute("discussions", discussions);
+	          List<Discussions> discussions = dService.findDiscussionsByTitle(mtitle);
+	          model.addAttribute("discussions", discussions);
 //	          return "liao/SampleTitle";
 		   List<Messages> msg = mService.findMessagesByTitle(mtitle);
            model.addAttribute("msg", msg);
