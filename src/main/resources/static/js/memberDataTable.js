@@ -195,7 +195,7 @@ function deleteMember() {
 						let siblings = Array.from(deleteData.parentNode.children).filter(function (child) {
 							return child !== deleteData;
 						})
-						siblings[10].innerText = 2;
+						siblings[10].innerText = '凍結';
 						const updateBtn = siblings[11].querySelector('.btn-update');
 						if (updateBtn) {
 							updateBtn.setAttribute('hidden', true);
@@ -253,7 +253,7 @@ function restoreDelete() {
 					let siblings = Array.from(restoreData.parentNode.children).filter(function (child) {
 						return child !== restoreData;
 					})
-					siblings[10].innerText = 1;
+					siblings[10].innerText = '正常';
 					const updateBtn = siblings[11].querySelector('.btn-update');
 					if (updateBtn) {
 						updateBtn.removeAttribute('hidden');
@@ -356,8 +356,25 @@ function htmlMaker(response) {
 			innerHtml += `<td>${member.account}</td>`
 		}
 
-		innerHtml += `<td>${member.registration}</td>
-											<td>${member.status}</td>`;
+		innerHtml += `<td>${member.registration}</td>`;
+
+
+		switch (member.status) {
+			case 1:
+				innerHtml += `<td>正常</td>`;
+				break;
+			case 2:
+				innerHtml += `<td>凍結</td>`;
+				break;
+			case 3:
+				innerHtml += `<td>未驗證</td>`;
+				break;
+			default:
+				innerHtml += `<td>正常</td>`;
+				break;
+		}
+
+
 		if (member.status == 1) {
 			innerHtml += `<td>
 													<button data-id="${member.innerId}" class="btn btn-info btn-update" 	data-bs-toggle="modal" data-bs-target="#exampleModal">更新</button>
