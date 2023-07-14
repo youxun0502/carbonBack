@@ -116,10 +116,38 @@ function updateBtn() {
 				siblings[2].innerText = update_memberPwd;
 				siblings[3].innerText = update_memberName;
 				siblings[4].innerText = update_origin_birthday;
-				siblings[5].innerText = update_gender;
+
+				if (update_gender == 1) {
+					siblings[5].innerText = '男';
+				} else {
+					siblings[5].innerText = '女';
+				}
+
+
 				siblings[6].innerText = update_phone;
-				siblings[7].innerText = update_level;
-				siblings[8].innerText = update_account;
+
+				switch (update_level) {
+					case '1':
+						siblings[7].innerText = '使用者';
+						break;
+					case '2':
+						siblings[7].innerText = 'VIP';
+						break;
+					case '100':
+						siblings[7].innerText = '管理者';
+						break;
+					default:
+						siblings[7].innerText = '使用者';
+						break;
+				}
+				if (update_account == 'null') {
+					siblings[8].innerText = '';
+				} else {
+					siblings[8].innerText = update_account;
+				}
+
+
+
 				siblings[9].innerText = update_origin_registration;
 			})
 			.catch(err => {
@@ -167,7 +195,7 @@ function deleteMember() {
 						let siblings = Array.from(deleteData.parentNode.children).filter(function (child) {
 							return child !== deleteData;
 						})
-						siblings[10].innerText = 2;
+						siblings[10].innerText = '凍結';
 						const updateBtn = siblings[11].querySelector('.btn-update');
 						if (updateBtn) {
 							updateBtn.setAttribute('hidden', true);
@@ -186,11 +214,11 @@ function deleteMember() {
 					})
 					.then(function () {
 						Swal.fire({
-							title:'凍結成功',
-							text:'此會員帳號已被凍結',
-							icon:'success',
-							confirmButtonText:'確定'
-							})
+							title: '凍結成功',
+							text: '此會員帳號已被凍結',
+							icon: 'success',
+							confirmButtonText: '確定'
+						})
 					})
 					.catch(err => {
 						console.log('err: ' + err);
@@ -225,7 +253,7 @@ function restoreDelete() {
 					let siblings = Array.from(restoreData.parentNode.children).filter(function (child) {
 						return child !== restoreData;
 					})
-					siblings[10].innerText = 1;
+					siblings[10].innerText = '正常';
 					const updateBtn = siblings[11].querySelector('.btn-update');
 					if (updateBtn) {
 						updateBtn.removeAttribute('hidden');
@@ -299,14 +327,54 @@ function htmlMaker(response) {
 												<td>${member.email}</td>
 												<td style="overflow:hidden;">${member.pwd}</td>
 												<td>${member.name}</td>
-												<td>${member.birthday}</td>
-												<td>${member.gender}</td>
-												<td>${member.phone}</td>
-												<td>${member.level}</td>
-												<td>${member.account}</td>
-												<td>${member.registration}</td>
-												<td>${member.status}</td>
-												`;
+												<td>${member.birthday}</td>`;
+		if (member.gender == 1) {
+			innerHtml += `<td>男</td>`;
+		} else {
+			innerHtml += `<td>女</td>`;
+		}
+		innerHtml += `<td>${member.phone}</td>`;
+		switch (member.level) {
+			case 1:
+				innerHtml += `<td>使用者</td>`;
+				break;
+			case 2:
+				innerHtml += `<td>VIP</td>`;
+				break;
+			case 100:
+				innerHtml += `<td>管理者</td>`;
+				break;
+			default:
+				innerHtml += `<td>使用者</td>`;
+				break;
+		}
+
+		console.log(member.account);
+		if (member.account == null || member.account == '') {
+			innerHtml += `<td></td>`
+		} else {
+			innerHtml += `<td>${member.account}</td>`
+		}
+
+		innerHtml += `<td>${member.registration}</td>`;
+
+
+		switch (member.status) {
+			case 1:
+				innerHtml += `<td>正常</td>`;
+				break;
+			case 2:
+				innerHtml += `<td>凍結</td>`;
+				break;
+			case 3:
+				innerHtml += `<td>未驗證</td>`;
+				break;
+			default:
+				innerHtml += `<td>正常</td>`;
+				break;
+		}
+
+
 		if (member.status == 1) {
 			innerHtml += `<td>
 													<button data-id="${member.innerId}" class="btn btn-info btn-update" 	data-bs-toggle="modal" data-bs-target="#exampleModal">更新</button>

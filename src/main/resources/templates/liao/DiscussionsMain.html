@@ -51,20 +51,28 @@
 				<nav class="navbar navColor">
 					<div class=" container-fluid">
 						<div class="btn-group btn-group-toggle" role="group" aria-label="Discussion and Messages">
-					
-					
-				<!--  	<form th:action="@{/discussions}" method="GET">
+
+
+							<!--  	<form th:action="@{/discussions}" method="GET">
 						<input class="btn btn-primary" type="submit" value="DISCUSSIONS" style="font-size: 30px;" />
 					</form>  -->
-					
-					<a class="navbar-brand link-light" th:href="@{/discussions}" style="font-size: 30px;">文章</a>
-					
-					
-							
+
+							<a class="navbar-brand link-light" th:href="@{/discussions}" style="font-size: 30px;">文章</a>
+
+
+
 						</div>
-						<form class="d-flex" role="search" th:action="@{/discussions/findByUserName}" method="GET">
-							<input class="form-control me-2" type="search" placeholder="請輸入姓名" aria-label="Search" name="userName">
-							<button class="btn btn-outline-warning" type="submit">Search</button>
+						<form th:action="@{/discussions/findByUserName}" method="GET">
+							<div class="row">
+								<div class="col-8">
+									<input class="form-control me-2" type="search" placeholder="會員名稱查詢"
+										aria-label="Search" name="userName" id="discussionsitem_search">
+								</div>
+								<div class="col-4">
+									<button class="btn btn-outline-warning" type="submit"
+										id="name_search_btn">查詢</button>
+								</div>
+							</div>
 						</form>
 					</div>
 				</nav>
@@ -74,14 +82,14 @@
 						<!-- <a class="nav-link" href="#">Link</a> -->
 						<form th:action="@{/discussions/getAllDiscussions}" method="GET">
 							<div>
-								<input class="nav-link active" type="submit" name="userName" value="ALL" />
+								<input class="nav-link active" type="submit" name="userName" value="查詢全部" />
 							</div>
 						</form>
 					</li>
 					<li class="nav-item">
 						<form th:action="@{/discussions/insertpage}" th:method="GET">
 							<div>
-								<input class="nav-link " type="submit" name="insert" value="CREATE" />
+								<input class="nav-link " type="submit" name="insert" value="新增" />
 							</div>
 						</form> <!-- <a class="nav-link active" aria-current="page" href="#">Active</a> -->
 					</li>
@@ -90,7 +98,7 @@
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
 
 </html>

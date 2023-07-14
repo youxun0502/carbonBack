@@ -93,7 +93,7 @@
             <div class="content mt-3">
                 <nav class="navbar navColor">
                     <div class="container-fluid">
-                        <a class="navbar-brand link-light" style="font-size: 30px;">MESSAGE INSERT</a>
+                        <a class="navbar-brand link-light" style="font-size: 30px;">新增留言</a>
                         <div class="d-flex" role="search">
                             <form th:action="@{/messages/findByUserName}" method="GET">
                                 <div class="row">
@@ -103,7 +103,7 @@
                                     </div>
                                     <div class="col-4">
                                         <button class="btn btn-outline-warning" type="submit"
-                                            id="name_search_btn">Search</button>
+                                            id="name_search_btn">查詢</button>
                                     </div>
                                 </div>
                             </form>
@@ -112,10 +112,10 @@
                 </nav>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/messages/getAllMessages}">ALL</a>
+                        <a class="nav-link active" th:href="@{/messages/getAllMessages}">查詢全部</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/messages/insertpage}">CREATE</a>
+                        <a class="nav-link" th:href="@{/messages/insertpage}">新增</a>
                     </li>
 
                 </ul>
