@@ -71,8 +71,7 @@
                                     <td th:text="${registration.realName}"></td>
                                     <td th:text="${registration.email}"></td>
                                     <td th:text="${registration.phone}"></td>
-                                    <td id="signupDate"
-                                        th:text="${#dates.format(registration.signupDate, 'yyyy-MM-dd')}" </td>
+                                    <td id="signupDate" th:text="${#dates.format(registration.signupDate, 'yyyy-MM-dd')}" </td>
                                     <td>
                                         <form th:action="@{/event/registration/update}" method="get">
                                             <input type="hidden" name="signupId" th:value="${registration.signupId}" />

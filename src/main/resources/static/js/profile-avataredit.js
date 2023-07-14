@@ -107,13 +107,23 @@ function editboxMaker() {
 						<div class="avatarcollection_SingleRow">`;
 						avatar_index = 0;
 					}
-					avatarhtml += `						
+					if (bonusLog[i].bonusitem.bonusId == 1) {
+						avatarhtml += `						
 						<div class="avatarcollection_AvatarPreview avatarcollection_Large">
 						<div class="select_avatar_frame">
-					<img class="avatar_select"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+					<img class="avatar_select" style="width:184px;" data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/img/userAvatarDefault.gif">
 					</div>
 					</div>
 					`;
+					} else {
+						avatarhtml += `						
+							<div class="avatarcollection_AvatarPreview avatarcollection_Large">
+							<div class="select_avatar_frame">
+						<img class="avatar_select" style="width:184px;"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+						</div>
+						</div>
+						`;
+					}
 					avatar_index++;
 				}
 				/*-----------------------------------------------FRAME 區域網頁生成------------------------------------*/
@@ -123,13 +133,24 @@ function editboxMaker() {
 						<div class="avatarcollection_SingleRow">`;
 						frame_index = 0;
 					}
-					framehtml += `						
+					if (bonusLog[i].bonusitem.bonusId == 2) {
+						framehtml += `						
 						<div class="avatarcollection_AvatarPreview avatarcollection_Large">
 						<div class="select_frame_frame">
-					<img class="frame_select"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+					<img class="frame_select" style="width:184px;"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/img/userFrameDefault.png">
 					</div>
 					</div>
 					`;
+					} else {
+
+						framehtml += `						
+							<div class="avatarcollection_AvatarPreview avatarcollection_Large">
+							<div class="select_frame_frame">
+						<img class="frame_select" style="width:184px;"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+						</div>
+						</div>
+						`;
+					}
 					frame_index++;
 				}
 				/*-----------------------------------------------BG 區域網頁生成------------------------------------*/
@@ -139,13 +160,23 @@ function editboxMaker() {
 						<div class="avatarcollection_SingleRow">`;
 						bgs_index = 0;
 					}
-					bghtml += `						
+					if (bonusLog[i].bonusitem.bonusId == 3) {
+						bghtml += `						
 						<div class="avatarcollection_AvatarPreview avatarcollection_Large">
 						<div class="select_bg_frame">
-					<img class="bg_select" style="width:224px;"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+					<img class="bg_select" style="width:184px;"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/img/userBgDefault.jpg">
 					</div>
 					</div>
 					`;
+					} else {
+						bghtml += `						
+							<div class="avatarcollection_AvatarPreview avatarcollection_Large">
+							<div class="select_bg_frame">
+						<img class="bg_select" style="width:184px;"  data-img=${bonusLog[i].bonusitem.bonusId} src="/carbon/downloadImage/${bonusLog[i].bonusitem.bonusId}">
+						</div>
+						</div>
+						`;
+					}
 					bgs_index++;
 				}
 

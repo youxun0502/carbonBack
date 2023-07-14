@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.evan.model.GamePhoto;
 import com.evan.model.GameType;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -31,7 +33,6 @@ public class GameDTO {
 //	
 	private Set<GameType> gameTypes = new HashSet<>();
 	
-
 	public List<Integer> getGamePhotoLists() {
 		List<Integer> photoIdList = new ArrayList<>();
 		for (GamePhoto photo : gamePhotoLists) {

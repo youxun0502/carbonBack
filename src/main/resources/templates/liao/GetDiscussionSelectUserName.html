@@ -35,7 +35,7 @@
 									</div>
 									<div class="col-4">
 										<button class="btn btn-outline-warning" type="submit"
-											id="name_search_btn">Search</button>
+											id="name_search_btn">查詢</button>
 									</div>
 								</div>
 							</form>
@@ -44,10 +44,10 @@
 				</nav>
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link active" th:href="@{/discussions/getAllDiscussions}">ALL</a>
+						<a class="nav-link active" th:href="@{/discussions/getAllDiscussions}">查詢全部</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/discussions/insertpage}">CREATE</a>
+						<a class="nav-link" th:href="@{/discussions/insertpage}">新增</a>
 					</li>
 
 				</ul>
@@ -58,6 +58,7 @@
 						<thead>
 							<tr>
 								<th>文章編號</th>
+								<th>圖片</th>
 								<th>會員編號</th>
 								<th>活動編號</th>
 								<th>會員名稱</th>
@@ -77,6 +78,10 @@
 						<tbody>
 							<tr th:each="discussion : ${discussions}">
 								<td th:text="${discussion.articleId}"></td>
+								<td class="imgBox overflow-hidden"><img width="200px"
+										th:src="@{'/discussionsdownloadImage/' + ${discussion.articleId}}"
+										class="img-fluid">
+								</td>
 								<td th:text="${discussion.memberId}"></td>
 								<td th:text="${discussion.eventId}"></td>
 								<td th:text="${discussion.userName}"></td>
@@ -90,13 +95,14 @@
 								<td th:text="${discussion.dlikes}"></td>
 								<td>
 									<form th:action="@{/discussions/update}" method="GET">
-										<button type="submit" name="articleId"
+										<button type="submit" class="btn btn-primary" name="articleId"
 											th:value="${discussion.articleId}">更新</button>
 									</form>
 								</td>
 								<td>
 									<form th:action="@{/discussions/delete}" th:method="DELETE">
-										<button type="submit" name="articleId" th:value="${discussion.articleId}"
+										<button type="submit" class="btn btn-danger" name="articleId"
+											th:value="${discussion.articleId}"
 											onclick="return confirm('確定要刪除嗎？')">刪除</button>
 									</form>
 								</td>

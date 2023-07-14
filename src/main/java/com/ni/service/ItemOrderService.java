@@ -116,7 +116,7 @@ public class ItemOrderService {
 	    if(results != null) {
 	    	for (Object[] result : results) {
 	    		Map<String, Object> medianPrice = new HashMap<>();
-	    		medianPrice.put("time", result[0]);
+	    		medianPrice.put("time", result[0] + ":00:00");
 	    		medianPrice.put("itemId", result[1]);
 	    		medianPrice.put("medianPrice", result[2]);
 	    		medianPrice.put("total", result[3]);

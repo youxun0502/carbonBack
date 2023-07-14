@@ -35,7 +35,7 @@
 									</div>
 									<div class="col-4">
 										<button class="btn btn-outline-warning" type="submit"
-											id="name_search_btn">Search</button>
+											id="name_search_btn">查詢</button>
 									</div>
 								</div>
 							</form>
@@ -44,10 +44,10 @@
 				</nav>
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link active" th:href="@{/messages/getAllMessages}">全部留言</a>
+						<a class="nav-link active" th:href="@{/messages/getAllMessages}">查詢全部</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/messages/insertpage}">新增留言</a>
+						<a class="nav-link" th:href="@{/messages/insertpage}">新增</a>
 					</li>
 
 				</ul>
@@ -91,13 +91,14 @@
 
 								<td>
 									<form th:action="@{/messages/update}" method="GET">
-										<button type="submit" name="messageId"
+										<button type="submit" class="btn btn-primary" name="messageId"
 											th:value="${message.messageId}">更新</button>
 									</form>
 								</td>
 								<td>
 									<form th:action="@{/messages/delete}" th:method="DELETE">
-										<button type="submit" name="messageId" th:value="${message.messageId}"
+										<button type="submit" class="btn btn-danger" name="messageId"
+											th:value="${message.messageId}"
 											onclick="return confirm('確定要刪除嗎？')">刪除</button>
 									</form>
 								</td>

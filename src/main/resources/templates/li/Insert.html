@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>New Item</title>
+	<title>新增商品</title>
 </head>
 
 <body>
@@ -14,37 +14,37 @@
 			<div class="content mt-3">
 				<nav class="navbar navColor">
 					<div class="container-fluid">
-						<a class="navbar-brand link-light" th:href="@{/bonus/main}" style="font-size: 30px;">Bonus
-							Shop</a>
+						<a class="navbar-brand link-light" th:href="@{/bonus/main}" style="font-size: 30px;">獎勵商城</a>
 						<form th:action="@{/bonus/search}" method="get" class="d-flex" role="search">
 							<input class="form-control me-2" type="search" placeholder="商品名稱查詢" aria-label="Search"
 								name="bonusitem_search" id="bonusitem_search">
-							<button class="btn btn-outline-warning" type="submit" id="name_search_btn">Search</button>
+							<button class="btn btn-outline-warning col-3" type="submit" id="name_search_btn">查詢</button>
 						</form>
 					</div>
 				</nav>
 				<ul class="nav nav-tabs">
-					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/listAll}">ALL</a></li>
-					<li class="nav-item"><a class="nav-link active" th:href="@{/bonus/insert}">NEW ITEM</a></li>
+					<li class="nav-item"><a class="nav-link active" th:href="@{/bonus/listAll}">全部商品</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/insert}">新增商品</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/bonuslog}">購買紀錄</a></li>
 				</ul>
 			</div>
 			<div class="container-fluid">
+			<div class="d-flex justify-content-center">
 				<form th:action="@{/bonus/upload}" method="post" enctype="multipart/form-data">
-					商品名稱: <input name="bonusName" /> <br />
-					商品價格: <input name="bonusPrice" /> <br />
+					商品名稱: <input class="form-control" name="bonusName" /> <br />
+					商品價格: <input  class="form-control" name="bonusPrice" /> <br />
 					商品類型: <input type="radio" name="bonusType" value="avatar" checked>頭像 <input type="radio"
 						name="bonusType" value="frame">外框 <input type="radio" name="bonusType" value="background">背景
 					<br>
-					是否直接上架: <input type="radio" name="status" value="1">上架 <input type="radio" name="status" value="0"
-						checked>下架
+					是否直接上架: <input type="radio" name="status" value="1" checked>上架 <input type="radio" name="status" value="0">下架
 					<br>
-					商品描述: <input name="bonusDes" /> <br />
+					商品描述: <input class="form-control" name="bonusDes" /> <br />
 					檔案: <input name="img_file" type="file" />
-					<br />
-					<button type="submit">送出</button>
+					<br /><br />
+					<button class="btn btn-warning col-3" type="submit">送出</button>
 				</form>
 			</div>
-		</div>
+		</div></div>
 	</div>
 
 
