@@ -7,14 +7,9 @@ const userId = document.getElementById('user1').textContent;
 console.log('userId: ' + userId);
 let myWallet ;
 let removeHtml;
-let myBalance;
 
 // =========================== itemMarketPage ===========================  
-// --------------------------- wallet (沒用到)---------------------------
-//if(userId != ''){
-//	myWalletAjax()
-//}
-//function myWalletAjax(){
+// --------------------------- wallet ---------------------------
 $(document).ready(function(){
 	if(userId != ''){
 		axios.get('/carbon/profile/myWallet', {
@@ -480,7 +475,7 @@ function loadListPage (data){
 		            let pageId = this.getAttribute('data-pageid');
 		            console.log('pageId: ' + pageId);
 		            if (pageId == 0 || pageId == totalPages + 1) {
-		                this.remove();
+		                //this.removeAttribute('href');
 		            } else {
 		                loadPage(pageId);
 		            }
@@ -495,11 +490,134 @@ function loadPage(thatPage) {
 			params: { p: thatPage }
 		})
 		.then(response => {
-            loadListPage (response.data);
+            loadListPage(response.data);
         })
         .catch(err => {
 			console.log('err: ' + err);
 		})
+}
+
+let itemName
+let gameId 
+// --------------------------- search by itemName or gameId ---------------------------
+function findByNameAndGame(){
+	itemName = $('input[name="itemName"]').val() ? $('input[name="itemName"]').val() : '';
+	gameId = $('select[name="gameId"]').val() ? $('select[name="gameId"]').val() : 0;
+	console.log('itemName: ' + itemName)
+	console.log('gameId: '+ gameId)
+	axios.get('/carbon/market/page/find', {
+		params: {
+			gameId: gameId,
+			itemName: itemName
+		}
+	})
+	.then(response => {
+		if(response.data.content != ''){
+			loadSearchPage(response.data);
+		} else {
+			$('#listPage1').html('<h3 class="text-center">查無資料</h3>');
+			$('#itemListPage1').html('')
+		}
+	})
+	.catch(err => {
+		console.log('err: ' + err);
+	})
+}
+
+function loadSearchPage (data){
+	let itemListHtml = ``;
+	data.content.forEach(order => {
+		itemListHtml += `
+		    <div class="col-md-4 col-6">
+		        <div class="nk-blog-post border border-secondary px-3 gameItem">
+		            <a href="/carbon/market/${order.gameItem.gameId}/${order.itemId}/${order.gameItem.itemName}" class="nk-post-img cb-a">
+		                <img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}">
+		                <h2 class="nk-post-title h5" style="height: 45px">
+		                	${order.gameItem.itemName}
+		                </h2>
+		                <div class="text-main-1" style="height: 58px">起跳價格: `;
+		if(order.minPrice != null){
+				itemListHtml += `
+		                    <h3 class="nk-post-title h5 text-end">NT$ ${order.minPrice}</h3>`;
+		} else {
+				itemListHtml += `
+		                    <h3 class="nk-post-title h5 text-end">NT$ --</h3>`;
+		}
+		itemListHtml += `
+		               	</div>
+		            </a>
+		            <div class="nk-post-by">
+		                <img src="/carbon/gameFront/getImg/${order.gameItem.game.gamePhotoLists[0].photoId}" alt="" class="rounded-circle" width="35">
+		                <a href="/carbon/gameFront/${order.gameItem.game.gameName}">${order.gameItem.game.gameName}</a>
+		            </div>
+		            <div class="nk-gap"></div>
+		        </div>
+		    </div>`;
+	})
+	
+	$('#listPage1').html(itemListHtml);
+	
+	let listPageHtml = ``;
+	let totalPages = data.totalPages;
+	let thisPage = data.pageable.pageNumber;
+	console.log(totalPages)
+	console.log(thisPage)
+	listPageHtml +=`
+				<div class="nk-gap-2"></div>
+		        <div class="nk-pagination nk-pagination-center">
+		            <a href="#" class="pageBtn nk-pagination-prev" data-pageid="${thisPage}">
+		                <span class="ion-ios-arrow-back"></span>
+		            </a>
+		            <nav>`;
+		    for(i = 1; i <= totalPages ;i++){
+				if(i == thisPage + 1){
+					listPageHtml +=`
+		                <a class="pageBtn nk-pagination-current" href="#" data-pageid="${i}">${i}</a>`;
+				} else {
+					listPageHtml +=`
+		                <a class="pageBtn" href="#" data-pageid="${i}">${i}</a>`;
+				}
+			}
+			listPageHtml +=`
+		            </nav>
+		            <a href="#" class="pageBtn nk-pagination-next" data-pageid="${thisPage + 2}">
+		                <span class="ion-ios-arrow-forward"></span>
+		            </a>
+		        </div>`;
+		        
+			$('#itemListPage1').html(listPageHtml);
+			
+			let pageBtns = document.getElementsByClassName('pageBtn');
+		    for (i = 0; i < pageBtns.length; i++) {
+		        pageBtns[i].addEventListener('click', function (e) {
+					e.preventDefault();
+		            let pageId = this.getAttribute('data-pageid');
+		            console.log('pageId: ' + pageId);
+		            if (pageId == 0 || pageId == totalPages + 1) {
+		                //this.removeAttribute('href');
+		            } else {
+		                changeSearchPage(pageId);
+		            }
+		        });
+		    }
+	
+}
+
+
+function changeSearchPage(thatPage) {
+	axios.get('/carbon/market/page/find', {
+		params: {
+			gameId: gameId,
+			itemName: itemName,
+			p: thatPage
+		}
+	})
+	.then(response => {
+        loadListPage(response.data);
+    })
+    .catch(err => {
+		console.log('err: ' + err);
+	})
 }
 
 
@@ -1167,9 +1285,10 @@ function medianPriceChart(data){
 	  tooltipItems.forEach(function(tooltipItem) {
 		  console.log(tooltipItem)
 		  const date = new Date(tooltipItem.label);
-		  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:00:00`;
+		  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString()}`;
 		  data.forEach(order=>{
-			  if(formattedDate === order.time && tooltipItem.raw == order.medianPrice){
+			  const orderTime = order.time.split(':')[0];
+			  if(formattedDate == orderTime && tooltipItem.raw == order.medianPrice){
 				  sold += order.total;
 			  }
 		  })

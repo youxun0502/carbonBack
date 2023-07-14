@@ -228,14 +228,32 @@
 					    </div>
 					</div>
 					<div class="nk-widget nk-widget-highlighted">
-					    <h4 class="nk-widget-title"><span><span class="text-main-1">進階</span> 搜尋</span></h4>
+					    <h4 class="nk-widget-title"><span><span class="text-main-1">查詢</span> 虛寶</span></h4>
 					    <div class="nk-widget-content">
-					        <div class="d-flex ">
-					            <input type="text" name="gameName-filter" placeholder="查詢">
-					            <button class="nk-btn nk-btn-rounded nk-btn-color-white float-right">查詢</button>
-					            <div class="nk-gap"></div>
-					            <div class="clearfix"></div>
-					        </div>
+			                <div class="nk-form-style-1">
+			                	<div class="input-group">
+			                        <input type="text" name="itemName" class="form-control" placeholder="虛寶名稱查詢">
+			                        <button class="nk-btn nk-btn-color-main-1" onclick=findByNameAndGame()>
+			                            <span class="fa fa-search"></span>
+			                        </button>
+			                    </div>
+			                </div>
+			                <div class="nk-gap"></div>
+		                    <div class="row">
+		                        <div class="col-md-12">
+		                            <select name="gameId" class="form-control" style="height: calc(2.25rem + 2px)">
+			                                <option value="" disabled selected>全部遊戲</option>
+		                            	<th:block th:each="game : ${games}">
+			                                <option th:value="${game.gameId}">[[${game.gameName}]]</option>
+		                                </th:block>
+		                            </select>
+		                        </div>
+			                </div>
+			                <div class="nk-gap"></div>
+			                <div>
+				                <button class="nk-btn nk-btn-rounded nk-btn-color-white float-right" onclick=findByNameAndGame()>應用</button>
+				            </div>
+				            <div class="clearfix"></div>
 					    </div>
 					</div>
 				</aside>

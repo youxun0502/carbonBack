@@ -15,7 +15,6 @@ import com.liu.model.Member;
 import com.liu.service.GmailService;
 import com.liu.service.MemberService;
 import com.ni.dto.WalletDTO;
-import com.ni.model.Wallet;
 import com.ni.service.WalletService;
 
 import jakarta.mail.MessagingException;
@@ -49,14 +48,6 @@ public class WalletController {
 	public String addFund(@RequestParam Map<String, Object> wallet) 
 			throws AddressException, MessagingException, IOException {
 		String aioCheckOutALLForm = walletService.ecpayCheckout(wallet);
-		Member member = mService.findById(Integer.parseInt((String)wallet.get("memberId")));
-		
-		String url = "http://localhost:8080/carbon/market";
-		
-		gService.sendMessage(member.getEmail(), gService.getMyEmail(), "Carbon錢包儲值成功",
-				"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + member.getUserId() + "您好:\n" + "\n" + 
-				"感謝您此次於Carbon完成儲值，點選以下連結前往個人頁面\n" + "\n" + url
-						+ "\n\n" + "Carbon lys7744110@gmail.com");
 		return aioCheckOutALLForm;
 	}
 	

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.evan.model.Game;
 import com.liu.model.Member;
 import com.liu.service.GmailService;
 import com.liu.service.MemberService;
@@ -27,7 +28,6 @@ import com.ni.dto.ItemOrderDTO;
 import com.ni.dto.WalletDTO;
 import com.ni.model.GameItem;
 import com.ni.model.ItemOrder;
-import com.ni.model.Wallet;
 import com.ni.service.GameItemService;
 import com.ni.service.ItemOrderService;
 import com.ni.service.WalletService;
@@ -71,16 +71,24 @@ public class ItemOrderController {
 	
 //	----------------------------- gameItemMarket -----------------------------
 	@GetMapping("/market")
-	public String marketList(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber, Model m) {
+	public String marketList(Model m) {
 		m.addAttribute("orders", orderService.findMinPrice());
-		m.addAttribute("items", itemService.findAllByPage(pageNumber));
+		List<GameItem> gameItems = itemService.findAll();
+		List<Game> games = new ArrayList<>();
+		for(GameItem gameItem : gameItems) {
+			Game game = gameItem.getGame();
+			if(! games.contains(game)) {
+				games.add(gameItem.getGame());
+			}
+		}
+		m.addAttribute("games", games);
 		return "ni/itemMarketList-gg";
 	}
 	
 	@ResponseBody
 	@GetMapping("/market/page")
 	public Page<ItemOrderDTO> marketListPage(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber) {
-		List<GameItem> gameItems = itemService.findAllByPage(pageNumber).getContent();
+		List<GameItem> gameItems = itemService.findAll();
 		List<ItemOrderDTO> orderList = new ArrayList<>();
 		for (GameItem gameItem : gameItems) {
 			ItemOrderDTO orderDTO = new ItemOrderDTO();
@@ -98,10 +106,58 @@ public class ItemOrderController {
 				}
 			}
 		}
-		Pageable pgb = PageRequest.of(pageNumber - 1, 5);
-
+		Pageable pgb = PageRequest.of(pageNumber - 1, 9);
+		
+		int fromIndex = pgb.getPageSize() * pgb.getPageNumber();
+        int toIndex = pgb.getPageSize() * (pgb.getPageNumber() + 1);
+        if( toIndex > orderList.size() ) toIndex = orderList.size();
+        //类似取mysql数据库的情况，因为数据取数本身支持分页，所以list的数据每次都取当前页就可以，但是需要先要计算所有记录数，然后传入totalElements变量
+        List<ItemOrderDTO> subOrderDTOs = orderList.subList(fromIndex, toIndex);
+		
 	    // 将orderList转换为Page对象
-	    Page<ItemOrderDTO> page = new PageImpl<>(orderList, pgb, orderList.size());
+        Page<ItemOrderDTO> page = new PageImpl<>(subOrderDTOs, pgb, orderList.size());
+	    System.out.println(orderList.size());
+		
+		return page;
+	}
+	
+	@ResponseBody
+	@GetMapping("/market/page/find")
+	public Page<ItemOrderDTO> marketListFindByName(@RequestParam("itemName") String itemName, @RequestParam("gameId") Integer gameId, @RequestParam(name = "p", defaultValue = "1") Integer pageNumber) {
+		List<GameItem> gameItems;
+		if(itemName != null && gameId != 0) {
+			gameItems = itemService.findByNameAndGame(gameId, itemName);
+		} else {
+ 			gameItems = itemService.findByNameOrGame(gameId, itemName);
+		}
+		List<ItemOrderDTO> orderList = new ArrayList<>();
+		for (GameItem gameItem : gameItems) {
+			ItemOrderDTO orderDTO = new ItemOrderDTO();
+			orderDTO.setItemId(gameItem.getItemId());
+			orderDTO.setGameItem(gameItem);
+			orderList.add(orderDTO);
+		}
+		
+		List<Map<String, Object>> priceList = orderService.findMinPrice();
+		for(ItemOrderDTO order : orderList) {
+			for (Map<String, Object> price : priceList) {
+				if(Integer.parseInt(price.get("itemId").toString()) == order.getItemId()) {
+					order.setItemId(Integer.parseInt(price.get("itemId").toString()));
+					order.setMinPrice(Float.parseFloat(price.get("minPrice").toString()));
+				}
+			}
+		}
+		Pageable pgb = PageRequest.of(pageNumber - 1, 9);
+		
+		int fromIndex = pgb.getPageSize() * pgb.getPageNumber();
+		int toIndex = pgb.getPageSize() * (pgb.getPageNumber() + 1);
+		if( toIndex > orderList.size() ) toIndex = orderList.size();
+		//类似取mysql数据库的情况，因为数据取数本身支持分页，所以list的数据每次都取当前页就可以，但是需要先要计算所有记录数，然后传入totalElements变量
+		List<ItemOrderDTO> subOrderDTOs = orderList.subList(fromIndex, toIndex);
+		
+		// 将orderList转换为Page对象
+		Page<ItemOrderDTO> page = new PageImpl<>(subOrderDTOs, pgb, orderList.size());
+		System.out.println(orderList.size());
 		
 		return page;
 	}

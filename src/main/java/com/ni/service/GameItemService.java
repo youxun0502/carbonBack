@@ -33,6 +33,14 @@ public class GameItemService {
 		return itemRepo.findByNameLike(itemName);
 	}
 	
+	public List<GameItem> findByNameOrGame(Integer gameId, String itemName) {
+		return itemRepo.findByNameOrGame(gameId, itemName);
+	}
+	
+	public List<GameItem> findByNameAndGame(Integer gameId, String itemName) {
+		return itemRepo.findByNameAndGame(gameId, itemName);
+	}
+	
 	public GameItem findById(Integer itemId) {
 		Optional<GameItem> optional = itemRepo.findById(itemId);
 		if(optional.isPresent()) {
