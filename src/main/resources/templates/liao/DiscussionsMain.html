@@ -62,10 +62,17 @@
 
 
 						</div>
-						<form class="d-flex" role="search" th:action="@{/discussions/findByUserName}" method="GET">
-							<input class="form-control me-2" type="search" placeholder="會員名稱查詢" aria-label="Search"
-								name="userName">
-							<button class="btn btn-outline-warning" type="submit">查詢</button>
+						<form th:action="@{/discussions/findByUserName}" method="GET">
+							<div class="row">
+								<div class="col-8">
+									<input class="form-control me-2" type="search" placeholder="會員名稱查詢"
+										aria-label="Search" name="userName" id="discussionsitem_search">
+								</div>
+								<div class="col-4">
+									<button class="btn btn-outline-warning" type="submit"
+										id="name_search_btn">查詢</button>
+								</div>
+							</div>
 						</form>
 					</div>
 				</nav>
