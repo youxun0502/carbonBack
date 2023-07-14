@@ -21,6 +21,7 @@ public class BonusShopDto {
 		
 		private String bonusDes;
 		private Boolean status;
+		private Boolean isBought;
 		private Integer point;
 		private Date buyDate;
 		
