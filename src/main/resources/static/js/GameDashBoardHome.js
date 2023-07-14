@@ -299,9 +299,9 @@ function deleteGame(button) {
 //上傳================================================
 function uploadGame(button) {
 	// 创建一个隐藏的文件输入框
-	var button = $(this);
+	var gameName = $(button).val();
 	var fileInput = $('<input type="file">').hide().appendTo('body');
-	var gameName = button.parent().siblings('.gameName').text();
+	console.log(gameName)
 	// 監聽文件
 	fileInput.change(function() {
 		var file = fileInput[0].files[0];
@@ -316,7 +316,7 @@ function uploadGame(button) {
 			processData: false,
 			contentType: false,
 			success: function(response) {
-				Swal.fire('上傳成功', '', 'success').then(function() {
+				Swal.fire('上傳成功目前成功上傳遊戲有：'+response, '', 'success').then(function() {
 
 				});
 			},
@@ -523,6 +523,7 @@ function showGameContent(gamesInfos) {
 		uploadFile.setAttribute('id', 'uploadBtn');
 		uploadFile.setAttribute('class', 'btn btn-warning');
 		uploadFile.setAttribute('onclick', 'uploadGame(this)');
+		uploadFile.setAttribute('value', game.gameName);
 		uploadIcon = document.createElement('i');
 		uploadIcon.setAttribute('class', 'fa-solid fa-upload fa-xl');
 		uploadIcon.setAttribute('style', 'color: #ffffff;');

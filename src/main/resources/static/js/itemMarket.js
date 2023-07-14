@@ -68,7 +68,11 @@ for (i = 0; i < buyBtn.length; i++) {
         removeHtml = $(this).closest('li');
         console.log(removeHtml);
         let buyId = this.getAttribute('data-id');
-        buyAnItem(buyId);
+        if (userId != '') {
+        	buyAnItem(buyId);
+        } else {
+            loginPage();
+        }
     })
 }
 
@@ -108,7 +112,7 @@ function showBuyInfo(order) {
         </div>`;
 
     buyPageInfo.innerHTML = infoHtmlString;
-    
+    console.log()
     if(order.needFund != 1){
 		document.getElementById('changeAddFund1').innerHTML=`
 			<a class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white float-right" href="/carbon/profile/wallet" id="addFunds">儲值</a>
@@ -442,6 +446,8 @@ function loadListPage (data){
 	let listPageHtml = ``;
 	let totalPages = data.totalPages;
 	let thisPage = data.pageable.pageNumber;
+	console.log(totalPages)
+	console.log(thisPage)
 	listPageHtml +=`
 				<div class="nk-gap-2"></div>
 		        <div class="nk-pagination nk-pagination-center">
@@ -474,7 +480,7 @@ function loadListPage (data){
 		            let pageId = this.getAttribute('data-pageid');
 		            console.log('pageId: ' + pageId);
 		            if (pageId == 0 || pageId == totalPages + 1) {
-		                this.setAttribute('disabled', '');
+		                this.remove();
 		            } else {
 		                loadPage(pageId);
 		            }
@@ -1159,9 +1165,9 @@ function medianPriceChart(data){
 	const footer = (tooltipItems) => {
 	  let sold = 0;
 	  tooltipItems.forEach(function(tooltipItem) {
-		 // console.log(tooltipItem)
+		  console.log(tooltipItem)
 		  const date = new Date(tooltipItem.label);
-		  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}`;
+		  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:00:00`;
 		  data.forEach(order=>{
 			  if(formattedDate === order.time && tooltipItem.raw == order.medianPrice){
 				  sold += order.total;
