@@ -310,7 +310,7 @@ function uploadGame(button) {
 		formData.append('gameFile', file);
 		formData.append('gameName', gameName);
 		$.ajax({
-			url: 'game/uploadGame',
+			url: '/carbon/game/uploadGame',
 			type: 'Post',
 			data: formData,
 			processData: false,
