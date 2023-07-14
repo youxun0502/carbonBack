@@ -108,7 +108,7 @@ public class MessagesController {
 		msg.setMtitle(mtitle);
 //		msg.setMphotoFile(mphotoFile.getBytes());
 		
-		bpService.newPointLog("sendmessage", memberId, 10);
+//		bpService.newPointLog("sendmessage", memberId, 10);
 		Map<String, Object> retMap = new HashMap<>();
 		try {
 			mService.insert(msg);
