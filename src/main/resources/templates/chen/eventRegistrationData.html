@@ -97,6 +97,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
         $(function () {
@@ -244,10 +245,12 @@
 		    category.addEventListener('change', () => {
 				
 		        let eventId = category.value;
+		        console.log("eventId: " + eventId)
 		        makeRequest(eventId);
 		    });
 		
 		    function makeRequest(eventId) {
+				console.log("eventId: " + eventId)
 		        let requestData = {
 		            params: {
 		                eventId: eventId
@@ -258,6 +261,7 @@
 		            .then(res => {
 						let chartDiv = document.getElementById('chartDiv');
 			            let registrations = res.data;
+			            console.log("registrations: " + registrations)
 				            if (registrations != "" & chartDiv.childNodes.length == 0) {
 				               let canvas = document.createElement('canvas'); 
 				               canvas.setAttribute("id","myChart");

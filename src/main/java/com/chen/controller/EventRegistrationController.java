@@ -64,6 +64,16 @@ public class EventRegistrationController {
 		return "chen/registrationRecord";
 	}
 	
+	// 報名紀錄分類查詢
+	@PostMapping("/registrationRecord/category")
+	public String findRegistrationRecordByGameName(@RequestParam("eventName")String eventName, @RequestParam("memberId")Integer memberId, Model m) {
+		
+		List<Event> recordList = eRepo.findMemberRecord(memberId, eventName);
+		m.addAttribute("recordList", recordList);
+		
+		return "chen/registrationRecordCategory";
+	}
+	
 	// 跳轉活動總覽頁面
 	@GetMapping("/eventPageAll")
 	public String eventFrontPageAll(@RequestParam(name="p", defaultValue = "1") Integer pageNumber, Model m) {
@@ -165,6 +175,8 @@ public class EventRegistrationController {
 		return "chen/registrationRecord";
 	}
 	
+	
+
 
 	
 	

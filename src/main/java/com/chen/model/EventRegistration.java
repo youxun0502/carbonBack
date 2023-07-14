@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,6 +52,7 @@ public class EventRegistration {
 	@Column(name = "signupDate")
 	private Date signupDate;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "eventId",insertable=false, updatable=false)
 	private Event event;
