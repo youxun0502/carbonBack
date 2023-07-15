@@ -192,6 +192,10 @@ public class MemberService {
 		return mRepository.findAllRegistrationYear();
 	}
 	
+	public List<Object[]> findRegistrationGender(String year){
+		return mRepository.findRegistrationGender(year);
+	}
+	
 	@Transactional
 	public void changePwdForForgetPwd(String email, String pwd) {
 		Member member = mRepository.findMemberByEmail(email);

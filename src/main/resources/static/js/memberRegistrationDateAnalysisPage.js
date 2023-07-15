@@ -3,10 +3,16 @@ $(function () {
 		scrollX: true,
 		"dom": 'lrtip'
 	});
+
+	$('#gender').DataTable({
+		scrollX: true,
+		"dom": 'lrtip'
+	});
 })
 
 const year = document.querySelector("#year");
 getRegistrationDatechartJs(year.value);
+getGenderChartJs(year.value);
 
 const registerYearForm = document.querySelector("#registerYearForm");
 year.addEventListener('change', function () {
@@ -90,5 +96,71 @@ function getRegistrationDatechartJs(year1) {
 			}
 			)
 
+		})
+}
+function getGenderChartJs(year1) {
+	axios({
+		url: 'http://localhost:8080/carbon/member/api/memberRegistrationgGenderAnalysis',
+		method: 'GET',
+		params: { year: year1 },
+		headers: { 'Content-Type': 'application/x-www-form-urlencode' }
+	})
+		.then(response => {
+			console.log(response.data);// 0是人數 1是性別
+			const genderCharJs = document.querySelector("#genderCharJs")
+			let responseData = [];
+			let labels = [];
+			let backgroundColorArray = [];
+			response.data[0].forEach(element => {
+				responseData.push(element);
+			})
+
+			response.data[1].forEach(element => {
+				if (element == 1) {
+					labels.push('男');
+					backgroundColorArray.push('deepskyblue');
+				} else {
+					labels.push('女');
+					backgroundColorArray.push('rgb(249, 71, 71)');
+				}
+			})
+
+
+			const data = {
+				labels: labels,
+				datasets: [
+					{
+						label: '人數',
+						data: responseData,
+						backgroundColor: backgroundColorArray,
+						hoverOffset: 4
+					}
+				]
+			}
+
+			chart = new Chart(genderCharJs, {
+				type: 'doughnut',
+				data: data,
+				options: {
+					plugins: {
+						legend: {
+							labels: {
+								color: 'white',
+								font: {
+									size: 24
+								}
+							}
+						}
+					},
+					tooltips: {
+						callbacks: {
+							labelFontSize: function (tooltipItem, chart) {
+								return 24; // 设置字体大小为16像素
+							}
+						}
+					}
+				}
+			}
+			)
 		})
 }

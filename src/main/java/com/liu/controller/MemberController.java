@@ -130,9 +130,12 @@ public class MemberController {
 	public String memberRegistrationDateAnalysisPage(Model m, @RequestParam(name = "year", defaultValue = "2023") String  year) {
 		List<Object[]> datas = mService.findRegistrationMonth(year);
 		List<String> years = mService.findAllRegistrationYear();
+		List<Object[]> genderData = mService.findRegistrationGender(year);
 		m.addAttribute("datas", datas);
 		m.addAttribute("year", year);
 		m.addAttribute("years", years);
+		System.out.println(genderData.get(0)[1]);
+		m.addAttribute("genderData", genderData);
 		return "/liu/memberRegistrationDateAnalysisPage";
 	}
 
@@ -140,6 +143,12 @@ public class MemberController {
 	@ResponseBody
 	public List<Object[]> memberRegistrationDateAnalysis(@RequestParam(name = "year", defaultValue = "2023") String  year) {
 		return mService.findRegistrationMonth(year);
+	}
+	
+	@GetMapping("/member/api/memberRegistrationgGenderAnalysis")
+	@ResponseBody
+	public List<Object[]> memberRegistrationGenderAnalysis(@RequestParam(name = "year", defaultValue = "2023") String  year) {
+		return mService.findRegistrationGender(year);
 	}
 	
 	@GetMapping("/memberFront/memberInformationPage")
