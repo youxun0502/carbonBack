@@ -184,8 +184,12 @@ public class MemberService {
 
 	}
 	
-	public  List<Object[]> findRegistrationMonth(){
-		return mRepository.findRegistrationMonth();
+	public  List<Object[]> findRegistrationMonth(String year){
+		return mRepository.findRegistrationMonth(year);
+	}
+	
+	public List<String> findAllRegistrationYear(){
+		return mRepository.findAllRegistrationYear();
 	}
 	
 	@Transactional

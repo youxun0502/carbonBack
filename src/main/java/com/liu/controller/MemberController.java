@@ -127,16 +127,19 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/memberRegistrationDateAnalysisPage")
-	public String memberRegistrationDateAnalysisPage(Model m) {
-		List<Object[]> datas = mService.findRegistrationMonth();
+	public String memberRegistrationDateAnalysisPage(Model m, @RequestParam(name = "year", defaultValue = "2023") String  year) {
+		List<Object[]> datas = mService.findRegistrationMonth(year);
+		List<String> years = mService.findAllRegistrationYear();
 		m.addAttribute("datas", datas);
+		m.addAttribute("year", year);
+		m.addAttribute("years", years);
 		return "/liu/memberRegistrationDateAnalysisPage";
 	}
 
 	@GetMapping("/member/api/memberRegistrationDateAnalysis")
 	@ResponseBody
-	public List<Object[]> memberRegistrationDateAnalysis() {
-		return mService.findRegistrationMonth();
+	public List<Object[]> memberRegistrationDateAnalysis(@RequestParam(name = "year", defaultValue = "2023") String  year) {
+		return mService.findRegistrationMonth(year);
 	}
 	
 	@GetMapping("/memberFront/memberInformationPage")

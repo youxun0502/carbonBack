@@ -3,7 +3,8 @@
 
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" th:href="@{/css/memberDataTable.css}"></link>
+	<link rel="stylesheet" th:href="@{/css/memberDataTable.css}">
+	</link>
 	<title>Member Analysis</title>
 </head>
 
@@ -20,11 +21,27 @@
 				</nav>
 				<ul class="nav nav-tabs">
 					<li class="nav-item"><a class="nav-link " th:href="@{/member/allMember}">搜尋全部</a></li>
-					<li class="nav-item"><a class="nav-link active" th:href="@{/member/memberRegistrationDateAnalysisPage}">分析</a>
+					<li class="nav-item"><a class="nav-link active"
+							th:href="@{/member/memberRegistrationDateAnalysisPage}">分析</a>
 					</li>
 				</ul>
 			</div>
 			<div class="container-fluid">
+				<div class="mt-3">
+					<form class="d-flex">
+						<label for="year" class="text-light me-2">搜尋年份</label>
+						<select id="year" class="col-2">
+						<th:block th:each="oneYear : ${years}">
+							<th:block th:if="oneYear eq ${year}">
+							<option selected th:value="${oneYear}">[[${oneYear}]]</option>
+							</th:block>
+							<th:block th:unless="oneYear eq ${year}">
+							<option th:value="${oneYear}">[[${oneYear}]]</option>
+							</th:block>
+						</th:block>
+						</select>
+					</form>
+				</div>
 				<div class="row my-3">
 					<div class="col-4">
 						<table id="example" class="hover row-border" style="width: 100%">

@@ -18,8 +18,8 @@
 					<div class="container-fluid">
 						<a class="navbar-brand link-light" th:href="@{/member}" style="font-size: 30px;">會員管理系統</a>
 						<div class="d-flex col-3" role="search">
-							<input class="form-control me-2" type="search" placeholder="會員姓名查詢" aria-label="Search" name="memberName"
-								id="memberName_search">
+							<input class="form-control me-2" type="search" placeholder="會員姓名查詢" aria-label="Search"
+								name="memberName" id="memberName_search">
 							<button class="btn btn-outline-warning col-2" type="submit" id="name_search_btn">查詢</button>
 						</div>
 					</div>
@@ -78,12 +78,13 @@
 
 									<th:block th:if="${member.status==1}">
 										<td>
-											<button th:data-id="${member.id}" class="btn btn-info btn-update" data-bs-toggle="modal"
-												data-bs-target="#exampleModal">更新
+											<button th:data-id="${member.id}" class="btn btn-info btn-update"
+												data-bs-toggle="modal" data-bs-target="#exampleModal">更新
 											</button>
 										</td>
 										<td>
-											<button th:data-id="${member.id}" class="btn btn-outline-success btn-restore" hidden=true>復原
+											<button th:data-id="${member.id}"
+												class="btn btn-outline-success btn-restore" hidden=true>復原
 											</button>
 											<button th:data-id="${member.id}" class="btn btn-danger btn-delete">凍結
 											</button>
@@ -91,13 +92,15 @@
 									</th:block>
 									<th:block th:unless="${member.status==1}">
 										<td>
-											<button th:data-id="${member.id}" class="btn btn-info btn-update" data-bs-toggle="modal"
-												data-bs-target="#exampleModal" hidden=true>更新
+											<button th:data-id="${member.id}" class="btn btn-info btn-update"
+												data-bs-toggle="modal" data-bs-target="#exampleModal" hidden=true>更新
 											</button>
 										</td>
 										<td>
-											<button th:data-id="${member.id}" class="btn btn-danger btn-delete" hidden=true>凍結</button>
-											<button th:data-id="${member.id}" class="btn btn-outline-success btn-restore">復原
+											<button th:data-id="${member.id}" class="btn btn-danger btn-delete"
+												hidden=true>凍結</button>
+											<button th:data-id="${member.id}"
+												class="btn btn-outline-success btn-restore">復原
 											</button>
 										</td>
 									</th:block>
