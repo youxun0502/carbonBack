@@ -113,6 +113,12 @@ public class Member {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "member", cascade = CascadeType.ALL)
 	private List<Wallet> wallets = new ArrayList<>();
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "inviterMember", cascade = CascadeType.ALL)
+	private List<Friend> inviterList = new ArrayList<>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "recipientMember", cascade = CascadeType.ALL)
+	private List<Friend> recipientList = new ArrayList<>();
+	
 	public Integer getStatus() {
 		return status;
 	}
@@ -262,6 +268,22 @@ public class Member {
 
 	public void setWallets(List<Wallet> wallets) {
 		this.wallets = wallets;
+	}
+
+	public List<Friend> getInviterList() {
+		return inviterList;
+	}
+
+	public void setInviterList(List<Friend> inviterList) {
+		this.inviterList = inviterList;
+	}
+
+	public List<Friend> getRecipientList() {
+		return recipientList;
+	}
+
+	public void setRecipientList(List<Friend> recipientList) {
+		this.recipientList = recipientList;
 	}
 
 	

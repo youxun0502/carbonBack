@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		body {
+			height: 100vh;
+			width: 100%;
+			background-color: black;
+			background-size: cover;
+			background-image: linear-gradient(to right, rgb(0, 0, 0), rgba(102, 102, 102, 0.589)), url("../img/test1.jpg");
+		}
+		
+		.friendCardHeader{
+			font-weight: bold !important; 
+			font-size:28px !important;
+		}
+	</style>
+	<title>Carbon</title>
+</head>
+
+<body>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-4">
+				<div class="card" style="width: 18rem;">
+					<div class="card-header">
+						<span class="text-dark friendCardHeader">好友列表</span>
+					</div>
+					<ul class="list-group list-group-flush">
+
+						<th:block th:each="friend : ${friends}">
+
+							<li class="list-group-item" th:data-friendId="${friend.Id}" th:text="${friend.memberName}"></li>
+						</th:block>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-8">
+
+		</div>
+	</div>
+	</div>
+</body>
+
+</html>
