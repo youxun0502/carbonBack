@@ -57,8 +57,9 @@
                     <table id="example" class="hover row-border" style="width:100%">
                         <thead>
                             <tr>
+								<th>活動名稱
                                 <th>真實姓名
-                                <th>電子信箱
+                                <th style="max-width: 260px;">電子信箱
                                 <th>聯絡電話
                                 <th>報名日期
                                 <th>編輯
@@ -68,8 +69,9 @@
                         <tbody id="registrationTable">
                             <th:block th:each=" registration : ${registrations} ">
                                 <tr>
+									<td th:text="${registration.event.name}"></td>
                                     <td th:text="${registration.realName}"></td>
-                                    <td th:text="${registration.email}"></td>
+                                    <td style="max-width: 260px;" th:text="${registration.email}"></td>
                                     <td th:text="${registration.phone}"></td>
                                     <td id="signupDate" th:text="${#dates.format(registration.signupDate, 'yyyy-MM-dd')}" </td>
                                     <td>
@@ -296,6 +298,11 @@
 		
 		        registrations.forEach(registration => {
 		            let tr = document.createElement('tr');
+		            
+		            console.log("registration :" + JSON.stringify(registration));
+		            let tdEventName = document.createElement('td');
+		            tdEventName.textContent = registration.event.name;
+		            tr.appendChild(tdEventName);
 		
 		            let tdRealName = document.createElement('td');
 		            tdRealName.textContent = registration.realName;

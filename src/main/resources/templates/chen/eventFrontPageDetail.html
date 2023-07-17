@@ -196,8 +196,8 @@
 
             <!-- START: Teammate Card -->
             <div class="nk-teammate-card">
-                <div class="nk-teammate-card-photo" style="align-self: center !important;">
-                    <img th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="">
+                <div class="nk-teammate-card-photo" style="height: 293px;">
+                    <img style="height: 293px;" th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="">
                 </div>
 
                 <div class="nk-teammate-card-info">
@@ -224,7 +224,7 @@
                                 <strong class="h4">活動地點</strong>
                             </td>
                             <td style="padding-top: 8px;padding-bottom: 5px;">
-                                <strong class="h6" th:text="${event.location}"></strong>
+                                <strong id="locationText" class="h6" th:text="${event.location}"></strong>
                             </td>
                         </tr>
                         <tr>
@@ -814,11 +814,13 @@
 
 
 <script>
+	
+
 	// 指定日期
 	var newDate = $('#deadline').text();
     var deadline = new Date(newDate);
     // 加上3天
-    deadline.setDate(deadline.getDate() - 10);
+    deadline.setDate(deadline.getDate() - 7);
 
     function updateCountdown() {
       var now = new Date();

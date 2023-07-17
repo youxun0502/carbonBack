@@ -173,8 +173,6 @@
 								<p class="h6 mb-20 ml-5">地點:<span th:text="${competition.location}"></span></p>
 								<p class="h6 mb-20 ml-5">報名截止:<span th:text="${competition.deadline}"></span></p>
 
-								<div class="nk-team-photo"
-									style="background-image: url('assets/images/team-photo.png');position: absolute;right: -18px;"></div>
 							</div>
 							<form th:action="@{/competitionPageDetail}" method="get">
 								<input type="hidden" name="competitionId" th:value="${competition.competitionId}" />
@@ -182,6 +180,7 @@
 									class="btn btn-warning">詳細資訊</button>
 							</form>
 						</div>
+						<div class="nk-gap-2"></div>
 					</th:block>
 
 

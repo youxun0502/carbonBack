@@ -84,7 +84,7 @@ public class CompetitionRegistrationService {
 	
 	//分類分頁
 	public Page<Competition> findByPageOne(Integer pageNumber,Integer gameId){
-		Pageable pgb = PageRequest.of(pageNumber-1, 6, Sort.Direction.ASC, "startDate");
+		Pageable pgb = PageRequest.of(pageNumber-1, 4, Sort.Direction.ASC, "startDate");
 		
 		Page<Competition> page = cRepo.findByGameId(gameId,pgb);
 		

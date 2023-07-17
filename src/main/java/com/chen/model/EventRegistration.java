@@ -52,7 +52,7 @@ public class EventRegistration {
 	@Column(name = "signupDate")
 	private Date signupDate;
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "eventId",insertable=false, updatable=false)
 	private Event event;
