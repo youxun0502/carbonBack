@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.li.dto.BonusPointDto;
 import com.li.dto.BonusShopDto;
 import com.li.model.BonusItem;
 import com.li.service.BonusLogService;
+import com.li.service.BonusPointService;
 import com.li.service.BonusService;
+import com.liu.service.MemberService;
 
 @Controller
 public class BonusItemController {
@@ -33,6 +36,11 @@ public class BonusItemController {
 	
 	@Autowired
 	private BonusLogService blService;
+	
+	@Autowired
+	private BonusPointService bpService;
+	
+	@Autowired MemberService mService;
 
 	@GetMapping("bonus/main")
 	public String goBackToBounusMain(Model model) {
@@ -46,6 +54,23 @@ public class BonusItemController {
 		model.addAttribute("Dtos",listDto);
 		return "li/listBonusLog" ;
 	}
+	@GetMapping("bonus/bonuspointlog")
+	public String gotoBonusPointLogPage(Model model) {
+		List<BonusPointDto> listDto = bpService.findAlltoDto();
+		model.addAttribute("Dtos",listDto);
+		return "li/listBonusPoint" ;
+	}
+	
+	@ResponseBody
+	@GetMapping("/bonus/findmemberpoint")
+	public List<BonusPointDto> getmemberpoint(@RequestParam("bonus_search") String str, Model model) {
+//		List<BonusItem> result = bService.findByName(str);
+//		model.addAttribute("bonusitemList", result);
+//		return "li/listAll";
+		
+		return bpService.findByMemberIdtoDto(Integer.parseInt(str));
+	}
+	
 	@GetMapping("bonus/insert")
 	public String gotoBonusInsert() {
 		return "li/Insert";
