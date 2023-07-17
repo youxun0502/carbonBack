@@ -1,6 +1,6 @@
 .recent-game-section {
-	background-color: #eef2f6;
-	border-top: 1px solid #d6dee7;
+	padding-bottom:10px;
+	--border-top: 1px solid #d6dee7;
 	border-bottom: 1px solid #d6dee7;
 }
 
@@ -14,6 +14,7 @@
 }
 
 .sc_item_container .sc_item_box {
+	background-color:slategray;
 	transform: translate(0px);
 	perspective: 300px;
 	perspective-origin: inherit;
@@ -101,7 +102,7 @@
 	overflow: hidden;
 	transform: translateY(0px);
 	line-height: 1.4rem;
-	background-image: linear-gradient(90deg, #C5CBD8 70%, rgba(0, 0, 0, 0));
+	background-image: linear-gradient(90deg, #a5102c 70%, rgba(0, 0, 0, 0));
 	background-clip: text;
 	transition-duration: .4s;
 	transition-timing-function: cubic-bezier(0, 0.73, 0.48, 1);
@@ -111,6 +112,7 @@
 }
 
 .item_box_footer .item_box_footer_desc .bonusitem_type {
+	color:#ffff;
 	font-size: .6rem;
 	letter-spacing: .1em;
 	margin: auto 0px;
@@ -131,10 +133,10 @@
 }
 
 .section_header .section_header_title {
-	font-size: 1.05rem;
+	font-size: 1.95rem;
 	color: #c5cbd8;
 	text-transform: uppercase;
-	font-weight: 300;
+	font-weight: 600;
 	letter-spacing: .1rem;
 	display: flex;
 	align-items: center;

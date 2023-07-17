@@ -3,8 +3,13 @@ package com.li.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +52,26 @@ public class BonusShopController {
 		model.addAttribute("bonusitemList", list);
 		return "li/bonusshop";
 	}
+	
+	@GetMapping("/bonus-shop/allAvatar")
+	public String gotoAllAvatar(Model model) {
+		List<BonusItem> list = bService.findAllAvatar();
+		model.addAttribute("bonusitemList", list);
+		return "li/fullAV";
+	}
+	@GetMapping("/bonus-shop/allFrame")
+	public String gotoAllFrame(Model model) {
+		List<BonusItem> list = bService.findAllFrame();
+		System.out.println("list: "+list.get(0).getBonusName());
+		model.addAttribute("bonusitemList", list);
+		return "li/fullAV";
+	}
+	@GetMapping("/bonus-shop/allBackground")
+	public String gotoAllBackground(Model model) {
+		List<BonusItem> list = bService.findAllBackground();
+		model.addAttribute("bonusitemList", list);
+		return "li/fullAV";
+	}
 
 	@GetMapping("/profile")
 	public String goBackToProfile(Model model,HttpSession session) {
@@ -77,56 +102,56 @@ public class BonusShopController {
 	@ResponseBody
 	@PostMapping("/bonus-shop/api/buybonusitem")
 	public BonusShopDto buyBonusItem(@RequestBody BonusShopDto bonusshopDto, Model model) {
-//		System.out.println(bonusshopDto.getBonusId());
-//		System.out.println(bonusshopDto.getMemberId());
-//		System.out.println(bonusshopDto.getBonusprice());
-//		System.out.println(bonusshopDto.getPoint());
-//		BonusItem bitem = bService.getBonusItemById(bonusshopDto.getBonusId());
+
 		BonusLog bLog = new BonusLog();
 		bLog.setBonusId(bonusshopDto.getBonusId());
 		bLog.setMemberId(bonusshopDto.getMemberId());
 		blService.newBonusLog(bLog);
 
 		bpService.newPointLog("buybonusitem", bonusshopDto.getMemberId(), -(bonusshopDto.getBonusprice()));
-//		System.out.println(-(bonusshopDto.getBonusprice()));
 
+		return bonusshopDto;
+	}
+	
+	@ResponseBody
+	@PostMapping("/bonus-shop/api/checkbought")
+	public BonusShopDto checkBonusLog(@RequestBody BonusShopDto bonusshopDto, Model model) {
+		bonusshopDto.setIsBought(blService.isBuy(bonusshopDto.getMemberId(), bonusshopDto.getBonusId()));
 		return bonusshopDto;
 	}
 
 	@ResponseBody
 	@PostMapping("/bonus-shop/api/findBonusLog")
 	public List<BonusShopDto> findBonusLogByMemberid(@RequestBody BonusShopDto bonusshopDto, Model model) {
-//		System.out.println("ININININININININININININININ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//		System.out.println(bonusshopDto.getMemberId());
-
-//	blService.findByMemberIdtoDto(bonusshopDto.getMemberId());
 		return blService.findByMemberIdtoDto(bonusshopDto.getMemberId());
 	}
 
 	@PostMapping("/bonus-shop/api/selectEdit")
-//	public String selectAvatarEdit(@ModelAttribute("myDTO") EditAvatarDto dto) {
-//	
-//		System.out.println("member.getId(): " + dto.getMemberId());
-//		System.out.println("avatar: " + dto.getAvatar());
-//		System.out.println("frame: " + dto.getFrame());
-//		System.out.println("background: " + dto.getBackground());
-//
-//
-//		return "redirect:/profile";
-//	}
 	public String selectAvatarEdit(HttpSession sesstion,
 			@RequestParam("the-new-avatar")Integer avatar,
 			@RequestParam("the-new-frame")Integer frame,
 			@RequestParam("the-new-bg")Integer background
 			) {
 		Member member =(Member) sesstion.getAttribute("memberBeans");
-//		System.out.println("member.getId()   "+member.getId());
-//		System.out.println("avatar   "+avatar);
-//		System.out.println("frame   "+frame);
-//		System.out.println("background   "+background);
 		mService.updateAvatar(member.getId(), avatar, frame, background);
 		
 		return "redirect:/memberFront/memberInformationPage";
+	}
+	
+	@ResponseBody
+	@GetMapping("/bonus-shop/avatar-page")
+	public Page<BonusItem> bonusshopAvatarListPage(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber) {
+		return bService.findByBonusTypePage("avatar", pageNumber);		
+	}
+	@ResponseBody
+	@GetMapping("/bonus-shop/frame-page")
+	public Page<BonusItem> bonusshopFrameListPage(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber) {
+		return bService.findByBonusTypePage("frame", pageNumber);		
+	}
+	@ResponseBody
+	@GetMapping("/bonus-shop/bg-page")
+	public Page<BonusItem> bonusshopBgListPage(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber) {
+		return bService.findByBonusTypePage("background", pageNumber);		
 	}
 
 }

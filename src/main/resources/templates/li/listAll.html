@@ -59,6 +59,7 @@
 					<li class="nav-item"><a class="nav-link active" th:href="@{/bonus/listAll}">全部商品</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/insert}">新增商品</a></li>
 					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/bonuslog}">購買紀錄</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/bonuspointlog}">點數紀錄</a></li>
 				</ul>
 			</div>
 			<div class="container-fluid">
@@ -99,16 +100,14 @@
 									<td>
 										<form method="get" th:action="@{/bonus/edit}">
 											<button type="submit" th:value="${oneBonusitem.bonusId}" name="id"
-												class="btn btn-info">
+												class="btn btn-info editBtn">
 												<i class="fa-solid fa-pen"></i>
 											</button>
 
 										</form>
 									</td>
 									<td>
-										<!-- <form method="post" th:action="@{/gameitem/gameitemDelete}" class="delForm">
-											<input type="hidden" th:value="${item.itemId}" name="itemId">
-											<input type="hidden" value="delete" name="_method"> -->
+										
 										<button type="submit" class="delBtn btn btn-secondary"
 											th:data-id="${oneBonusitem.bonusId}">
 											<i class=" fa-solid fa-trash-can"></i>

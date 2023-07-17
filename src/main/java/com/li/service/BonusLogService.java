@@ -47,6 +47,15 @@ public class BonusLogService {
 		newBonusLog(bonusLog3);
 		
 	}
+	
+	public Boolean isBuy(Integer memberid,Integer bonusId) {
+		 List<BonusLog> result = blRepo.findByMemberIdAndBonusId(memberid, bonusId);
+		if(result.isEmpty()) {
+			return false;
+		}else {			
+			return true;
+		}
+	}
 	//----------------------------------------------Dto------------------------------------//
 	public List<BonusShopDto> findAlltoDto(){
 		return converttoDtoList(findAll());
@@ -68,5 +77,6 @@ public class BonusLogService {
 		}
 		return LogDTOList;
 	}
+	
 	
 }
