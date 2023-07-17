@@ -66,6 +66,8 @@ public class Event {
 	@Column(name = "fee")
 	private Integer fee;
 	
+	/*
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "event",cascade = CascadeType.ALL)
 	private List<EventRegistration> eventRegistration;
+	*/
 }

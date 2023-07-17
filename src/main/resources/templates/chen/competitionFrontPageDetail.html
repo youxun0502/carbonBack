@@ -55,6 +55,10 @@
     <!-- jQuery -->
     <script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
     
+    
+    <script type="text/javascript"
+        src="//api.map.com.tw/js/getAPI.asp?v=1&key=45B1DE853709844EC7DBDD7987A3BA1D55506556"></script>
+    
     <style>
 		.wow {
             display: flex;
@@ -86,6 +90,16 @@
             color: #FFF;
 
         }
+        #tool {
+			width: 95px;
+            z-index: 99;
+            top: 10px;
+            right: 10px;
+            background-color: #f3f3f3;
+            padding: 10px;
+            border: solid;
+            border-width: 1px;
+        }
 	</style>
 </head>
 
@@ -94,7 +108,7 @@
     Additional Classes:
         .nk-page-boxed
 -->
-<body>
+<body onload="init()">
 	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
     
         
@@ -196,8 +210,8 @@
 
             <!-- START: Teammate Card -->
             <div class="nk-teammate-card">
-                <div class="nk-teammate-card-photo">
-                    <img th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}" alt="">
+                <div class="nk-teammate-card-photo" style="height: 293px;">
+                    <img style="height: 293px;" th:src="@{'/competitionRegistration/showImage/'+${competition.competitionId}}" alt="">
                 </div>
 
                 <div class="nk-teammate-card-info">
@@ -221,10 +235,12 @@
                         </tr>
                         <tr>
                             <td style="padding-top: 8px;padding-bottom: 5px;">
-                                <strong class="h4">活動地點</strong>
+                                <strong class="h4">賽事地點</strong>
                             </td>
                             <td style="padding-top: 8px;padding-bottom: 5px;">
-                                <strong class="h6" th:text="${competition.location}"></strong>
+                                <strong id="showLocation" class="h6" ></strong>
+								<span id="location" th:text="${competition.location}" style="display:none;"></span>
+                                <input type="button" value="地址定位" onclick="getEnterAddr()" class="btn-outline-info btn-sm" style="border-radius: 0.3rem;padding: 2px">
                             </td>
                         </tr>
                         <tr>
@@ -313,6 +329,20 @@
             <h3 class="nk-decorated-h-2"><span>賽事說明</span></h3>
             <p th:text="${competition.description}" style="color: white;"></p>
             <!-- END: Biography -->
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
 
             <!-- START: Latest Matches -->
             <div class="nk-gap-2"></div>
@@ -527,64 +557,30 @@
                     .nk-sidebar-sticky
             -->
             <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
+                
+                <!--
                 <div class="nk-widget">
-    <div class="nk-widget-content">
-        <form action="#" class="nk-form nk-form-style-1" novalidate="novalidate">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Type something...">
-                <button class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="nk-widget nk-widget-highlighted">
-    <h4 class="nk-widget-title"><span><span class="text-main-1">We</span> Are Social</span></h4>
-    <div class="nk-widget-content">
-        <!--
-            Social Links 3
-
-            Additional Classes:
-                .nk-social-links-cols-5
-                .nk-social-links-cols-4
-                .nk-social-links-cols-3
-                .nk-social-links-cols-2
-        -->
-        <ul class="nk-social-links-3 nk-social-links-cols-4">
-            <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a></li>
-            <li><a class="nk-social-instagram" href="#"><span class="fab fa-instagram"></span></a></li>
-            <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a></li>
-            <li><a class="nk-social-google-plus" href="#"><span class="fab fa-google-plus"></span></a></li>
-            <li><a class="nk-social-youtube" href="#"><span class="fab fa-youtube"></span></a></li>
-            <li><a class="nk-social-twitter" href="#" target="_blank"><span class="fab fa-twitter"></span></a></li>
-            <li><a class="nk-social-pinterest" href="#"><span class="fab fa-pinterest-p"></span></a></li>
-            <li><a class="nk-social-rss" href="#"><span class="fa fa-rss"></span></a></li>
-
-            <!-- Additional Social Buttons
-                <li><a class="nk-social-behance" href="#"><span class="fab fa-behance"></span></a></li>
-                <li><a class="nk-social-bitbucket" href="#"><span class="fab fa-bitbucket"></span></a></li>
-                <li><a class="nk-social-dropbox" href="#"><span class="fab fa-dropbox"></span></a></li>
-                <li><a class="nk-social-dribbble" href="#"><span class="fab fa-dribbble"></span></a></li>
-                <li><a class="nk-social-deviantart" href="#"><span class="fab fa-deviantart"></span></a></li>
-                <li><a class="nk-social-flickr" href="#"><span class="fab fa-flickr"></span></a></li>
-                <li><a class="nk-social-foursquare" href="#"><span class="fab fa-foursquare"></span></a></li>
-                <li><a class="nk-social-github" href="#"><span class="fab fa-github"></span></a></li>
-                <li><a class="nk-social-linkedin" href="#"><span class="fab fa-linkedin"></span></a></li>
-                <li><a class="nk-social-medium" href="#"><span class="fab fa-medium"></span></a></li>
-                <li><a class="nk-social-odnoklassniki" href="#"><span class="fab fa-odnoklassniki"></span></a></li>
-                <li><a class="nk-social-paypal" href="#"><span class="fab fa-paypal"></span></a></li>
-                <li><a class="nk-social-reddit" href="#"><span class="fab fa-reddit"></span></a></li>
-                <li><a class="nk-social-skype" href="#"><span class="fab fa-skype"></span></a></li>
-                <li><a class="nk-social-soundcloud" href="#"><span class="fab fa-soundcloud"></span></a></li>
-                <li><a class="nk-social-steam" href="#"><span class="fab fa-steam"></span></a></li>
-                <li><a class="nk-social-slack" href="#"><span class="fab fa-slack"></span></a></li>
-                <li><a class="nk-social-tumblr" href="#"><span class="fab fa-tumblr"></span></a></li>
-                <li><a class="nk-social-vimeo" href="#"><span class="fab fa-vimeo"></span></a></li>
-                <li><a class="nk-social-vk" href="#"><span class="fab fa-vk"></span></a></li>
-                <li><a class="nk-social-wordpress" href="#"><span class="fab fa-wordpress"></span></a></li>
-            -->
-        </ul>
-    </div>
-</div>
+				    <div class="nk-widget-content">
+				        <form action="#" class="nk-form nk-form-style-1" novalidate="novalidate">
+				            <div class="input-group">
+				                <input type="text" class="form-control" placeholder="Type something...">
+				                <button class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
+				            </div>
+				        </form>
+				    </div>
+				</div>
+				-->
+				<div class="nk-widget nk-widget-highlighted" style="position: relative;">
+					<div id="MapLayer" style="height: 500px;"></div>
+				    <form id="tool" name="MoveAll" style="position: absolute;right: 0;top: 0;font-size: 15px;">
+				        <input type="button" value="地圖放大" onclick="ZoomIn()">
+				        <input type="button" value="地圖縮小" onclick="ZoomOut()">
+				        <input id="LevelNow" type="hidden" value="7" style="width:30px;" readonly />
+				    </form>
+			    </div>
+				
+				
+				
 <div class="nk-widget nk-widget-highlighted">
     <h4 class="nk-widget-title"><span><span class="text-main-1">Top 3</span> Recent</span></h4>
     <div class="nk-widget-content">
@@ -860,6 +856,17 @@
 
 
 <script>
+	$(function () {
+		var location = document.getElementById('location');
+	    var showLocation = document.getElementById('showLocation');
+	    var fullLocation = location.textContent;
+	    var truncatedLocation = fullLocation.slice(0, 3);
+	    console.log("truncatedLocation: " + truncatedLocation)
+	    showLocation.textContent = truncatedLocation;
+		
+	})
+	
+	
     // 指定日期
 	var newDate = $('#startDate').text();
     var startDate = new Date(newDate);
@@ -925,6 +932,62 @@
 
     // 初始化倒计时
     updateCountdown();
+    
+    
+    
+    
+    
+    
+    
+    
+    var map;
+    function init() {
+        //初始化地圖
+        map = new iMap(document.getElementById("MapLayer"));
+        map.centerMap(new Point(121.57, 25.08), 7);
+    }
+    function getEnterAddr() {
+        var location = document.getElementById("location").textContent;
+      /*
+        if (Enteraddr == "") {
+            alert("請輸入地址!");
+            return false;
+        }
+        */
+        //地址轉座標服務
+        getAddrXY2("" + location + "", funB);
+    }
+    function funB(obj) {
+        var x = obj.locate.lng; //x座標  
+        var y = obj.locate.lat; //y座標
+        if (x == 0 || y == 0) {
+            alert("未取得座標");
+        } else {
+            //添增Marker
+            map.centerMap(new Point(x, y), 10);
+            map.addOverlay(new Marker(new Point(x, y), "TestMark", "", "http://api.map.com.tw/sample/images/redCenter.gif", "Position1"));
+        }
+    }
+    function LevelTo()
+    {
+        //地圖縮放大小值為數值
+        map.ZoomTo( parseInt(document.getElementById("Level").value));
+        document.getElementById("LevelNow").value = map.getZoomLevel();
+    }
+    function ZoomIn()
+    {
+        map.ZoomIn();
+        document.getElementById("LevelNow").value = map.getZoomLevel();
+    }
+    function ZoomOut()
+    {
+        map.ZoomOut();
+        document.getElementById("LevelNow").value = map.getZoomLevel();
+    }
+    
+    
+    
+    
   </script>    
 </body>
 </html>

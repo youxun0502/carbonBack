@@ -11,4 +11,5 @@ public interface BonusPointLogRepository extends JpaRepository<BonusPointLog, In
 	public BonusPointLog theLastPoint(@Param("memberId") Integer memberId);
 	@Query(value = "select * from bonuspointlog where memberId = :memberId order by logId desc", nativeQuery = true)
 	public List<BonusPointLog> findByMemberId(@Param("memberId") Integer memberId);
+
 }
