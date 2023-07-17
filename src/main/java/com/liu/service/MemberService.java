@@ -39,6 +39,7 @@ public class MemberService {
 
 	// 用在找update的資料
 	public Member findById(Integer id) {
+		
 		Optional<Member> optional = mRepository.findById(id);
 
 		if (optional.isPresent()) {

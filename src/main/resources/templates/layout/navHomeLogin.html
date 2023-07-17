@@ -85,6 +85,7 @@
 							<a href="#" th:text="${session.memberBeans.userId}"></a>
 							<ul class="dropdown">
 								<li><a th:href="@{/memberFront/memberInformationPage}">個人資料</a></li>
+								<li><a th:href="@{/memberFront/memberChattingRoom}">好友/聊天室</a></li>
 								<li class="nk-drop-item">
 									<a href="#">我的訂單</a>
 									<ul class="dropdown">
@@ -140,8 +141,7 @@
 					</ul>
 				</div>
 			</div>
-			<div class="d-none" id="memberId" th:data-user-id="${session.memberBeans.id}">[[${session.memberBeans.id}]]
-			</div>
+			<div class="d-none" id="memberId" th:data-user-id="${session.memberBeans.id}">[[${session.memberBeans.id}]]</div>
 		</nav>
 	</header>
 

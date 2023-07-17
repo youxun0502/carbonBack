@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		.friendCardHeader {
+			font-weight: bold !important;
+			font-size: 28px !important;
+		}
+
+		.friendList:hover {
+			cursor: pointer;
+		}
+	</style>
+	<title>Carbon</title>
+</head>
+
+<body>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div class="container vh-100">
+		<div class="row h-75 mt-20">
+			<div class="col-4">
+				<div class="card bg-dark" style="width: 18rem;">
+					<div class="card-header">
+						<span class="text-light friendCardHeader fs-3">好友列表</span>
+					</div>
+					<ul class="list-group list-group-flush">
+
+						<th:block th:each="friend : ${friends}">
+
+							<li class="list-group-item friendList bg-dark text-light fs-3"
+								th:data-friendId="${friend.innerId}" th:data-name="${friend.name}">[[${friend.name}]]
+								<th:block th:unless="${friend.messageNotRead} eq '0'">
+									<span class="badge bg-danger float-right"
+										th:id="'nr'+${friend.innerId}">[[${friend.messageNotRead}]]</span>
+								</th:block>
+								<th:block th:if="${friend.messageNotRead} eq '0'">
+									<span class="badge bg-danger float-right d-none"
+										th:id="'nr'+${friend.innerId}">[[${friend.messageNotRead}]]</span>
+								</th:block>
+
+							</li>
+						</th:block>
+					</ul>
+				</div>
+			</div>
+			<div class="col-8 h-100">
+				<div class="card text-center d-none bg-dark" style="height:100% !important;" id="chattingRoomContainer">
+					<div class="card-header text-light fs-3" id="chattingRoomTitle">
+						好友名稱
+					</div>
+					<div class="d-none" id="friendId"></div>
+					<div class="card-body" style="overflow: scroll;" id="chattingRoom">
+					</div>
+					<div class="card-footer text-muted d-flex justify-content-start">
+						<input type="text" class="col-10 rounded" id="chatContent">
+						<button class="col-2 nk-btn nk-btn-color-main-1 ml-5" id="sendContentBtn">傳送</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	</div>
+	<script>
+		const friendList = document.querySelectorAll(".friendList");
+		const chattingRoomContainer = document.querySelector("#chattingRoomContainer");
+		friendList.forEach(e => {
+			e.addEventListener("click", function () {
+				chattingRoomContainer.classList.remove('d-none');
+				let chattingRoomTitle = document.querySelector("#chattingRoomTitle");
+				chattingRoomTitle.innerText = this.getAttribute('data-name');
+				let friendId = document.querySelector("#friendId");
+				friendId.innerText = this.getAttribute('data-friendId');
+				let chatContent = document.querySelector("#chatContent");
+				chatContent.value = "";
+				chatContent.focus();
+				let toFriend = friendId.innerText;
+				let fromWho = document.querySelector("#memberId").innerText;
+				axios({
+					url: 'http://localhost:8080/carbon/chattingRoom/findLastTenMessage',
+					method: 'get',
+					params: {
+						'from': fromWho,
+						'to': toFriend
+					},
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencode'
+					}
+				})
+					.then(response => {
+						let fromWho = document.querySelector("#memberId").innerText;
+						let html = '';
+						let chattingRoom = document.querySelector("#chattingRoom");
+						console.log(response.data);
+						if (response.data != '') {
+							response.data.forEach(e => {
+								if (e.fromMember == fromWho) {
+									html += chattingRoomHtmlMaker(e.content, 'send');
+								} else {
+									html += chattingRoomHtmlMaker(e.content, 'reciptient');
+								}
+							})
+						}
+
+						chattingRoom.innerHTML = html;
+						chattingRoom.scrollTop = chattingRoom.scrollHeight;
+					})
+
+
+				axios({
+					url: 'http://localhost:8080/carbon/chattingRoom/readAllMessage',
+					method: 'put',
+					data:{
+						'to':fromWho,
+						'from':toFriend
+					}
+				})
+
+				let id = `#nr${toFriend}`
+				let notReadSpan = document.querySelector(id);
+				notReadSpan.innerText = 0;
+				notReadSpan.classList.add('d-none')
+			})
+		})
+
+		const sendContentBtn = document.querySelector("#sendContentBtn");
+		let chatContentContainer = document.querySelector("#chatContent");
+		sendContentBtn.addEventListener("click", function () {
+			putMessageInCotainer();
+		})
+
+		chatContentContainer.addEventListener('keydown', function (event) {
+			if (event.keyCode === 13) {
+				putMessageInCotainer();
+			}
+		});
+
+
+
+		function putMessageInCotainer() {
+			let friendId = document.querySelector("#friendId");
+			let toFriend = friendId.innerText;
+			let chatContentContainer = document.querySelector("#chatContent");
+			let chatContent = document.querySelector("#chatContent").value;
+			let fromWho = document.querySelector("#memberId").innerText;
+			console.log("fromWho:" + fromWho);
+
+			sendMessage(toFriend, fromWho, chatContent);
+			insertMessage(toFriend, fromWho, chatContent);
+			let chattingRoom = document.querySelector("#chattingRoom");
+			let chattingRoomInnerHtml = chattingRoom.innerHTML;
+			chattingRoomInnerHtml += chattingRoomHtmlMaker(chatContent, 'send');
+			chattingRoom.innerHTML = chattingRoomInnerHtml;
+			chatContentContainer.value = "";
+			chattingRoom.scrollTop = chattingRoom.scrollHeight;
+		}
+
+
+		const fromUserId = document.querySelector("#memberId").innerText;
+		let url = "ws://localhost:8080/carbon/chat/" + fromUserId;
+		const socket = new WebSocket(url);
+
+
+		socket.onopen = function () {
+
+			if (socket.readyState === WebSocket.OPEN) {
+				console.log("連線成功");
+			}
+
+		}
+
+		socket.onmessage = function (event) {
+
+			let dataToJson = JSON.parse(event.data);
+			let content = dataToJson.content;
+			let fromMember = dataToJson.from;
+			let toMember = dataToJson.to;
+			console.log(fromMember);
+			console.log(toMember);
+			let friendId = document.querySelector("#friendId");
+			if (fromMember != friendId.innerText) {
+				let id = `#nr${fromMember}`
+				let notReadContainer = document.querySelector(id);
+				let newNotReadNum = Number(notReadContainer.innerText);
+				newNotReadNum += 1;
+				notReadContainer.innerText = newNotReadNum;
+				notReadContainer.classList.remove('d-none');
+			} else {
+				axios({
+					url: 'http://localhost:8080/carbon/chattingRoom/readAllMessage',
+					method: 'put',
+					data:{
+						'to':fromWho,
+						'from':toFriend
+					}
+				})
+				
+				let chattingRoomInnerHtml = chattingRoom.innerHTML;
+				chattingRoomInnerHtml += chattingRoomHtmlMaker(content, 'reciptient');;
+				chattingRoom.innerHTML = chattingRoomInnerHtml;
+			}
+
+
+		}
+
+		socket.onclose = function () {
+			console.log("連線關閉");
+		}
+
+
+		function sendMessage(toFriend, fromWho, chatContent) {
+			let message = {
+				"from": fromWho,
+				"to": toFriend,
+				"content": chatContent
+			}
+			socket.send(JSON.stringify(message));
+		}
+
+		function insertMessage(toFriend, fromWho, chatContent) {
+
+			axios({
+				url: "http://localhost:8080/carbon/chattingRoom/insert",
+				method: 'post',
+				data: {
+					"from": fromWho,
+					"to": toFriend,
+					"content": chatContent
+				},
+				headers: { 'Content-Type': 'application/json' }
+			})
+		}
+
+		function chattingRoomHtmlMaker(content, action) {
+			let html = '';
+			if (action == 'send') {
+				html = `
+			<div class="d-flex justify-content-end mb-5">
+				<span class=" bg-white px-2 rounded text-dark fs-3">${content}</span>
+			</div>`
+				return html;
+			} else {
+				html = `
+				<div class="d-flex justify-content-start mb-5">
+				<span class="bg-info px-2 rounded text-light fs-3">${content}</span>
+			</div>`
+				return html;
+			}
+		}
+
+	</script>
+</body>
+
+</html>

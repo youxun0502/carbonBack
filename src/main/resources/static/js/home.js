@@ -8,5 +8,5 @@ logoutBtn.addEventListener('click', function () {
 		showConfirmButton: false,
 		timer: 1000
 	})
-	setTimeout(function(){top.location='/carbon/main/logout?id='+id} , 1000);  
+	setTimeout(function () { top.location = '/carbon/main/logout?id=' + id }, 1000);
 })

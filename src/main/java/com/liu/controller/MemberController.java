@@ -19,7 +19,10 @@ import com.evan.service.GameOrderService;
 import com.li.model.BonusItem;
 import com.li.service.BonusService;
 import com.liu.dto.MemberDto;
+import com.liu.model.Friend;
 import com.liu.model.Member;
+import com.liu.service.ChatService;
+import com.liu.service.FriendService;
 import com.liu.service.MemberService;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,12 +32,18 @@ public class MemberController {
 
 	@Autowired
 	MemberService mService;
-	
+
 	@Autowired
 	GameOrderService gameOrderService;
-	
+
 	@Autowired
 	BonusService bService;
+
+	@Autowired
+	FriendService friendService;
+	
+	@Autowired
+	ChatService chatService;
 
 	@GetMapping("/member/allMember")
 	public String findAllMember(Model m) {
@@ -127,7 +136,8 @@ public class MemberController {
 	}
 
 	@GetMapping("/member/memberRegistrationDateAnalysisPage")
-	public String memberRegistrationDateAnalysisPage(Model m, @RequestParam(name = "year", defaultValue = "2023") String  year) {
+	public String memberRegistrationDateAnalysisPage(Model m,
+			@RequestParam(name = "year", defaultValue = "2023") String year) {
 		List<Object[]> datas = mService.findRegistrationMonth(year);
 		List<String> years = mService.findAllRegistrationYear();
 		List<Object[]> genderData = mService.findRegistrationGender(year);
@@ -141,26 +151,54 @@ public class MemberController {
 
 	@GetMapping("/member/api/memberRegistrationDateAnalysis")
 	@ResponseBody
-	public List<Object[]> memberRegistrationDateAnalysis(@RequestParam(name = "year", defaultValue = "2023") String  year) {
+	public List<Object[]> memberRegistrationDateAnalysis(
+			@RequestParam(name = "year", defaultValue = "2023") String year) {
 		return mService.findRegistrationMonth(year);
 	}
-	
+
 	@GetMapping("/member/api/memberRegistrationgGenderAnalysis")
 	@ResponseBody
-	public List<Object[]> memberRegistrationGenderAnalysis(@RequestParam(name = "year", defaultValue = "2023") String  year) {
+	public List<Object[]> memberRegistrationGenderAnalysis(
+			@RequestParam(name = "year", defaultValue = "2023") String year) {
 		return mService.findRegistrationGender(year);
 	}
-	
+
 	@GetMapping("/memberFront/memberInformationPage")
 	public String memberInformationPage(HttpSession session, Model m) {
-		Member member = (Member)session.getAttribute("memberBeans");
+		Member member = (Member) session.getAttribute("memberBeans");
 		Map<String, Object> formData = new HashMap<>();
-		formData.put("memberId",member.getId().toString());
+		formData.put("memberId", member.getId().toString());
 		List<OrderLogDTO> memberOwnGames = gameOrderService.getMemberOwnGames(formData);
 		List<BonusItem> list = bService.findAll();
 		session.setAttribute("memberBeans", mService.findById(member.getId()));
 		m.addAttribute("bonusitemList", list);
 		m.addAttribute("memberOwnGames", memberOwnGames);
 		return "/liu/memberInformationPage";
+	}
+
+	@GetMapping("/memberFront/memberChattingRoom")
+	public String memberChattingRoom(HttpSession session, Model m) {
+		Member member = (Member) session.getAttribute("memberBeans");
+		List<Friend> friendList = friendService.findFriendByuserId(member.getId());
+		List<MemberDto> friends = new ArrayList<>();
+		
+		for (Friend friend : friendList) {
+			MemberDto memberFriend = new MemberDto();
+			if (friend.getInviter().equals(member.getId())) {			
+				Member tempMember = mService.findById(friend.getRecipient());
+				memberFriend.setInnerId(tempMember.getId().toString());
+				memberFriend.setName(tempMember.getMemberName());
+				memberFriend.setMessageNotRead(chatService.findNotReadMessage(tempMember.getId()));
+			}else {	
+				Member tempMember = mService.findById(friend.getInviter());
+				memberFriend.setInnerId(tempMember.getId().toString());
+				memberFriend.setName(tempMember.getMemberName());
+				memberFriend.setMessageNotRead(chatService.findNotReadMessage(tempMember.getId()));
+			}
+			friends.add(memberFriend);
+		}
+		
+		m.addAttribute("friends", friends);
+		return "/liu/memberFriendAndChat";
 	}
 }
