@@ -21,6 +21,7 @@ import com.li.service.BonusService;
 import com.liu.dto.MemberDto;
 import com.liu.model.Friend;
 import com.liu.model.Member;
+import com.liu.service.ChatService;
 import com.liu.service.FriendService;
 import com.liu.service.MemberService;
 
@@ -40,6 +41,9 @@ public class MemberController {
 
 	@Autowired
 	FriendService friendService;
+	
+	@Autowired
+	ChatService chatService;
 
 	@GetMapping("/member/allMember")
 	public String findAllMember(Model m) {
@@ -176,18 +180,24 @@ public class MemberController {
 	public String memberChattingRoom(HttpSession session, Model m) {
 		Member member = (Member) session.getAttribute("memberBeans");
 		List<Friend> friendList = friendService.findFriendByuserId(member.getId());
-		List<Member> friends = new ArrayList<>();
-
+		List<MemberDto> friends = new ArrayList<>();
+		
 		for (Friend friend : friendList) {
-			Member memberfriend = new Member();
-			if (friend.getInviter().equals(member.getId())) {
-				memberfriend = mService.findById(friend.getRecipient());
+			MemberDto memberFriend = new MemberDto();
+			if (friend.getInviter().equals(member.getId())) {			
+				Member tempMember = mService.findById(friend.getRecipient());
+				memberFriend.setInnerId(tempMember.getId().toString());
+				memberFriend.setName(tempMember.getMemberName());
+				memberFriend.setMessageNotRead(chatService.findNotReadMessage(tempMember.getId()));
 			}else {	
-				memberfriend = mService.findById(friend.getInviter());
+				Member tempMember = mService.findById(friend.getInviter());
+				memberFriend.setInnerId(tempMember.getId().toString());
+				memberFriend.setName(tempMember.getMemberName());
+				memberFriend.setMessageNotRead(chatService.findNotReadMessage(tempMember.getId()));
 			}
-			friends.add(memberfriend);
+			friends.add(memberFriend);
 		}
-
+		
 		m.addAttribute("friends", friends);
 		return "/liu/memberFriendAndChat";
 	}

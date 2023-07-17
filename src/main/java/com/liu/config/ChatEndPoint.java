@@ -58,6 +58,8 @@ public class ChatEndPoint {
 	@OnMessage
 	public void onMessage(Message message) {
 	
+		System.out.println(message.getFrom());
+		System.out.println(message.getTo());
 		sendMessageToUser(message);//發訊息
 	}
 

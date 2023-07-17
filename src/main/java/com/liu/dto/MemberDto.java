@@ -44,6 +44,16 @@ public class MemberDto {
 	
 	private int status;
 	
+	private Integer messageNotRead;
+	
+	public Integer getMessageNotRead() {
+		return messageNotRead;
+	}
+
+	public void setMessageNotRead(Integer messageNotRead) {
+		this.messageNotRead = messageNotRead;
+	}
+
 	public int getStatus() {
 		return status;
 	}
