@@ -82,11 +82,22 @@
 	    <div class="nk-gap-2"></div>
         <ul class="nk-forum text-white">
 	        <li class="p-10">
-	            <div class="nk-forum-title my-auto">
-	            	<h3></h3>
+	            <div class="nk-forum-title my-auto ms-2">
+	            	<div th:if="${session.memberBeans} != null" class="row text-white">
+		        		<div class="col-md-12">
+			        		<div class="d-flex">
+			        			<div class="d-flex">
+						        	<div class="myWallet2 h4 my-auto me-4"></div>
+			        			</div>
+					            <div>
+					                <a th:href="@{/profile/wallet}" class="nk-btn nk-btn-rounded nk-btn-color-white float-right">儲值</a>
+					            </div>
+					        </div>
+				        </div>
+		        	</div>
 	            </div>
 	            <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
-	            	<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${item.itemId}">
+	            	<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-4 nk-btn-hover-color-main-1" id="buyOrder1" data-toggle="modal" data-target="#modalBuyOrderPage" th:data-buyId="${item.itemId}">
 	                    下單訂購
 	                </a>
 	            </div>
@@ -95,7 +106,7 @@
         
 	    <div class="nk-gap-1"></div>
 	    
-	    <ul class="nk-forum">
+	    <ul class="nk-forum text-white">
             <li class="p-10">
                 <div class="nk-forum-icon"></div>
                 <div class="nk-forum-title">

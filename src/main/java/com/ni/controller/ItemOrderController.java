@@ -106,7 +106,7 @@ public class ItemOrderController {
 				}
 			}
 		}
-		Pageable pgb = PageRequest.of(pageNumber - 1, 9);
+		Pageable pgb = PageRequest.of(pageNumber - 1, 12);
 		
 		int fromIndex = pgb.getPageSize() * pgb.getPageNumber();
         int toIndex = pgb.getPageSize() * (pgb.getPageNumber() + 1);
@@ -147,7 +147,7 @@ public class ItemOrderController {
 				}
 			}
 		}
-		Pageable pgb = PageRequest.of(pageNumber - 1, 9);
+		Pageable pgb = PageRequest.of(pageNumber - 1, 12);
 		
 		int fromIndex = pgb.getPageSize() * pgb.getPageNumber();
 		int toIndex = pgb.getPageSize() * (pgb.getPageNumber() + 1);

@@ -358,58 +358,24 @@ function checkSales(buyId, buyPrice, orders){
 }
 
 
-// --------------------------- sell list ajax ---------------------------          
-function listPage(data) {
-    let sellListHtml = `
-        <ul class="nk-forum text-white">`;
-    data.forEach(order => {
-    	sellListHtml += `
-            <li class="p-10">
-                <div class="nk-forum-activity me-3 d-flex">
-                	<img th:src="@{'/market/downloadImage/' + ${order.itemId}}" th:alt="${order.gameItem.itemImgName}"
-                            class="img-fluid" style="max-width: 120px">
-                </div>
-                <div class="nk-forum-title my-auto">
-                	<h3>[[${order.gameItem.itemName}]]</h3>
-                </div>
-                <div class="nk-forum-activity my-auto">
-                    <div class="nk-forum-activity-title text-center">
-                        [[${order.sell.userId}]]
-                    </div>
-                </div>
-                <div class="nk-forum-activity my-auto d-flex justify-content-center">
-                    <div class="nk-forum-activity-title">
-                        NT$ [[${order.price}]]
-                    </div>
-                </div>
-                <div class="nk-forum-activity text-center my-auto d-flex justify-content-center">
-                	<a href="#" class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 buyBtn" data-toggle="modal" data-target="#modalBuyPage" th:data-id="${order.ordId}">
-                        立即購買
-                    </a>
-                </div>
-            </li>`;
-	})
-		sellListHtml += `</ul>`;
-}
-
 
 // =========================== itemMarketList ===========================
 // --------------------------- list page ajax ---------------------------
 function loadItemList(){
 	axios.get('/carbon/market/page')
 		.then(response => {
-	        loadListPage (response.data);
+	        loadListPage (response.data, 'load');
 	    })
 	    .catch(err => {
 			console.log('err: ' + err);
 		})
 }
 		
-function loadListPage (data){
+function loadListPage (data, elm){
 	let itemListHtml = ``;
 	data.content.forEach(order => {
 		itemListHtml += `
-		    <div class="col-md-4 col-6">
+		    <div class="col-lg-3 col-md-4 col-6">
 		        <div class="nk-blog-post border border-secondary px-3 gameItem">
 		            <a href="/carbon/market/${order.gameItem.gameId}/${order.itemId}/${order.gameItem.itemName}" class="nk-post-img cb-a">
 		                <img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}">
@@ -444,29 +410,29 @@ function loadListPage (data){
 	console.log(totalPages)
 	console.log(thisPage)
 	listPageHtml +=`
-				<div class="nk-gap-2"></div>
-		        <div class="nk-pagination nk-pagination-center">
-		            <a href="#" class="pageBtn nk-pagination-prev" data-pageid="${thisPage}">
-		                <span class="ion-ios-arrow-back"></span>
-		            </a>
-		            <nav>`;
-		    for(i = 1; i <= totalPages ;i++){
-				if(i == thisPage + 1){
-					listPageHtml +=`
-		                <a class="pageBtn nk-pagination-current" href="#" data-pageid="${i}">${i}</a>`;
-				} else {
-					listPageHtml +=`
-		                <a class="pageBtn" href="#" data-pageid="${i}">${i}</a>`;
-				}
+			<div class="nk-gap-2"></div>
+	        <div class="nk-pagination nk-pagination-center">
+	            <a href="#" class="pageBtn nk-pagination-prev" data-pageid="${thisPage}">
+	                <span class="ion-ios-arrow-back"></span>
+	            </a>
+	            <nav>`;
+	    for(i = 1; i <= totalPages ;i++){
+			if(i == thisPage + 1){
+				listPageHtml +=`
+	                <a class="pageBtn nk-pagination-current" href="#" data-pageid="${i}">${i}</a>`;
+			} else {
+				listPageHtml +=`
+	                <a class="pageBtn" href="#" data-pageid="${i}">${i}</a>`;
 			}
-			listPageHtml +=`
-		            </nav>
-		            <a href="#" class="pageBtn nk-pagination-next" data-pageid="${thisPage + 2}">
-		                <span class="ion-ios-arrow-forward"></span>
-		            </a>
-		        </div>`;
-		        
-			$('#itemListPage1').html(listPageHtml);
+		}
+		listPageHtml +=`
+	            </nav>
+	            <a href="#" class="pageBtn nk-pagination-next" data-pageid="${thisPage + 2}">
+	                <span class="ion-ios-arrow-forward"></span>
+	            </a>
+	        </div>`;
+	        
+		$('#itemListPage1').html(listPageHtml);
 			
 			let pageBtns = document.getElementsByClassName('pageBtn');
 		    for (i = 0; i < pageBtns.length; i++) {
@@ -477,20 +443,25 @@ function loadListPage (data){
 		            if (pageId == 0 || pageId == totalPages + 1) {
 		                //this.removeAttribute('href');
 		            } else {
-		                loadPage(pageId);
+						switch(elm){
+							case 'load':
+				                loadPage(pageId);
+								break;
+							case 'search':
+								changeSearchPage(pageId);
+								break;
+						}
 		            }
 		        });
 		    }
-	
 }
-
 
 function loadPage(thatPage) {
 	axios.get('/carbon/market/page',{
 			params: { p: thatPage }
 		})
 		.then(response => {
-            loadListPage(response.data);
+            loadListPage(response.data, 'load');
         })
         .catch(err => {
 			console.log('err: ' + err);
@@ -513,7 +484,7 @@ function findByNameAndGame(){
 	})
 	.then(response => {
 		if(response.data.content != ''){
-			loadSearchPage(response.data);
+			loadListPage(response.data, 'search');
 		} else {
 			$('#listPage1').html('<h3 class="text-center">查無資料</h3>');
 			$('#itemListPage1').html('')
@@ -524,86 +495,6 @@ function findByNameAndGame(){
 	})
 }
 
-function loadSearchPage (data){
-	let itemListHtml = ``;
-	data.content.forEach(order => {
-		itemListHtml += `
-		    <div class="col-md-4 col-6">
-		        <div class="nk-blog-post border border-secondary px-3 gameItem">
-		            <a href="/carbon/market/${order.gameItem.gameId}/${order.itemId}/${order.gameItem.itemName}" class="nk-post-img cb-a">
-		                <img src="/carbon/market/downloadImage/${order.itemId}" alt="${order.gameItem.itemImgName}">
-		                <h2 class="nk-post-title h5" style="height: 45px">
-		                	${order.gameItem.itemName}
-		                </h2>
-		                <div class="text-main-1" style="height: 58px">起跳價格: `;
-		if(order.minPrice != null){
-				itemListHtml += `
-		                    <h3 class="nk-post-title h5 text-end">NT$ ${order.minPrice}</h3>`;
-		} else {
-				itemListHtml += `
-		                    <h3 class="nk-post-title h5 text-end">NT$ --</h3>`;
-		}
-		itemListHtml += `
-		               	</div>
-		            </a>
-		            <div class="nk-post-by">
-		                <img src="/carbon/gameFront/getImg/${order.gameItem.game.gamePhotoLists[0].photoId}" alt="" class="rounded-circle" width="35">
-		                <a href="/carbon/gameFront/${order.gameItem.game.gameName}">${order.gameItem.game.gameName}</a>
-		            </div>
-		            <div class="nk-gap"></div>
-		        </div>
-		    </div>`;
-	})
-	
-	$('#listPage1').html(itemListHtml);
-	
-	let listPageHtml = ``;
-	let totalPages = data.totalPages;
-	let thisPage = data.pageable.pageNumber;
-	console.log(totalPages)
-	console.log(thisPage)
-	listPageHtml +=`
-				<div class="nk-gap-2"></div>
-		        <div class="nk-pagination nk-pagination-center">
-		            <a href="#" class="pageBtn nk-pagination-prev" data-pageid="${thisPage}">
-		                <span class="ion-ios-arrow-back"></span>
-		            </a>
-		            <nav>`;
-		    for(i = 1; i <= totalPages ;i++){
-				if(i == thisPage + 1){
-					listPageHtml +=`
-		                <a class="pageBtn nk-pagination-current" href="#" data-pageid="${i}">${i}</a>`;
-				} else {
-					listPageHtml +=`
-		                <a class="pageBtn" href="#" data-pageid="${i}">${i}</a>`;
-				}
-			}
-			listPageHtml +=`
-		            </nav>
-		            <a href="#" class="pageBtn nk-pagination-next" data-pageid="${thisPage + 2}">
-		                <span class="ion-ios-arrow-forward"></span>
-		            </a>
-		        </div>`;
-		        
-			$('#itemListPage1').html(listPageHtml);
-			
-			let pageBtns = document.getElementsByClassName('pageBtn');
-		    for (i = 0; i < pageBtns.length; i++) {
-		        pageBtns[i].addEventListener('click', function (e) {
-					e.preventDefault();
-		            let pageId = this.getAttribute('data-pageid');
-		            console.log('pageId: ' + pageId);
-		            if (pageId == 0 || pageId == totalPages + 1) {
-		                //this.removeAttribute('href');
-		            } else {
-		                changeSearchPage(pageId);
-		            }
-		        });
-		    }
-	
-}
-
-
 function changeSearchPage(thatPage) {
 	axios.get('/carbon/market/page/find', {
 		params: {
@@ -613,7 +504,7 @@ function changeSearchPage(thatPage) {
 		}
 	})
 	.then(response => {
-        loadListPage(response.data);
+        loadListPage(response.data, 'search');
     })
     .catch(err => {
 		console.log('err: ' + err);
@@ -1218,12 +1109,9 @@ function showSaleInfo(order, medianPrice) {
 	                    console.log('err: ' + err);
 	                })
 			}
-
             form.classList.add('was-validated')
-
         }, false)
     })
-
 }
 
 
@@ -1365,7 +1253,6 @@ function medianPriceChart(data){
 }
 
 
-
 // =========================== redirect to login page ===========================          
 function loginPage() {
     let LoginMsg = document.getElementsByClassName('LoginMsg');
@@ -1389,8 +1276,4 @@ function loginPage() {
     	LoginMsg[i].innerHTML = loginHtmlString;
     }
 }
-
-
-
-
 
