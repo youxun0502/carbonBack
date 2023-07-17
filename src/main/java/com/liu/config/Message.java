@@ -8,9 +8,9 @@ public class Message {
 	
 	private String content;
 	
-	
 
 	public Message() {}
+	
 
 	public String getFrom() {
 		return from;

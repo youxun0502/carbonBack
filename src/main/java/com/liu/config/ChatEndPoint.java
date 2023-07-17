@@ -7,7 +7,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.liu.model.Chat;
+import com.liu.model.Member;
+import com.liu.service.ChatService;
+import com.liu.service.MemberService;
 
 import jakarta.websocket.EncodeException;
 import jakarta.websocket.OnClose;
@@ -47,12 +53,11 @@ public class ChatEndPoint {
 //		message.setContent("Connected!");
 //		broadCast(message);
 	}
+	
 
 	@OnMessage
 	public void onMessage(Message message) {
-		System.out.println(message.getFrom());
-		System.out.println(message.getTo());
-		System.out.println(message.getContent());
+	
 		sendMessageToUser(message);//發訊息
 	}
 

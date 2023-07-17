@@ -1,6 +1,7 @@
 package com.liu.model;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,6 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	@Query(nativeQuery = true, value = "select count(*) count, gender gender from member where year(registrationDate) = :year  group by gender")
 	public List<Object[]> findRegistrationGender(@Param("year") String year);
 
+	public Optional<Member> findById(Integer id);
+	
 }
