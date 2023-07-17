@@ -111,19 +111,26 @@ function getGenderChartJs(year1) {
 			let responseData = [];
 			let labels = [];
 			let backgroundColorArray = [];
-			response.data[0].forEach(element => {
-				responseData.push(element);
-			})
+			if(response.data[0][1]==1){
+				responseData.push(response.data[0][0])
+				labels.push('男');
+				backgroundColorArray.push('deepskyblue');
+			}else{
+				responseData.push(response.data[0][0])
+				labels.push('女');
+				backgroundColorArray.push('rgb(249, 71, 71)');
+			}
+			
+			if(response.data[1][1]==1){
+				responseData.push(response.data[1][0])
+				labels.push('男');
+				backgroundColorArray.push('deepskyblue');
+			}else{
+				responseData.push(response.data[1][0])
+				labels.push('女');
+				backgroundColorArray.push('rgb(249, 71, 71)');
+			}
 
-			response.data[1].forEach(element => {
-				if (element == 1) {
-					labels.push('男');
-					backgroundColorArray.push('deepskyblue');
-				} else {
-					labels.push('女');
-					backgroundColorArray.push('rgb(249, 71, 71)');
-				}
-			})
 
 
 			const data = {
