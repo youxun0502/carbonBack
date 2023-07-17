@@ -10,30 +10,3 @@ logoutBtn.addEventListener('click', function () {
 	})
 	setTimeout(function () { top.location = '/carbon/main/logout?id=' + id }, 1000);
 })
-
-const fromUserId = document.querySelector("#memberId").innerText;
-let url = "ws://localhost:8080/carbon/chat/" + fromUserId;
-const socket = new WebSocket(url);
-
-
-socket.onopen = function () {
-
-	if (socket.readyState === WebSocket.OPEN) {
-		console.log("連線成功");	
-	}
-
-}
-
-socket.onmessage = function (event) {
-
-	event.data;
-	console.log("Received message:", message);
-}
-
-socket.onclose = function () {
-	console.log("連線關閉");
-}
-
-
-
-

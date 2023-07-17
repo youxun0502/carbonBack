@@ -52,7 +52,6 @@
 					</div>
 					<div class="d-none" id="friendId"></div>
 					<div class="card-body" id="chattingRoom">
-
 					</div>
 					<div class="card-footer text-muted d-flex justify-content-start">
 						<input type="text" class="col-10 rounded" id="chatContent">
@@ -76,6 +75,7 @@
 				friendId.innerText = this.getAttribute('data-friendId');
 				let chatContent = document.querySelector("#chatContent");
 				chatContent.value = "";
+				//要打回資料庫取過往的聊天記錄
 			})
 		})
 
@@ -83,11 +83,53 @@
 		sendContentBtn.addEventListener("click", function () {
 			let friendId = document.querySelector("#friendId");
 			let toFriend = friendId.innerText;
+			let chatContentContainer = document.querySelector("#chatContent");
 			let chatContent = document.querySelector("#chatContent").value;
 			let fromWho = document.querySelector("#memberId").innerText;
 			sendMessage(toFriend, fromWho, chatContent);
-
+			let chattingRoom = document.querySelector("#chattingRoom");
+			let chattingRoomInnerHtml = chattingRoom.innerHTML;
+			chattingRoomInnerHtml += `
+			<div class="d-flex justify-content-end mb-5">
+				<span class="bg-primary px-2 rounded text-light fs-3">${chatContent}</span>
+			</div>`;
+			chattingRoom.innerHTML = chattingRoomInnerHtml;
+			chatContentContainer.value = "";
 		})
+
+
+		const fromUserId = document.querySelector("#memberId").innerText;
+		let url = "ws://localhost:8080/carbon/chat/" + fromUserId;
+		const socket = new WebSocket(url);
+
+
+		socket.onopen = function () {
+
+			if (socket.readyState === WebSocket.OPEN) {
+				console.log("連線成功");
+			}
+
+		}
+
+		socket.onmessage = function (event) {
+			
+			let dataToJson = JSON.parse(event.data);
+			var content = dataToJson.content;
+			console.log("Received message:", content);
+						let chattingRoomInnerHtml = chattingRoom.innerHTML;
+			chattingRoomInnerHtml += `
+			<div class="d-flex justify-content-start mb-5">
+				<span class="bg-primary px-2 rounded text-light fs-3">${content}</span>
+			</div>`;
+			chattingRoom.innerHTML = chattingRoomInnerHtml;
+			
+			
+		}
+
+		socket.onclose = function () {
+			console.log("連線關閉");
+		}
+
 
 		function sendMessage(toFriend, fromWho, chatContent) {
 			const message = {
