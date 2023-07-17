@@ -11,10 +11,14 @@
 			background-size: cover;
 			background-image: linear-gradient(to right, rgb(0, 0, 0), rgba(102, 102, 102, 0.589)), url("../img/test1.jpg");
 		}
-		
-		.friendCardHeader{
-			font-weight: bold !important; 
-			font-size:28px !important;
+
+		.friendCardHeader {
+			font-weight: bold !important;
+			font-size: 28px !important;
+		}
+
+		.friendList:hover {
+			cursor: pointer;
 		}
 	</style>
 	<title>Carbon</title>
@@ -22,8 +26,8 @@
 
 <body>
 	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
-	<div class="container">
-		<div class="row">
+	<div class="container vh-100">
+		<div class="row h-75">
 			<div class="col-4">
 				<div class="card" style="width: 18rem;">
 					<div class="card-header">
@@ -33,17 +37,68 @@
 
 						<th:block th:each="friend : ${friends}">
 
-							<li class="list-group-item" th:data-friendId="${friend.Id}" th:text="${friend.memberName}"></li>
+							<li class="list-group-item friendList" th:data-friendId="${friend.Id}"
+								th:text="${friend.memberName}">
+							</li>
 						</th:block>
 					</ul>
 				</div>
 			</div>
-		</div>
-		<div class="col-8">
+			<div class="col-8 h-100">
+				<div class="card text-center d-none" style="height:100% !important;" id="chattingRoomContainer">
+					<div class="card-header" id="chattingRoomTitle">
+						好友名稱
 
+					</div>
+					<div class="d-none" id="friendId"></div>
+					<div class="card-body" id="chattingRoom">
+
+					</div>
+					<div class="card-footer text-muted d-flex justify-content-start">
+						<input type="text" class="col-10 rounded" id="chatContent">
+						<button class="col-2 btn btn-primary ml-5" id="sendContentBtn">傳送</button>
+					</div>
+				</div>
+			</div>
 		</div>
+
 	</div>
 	</div>
+	<script>
+		const friendList = document.querySelectorAll(".friendList");
+		const chattingRoomContainer = document.querySelector("#chattingRoomContainer");
+		friendList.forEach(e => {
+			e.addEventListener("click", function () {
+				chattingRoomContainer.classList.remove('d-none');
+				let chattingRoomTitle = document.querySelector("#chattingRoomTitle");
+				chattingRoomTitle.innerText = this.innerText;
+				let friendId = document.querySelector("#friendId");
+				friendId.innerText = this.getAttribute('data-friendId');
+				let chatContent = document.querySelector("#chatContent");
+				chatContent.value = "";
+			})
+		})
+
+		const sendContentBtn = document.querySelector("#sendContentBtn");
+		sendContentBtn.addEventListener("click", function () {
+			let friendId = document.querySelector("#friendId");
+			let toFriend = friendId.innerText;
+			let chatContent = document.querySelector("#chatContent").value;
+			let fromWho = document.querySelector("#memberId").innerText;
+			sendMessage(toFriend, fromWho, chatContent);
+
+		})
+
+		function sendMessage(toFriend, fromWho, chatContent) {
+			const message = {
+				"from": fromUserId,
+				"to": toFriend,
+				"content": chatContent
+			}
+			socket.send(JSON.stringify(message));
+		}
+
+	</script>
 </body>
 
 </html>

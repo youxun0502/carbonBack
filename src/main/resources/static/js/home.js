@@ -19,8 +19,7 @@ const socket = new WebSocket(url);
 socket.onopen = function () {
 
 	if (socket.readyState === WebSocket.OPEN) {
-		console.log("連線成功");
-		sendMessage(fromUserId);
+		console.log("連線成功");	
 	}
 
 }
@@ -35,15 +34,6 @@ socket.onclose = function () {
 	console.log("連線關閉");
 }
 
-function sendMessage() {
-	let fromUserId = document.querySelector("#memberId").innerText;
-	console.log(fromUserId);
-	const message = {
-		"from": fromUserId,
-		"to": '1',
-		"content": '你好'
-	}
-	socket.send(JSON.stringify(message));
-}
+
 
 
