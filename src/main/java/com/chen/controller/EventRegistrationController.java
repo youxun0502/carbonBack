@@ -65,13 +65,11 @@ public class EventRegistrationController {
 	}
 	
 	// 報名紀錄分類查詢
-	@PostMapping("/registrationRecord/category")
-	public String findRegistrationRecordByGameName(@RequestParam("eventName")String eventName, @RequestParam("memberId")Integer memberId, Model m) {
-		
-		List<Event> recordList = eRepo.findMemberRecord(memberId, eventName);
-		m.addAttribute("recordList", recordList);
-		
-		return "chen/registrationRecordCategory";
+	@ResponseBody
+	@GetMapping("/registrationRecord/category")
+	public List<Event> findRegistrationRecordByGameName(@RequestParam("eventName") String eventName, @RequestParam("memberId") Integer memberId) {
+	    List<Event> recordList = eRepo.findMemberRecord(memberId, eventName);
+	    return recordList;
 	}
 	
 	// 跳轉活動總覽頁面

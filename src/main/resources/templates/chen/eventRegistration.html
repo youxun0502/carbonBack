@@ -143,9 +143,9 @@
     deadline.setDate(deadline.getDate() - 10);
 
     var now = new Date();
+    
     var timeDifference = deadline.getTime() - now.getTime();
-
-    if (timeDifference <= 0 || timeDifference > 259200000) {
+    if (timeDifference >= 0 || timeDifference <= (-259200000)) {
       var fee = $('#fee').text();
       var member = $('#member').val();
       if (member >= 1) {
@@ -159,7 +159,7 @@
       var timeLimitedDiscount = parseInt($('#timeLimitedDiscount').val());
       var member = $('#member').val();
       if (member >= 1) {
-        var discountedFee = (fee - 50) * timeLimitedDiscount / 10;
+        var discountedFee = fee * timeLimitedDiscount / 10 - 50;
         $('#fee').text(discountedFee);
       } else {
         var discountedFee = fee * timeLimitedDiscount / 10;
