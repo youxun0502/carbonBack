@@ -22,6 +22,16 @@ oneClick.addEventListener('click', function () {
 	loginForm.submit();
 })
 
+temo.addEventListener('click',function(){
+	email.value = 'temo20000101@gmail.com';
+	memberPwd.value = '000000';
+	rememberMe.checked = true;
+	loginForm.submit();
+	
+})
+
+
+
 forgetPasswordBtn.addEventListener('click', function () {
 	let email = forget.value;
 	axios({
