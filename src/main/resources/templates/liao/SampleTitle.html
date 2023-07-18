@@ -741,27 +741,25 @@
             </div> -->
             <!-- END: Pagination -->
 
-            <div id="forum-reply"></div>
+            <!-- <div id="forum-reply"></div>
             <div class="nk-gap-4">
-                <div id="send" class="col-sm-12">
-                    <!-- <h1>留言區</h1> -->
-                    <hr>
-                    <!-- <h2>名稱</h2>
+                <div id="send" class="col-sm-12"> -->
+            <!-- <h1>留言區</h1> -->
+            <!-- <hr> -->
+            <!-- <h2>名稱</h2>
                     <input id="userName" style="width: 690px;"> -->
-                    <h2>留言</h2>
+            <!-- <h2>留言</h2>
                     <textarea id="mcontent" style="width: 55vw;  height: 8vw;"></textarea>
                     <button id="sendBtn">送出</button>
                 </div>
-            </div>
+            </div> -->
             <!-- START: Reply -->
-            <form action="#" novalidate>
-                <div class="containerf">
-                    <div class="editor-container">
-                        <!-- <textarea id="editor"></textarea> -->
-
-
-                    </div>
-                </div>
+            <form id="msgform" novalidate>
+                <h3 class="h4">Reply</h3>
+                <div class="nk-gap-1"></div>
+                <textarea id="mcontent" cols="30" rows="10" class="nk-summernote form-control"></textarea>
+                <div class="nk-gap-1"></div>
+                <button id="sendBtn" class="nk-btn nk-btn-rounded nk-btn-color-white">Reply</button>
             </form>
             <!-- END: Reply -->
         </div>
@@ -1011,9 +1009,9 @@
         });
 
 
-        $("#sendBtn").on("click", function () {
+        $("#msgform").on("submit", function (event) {
             //檢查之後補
-
+            event.preventDefault();
             $.ajax({
                 url: "/carbon/messages/add",
                 type: "POST",
@@ -1056,6 +1054,8 @@
             });
         }
         function displayAll() {
+
+            console.log($("#mtitle").val());
             $.ajax({
                 url: "/carbon/messages/findByMtitle",
                 type: "GET",
@@ -1121,6 +1121,7 @@
                         // '<hr>'+
                         // '</div>'
                     }
+                    $(".note-editable").empty();
                     $("#message").empty();
                     $("#message").append(message);
                 },
@@ -1384,14 +1385,14 @@
     <!-- <script th:src="@{/assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js}"></script> -->
 
     <!-- Summernote -->
-    <!-- <script th:src="@{/assets/vendor/summernote/dist/summernote-bs4.min.js}"></script> -->
+    <script th:src="@{/assets/vendor/summernote/dist/summernote-bs4.min.js}"></script>
 
     <!-- nK Share -->
     <!-- <script th:src="@{/assets/plugins/nk-share/nk-share.js}"></script> -->
 
     <!-- GoodGames -->
-    <!-- <script th:src="@{/assets/js/goodgames.min.js}"></script>
-<script th:src="@{/assets/js/goodgames-init.js}"></script> -->
+    <script th:src="@{/assets/js/goodgames.min.js}"></script>
+    <script th:src="@{/assets/js/goodgames-init.js}"></script>
     <!-- END: Scripts -->
 
 
