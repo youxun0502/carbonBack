@@ -71,6 +71,7 @@ public class ItemLogService {
 			if(itemLog.getMember() != null) itemLogDTO.setMember(itemLog.getMember());
 			if(itemLog.getGameItem() != null) itemLogDTO.setGameItem(itemLog.getGameItem());
 			if(itemLog.getItemOrder() != null) itemLogDTO.setItemOrder(itemLog.getItemOrder());
+			System.out.println(itemLogDTO.getId());
 			itemLogDTOList.add(itemLogDTO);
 		}
 		return itemLogDTOList;

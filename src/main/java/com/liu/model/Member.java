@@ -12,6 +12,7 @@ import com.evan.model.Game;
 import com.evan.model.GameOrder;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ni.model.GameItem;
 import com.ni.model.Wallet;
 
@@ -112,16 +113,16 @@ public class Member {
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "member", cascade = CascadeType.ALL)
 	private List<Wallet> wallets = new ArrayList<>();
-	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "inviterMember", cascade = CascadeType.ALL)
 	private List<Friend> inviterList = new ArrayList<>();
-	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "recipientMember", cascade = CascadeType.ALL)
 	private List<Friend> recipientList = new ArrayList<>();
-	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "chatFromMember", cascade = CascadeType.ALL)
 	private List<Chat> fromMemberMember = new ArrayList<>();
-	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "chatToMember", cascade = CascadeType.ALL)
 	private List<Chat> toMemberMember = new ArrayList<>();
 	
