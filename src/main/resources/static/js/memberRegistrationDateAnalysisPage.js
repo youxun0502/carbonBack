@@ -115,7 +115,7 @@ function getGenderChartJs(year1) {
 				responseData.push(response.data[0][0])
 				labels.push('男');
 				backgroundColorArray.push('deepskyblue');
-			}else{
+			}else if(response.data[0][1]==2){
 				responseData.push(response.data[0][0])
 				labels.push('女');
 				backgroundColorArray.push('rgb(249, 71, 71)');
@@ -125,7 +125,7 @@ function getGenderChartJs(year1) {
 				responseData.push(response.data[1][0])
 				labels.push('男');
 				backgroundColorArray.push('deepskyblue');
-			}else{
+			}else if(response.data[1][1]==2){
 				responseData.push(response.data[1][0])
 				labels.push('女');
 				backgroundColorArray.push('rgb(249, 71, 71)');

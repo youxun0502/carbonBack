@@ -24,7 +24,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	@Query(nativeQuery = true, value = "select year(registrationDate) registrationYear from member group by year(registrationDate)")
 	public List<String> findAllRegistrationYear();
 
-	@Query(nativeQuery = true, value = "select count(*) count, gender gender from member where year(registrationDate) = :year  group by gender")
+	@Query(nativeQuery = true, value = "select count(*) count, gender gender from member where year(registrationDate) = :year AND (gender = 1 or gender = 2)  group by gender")
 	public List<Object[]> findRegistrationGender(@Param("year") String year);
 
 	public Optional<Member> findById(Integer id);

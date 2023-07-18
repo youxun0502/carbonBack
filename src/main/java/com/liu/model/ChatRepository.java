@@ -15,7 +15,7 @@ public interface ChatRepository extends JpaRepository<Chat, Integer> {
 
 	@Query("from Chat where fromMember = :from and toMember = :to and isRead = 2")
 	public List<Chat> findNoReadChat(@Param("to")Integer to, @Param("from")Integer from);
-
+													//1						//2
 	@Query(value = "select count(*) notRead from chattingRoomLog where fromMember =:from AND isRead = 2", nativeQuery = true)
 	public Integer findNotReadByMemberId(@Param("from") Integer from);
 }

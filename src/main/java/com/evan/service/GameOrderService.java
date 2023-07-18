@@ -187,7 +187,7 @@ public class GameOrderService {
 			game.setBuyerCount(oldCount+1);
 			gRepos.save(game);
 		}
-//		bpService.newPointLog("buygame", id, orderPrice);
+		bpService.newPointLog("buygame", id, orderPrice);
 		gameOrder.setStatus(1);
 		goRepos.save(gameOrder);
 	}

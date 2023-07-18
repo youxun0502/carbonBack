@@ -29,8 +29,8 @@
 
 						<th:block th:each="friend : ${friends}">
 
-							<li class="list-group-item friendList bg-dark text-light fs-3"
-								th:data-friendId="${friend.innerId}" th:data-name="${friend.name}">[[${friend.name}]]
+							<li class="list-group-item friendList bg-dark text-light fs-3" th:data-friendId="${friend.innerId}"
+								th:data-name="${friend.name}">[[${friend.name}]]
 								<th:block th:unless="${friend.messageNotRead} eq '0'">
 									<span class="badge bg-danger float-right"
 										th:id="'nr'+${friend.innerId}">[[${friend.messageNotRead}]]</span>
@@ -51,7 +51,7 @@
 						好友名稱
 					</div>
 					<div class="d-none" id="friendId"></div>
-					<div class="card-body" style="overflow: scroll;" id="chattingRoom">
+					<div class="card-body" style="overflow-y: scroll;" id="chattingRoom">
 					</div>
 					<div class="card-footer text-muted d-flex justify-content-start">
 						<input type="text" class="col-10 rounded" id="chatContent">
@@ -112,9 +112,9 @@
 				axios({
 					url: 'http://localhost:8080/carbon/chattingRoom/readAllMessage',
 					method: 'put',
-					data:{
-						'to':fromWho,
-						'from':toFriend
+					data: {
+						'to': fromWho, //1012
+						'from': toFriend //11
 					}
 				})
 
@@ -146,9 +146,9 @@
 			let chatContent = document.querySelector("#chatContent").value;
 			let fromWho = document.querySelector("#memberId").innerText;
 			console.log("fromWho:" + fromWho);
-
-			sendMessage(toFriend, fromWho, chatContent);
 			insertMessage(toFriend, fromWho, chatContent);
+
+
 			let chattingRoom = document.querySelector("#chattingRoom");
 			let chattingRoomInnerHtml = chattingRoom.innerHTML;
 			chattingRoomInnerHtml += chattingRoomHtmlMaker(chatContent, 'send');
@@ -177,8 +177,9 @@
 			let content = dataToJson.content;
 			let fromMember = dataToJson.from;
 			let toMember = dataToJson.to;
-			console.log(fromMember);
-			console.log(toMember);
+
+			console.log(fromMember); // 2
+			console.log(toMember); // 1
 			let friendId = document.querySelector("#friendId");
 			if (fromMember != friendId.innerText) {
 				let id = `#nr${fromMember}`
@@ -191,15 +192,16 @@
 				axios({
 					url: 'http://localhost:8080/carbon/chattingRoom/readAllMessage',
 					method: 'put',
-					data:{
-						'to':fromWho,
-						'from':toFriend
+					data: {
+						'to': toMember, // 2
+						'from': fromMember // 1
 					}
 				})
-				
+
 				let chattingRoomInnerHtml = chattingRoom.innerHTML;
 				chattingRoomInnerHtml += chattingRoomHtmlMaker(content, 'reciptient');;
 				chattingRoom.innerHTML = chattingRoomInnerHtml;
+				chattingRoom.scrollTop = chattingRoom.scrollHeight;
 			}
 
 
@@ -231,6 +233,9 @@
 				},
 				headers: { 'Content-Type': 'application/json' }
 			})
+				.then(response => {
+					sendMessage(toFriend, fromWho, chatContent);
+				})
 		}
 
 		function chattingRoomHtmlMaker(content, action) {

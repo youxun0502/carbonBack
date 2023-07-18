@@ -33,7 +33,7 @@ public class ChattingRoomController {
 	
 	@ResponseBody
 	@PostMapping("/chattingRoom/insert")
-	public void messageIntoDataBase(@RequestBody Message message){
+	public Message messageIntoDataBase(@RequestBody Message message){
 		Member fromMember = mService.findById(Integer.parseInt(message.getFrom()));
 		Member toMember = mService.findById(Integer.parseInt(message.getTo()));
 		
@@ -43,6 +43,8 @@ public class ChattingRoomController {
 		chat.setContent(message.getContent());
 		chat.setIsRead(2);
 		chatService.insertChatLog(chat);
+		
+		return message;
 	}
 	@ResponseBody
 	@GetMapping("/chattingRoom/findLastTenMessage")
@@ -71,8 +73,11 @@ public class ChattingRoomController {
 	@ResponseBody
 	@PutMapping("/chattingRoom/readAllMessage")
 	public void readAllMessage(@RequestBody Map<String,Integer> member) {
-		Integer to = member.get("to");
-		Integer from = member.get("from");
+
+		Integer to = member.get("to"); 
+		Integer from = member.get("from"); 
+		System.out.println("寄給誰"+to); //1
+		System.out.println("誰寄的"+from); //2
 		
 		chatService.readAllMessage(to, from);
 	}

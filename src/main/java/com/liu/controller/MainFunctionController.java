@@ -372,7 +372,7 @@ public class MainFunctionController {
 				member.setMemberPwd(userInfo.get("userId"));
 				member.setMemberName(userInfo.get("name"));
 				member.setBirthday(new Date());
-				member.setGender(3);
+				member.setGender(1);
 				member.setPhone(null);
 				member.setAccount(null);
 				member.setUseAvatar(1);

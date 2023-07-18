@@ -36,10 +36,12 @@ public class ChatService {
 		return chatList;
 	}
 	
-	@Transactional
+	@Transactional				//1			//2
 	public void readAllMessage(Integer to, Integer from) {
 		List<Chat> chats = chatRepository.findNoReadChat(to, from);
-		for (Chat chat : chats) {
+
+		for (Chat chat : chats) {		
+			System.out.println("更新哪一筆:"+chat.getChattingRoomLogId());
 			chat.setIsRead(1);
 		}
 	}
