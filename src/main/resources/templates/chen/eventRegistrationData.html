@@ -2,123 +2,385 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<style>
-		table {
-			background-color: rgb(33, 37, 41);
-		}
+    <meta charset="UTF-8">
+    <style>
+        table {
+            background-color: rgb(33, 37, 41);
+        }
 
-		table td,
-		table th {
-			max-width: 170px;
-		}
+        table td,
+        table th {
+            max-width: 170px;
+        }
 
-		.tdCenter {
-			text-align: center;
-		}
+        .tdCenter {
+            text-align: center;
+        }
 
-		.imgBox {
-			width: 100px;
-			height: 100px;
-		}
+        .imgBox {
+            width: 100px;
+            height: 100px;
+        }
 
-		.showDesc {
-			cursor: pointer;
-		}
+        .showDesc {
+            cursor: pointer;
+        }
 
-		.section-big {
-			max-width: calc(100% - 42px);
-		}
+        .section-big {
+            max-width: calc(100% - 42px);
+        }
 
-		.section-small {
-			max-width: calc(100% - 200px);
-		}
-	</style>
-	<title>賽事列表</title>
+        .section-small {
+            max-width: calc(100% - 200px);
+        }
+    </style>
+    <title>賽事列表</title>
 </head>
 
 <body>
-	<div th:replace="~{layout/navMain}"></div>
-	<div class="d-flex">
-		<div th:replace="~{layout/asideMain}"></div>
-		<div class="w-100 section section-big">
-			<div class="content mt-3" th:replace="~{chen/Main}"></div>
-			<div class="container-fluid">
-				<div class="row my-3">
-					<table id="example" class="hover row-border" style="width:100%">
-						<thead>
-							<tr>
-								<th>真實姓名
-								<th>電子信箱
-								<th>聯絡電話
-								<th>報名日期
-								<th>編輯
-								<th>刪除
-							</tr>
-						</thead>
-						<tbody>
-							<th:block th:each=" registration : ${registrations} ">
-								<tr>
-									<td th:text="${registration.realName}"></td>
-									<td th:text="${registration.email}"></td>
-									<td th:text="${registration.phone}"></td>
-									<td th:text="${#dates.format(registration.signupDate, 'yyyy-MM-dd')}"></td>
-									<td>
-										<form th:action="@{/event/registration/update}" method="get">
-											<input type="hidden" name="signupId" th:value="${registration.signupId}" />
-											<button class="btn" type="submit"><i class="fa-sharp fa-solid fa-pen-to-square fa-xl" style="color: #0043b8;"></i></button>
-										</form>
-									<td>
-										<form th:action="@{/event/registration/delete}" th:method="delete">
-											<input type="hidden" name="signupId" th:value="${registration.signupId}" />
-											<button class="btn delete-btn" type="submit"><i class="fa-solid fa-trash fa-xl" style="color: #ff0505;"></i></button>
-										</form>
-								</tr>
-							</th:block>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div th:replace="~{layout/navMain}"></div>
+    <div class="d-flex">
+        <div th:replace="~{layout/asideMain}"></div>
+        <div class="w-100 section section-big">
+            <div class="content mt-3" th:replace="~{chen/Main}"></div>
+            <div class="container-fluid">
+                <div class="row my-3">
+                    <div style="margin-bottom:15px">
+                        <select id="category" name="eventId" style="border-radius:3px;padding:4px;border:1px solid #aaa">
+							<option selected disabled>活動名稱</option>
+                            <th:block th:each=" event : ${events} ">
+                                <option th:text="${event.name}" th:value="${event.eventId}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div id="chartDiv"></div>
+                    <table id="example" class="hover row-border" style="width:100%">
+                        <thead>
+                            <tr>
+								<th>活動名稱
+                                <th>真實姓名
+                                <th style="max-width: 260px;">電子信箱
+                                <th>聯絡電話
+                                <th>報名日期
+                                <th>編輯
+                                <th>刪除
+                            </tr>
+                        </thead>
+                        <tbody id="registrationTable">
+                            <th:block th:each=" registration : ${registrations} ">
+                                <tr>
+									<td th:text="${registration.event.name}"></td>
+                                    <td th:text="${registration.realName}"></td>
+                                    <td style="max-width: 260px;" th:text="${registration.email}"></td>
+                                    <td th:text="${registration.phone}"></td>
+                                    <td id="signupDate" th:text="${#dates.format(registration.signupDate, 'yyyy-MM-dd')}" </td>
+                                    <td>
+                                        <form th:action="@{/event/registration/update}" method="get">
+                                            <input type="hidden" name="signupId" th:value="${registration.signupId}" />
+                                            <button class="btn" type="submit"><i
+                                                    class="fa-sharp fa-solid fa-pen-to-square fa-xl"
+                                                    style="color: #0043b8;"></i></button>
+                                        </form>
+                                    <td>
+                                        <form th:action="@{/event/registration/delete}" th:method="delete">
+                                            <input type="hidden" name="signupId" th:value="${registration.signupId}" />
+                                            <input id="memberId" type="hidden" th:value="${registration.memberId}" />
+                                            <button class="btn delete-btn" type="submit"><i
+                                                    class="fa-solid fa-trash fa-xl"
+                                                    style="color: #ff0505;"></i></button>
+                                        </form>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-	<script>
-		$(function () {
+    <script>
+        $(function () {
 
-			$.extend(true, $.fn.dataTable.defaults, {
-				searching: false,
-				ordering: true,
-			});
+            $.extend(true, $.fn.dataTable.defaults, {
+                searching: false,
+                ordering: true,
+            });
 
-			$(document).ready(function () {
-				$('#example').DataTable();
-			});
+            $(document).ready(function () {
+                $('#example').DataTable();
+            });
 
-			$('.delete-btn').click(function (event) {
-				event.preventDefault();
-				Swal.fire({
-					title: '確定要刪除嗎?',
-					text: "刪除後就找不回資料嘍",
-					icon: 'warning',
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: '確定',
-					cancelButtonText: '取消'
-				}).then((result) => {
-					if (result.isConfirmed) {
-						$(this).closest('form').find('input[name="signupId"]').val();
-						$(this).closest('form').submit();
-					}
-				})
-			});
+            $('.delete-btn').click(function (event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: '確定要刪除嗎?',
+                    text: "刪除後就找不回資料嘍",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).closest('form').find('input[name="signupId"]').val();
+                        $(this).closest('form').submit();
+                    }
+                })
+            });
 
+
+            function getChart() {
+                const memberIdData = [];
+                const nonMemberIdData = [];
+                const signupDates = document.querySelectorAll('#signupDate');
+                const memberIds = document.querySelectorAll('#memberId');
+                const today = new Date();
+                const xAxisLabels = [];
+                const dataMap = new Map();
+
+                for (let i = -15; i <= 0; i++) {
+                    const date = new Date();
+                    date.setDate(today.getDate() + i);
+                    const month = date.getMonth() + 1;
+                    const day = date.getDate();
+                    const xValue = month + '月' + day + '日';
+                    xAxisLabels.push(xValue);
+                    if (i === 0) {
+                        dataMap.set(xValue, { member: 0, nonMember: 0 });
+                    } else {
+                        dataMap.set(xValue, { member: Math.floor((Math.random() + 1) * 15), nonMember: Math.floor((Math.random() + 1) * 5) });
+                    }
+                }
+
+                for (let i = 0; i < signupDates.length; i++) {
+                    const signupDate = signupDates[i].textContent;
+                    const isMember = memberIds[i].value;
+
+                    const date = new Date(signupDate);
+                    const month = date.getMonth() + 1;
+                    const day = date.getDate();
+                    const xValue = month + '月' + day + '日';
+
+                    if (isMember >= 1) {
+                        dataMap.get(xValue).member++;
+                    } else {
+                        dataMap.get(xValue).nonMember++;
+                    }
+                }
+                for (const [xValue, { member, nonMember }] of dataMap) {
+                    memberIdData.push({ x: xValue, y: member });
+                    nonMemberIdData.push({ x: xValue, y: nonMember });
+                }
+
+                const data = {
+                    labels: xAxisLabels,
+                    datasets: [
+                        {
+                            label: '會員報名',
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            tension: 0.1,
+                            fill: false,
+                            data: memberIdData
+                        },
+                        {
+                            label: '非會員報名',
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            tension: 0.1,
+                            fill: false,
+                            data: nonMemberIdData
+                        },
+                    ],
+                };
+
+                const ctx = document.getElementById('myChart');
+
+                const myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: '報名人數',
+                                },
+                                ticks: {
+                                    stepSize: 1,
+                                },
+                            },
+                        },
+                    },
+                });
+            }
+            
+            function noData(){
+				let tableBody = document.getElementById("registrationTable");
+		        tableBody.innerHTML = '';
+		        let tr = document.createElement('tr');
+		        let noData = document.createElement('td');
+		        noData.className = 'dataTables_empty';
+		        noData.setAttribute("valign","top");
+		        noData.setAttribute("colspan","8");
+		        noData.textContent = "No data available in table";
+		        tr.appendChild(noData);
+		        tableBody.appendChild(tr);
+			}
 			
+			function clearChart() {
+			    let chartDiv = document.getElementById('chartDiv');
+			    chartDiv.innerHTML = ''; // Clear the chart element
+			}
+
+            
 
 
 
-		})
-	</script>
+            let category = document.getElementById("category");
+		    category.addEventListener('change', () => {
+				
+		        let eventId = category.value;
+		        console.log("eventId: " + eventId)
+		        makeRequest(eventId);
+		    });
+		
+		    function makeRequest(eventId) {
+				console.log("eventId: " + eventId)
+		        let requestData = {
+		            params: {
+		                eventId: eventId
+		            }
+		        };
+		
+		        axios.get('http://localhost:8080/carbon/event/registration/category', requestData)
+		            .then(res => {
+						let chartDiv = document.getElementById('chartDiv');
+			            let registrations = res.data;
+			            console.log("registrations: " + registrations)
+				            if (registrations != "" & chartDiv.childNodes.length == 0) {
+				               let canvas = document.createElement('canvas'); 
+				               canvas.setAttribute("id","myChart");
+				               chartDiv.style.height = "400px";
+				               chartDiv.style.width = "800px";
+				               chartDiv.appendChild(canvas);
+				               updateTable(registrations);
+				               getChart(registrations);
+				            } else if(registrations != "" & 0 < chartDiv.childNodes.length <= 3){
+								clearChart();
+								let canvas = document.createElement('canvas'); 
+				                canvas.setAttribute("id","myChart");
+				                chartDiv.style.height = "400px";
+				                chartDiv.style.width = "800px";
+				                chartDiv.appendChild(canvas);
+				                updateTable(registrations);
+								getChart(registrations);
+				            }else{
+								chartDiv.style.height = "0";
+				                chartDiv.style.width = "0";
+								noData();
+				                clearChart();
+							}
+				        })
+			        .catch(err => {
+			            console.log('err: ' + err);
+			        });
+		    }
+		
+		    function updateTable(registrations) {
+		        let tableBody = document.getElementById("registrationTable");
+		        tableBody.innerHTML = '';
+		
+		        registrations.forEach(registration => {
+		            let tr = document.createElement('tr');
+		            
+		            console.log("registration :" + JSON.stringify(registration));
+		            let tdEventName = document.createElement('td');
+		            tdEventName.textContent = registration.event.name;
+		            tr.appendChild(tdEventName);
+		
+		            let tdRealName = document.createElement('td');
+		            tdRealName.textContent = registration.realName;
+		            tr.appendChild(tdRealName);
+		
+		            let tdEmail = document.createElement('td');
+		            tdEmail.textContent = registration.email;
+		            tr.appendChild(tdEmail);
+		
+		            let tdPhone = document.createElement('td');
+		            tdPhone.textContent = registration.phone;
+		            tr.appendChild(tdPhone);
+		
+		            let tdSignupDate = document.createElement('td');
+		            tdSignupDate.setAttribute("id","signupDate");
+					let signupDate = new Date(registration.signupDate);
+					let formattedSignupDate = signupDate.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });
+					tdSignupDate.textContent = formattedSignupDate;
+					tr.appendChild(tdSignupDate);
+		
+		            // Create and append edit button
+			        let tdEdit = document.createElement('td');
+			        let editForm = document.createElement('form');
+			        editForm.setAttribute("action","/carbon/event/registration/update");
+			        editForm.setAttribute("method","get");
+			        let signupIdInput = document.createElement('input');
+			        signupIdInput.type = "hidden";
+			        signupIdInput.name = "signupId";
+			        signupIdInput.value = registration.signupId;
+			        let editButton = document.createElement('button');
+			        editButton.className = "btn";
+			        editButton.type = "submit";
+			        let editIcon = document.createElement('i');
+			        editIcon.className = "fa-sharp fa-solid fa-pen-to-square fa-xl";
+			        editIcon.style.color = "#0043b8";
+			        editButton.appendChild(editIcon);
+			        editForm.appendChild(signupIdInput);
+			        editForm.appendChild(editButton);
+			        tdEdit.appendChild(editForm);
+			        tr.appendChild(tdEdit);
+			
+			        // Create and append delete button
+			        let tdDelete = document.createElement('td');
+			        let deleteForm = document.createElement('form');
+			        deleteForm.setAttribute("action","/carbon/event/registration/delete");
+			        deleteForm.setAttribute("method","delete");
+			        let signupIdDeleteInput = document.createElement('input');
+			        signupIdDeleteInput.type = "hidden";
+			        signupIdDeleteInput.name = "signupId";
+			        signupIdDeleteInput.value = registration.signupId;
+			        let memberIdInput = document.createElement('input');
+			        memberIdInput.type = "hidden";
+			        memberIdInput.id = "memberId";
+			        memberIdInput.value = registration.memberId;
+			        let deleteButton = document.createElement('button');
+			        deleteButton.className = "btn delete-btn";
+			        deleteButton.type = "submit";
+			        let deleteIcon = document.createElement('i');
+			        deleteIcon.className = "fa-solid fa-trash fa-xl";
+			        deleteIcon.style.color = "#ff0505";
+			        deleteButton.appendChild(deleteIcon);
+			        deleteForm.appendChild(signupIdDeleteInput);
+			        deleteForm.appendChild(memberIdInput);
+			        deleteForm.appendChild(deleteButton);
+			        tdDelete.appendChild(deleteForm);
+			        tr.appendChild(tdDelete);
+			
+			        tableBody.appendChild(tr);
+		        });
+		    }
+		    
+		    
+
+
+
+
+        })
+    </script>
 </body>
 
 </html>

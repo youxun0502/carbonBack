@@ -2,211 +2,342 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>活動報名</title>
-    <link rel="stylesheet" th:href="@{/css/style-e.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <meta charset="UTF-8">
+  <title>活動報名</title>
+  <link rel="stylesheet" th:href="@{/css/style-e.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@emailjs/browser"></script>
+  
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+  </script>
+  <!--
+  <script type="text/javascript">
+    (function () {
+      emailjs.init("fvEiDm7Irs2X3pHp5");
+    })();
+  </script>
+  -->
+
+
 </head>
 
-<body>
-    <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
-    <div class="contentBox">
+<body style="color: black;">
+  <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+  <div class="contentBox">
     <div class="content" style="width:400px">
-        <header>活動報名</header>
-        <div class="pgbar">
-            <div class="step">
-                <p>
-                    基本資訊
-                </p>
-                <div class="bullet">
-                    <span>1</span>
-                </div>
-                <div class="check fas fa-check"></div>
-            </div>
-            <div class="step">
-                <p>
-                    聯絡方式
-                </p>
-                <div class="bullet">
-                    <span>2</span>
-                </div>
-                <div class="check fas fa-check"></div>
-            </div>
-            <div class="step">
-                <p>
-                    確認送出
-                </p>
-                <div class="bullet">
-                    <span>3</span>
-                </div>
-                <div class="check fas fa-check"></div>
-            </div>
+      <header>活動報名</header>
+      <div class="pgbar">
+        <div class="step">
+          <p>
+            基本資訊
+          </p>
+          <div class="bullet">
+            <span>1</span>
+          </div>
+          <div class="check fas fa-check"></div>
         </div>
-        <div class="form-outer">
-            <form method="post" th:action="@{/eventRegistration/insert}">
-                <div class="page slide-page">
-                    <div class="title">
-                        Basic Info:
-                    </div>
-                    <div class="field">
-                        <div class="label">
-                            活動選擇
-                        </div>
-                        <select name="eventId" style="width: 100%">
-							<th:block th:each=" event : ${events} " >
-							<option th:value="${event.eventId}" th:text="${event.name}"></option>
-							</th:block>
-						</select>
-                    </div>
-                    <div class="field">
-                        <div class="label">
-                            真實姓名
-                        </div>
-                        <input type="text" name="realName" required></input>
-                        <span class="required-label"></span>
-                    </div>
-                    <div class="field">
-                        <button class="firstNext next">下一步</button>
-                    </div>
-                </div>
-                <div class="page">
-                    <div class="title">
-                        Contact Info:
-                    </div>
-                    <div class="field">
-                        <div class="label">
-                            行動電話
-                        </div>
-                        <input type="text" name="phone" required>
-                        <span class="required-label"></span>
-                    </div>
-                    <div class="field">
-                        <div class="label">
-                            電子信箱
-                        </div>
-                        <input type="text" name="email" required>
-                        <span class="required-label"></span>
-                    </div>
-                    <div class="field btns">
-                        <button class="prev-1 prev">上一步</button>
-                        <button class="next-1 next">下一步</button>
-                    </div>
-                </div>
-                <div class="page">
-                    <div class="title">
-                        Confirmed:
-                    </div>
-
-                    <div class="field btns">
-                        <button class="prev-2 prev">上一步</button>
-                        <button class="submit">確認送出</button>
-                    </div>
-                </div>
-            </form>
+        <div class="step">
+          <p>
+            聯絡方式
+          </p>
+          <div class="bullet">
+            <span>2</span>
+          </div>
+          <div class="check fas fa-check"></div>
         </div>
+        <div class="step">
+          <p>
+            確認送出
+          </p>
+          <div class="bullet">
+            <span>3</span>
+          </div>
+          <div class="check fas fa-check"></div>
+        </div>
+      </div>
+      <div class="form-outer">
+        <form id="myForm" method="post" th:action="@{/eventRegistration/insert}">
+          <div class="page slide-page">
+            <div class="title">
+              Basic Info:
+            </div>
+            <div class="field">
+              <div class="label">
+                活動名稱
+              </div>
+              <p id="eventName" style="font-size: 30px;font-weight:bold;" th:text="${event.name}"></p>
+              <input type="hidden" name="eventId" th:value="${event.eventId}" />
+              <input id="description" type="hidden" th:value="${event.description}" />
+              <input id="startDate" type="hidden" th:value="${event.startDate}" />
+              <input id="endDate" type="hidden" th:value="${event.endDate}" />
+              <input id="signupDate" type="hidden" />
+              <input id="location" type="hidden" th:value="${event.location}" />
+              <input type="hidden" name="memberId" th:value="${session.memberBeans?.id}" />
+            </div>
+            <div class="field">
+              <div class="label">
+                真實姓名
+              </div>
+              <input id="realName" type="text" name="realName" required></input>
+              <span class="required-label"></span>
+            </div>
+            <div class="field">
+              <button class="firstNext next">下一步</button>
+            </div>
+          </div>
+          <div class="page">
+            <div class="title">
+              Contact Info:
+            </div>
+            <div class="field">
+              <div class="label">
+                行動電話
+              </div>
+              <input type="text" name="phone" th:value="${member} ? ${member.phone}" required>
+              <span class="required-label"></span>
+            </div>
+            <div class="field">
+              <div class="label">
+                電子信箱
+              </div>
+              <input id="email" type="text" name="email" th:value="${member} ? ${member.email}" required>
+              <span class="required-label"></span>
+            </div>
+            <div class="field btns">
+              <button class="prev-1 prev">上一步</button>
+              <button class="next-1 next">下一步</button>
+            </div>
+          </div>
+          <div class="page">
+            <div class="title">
+              Confirmed:
+            </div>
+            <div class="field">
+              <div class="label">
+                報名費
+              </div>
+              <p id="fee" style="font-size: 30px;font-weight:bold;" th:text="${event.fee}"></p>
+              <input id="deadline" type="hidden" th:value="${event.deadline}" />
+              <input id="timeLimitedDiscount" type="hidden" th:value="${event.timeLimitedDiscount}" />
+              <input id="member" type="hidden" th:value="${session.memberBeans?.id}" />
+            <div>
+                <img id="qrcode" src="" alt="QRCode" style="display: none;">
+            </div>
+            </div>
+            <div class="field btns">
+              <button class="prev-2 prev">上一步</button>
+              <button id="submitBtn" class="submit" onclick="sendMail()">確認送出</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-    </div>
-    <script>
-        const slidePage = document.querySelector(".slide-page");
-        const nextBtnFirst = document.querySelector(".firstNext");
-        const prevBtnSec = document.querySelector(".prev-1");
-        const nextBtnSec = document.querySelector(".next-1");
-        const prevBtnThird = document.querySelector(".prev-2");
-        const submitBtn = document.querySelector(".submit");
-        const progressText = document.querySelectorAll(".step p");
-        const progressCheck = document.querySelectorAll(".step .check");
-        const bullet = document.querySelectorAll(".step .bullet");
-        let current = 1;
+  </div>
+  <script>
 
-        nextBtnFirst.addEventListener("click", function (event) {
-            event.preventDefault();
-            const currentPage = document.querySelector(".page:nth-child(" + current + ")");
-            const inputs = currentPage.querySelectorAll("input[required]");
-            let isValid = true;
+    var newDate = $('#deadline').val();
+    var deadline = new Date(newDate);
+    deadline.setDate(deadline.getDate() - 10);
 
-            inputs.forEach((input) => {
-                if (!input.value) {
-                    isValid = false;
-                    const requiredLabel = input.nextElementSibling;
-                    requiredLabel.textContent = "此欄位為必填";
-                    requiredLabel.style.display = "block";
-                } else {
-                    const requiredLabel = input.nextElementSibling;
-                    requiredLabel.style.display = "none";
-                }
-            });
+    var now = new Date();
+    
+    var timeDifference = deadline.getTime() - now.getTime();
+    if (timeDifference >= 0 || timeDifference <= (-259200000)) {
+      var fee = $('#fee').text();
+      var member = $('#member').val();
+      if (member >= 1) {
+        var cutFee = fee - 50;
+        $('#fee').text(cutFee);
+      } else {
+        $('#fee').text(fee);
+      }
+    } else {
+      var fee = $('#fee').text();
+      var timeLimitedDiscount = parseInt($('#timeLimitedDiscount').val());
+      var member = $('#member').val();
+      if (member >= 1) {
+        var discountedFee = fee * timeLimitedDiscount / 10 - 50;
+        $('#fee').text(discountedFee);
+      } else {
+        var discountedFee = fee * timeLimitedDiscount / 10;
+        $('#fee').text(discountedFee);
+      }
 
-            if (isValid) {
-                slidePage.style.marginLeft = "-25%";
-                bullet[current - 1].classList.add("active");
-                progressCheck[current - 1].classList.add("active");
-                progressText[current - 1].classList.add("active");
-                current += 1;
-            }
-        });
+    }
 
-        nextBtnSec.addEventListener("click", function (event) {
-            event.preventDefault();
-            const currentPage = document.querySelector(".page:nth-child(" + current + ")");
-            const inputs = currentPage.querySelectorAll("input[required]");
-            let isValid = true;
 
-            inputs.forEach((input) => {
-                if (!input.value) {
-                    isValid = false;
-                    const requiredLabel = input.nextElementSibling;
-                    requiredLabel.textContent = "此欄位為必填";
-                    requiredLabel.style.display = "block";
-                } else {
-                    const requiredLabel = input.nextElementSibling;
-                    requiredLabel.style.display = "none";
-                }
-            });
+    const slidePage = document.querySelector(".slide-page");
+    const nextBtnFirst = document.querySelector(".firstNext");
+    const prevBtnSec = document.querySelector(".prev-1");
+    const nextBtnSec = document.querySelector(".next-1");
+    const prevBtnThird = document.querySelector(".prev-2");
+    const submitBtn = document.querySelector(".submit");
+    const progressText = document.querySelectorAll(".step p");
+    const progressCheck = document.querySelectorAll(".step .check");
+    const bullet = document.querySelectorAll(".step .bullet");
+    let current = 1;
 
-            if (isValid) {
-                slidePage.style.marginLeft = "-50%";
-                bullet[current - 1].classList.add("active");
-                progressCheck[current - 1].classList.add("active");
-                progressText[current - 1].classList.add("active");
-                current += 1;
-            }
-        });
+    nextBtnFirst.addEventListener("click", function (event) {
+      event.preventDefault();
+      const currentPage = document.querySelector(".page:nth-child(" + current + ")");
+      const inputs = currentPage.querySelectorAll("input[required]");
+      let isValid = true;
 
-        submitBtn.addEventListener("click", function () {
-            if (validatePage(current)) {
-                bullet[current - 1].classList.add("active");
-                progressCheck[current - 1].classList.add("active");
-                progressText[current - 1].classList.add("active");
-                current += 1;
-                setTimeout(function () {
-                    alert("報名成功！");
-                    location.reload();
-                }, 800);
-            }
-        });
+      inputs.forEach((input) => {
+        if (!input.value) {
+          isValid = false;
+          const requiredLabel = input.nextElementSibling;
+          requiredLabel.textContent = "此欄位為必填";
+          requiredLabel.style.display = "block";
+        } else {
+          const requiredLabel = input.nextElementSibling;
+          requiredLabel.style.display = "none";
+        }
+      });
 
-        prevBtnSec.addEventListener("click", function (event) {
-            event.preventDefault();
-            slidePage.style.marginLeft = "0%";
-            bullet[current - 2].classList.remove("active");
-            progressCheck[current - 2].classList.remove("active");
-            progressText[current - 2].classList.remove("active");
-            current -= 1;
-        });
+      if (isValid) {
+        slidePage.style.marginLeft = "-25%";
+        bullet[current - 1].classList.add("active");
+        progressCheck[current - 1].classList.add("active");
+        progressText[current - 1].classList.add("active");
+        current += 1;
+      }
+    });
 
-        prevBtnThird.addEventListener("click", function (event) {
-            event.preventDefault();
-            slidePage.style.marginLeft = "-25%";
-            bullet[current - 2].classList.remove("active");
-            progressCheck[current - 2].classList.remove("active");
-            progressText[current - 2].classList.remove("active");
-            current -= 1;
-        });
+    nextBtnSec.addEventListener("click", function (event) {
+      event.preventDefault();
+      const currentPage = document.querySelector(".page:nth-child(" + current + ")");
+      const inputs = currentPage.querySelectorAll("input[required]");
+      let isValid = true;
 
-   
+      inputs.forEach((input) => {
+        if (!input.value) {
+          isValid = false;
+          const requiredLabel = input.nextElementSibling;
+          requiredLabel.textContent = "此欄位為必填";
+          requiredLabel.style.display = "block";
+        } else {
+          const requiredLabel = input.nextElementSibling;
+          requiredLabel.style.display = "none";
+        }
+      });
 
-        
-    </script>
+      if (isValid) {
+        slidePage.style.marginLeft = "-50%";
+        bullet[current - 1].classList.add("active");
+        progressCheck[current - 1].classList.add("active");
+        progressText[current - 1].classList.add("active");
+        current += 1;
+      }
+    });
+
+    submitBtn.addEventListener("click", function () {
+      if (validatePage(current)) {
+        bullet[current - 1].classList.add("active");
+        progressCheck[current - 1].classList.add("active");
+        progressText[current - 1].classList.add("active");
+        current += 1;
+        setTimeout(function () {
+          alert("報名成功！");
+          location.reload();
+        }, 800);
+      }
+    });
+
+    prevBtnSec.addEventListener("click", function (event) {
+      event.preventDefault();
+      slidePage.style.marginLeft = "0%";
+      bullet[current - 2].classList.remove("active");
+      progressCheck[current - 2].classList.remove("active");
+      progressText[current - 2].classList.remove("active");
+      current -= 1;
+    });
+
+    prevBtnThird.addEventListener("click", function (event) {
+      event.preventDefault();
+      slidePage.style.marginLeft = "-25%";
+      bullet[current - 2].classList.remove("active");
+      progressCheck[current - 2].classList.remove("active");
+      progressText[current - 2].classList.remove("active");
+      current -= 1;
+    });
+    
+    function getCurrentTime() {
+	  var now = new Date();
+	  var month = now.getMonth() + 1;
+	  var day = now.getDate();
+	  var hours = now.getHours();
+	  var minutes = now.getMinutes();
+	
+	  month = month < 10 ? '0' + month : month;
+	  day = day < 10 ? '0' + day : day;
+	  hours = hours < 10 ? '0' + hours : hours;
+	  minutes = minutes < 10 ? '0' + minutes : minutes;
+	
+	  var currentTime = month + '月' + day + '日' + ' ' + hours + ':' + minutes;
+	  return currentTime;
+	}
+	
+
+    function sendMail() {
+	  // 獲取表單元素
+	  const form = document.getElementById('myForm');
+	  const realNameInput = document.getElementById('realName');
+	  const phoneInput = form.querySelector('input[name="phone"]');
+	  const emailInput = document.getElementById('email');
+	  const eventName = document.getElementById('eventName');
+	  const showfee = document.getElementById('fee');
+	  const desc = document.getElementById('description');
+	  const sDate = document.getElementById('startDate');
+	  const eDate = document.getElementById('endDate');
+	  const loc = document.getElementById('location');
+	  const sign = document.getElementById('signupDate');
+	  sign.value = getCurrentTime();
+	  
+	
+	  // 從表單元素中獲取數據
+	  const realName = realNameInput.value;
+	  const phone = phoneInput.value;
+	  const email = emailInput.value;
+	  const name = eventName.textContent;
+	  const fee = showfee.textContent;
+	  const description = desc.value;
+	  const startDate = sDate.value;
+	  const endDate = eDate.value;
+	  const location = loc.value;
+	  const signupDate = sign.value;
+	
+	  // 將數據作為參數傳遞給 EmailJS
+	  const params = {
+	    realName : realName,
+	    email : email,
+	    phone : phone,
+	    name : name,
+	    fee : fee,
+	    description : description,
+	    startDate : startDate,
+	    endDate : endDate,
+	    location : location,
+	    signupDate : signupDate,
+	  };
+	  const serviceID = "service_6c9zhbs";
+      const templateID = "template_rwvp76b"
+      const PUBLIC_KEY = "fvEiDm7Irs2X3pHp5"
+      
+	  emailjs.send(serviceID, templateID, params, PUBLIC_KEY)
+	    .then((result) => {
+	      console.log(result.text);
+	    }, (error) => {
+	      console.log(error.text);
+	    });
+	}
+
+
+
+  </script>
 </body>
 
 </html>

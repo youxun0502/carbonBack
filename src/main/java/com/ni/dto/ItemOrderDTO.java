@@ -24,7 +24,10 @@ public class ItemOrderDTO {
 	private Member sell;
 	private GameItem gameItem;
 	
+	private Float minPrice;
 	private Float total;
+	
+	private Integer needFund;
 	
 	private Float getTotal() {
 		total = (float) 0;

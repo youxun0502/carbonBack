@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/memberDataTable.css}">
+	</link>
+	<title>Member Analysis</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navmain}"></div>
+	<div class="d-flex">
+		<div th:replace="~{layout/asideMain}"></div>
+		<div class="w-100 section section-big">
+			<div class="content mt-3">
+				<nav class="navbar navColor">
+					<div class="container-fluid">
+						<a class="navbar-brand link-light" th:href="@{/member}" style="font-size: 30px;">會員管理系統</a>
+					</div>
+				</nav>
+				<ul class="nav nav-tabs">
+					<li class="nav-item"><a class="nav-link " th:href="@{/member/allMember}">搜尋全部</a></li>
+					<li class="nav-item"><a class="nav-link active"
+							th:href="@{/member/memberRegistrationDateAnalysisPage}">分析</a>
+					</li>
+				</ul>
+			</div>
+			<div class="container-fluid">
+				<div class="mt-3">
+					<form id="registerYearForm" class="d-flex" method="get"
+						th:action="@{/member/memberRegistrationDateAnalysisPage}">
+						<label for="year" class="text-light me-2">搜尋年份</label>
+						<select id="year" class="col-2" name="year">
+							<th:block th:each="oneYear : ${years}">
+								<th:block th:if="${oneYear == year}">
+									<option selected th:value="${oneYear}">[[${oneYear}]]</option>
+								</th:block>
+								<th:block th:unless="${oneYear == year}">
+									<option th:value="${oneYear}">[[${oneYear}]]</option>
+								</th:block>
+							</th:block>
+						</select>
+					</form>
+				</div>
+				<h2 class="text-light mt-5">會員註冊趨勢</h2>
+				<div class="row my-3">
+					<div class="col-4">
+						<table id="example" class="hover row-border" style="width: 100%">
+							<thead>
+								<tr>
+									<td>月份</td>
+									<td>人數</td>
+								</tr>
+							</thead>
+							<tbody>
+								<th:block th:each="data : ${datas}">
+									<tr>
+										<td>[[${data[0]}]]</td>
+										<td>[[${data[1]}]]</td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-8">
+						<canvas id="chartJS"></canvas>
+					</div>
+				</div>
+				<br>
+				<h2 class="text-light">會員性別比</h2>
+				<div class="row my-3">
+					<div class="col-5">
+						<canvas id="genderCharJs"></canvas>
+					</div>
+					<div class="col-5 ms-5 mt-3">
+						<table id="gender" class="hover row-border" style="width: 100%">
+							<thead>
+								<tr>
+									<td>性別</td>
+									<td>人數</td>
+								</tr>
+							</thead>
+							<tbody>
+								<th:block th:each="gender : ${genderData}">
+									<tr>
+										<td th:text="${gender[1]} == 1 ? '男': '女'"></td>
+										<td>[[${gender[0]}]]</td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script th:src="@{/js/memberRegistrationDateAnalysisPage.js}"></script>
+</body>
+
+</html>

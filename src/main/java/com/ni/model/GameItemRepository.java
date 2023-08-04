@@ -18,4 +18,10 @@ public interface GameItemRepository extends JpaRepository<GameItem, Integer> {
 	
 	@Query("SELECT COUNT(*) itemName FROM GameItem WHERE itemName = :name AND gameId= :id")
 	public int checkItemName(@Param("name") String name, @Param("id") Integer id);
+	
+	@Query("FROM GameItem WHERE gameId = :id OR itemName LIKE %:name%")
+	public List<GameItem> findByNameOrGame(@Param("id") Integer gameId, @Param("name") String itemName);
+	
+	@Query("FROM GameItem WHERE gameId = :id AND itemName LIKE %:name%")
+	public List<GameItem> findByNameAndGame(@Param("id") Integer gameId, @Param("name") String itemName);
 }

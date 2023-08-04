@@ -34,7 +34,7 @@
 			max-width: calc(100% - 200px);
 		}
 	</style>
-	<title>Discussions GetAll</title>
+	<title>全部文章查詢</title>
 </head>
 
 <body>
@@ -45,29 +45,31 @@
 			<div class="content mt-3">
 				<nav class="navbar navColor">
 					<div class="container-fluid">
-						<a class="navbar-brand link-light" style="font-size: 30px;">DISCUSSIONS ALL</a>
+						<a class="navbar-brand link-light" style="font-size: 30px;">全部文章</a>
 						<div class="d-flex" role="search">
 							<form th:action="@{/discussions/findByUserName}" method="GET">
-							    <div class="row">
-							        <div class="col-8">
-							            <input class="form-control me-2" type="search" placeholder="會員名稱查詢" aria-label="Search" name="userName" id="discussionsitem_search">
-							        </div>
-							        <div class="col-4">
-							            <button class="btn btn-outline-warning" type="submit" id="name_search_btn">Search</button>
-							        </div>
-							    </div>
+								<div class="row">
+									<div class="col-8">
+										<input class="form-control me-2" type="search" placeholder="會員名稱查詢"
+											aria-label="Search" name="userName" id="discussionsitem_search">
+									</div>
+									<div class="col-4">
+										<button class="btn btn-outline-warning" type="submit"
+											id="name_search_btn">查詢</button>
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>
 				</nav>
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
-						<a class="nav-link active" th:href="@{/discussions/getAllDiscussions}">ALL</a>
+						<a class="nav-link active" th:href="@{/discussions/getAllDiscussions}">查詢全部</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/discussions/insertpage}">CREATE</a>
+						<a class="nav-link" th:href="@{/discussions/insertpage}">新增</a>
 					</li>
-					
+
 				</ul>
 			</div>
 			<div class="container-fluid">
@@ -97,8 +99,8 @@
 							<tr th:each="discussion : ${discussions}">
 								<td th:text="${discussion.articleId}"></td>
 								<td class="imgBox overflow-hidden"><img width="200px"
-								    th:src="@{'/discussionsdownloadImage/' + ${discussion.articleId}}"
-								    class="img-fluid">
+										th:src="@{'/discussionsdownloadImage/' + ${discussion.articleId}}"
+										class="img-fluid">
 								</td>
 								<td th:text="${discussion.memberId}"></td>
 								<td th:text="${discussion.eventId}"></td>
@@ -113,43 +115,44 @@
 								<td th:text="${discussion.dlikes}"></td>
 								<td>
 									<form th:action="@{/discussions/update}" method="GET">
-										<button type="submit" name="articleId"
+										<button type="submit" class="btn btn-primary" name="articleId"
 											th:value="${discussion.articleId}">更新</button>
 									</form>
 								</td>
 								<td>
 									<form th:action="@{/discussions/delete}" th:method="DELETE">
-										<button type="submit" name="articleId" th:value="${discussion.articleId}"
+										<button type="submit" class="btn btn-danger" name="articleId"
+											th:value="${discussion.articleId}"
 											onclick="return confirm('確定要刪除嗎？')">刪除</button>
 									</form>
 								</td>
 							</tr>
 						</tbody>
-					 </table>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-    <script>
-        $(function () {
-            $.extend(true, $.fn.dataTable.defaults, {
-                searching: false,
-                // ordering: true,
-            });
-            
-            $(document).ready(function () {
-                $('#example').DataTable();
+					</table>
+				</div>
+			</div>
+			<script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+			<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+			<script>
+				$(function () {
+					$.extend(true, $.fn.dataTable.defaults, {
+						searching: false,
+						// ordering: true,
+					});
 
-                $.ajax({
-                    url: 'DiscussionsMain.html',
-                    dataType: 'html',
-                    success: function (data) {
-                        $('#example tbody').html(data);
-                    }
-                });
-            });
-        });
-    </script>
+					$(document).ready(function () {
+						$('#example').DataTable();
+
+						$.ajax({
+							url: 'DiscussionsMain.html',
+							dataType: 'html',
+							success: function (data) {
+								$('#example tbody').html(data);
+							}
+						});
+					});
+				});
+			</script>
 </body>
 
 </html>

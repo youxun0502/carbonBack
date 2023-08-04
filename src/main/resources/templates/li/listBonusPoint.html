@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		table {
+			background-color: rgb(33, 37, 41);
+		}
+
+		table td,
+		table th {
+			max-width: 170px;
+		}
+
+		.tdCenter {
+			text-align: center;
+		}
+
+		.imgBox {
+			width: 100px;
+			height: 100px;
+		}
+
+		.showDesc {
+			cursor: pointer;
+		}
+
+		.section-big {
+			max-width: calc(100% - 42px);
+		}
+
+		.section-small {
+			max-width: calc(100% - 200px);
+		}
+	</style>
+	<title>獎勵商城-Coin紀錄</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navMain}"></div>
+	<div class="d-flex">
+		<div th:replace="~{layout/asideMain}"></div>
+		<div class="w-100 section section-big">
+			<div class="content mt-3">
+				<nav class="navbar navColor">
+					<div class="container-fluid">
+						<a class="navbar-brand link-light" th:href="@{/bonus/main}" style="font-size: 30px;">獎勵商城</a>
+						<div class="d-flex" role="search">
+
+							<input class="form-control me-2" type="search" placeholder="商品名稱查詢" aria-label="Search"
+								name="bonusName" id="bonusitem_search">
+							<button class="btn btn-outline-warning col-3" type="submit" id="name_search_btn">查詢</button>
+
+						</div>
+					</div>
+				</nav>
+				<ul class="nav nav-tabs">
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/listAll}">全部商品</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/insert}">新增商品</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/bonuslog}">購買紀錄</a></li>
+					<li class="nav-item"><a class="nav-link active" th:href="@{/bonus/bonuspointlog}">點數紀錄</a></li>
+				</ul>
+			</div>
+			<div class="container-fluid">
+				<div class="row my-3">
+					<table id="example" class="hover row-border" style="width: 100%">
+						<thead>
+							<tr>
+								<th>會員編號</th>
+								<th>會員名稱</th>
+								<th>操作紀錄</th>
+								<th>變更數額</th>
+								<th>點數餘額</th>
+								<th>變更日期</th>
+							</tr>
+						</thead>
+
+						<tbody id="showSeachItem">
+							<th:block th:each="dto : ${Dtos}">
+								<tr>
+
+									<td class="tdCenter">[[${dto.member.id}]]</td>
+									<td class="tdCenter">[[${dto.member.userId}]]</td>
+									<th:block th:switch="${dto.logtype}">
+										<th:block th:case="register">
+											<td class="tdCenter">註冊-獎勵點數</td>
+										</th:block>
+										<th:block th:case="buygame">
+											<td class="tdCenter">購買遊戲-獎勵點數</td>
+										</th:block>
+										<th:block th:case="buybonusitem">
+											<td class="tdCenter">購買外觀</td>
+										</th:block>
+										<th:block th:case="sendmessage">
+											<td class="tdCenter">發送留言-獎勵點數</td>
+										</th:block>
+										<th:block th:case="*">
+											<td class="tdCenter">[[${dto.logtype}]]</td>
+										</th:block>
+									</th:block>
+									<td class="tdCenter">[[${dto.changepoint}]]
+									<td class="tdCenter">[[${dto.point}]]
+									<td class="text-truncate">[[${dto.updateTime}]]</td>
+
+
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+		//////////////Search by name/////////////
+		let searchBtn = document.getElementById('name_search_btn');
+		searchBtn.addEventListener('click', function (e) {
+			let searchForm = document.getElementById('bonusitem_search');
+			console.log('searchF:' + searchForm.value);
+			axios({
+				url: 'http://localhost:8080/carbon/bonus/findmemberpoint',
+				method: 'get',
+				params: {
+					bonus_search: searchForm.value
+				}
+			})
+				.then(res => {
+					console.log('res: ' + JSON.stringify(res.data));
+					htmlMaker(res.data);
+				})
+				.catch(err => {
+					console.log('err:' + err);
+				})
+		})
+
+
+		$(function () {
+			////////// dataTable ////////// 
+			$('#example').DataTable({
+				scrollX: true,
+				"dom": 'lrtip'
+			});
+		})
+	</script>
+
+
+</body>
+
+</html>

@@ -5,6 +5,7 @@ const pwdContainer = document.querySelector('#password');
 const pwdSpace = Array.from(document.querySelectorAll('.space'))[1];
 const animation = document.querySelector('#animation');
 const animationIn = document.querySelector('#animationIn');
+const animationIn2 = document.querySelector('#animationIn2')
 const nextStepBtn = document.querySelector('#nextStep');
 const reigisterBtn = document.querySelector('#reigisterBtn');
 let emailStatus = '';
@@ -163,7 +164,7 @@ genderContainer[1].addEventListener('change', function () {
 
 
 /////////////////////// registerbutton event ///////////////////////
-form.addEventListener('submit', function (event) {
+reigisterBtn.addEventListener('click', function (event) {
   event.preventDefault();
   if (userId == '') {
     classMaker(userIdContainer, userIdSpace, '此為必填欄位，請輸入符合資格的稱呼', 'false');
@@ -175,16 +176,47 @@ form.addEventListener('submit', function (event) {
     classMaker(genderContainer[0], genderSpace, '請選擇一個選項', 'false');
     classMaker(genderContainer[1], genderSpace, '請選擇一個選項', 'false');
   } else {
-    Swal.fire({
-      title: 'Registration successful',
-      text: 'You have successfully registered',
-      icon: 'success',
-      showConfirmButton: false,
-      timer: 1500
+
+
+    for (let i = 0; genderContainer.length; i++) {
+      if (genderContainer[i].checked) {
+        gender = genderContainer[i].value;
+        break;
+
+      }
+    }
+    axios({
+      url: 'http://localhost:8080/carbon/main/api/register',
+      method: 'post',
+      data: {
+        email: emailContainer.value,
+        pwd: pwdContainer.value,
+        id: userIdContainer.value,
+        name: memberNameContainer.value,
+        birthday: birthdayContainer.value,
+        phone: phoneContainer.value,
+        gender: gender
+      }
     })
-    setTimeout(function () {
-      form.submit();
-    }, 1500)
+      .then(response => {
+        // autoInput2.classList.remove('animate__fadeInRight');
+        // autoInput2.classList.add('animate__fadeOutLeft');
+        // autoInput2.style.display = 'none';
+        // reigisterBtn.classList.remove('animate__fadeInRight');
+        // reigisterBtn.classList.add('animate__fadeOutLeft');
+        // reigisterBtn.style.display = 'none';
+        // animationIn.classList.remove('animate__fadeInRight');
+        animationIn.classList.add('animate__fadeOutLeft');
+        animationIn.addEventListener('animationend', function () {
+
+          animationIn.style.display = 'none';
+          animationIn2.style.display = 'flex';
+          animationIn2.classList.add('animate__fadeInRight');
+          console.log(response.data);
+
+        })
+
+      })
   }
 })
 
@@ -367,35 +399,35 @@ function classMaker(container, space, text, status) {
 
 
 const autoInput1 = document.querySelector('#autoInput1');
-autoInput1.addEventListener('click', function(){
-	emailContainer.value = 'XiaoMing123@gmail.com';
-	emailContainer.dispatchEvent(new Event('blur'));
-	
-	pwdContainer.value = 'XiaoMing123';
-	pwdContainer.dispatchEvent(new Event('change'));
+autoInput1.addEventListener('click', function () {
+  emailContainer.value = 'xiaoming20230703@gmail.com';
+  emailContainer.dispatchEvent(new Event('blur'));
+
+  pwdContainer.value = 'Carbon123';
+  pwdContainer.dispatchEvent(new Event('change'));
 })
 
 
 
 const autoInput2 = document.querySelector('#autoInput2');
-autoInput2.addEventListener('click',function(event){
-	event.preventDefault();
-	userIdContainer.value='XiaoMing';
-	userIdContainer.dispatchEvent(new Event('change'));
-	
-	memberNameContainer.value='XiaoMing';
-	memberNameContainer.dispatchEvent(new Event('change'));
-	
-	birthdayContainer.value='2000-05-01';
-	birthdayContainer.dispatchEvent(new Event('change'));
-	
-	phoneContainer.value='0908666444';
-	phoneContainer.dispatchEvent(new Event('blur'));
-	
-	let genderContainer = document.querySelector('input[name="gender"][value="1"]');
-	genderContainer.checked = true;
-	
-	genderContainer.dispatchEvent(new Event('change'));
+autoInput2.addEventListener('click', function (event) {
+  event.preventDefault();
+  userIdContainer.value = 'xiaoming';
+  userIdContainer.dispatchEvent(new Event('change'));
+
+  memberNameContainer.value = 'xiaoming';
+  memberNameContainer.dispatchEvent(new Event('change'));
+
+  birthdayContainer.value = '2000-05-01';
+  birthdayContainer.dispatchEvent(new Event('change'));
+
+  phoneContainer.value = '0908666444';
+  phoneContainer.dispatchEvent(new Event('blur'));
+
+  let genderContainer = document.querySelector('input[name="gender"][value="1"]');
+  genderContainer.checked = true;
+
+  genderContainer.dispatchEvent(new Event('change'));
 })
 
 

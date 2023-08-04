@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>新增文章資料</title>
+    <style>
+        table {
+            background-color: rgb(33, 37, 41);
+        }
+
+        table td,
+        table th {
+            max-width: 170px;
+        }
+
+        .tdCenter {
+            text-align: center;
+        }
+
+        .imgBox {
+            width: 100px;
+            height: 100px;
+        }
+
+        .showDesc {
+            cursor: pointer;
+        }
+
+        .section-big {
+            max-width: calc(100% - 42px);
+        }
+
+        .section-small {
+            max-width: calc(100% - 200px);
+        }
+
+        /* 自訂日期選擇器外層容器的樣式 */
+        .datepicker-container {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* 自訂日期選擇器的樣式 */
+        .ui-datepicker {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        /* 自訂日期選擇器中月份和年份選擇器的樣式 */
+        .ui-datepicker-header {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* 自訂日期選擇器中月份和年份選擇器的按鈕樣式 */
+        .ui-datepicker-prev,
+        .ui-datepicker-next {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        /* 自訂日期選擇器中日期方塊的樣式 */
+        .ui-datepicker-calendar .ui-state-default {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        /* 自訂日期選擇器中被選取的日期方塊的樣式 */
+        .ui-datepicker-calendar .ui-state-active {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+    <div class="d-flex">
+        <div th:replace="~{layout/asideMain}"></div>
+        <div class="w-100 section section-big">
+            <!-- <div class="content mt-3">
+                <nav class="navbar navColor">
+                    <div class="container-fluid">
+                        <a class="navbar-brand link-light" style="font-size: 30px;">MESSAGE INSERT</a>
+                        <div class="d-flex" role="search">
+                            <form th:action="@{/messages/findByUserName}" method="GET">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <input class="form-control me-2" type="search" placeholder="會員名稱查詢"
+                                            aria-label="Search" name="userName" id="discussionsitem_search">
+                                    </div>
+                                    <div class="col-4">
+                                        <button class="btn btn-outline-warning" type="submit"
+                                            id="name_search_btn">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </nav>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/messages/getAllMessages}">ALL</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/messages/insertpage}">CREATE</a>
+                    </li>
+                    
+                </ul>
+            </div> -->
+            <div class="container">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h2 class="card-title text-dark">新增留言資料</h2>
+                        <form th:action="@{/front/insertmessage}" method="POST" id="newMessageForm"
+                            class="d-inline-block" enctype="multipart/form-data">
+                            <div class="mb-3" style="display: none;">
+                                <label class="form-label text-dark">文章編號</label>
+                                <input class="form-control" type="text" name="articleId">
+                            </div>
+                            <div class="mb-3" style="display: none;">
+                                <label class="form-label text-dark">會員編號</label>
+                                <input class="form-control" type="text" name="memberId">
+                            </div>
+                            <div class="mb-3" style="display: none;">
+                                <label class="form-label text-dark">會員名稱</label>
+                                <input class="form-control" type="text" name="userName">
+                            </div>
+                            <div class="mb-3" style="display: none;">
+                                <label class="form-label text-dark">遊戲編號</label>
+                                <input class="form-control" type="text" name="gameId">
+                            </div>
+                            <div class="mb-3" style="display: none;">
+                                <label class="form-label text-dark">遊戲名稱</label>
+                                <input class="form-control" type="text" name="gameName">
+                            </div>
+                            <div class="mb-3" style="display: none;">
+                                <label class="form-label text-dark">文章標題</label>
+                                <input type="hidden" th:value="${mtitle}" name="mtitle">
+                                <!-- <input class="form-control" type="text" name="mtitle"> -->
+                            </div>
+                            <div class="mb-3" style="display: none;">
+                                <label class="form-label text-dark">創建日期</label>
+                                <input class="form-control" type="text" name="mcreated">
+                            </div>
+                            <div class="mb-3" style="display: none;">
+                                <label class="form-label text-dark">按讚次數</label>
+                                <input class="form-control" type="text" name="mlikes">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">留言內容</label>
+                                <textarea class="form-control text-dark" name="mcontent"></textarea>
+                            </div>
+                            <div class="mb-3" style="display: none;">
+                                <label class="form-label text-dark">圖片</label>
+                                <input class="form-control" type="file" name="mphotoFile">
+                            </div>
+
+                            <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
+                            <button class="btn btn-secondary" type="button" onclick="window.history.back();"
+                                style="display: inline-block;">取消</button>
+
+                        </form>
+                        <button class="btn btn-success" id="generateDataBtn"
+                            style="display: inline-block;">一鍵新增</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#generateDataBtn").click(function () {
+                // Generate random values for form inputs
+                var articleId = Math.floor(Math.random() * 1000) + 1;
+                var memberId = Math.floor(Math.random() * 1000) + 1;
+                var userName = "User" + memberId;
+                var gameId = Math.floor(Math.random() * 1000) + 1;
+                var gameName = "Game" + gameId;
+                // var mtitle = "SampleTitle";
+                var mcreated = "2023-06-18";
+                var mlikes = Math.floor(Math.random() * 10);
+                var mcontent = "Sample Content";
+
+                // Set generated values to the form inputs
+                $("#newMessageForm input[name='articleId']").val(articleId);
+                $("#newMessageForm input[name='memberId']").val(memberId);
+                $("#newMessageForm input[name='userName']").val(userName);
+                $("#newMessageForm input[name='gameId']").val(gameId);
+                $("#newMessageForm input[name='gameName']").val(gameName);
+                // $("#newMessageForm input[name='mtitle']").val(mtitle);
+                $("#newMessageForm input[name='mcreated']").val(mcreated);
+                $("#newMessageForm input[name='mlikes']").val(mlikes);
+                $("#newMessageForm textarea[name='mcontent']").val(mcontent);
+
+            });
+        });
+
+    </script>
+</body>
+
+</html>

@@ -34,7 +34,7 @@
         .section-small {
             max-width: calc(100% - 200px);
         }
-        
+
         /* 自訂日期選擇器外層容器的樣式 */
         .datepicker-container {
             font-family: Arial, sans-serif;
@@ -93,7 +93,7 @@
             <div class="content mt-3">
                 <nav class="navbar navColor">
                     <div class="container-fluid">
-                        <a class="navbar-brand link-light" style="font-size: 30px;">DISCUSSIONS INSERT</a>
+                        <a class="navbar-brand link-light" style="font-size: 30px;">文章新增</a>
                         <div class="d-flex" role="search">
                             <form th:action="@{/discussions/findByUserName}" method="GET">
                                 <div class="row">
@@ -103,7 +103,7 @@
                                     </div>
                                     <div class="col-4">
                                         <button class="btn btn-outline-warning" type="submit"
-                                            id="name_search_btn">Search</button>
+                                            id="name_search_btn">查詢</button>
                                     </div>
                                 </div>
                             </form>
@@ -112,19 +112,20 @@
                 </nav>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/discussions/getAllDiscussions}">ALL</a>
+                        <a class="nav-link active" th:href="@{/discussions/getAllDiscussions}">查詢全部</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/discussions/insertpage}">CREATE</a>
+                        <a class="nav-link" th:href="@{/discussions/insertpage}">新增</a>
                     </li>
-                    
+
                 </ul>
             </div>
             <div class="container">
-                <div class="card mt-3">
+                <div class="card mt-3" style="width: 400px;">
                     <div class="card-body">
                         <h2 class="card-title text-dark">新增文章資料</h2>
-                        <form th:action="@{/discussions/insertDiscussion}" method="POST" id="newDiscussionForm" class="d-inline-block" enctype="multipart/form-data">
+                        <form th:action="@{/discussions/insertDiscussion}" method="POST" id="newDiscussionForm"
+                            class="d-inline-block" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label class="form-label text-dark">會員編號</label>
                                 <input class="form-control" type="text" name="memberId">
@@ -151,7 +152,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">文章內容</label>
-                                <input class="form-control" type="text" name="dcontent">
+                                <textarea class="form-control" name="dcontent"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label text-dark">最後回覆時間</label>
@@ -170,16 +171,19 @@
                                 <input class="form-control" type="text" name="dlikes">
                             </div>
                             <div class="mb-3">
-							    <label class="form-label text-dark">圖片</label>
-							    <input class="form-control" type="file" name="photoFile">
-							</div>
-                             
-							    <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
-							    
-							
+                                <label class="form-label text-dark">圖片</label>
+                                <input class="form-control" type="file" name="photoFile">
+                            </div>
+
+                            <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
+                            <button class="btn btn-secondary" type="button" onclick="window.history.back();"
+                                style="display: inline-block;">取消</button>
+
                         </form>
-                        	<button class="btn btn-success" id="generateDataBtn" style="display: inline-block;">一鍵新增</button>	
-                        	
+                        <hr>
+                        <button class="btn btn-success" id="generateDataBtn"
+                            style="display: inline-block;">一鍵新增</button>
+
                     </div>
                 </div>
             </div>
@@ -197,7 +201,7 @@
                 var userName = "User" + memberId;
                 var gameId = Math.floor(Math.random() * 1000) + 1;
                 var gameName = "Game" + gameId;
-                var title = "Sample Title";
+                var title = "SampleTitle";
                 var dcontent = "Sample Content";
                 var lastReplyTime = "2023-06-19";
                 var d_views = Math.floor(Math.random() * 100);
@@ -211,15 +215,15 @@
                 $("#newDiscussionForm input[name='gameId']").val(gameId);
                 $("#newDiscussionForm input[name='gameName']").val(gameName);
                 $("#newDiscussionForm input[name='title']").val(title);
-                $("#newDiscussionForm input[name='dcontent']").val(dcontent);
+                $("#newDiscussionForm textarea[name='dcontent']").val(dcontent);
                 $("#newDiscussionForm input[name='lastReplyTime']").val(lastReplyTime);
                 $("#newDiscussionForm input[name='d_views']").val(d_views);
                 $("#newDiscussionForm input[name='dcreated_at']").val(dcreated_at);
                 $("#newDiscussionForm input[name='dlikes']").val(dlikes);
             });
         });
-        
-      $(function () {
+
+        $(function () {
             $("#dcreated_at").datepicker({
                 dateFormat: 'yy-mm-dd',
                 onSelect: function (selected) {
@@ -234,7 +238,7 @@
                 }
             });
 
-            
+
         });
     </script>
 </body>

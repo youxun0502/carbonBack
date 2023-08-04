@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Carbon</title>
+	<link th:href="@{/css/bonus-shop.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<section class="my-4">
+		<div class="container">
+
+			<section class="recent-game-section spad set-bg" data-setbg="img/recent-game-bg.png">
+				<div class="container">
+
+					<div class="section_header">
+						
+						<div class="section_header_action">
+							<a th:href="@{/bonus-shop/main}">
+								<button class="header_actionbutton nk-btn nk-btn-rounded nk-btn-color-main-1">全部商品</button>
+							</a>
+						</div>
+						<div class="section_header_line"></div>
+						<div class="actions_LRbutton">
+							<a href="#" class="nk-pagination-prev">
+								<i class="fa-solid fa-chevron-left"></i>
+							</a>
+							<a href="#" class="nk-pagination-next">
+								<i class="fa-solid fa-chevron-right"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="section_body">
+						<div class="section_body_row">
+
+							<th:block th:each="oneBonusitem : ${bonusitemList}">
+								<th:block th:switch="${oneBonusitem.status == true}">
+									<div th:case="true" class="sc_item_container">
+										<div class="sc_item_box" th:data-id="${oneBonusitem.bonusId}">
+
+											<div class="item_bonusitem">
+
+												<img class="item_reward"
+													th:src="@{'/downloadImage/' + ${oneBonusitem.bonusId}}">
+											</div>
+
+
+											<div class="item_box_footer">
+												<div class="item_box_footer_desc">
+
+													<div class="bonusitem_name nk-post-title h5 text-center">[[${oneBonusitem.bonusName}]]</div>
+													<div class="bonusitem_type">
+														[[${oneBonusitem.bonusDes}]]</div>
+												</div>
+
+												<div class="item_box_footer_Costrow">
+													<div class="item_cost">
+														<div class="item_cost_layout">
+															<div class="bonusitem_price">[[${oneBonusitem.bonusPrice}]]<span style="font-size:0.75rem">Coins</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</th:block>
+							</th:block>
+						</div>
+					</div>
+
+				</div>
+			</section>
+
+		</div>
+	</section>
+
+	
+
+
+	<div th:replace="~{layout/footer}"></div>
+
+
+
+
+	<script th:src="@{/js/bonusShop.js}"></script>
+
+
+</body>
+
+</html>

@@ -2,7 +2,6 @@ package com.ni.model;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.liu.model.Member;
 
 import jakarta.persistence.Entity;
@@ -35,12 +34,10 @@ public class ItemLog {
 	@JoinColumn(name = "MEMBERID", insertable = false, updatable = false)
 	private Member member;
 	
-//	@JsonManagedReference(value = "itemLogs")
 	@ManyToOne
 	@JoinColumn(name = "ITEMID", insertable = false, updatable = false)
 	private GameItem gameItem;
 	
-//	@JsonManagedReference
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ORDID", insertable = false, updatable = false)
 	private ItemOrder itemOrder;

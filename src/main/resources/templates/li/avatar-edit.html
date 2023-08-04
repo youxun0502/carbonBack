@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>編輯個人頁面</title>
+	<style>
+
+	</style>
+
+	<link th:href="@{/css/bonus-shop.css}" rel="stylesheet">
+	<!-- START: Styles -->
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet"
+		type="text/css">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+
+	<!-- FontAwesome -->
+	<script defer src="assets/vendor/fontawesome-free/js/all.js"></script>
+	<script defer src="assets/vendor/fontawesome-free/js/v4-shims.js"></script>
+
+	<!-- IonIcons -->
+	<link rel="stylesheet" href="assets/vendor/ionicons/css/ionicons.min.css">
+
+	<!-- Flickity -->
+	<link rel="stylesheet" href="assets/vendor/flickity/dist/flickity.min.css">
+
+	<!-- Photoswipe -->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/photoswipe.css">
+	<link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/default-skin/default-skin.css">
+
+	<!-- Seiyria Bootstrap Slider -->
+	<link rel="stylesheet" href="assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css">
+
+	<!-- Summernote -->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/summernote/dist/summernote-bs4.css">
+
+	<!-- GoodGames -->
+	<link rel="stylesheet" href="assets/css/goodgames.css">
+
+	<!-- Custom Styles -->
+	<link rel="stylesheet" href="assets/css/custom.css">
+
+	<!-- END: Styles -->
+
+	<!-- jQuery -->
+	<script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+</head>
+
+<body>
+
+
+
+
+	<div class="nk-modal modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-xl modal-xl" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span class="ion-android-close"></span>
+					</button>
+
+					<h4 class="mb-0"><span class="text-main-1">個人樣式</span> 編輯</h4>
+
+					<div class="nk-gap-1"></div>
+
+
+					<!-- START: Accordion 1 -->
+					<div class="nk-accordion" id="edit-avatar-box" role="tablist" aria-multiselectable="true">
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="edit-avatar-heading">
+								<a class="collapsed" data-toggle="collapse" data-parent="#edit-avatar-box"
+									href="#edit-avatar" aria-expanded="true" aria-controls="edit-avatar">
+									頭像 <span class="panel-heading-arrow fa fa-angle-down"></span>
+								</a>
+							</div>
+							<div id="edit-avatar" class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="edit-avatar-heading">
+
+
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="edit-frame-heading">
+								<a data-toggle="collapse" data-parent="#edit-avatar-box" href="#edit-frame"
+									aria-expanded="false" aria-controls="edit-frame">
+									外框<span class="panel-heading-arrow fa fa-angle-down"></span>
+								</a>
+							</div>
+							<div id="edit-frame" class="panel-collapse collapse show" role="tabpanel"
+								aria-labelledby="edit-frame-heading">
+
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="edit-bg-heading">
+								<a class="collapsed" data-toggle="collapse" data-parent="#edit-avatar-box"
+									href="#edit-bg" aria-expanded="false" aria-controls="edit-bg">
+									背景 <span class="panel-heading-arrow fa fa-angle-down"></span>
+								</a>
+							</div>
+							<div id="edit-bg" class="panel-collapse collapse" role="tabpanel"
+								aria-labelledby="edit-bg-heading">
+
+							</div>
+						</div>
+					</div>
+					<!-- END: Accordion 1 -->
+
+					<div class="nk-gap-1"></div>
+					<div class="row vertical-gap">
+					<div class="col-6">
+					<form id="avatar-modal-form" th:action="@{/bonus-shop/api/selectEdit}" method="post">
+							<input type="hidden" id="the-new-avatar" name="the-new-avatar" th:value="@{${session.memberBeans.useAvatar}}"/>
+							<input type="hidden" id="the-new-frame" name="the-new-frame" th:value="@{${session.memberBeans.useFrame}}"/>
+							<input type="hidden" id="the-new-bg" name="the-new-bg" th:value="@{${session.memberBeans.useBackground}}"/>
+							<button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-block" id="avatar-confirm">確定</button>
+					
+					</form>
+						
+					</div>
+						<div class="col-6">
+							<button type="button" data-dismiss="modal" aria-label="Close" id="avatar-cancel" class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block">取消</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<!-- START: Scripts -->
+
+	<!-- Object Fit Polyfill -->
+	<script src="assets/vendor/object-fit-images/dist/ofi.min.js"></script>
+
+	<!-- GSAP -->
+	<script src="assets/vendor/gsap/src/minified/TweenMax.min.js"></script>
+	<script src="assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js"></script>
+
+	<!-- Popper -->
+	<script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+
+	<!-- Bootstrap -->
+	<script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- Sticky Kit -->
+	<script src="assets/vendor/sticky-kit/dist/sticky-kit.min.js"></script>
+
+	<!-- Jarallax -->
+	<script src="assets/vendor/jarallax/dist/jarallax.min.js"></script>
+	<script src="assets/vendor/jarallax/dist/jarallax-video.min.js"></script>
+
+	<!-- imagesLoaded -->
+	<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+
+	<!-- Flickity -->
+	<script src="assets/vendor/flickity/dist/flickity.pkgd.min.js"></script>
+
+	<!-- Photoswipe -->
+	<script src="assets/vendor/photoswipe/dist/photoswipe.min.js"></script>
+	<script src="assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js"></script>
+
+	<!-- Jquery Validation -->
+	<script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+
+	<!-- Jquery Countdown + Moment -->
+	<script src="assets/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
+	<script src="assets/vendor/moment/min/moment.min.js"></script>
+	<script src="assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+
+	<!-- Hammer.js -->
+	<script src="assets/vendor/hammerjs/hammer.min.js"></script>
+
+	<!-- NanoSroller -->
+	<script src="assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
+
+	<!-- SoundManager2 -->
+	<script src="assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js"></script>
+
+	<!-- Seiyria Bootstrap Slider -->
+	<script src="assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+
+	<!-- Summernote -->
+	<script src="assets/vendor/summernote/dist/summernote-bs4.min.js"></script>
+
+	<!-- nK Share -->
+	<script src="assets/plugins/nk-share/nk-share.js"></script>
+
+	<!-- GoodGames -->
+
+	<!-- END: Scripts -->
+</body>
+
+</html>

@@ -1,7 +1,10 @@
 package com.chen.model;
 
+import java.util.List;
+
 import com.evan.model.Game;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -61,4 +65,9 @@ public class Event {
 	
 	@Column(name = "fee")
 	private Integer fee;
+	
+	/*
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "event",cascade = CascadeType.ALL)
+	private List<EventRegistration> eventRegistration;
+	*/
 }

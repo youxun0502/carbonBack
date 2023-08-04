@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>新增文章資料</title>
+    <style>
+        table {
+            background-color: rgb(33, 37, 41);
+        }
+
+        table td,
+        table th {
+            max-width: 170px;
+        }
+
+        .tdCenter {
+            text-align: center;
+        }
+
+        .imgBox {
+            width: 100px;
+            height: 100px;
+        }
+
+        .showDesc {
+            cursor: pointer;
+        }
+
+        .section-big {
+            max-width: calc(100% - 42px);
+        }
+
+        .section-small {
+            max-width: calc(100% - 200px);
+        }
+
+        /* 自訂日期選擇器外層容器的樣式 */
+        .datepicker-container {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* 自訂日期選擇器的樣式 */
+        .ui-datepicker {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        /* 自訂日期選擇器中月份和年份選擇器的樣式 */
+        .ui-datepicker-header {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* 自訂日期選擇器中月份和年份選擇器的按鈕樣式 */
+        .ui-datepicker-prev,
+        .ui-datepicker-next {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        /* 自訂日期選擇器中日期方塊的樣式 */
+        .ui-datepicker-calendar .ui-state-default {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        /* 自訂日期選擇器中被選取的日期方塊的樣式 */
+        .ui-datepicker-calendar .ui-state-active {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+    <div class="d-flex">
+        <!-- <div th:replace="~{layout/asideMain}"></div> -->
+        <div class="w-100 section section-big">
+            <!-- <div class="content mt-3">
+                <nav class="navbar navColor">
+                    <div class="container-fluid">
+                        <a class="navbar-brand link-light" style="font-size: 30px;">DISCUSSIONS INSERT</a>
+                        <div class="d-flex" role="search">
+                            <form th:action="@{/discussions/findByUserName}" method="GET">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <input class="form-control me-2" type="search" placeholder="會員名稱查詢"
+                                            aria-label="Search" name="userName" id="discussionsitem_search">
+                                    </div>
+                                    <div class="col-4">
+                                        <button class="btn btn-outline-warning" type="submit"
+                                            id="name_search_btn">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </nav>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/discussions/getAllDiscussions}">ALL</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/discussions/insertpage}">CREATE</a>
+                    </li>
+                    
+                </ul>
+            </div> -->
+            <div class="container">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h2 class="card-title text-dark">新增文章資料</h2>
+                        <form th:action="@{}/forum/insertDiscussionMessage" method="POST" id="newDiscussionForm"
+                            class="d-inline-block" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label class="form-label text-dark">會員編號</label>
+                                <input class="form-control" type="text" name="memberId">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">活動編號</label>
+                                <input class="form-control" type="text" name="eventId">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">會員名稱</label>
+                                <input class="form-control" type="text" name="userName">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">遊戲編號</label>
+                                <input class="form-control" type="text" name="gameId">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">遊戲名稱</label>
+                                <input class="form-control" type="text" name="gameName">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">文章標題</label>
+                                <input class="form-control" type="text" name="title">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">文章內容</label>
+                                <textarea class="form-control" name="dcontent"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">最後回覆時間</label>
+                                <input class="form-control" type="text" name="lastReplyTime" id="lastReplyTime">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">觀看次數</label>
+                                <input class="form-control" type="text" name="d_views">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">創建日期</label>
+                                <input class="form-control" type="text" name="dcreated_at" id="dcreated_at">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">按讚次數</label>
+                                <input class="form-control" type="text" name="dlikes">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark">圖片</label>
+                                <input class="form-control" type="file" name="photoFile">
+                            </div>
+
+                            <button class="btn btn-primary" type="submit" style="display: inline-block;">確定</button>
+                            <button class="btn btn-secondary" type="button" onclick="window.history.back();"
+                                style="display: inline-block;">取消</button>
+
+                        </form>
+                        <button class="btn btn-success" id="generateDataBtn"
+                            style="display: inline-block;">一鍵新增</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#generateDataBtn").click(function () {
+                // Generate random values for form inputs
+                var memberId = Math.floor(Math.random() * 1000) + 1;
+                var eventId = Math.floor(Math.random() * 1000) + 1;
+                var userName = "User" + memberId;
+                var gameId = Math.floor(Math.random() * 1000) + 1;
+                var gameName = "Game" + gameId;
+                var title = "SampleTitle";
+                var dcontent = "Sample Content";
+                var lastReplyTime = "2023-06-19";
+                var d_views = Math.floor(Math.random() * 100);
+                var dcreated_at = "2023-06-18";
+                var dlikes = Math.floor(Math.random() * 10);
+
+                // Set generated values to the form inputs
+                $("#newDiscussionForm input[name='memberId']").val(memberId);
+                $("#newDiscussionForm input[name='eventId']").val(eventId);
+                $("#newDiscussionForm input[name='userName']").val(userName);
+                $("#newDiscussionForm input[name='gameId']").val(gameId);
+                $("#newDiscussionForm input[name='gameName']").val(gameName);
+                $("#newDiscussionForm input[name='title']").val(title);
+                $("#newDiscussionForm input[name='dcontent']").val(dcontent);
+                $("#newDiscussionForm input[name='lastReplyTime']").val(lastReplyTime);
+                $("#newDiscussionForm input[name='d_views']").val(d_views);
+                $("#newDiscussionForm input[name='dcreated_at']").val(dcreated_at);
+                $("#newDiscussionForm input[name='dlikes']").val(dlikes);
+            });
+        });
+
+        $(function () {
+            $("#dcreated_at").datepicker({
+                dateFormat: 'yy-mm-dd',
+                onSelect: function (selected) {
+                    $("#lastReplyTime").datepicker("option", "minDate", selected);
+                }
+            });
+
+            $("#lastReplyTime").datepicker({
+                dateFormat: 'yy-mm-dd',
+                onSelect: function (selected) {
+                    $("#dcreated_at").datepicker("option", "maxDate", selected);
+                }
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>

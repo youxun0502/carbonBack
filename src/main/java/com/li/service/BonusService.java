@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +42,7 @@ public class BonusService {
 	}
 	
 	@Transactional
-	public BonusItem updateBonusItemById(Integer id, String newName,Integer newPrice,String newDes,Boolean status) {
+	public BonusItem updateBonusItemById(Integer id, String newName,Integer newPrice,String newDes,Boolean status,String newType) {
 		Optional<BonusItem> optional = bRepo.findById(id);
 		
 		if(optional.isPresent()) {
@@ -48,6 +51,7 @@ public class BonusService {
 			msg.setBonusPrice(newPrice);
 			msg.setBonusDes(newDes);
 			msg.setStatus(status);
+			msg.setBonusType(newType);
 			return msg;
 		}
 		
@@ -60,6 +64,19 @@ public class BonusService {
 		
 		String findString="%"+str+"%";
 		return bRepo.findByName(findString);
+	}
+	public List<BonusItem> findAllAvatar(){
+		return bRepo.findByBonusType("avatar");
+	}
+	public List<BonusItem> findAllFrame(){
+		return bRepo.findByBonusType("frame");
+	}
+	public List<BonusItem> findAllBackground(){
+		return bRepo.findByBonusType("background");
+	}
+	public Page<BonusItem> findByBonusTypePage(String bonusType,Integer pageNumber){
+		Pageable pgb = PageRequest.of(pageNumber - 1, 6);
+		return bRepo.findByBonusTypePage(bonusType, pgb);
 	}
 
 }

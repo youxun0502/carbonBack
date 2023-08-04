@@ -48,16 +48,14 @@
 					<table id="example" class="hover row-border" style="width:100%">
 						<thead>
 							<tr>
+								<th>圖片
 								<th>賽事名稱
 								<th>對戰模式
-								<th>賽事說明
 								<th>開始日期
 								<th>結束日期
 								<th>賽事地點
-								<th>獎金
-								<th>名額限制
 								<th>報名截止日期
-								<th>報名費
+								<th>
 								<th>編輯
 								<th>刪除
 							</tr>
@@ -65,16 +63,52 @@
 						<tbody>
 							<th:block th:each=" competition : ${competitionList} ">
 								<tr>
+									<td class="imgBox overflow-hidden"><img th:src="@{'/competition/showImage/'+${competition.competitionId}}" alt="找不到圖片" class="img-fluid"></td>
 									<td th:text="${competition.name}"></td>
 									<td th:text="${competition.mode}"></td>
-									<td th:text="${competition.description}"></td>
 									<td th:text="${competition.startDate}"></td>
 									<td th:text="${competition.endDate}"></td>
 									<td th:text="${competition.location}"></td>
-									<td th:text="${competition.prize}"></td>
-									<td th:text="${competition.quotaLimited}"></td>
 									<td th:text="${competition.deadline}"></td>
-									<td th:text="${competition.fee}"></td>
+									
+									
+									
+									<td>
+									    <span class="showDesc" data-bs-toggle="modal" th:data-bs-target="'#descriptionModal-' + ${competition.competitionId}">詳細資訊</span>
+									    <div class="modal fade" th:id="'descriptionModal-' + ${competition.competitionId}" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+									        <div class="modal-dialog">
+									            <div class="modal-content">
+									                <div class="modal-header" style="background-color: rgb(33, 37, 41);">
+									                    <h5 class="modal-title" id="descriptionModalLabel">詳細資訊</h5>
+									                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									                </div>
+									                <div class="modal-body" style="background-color: rgb(33, 37, 41);">
+									                    <!-- 隐藏的字段内容 -->
+									                    <p>賽事說明: <span th:text="${competition.description}"></span></p>
+									                    <p>獎金: <span th:text="${competition.prize}"></span></p>
+									                    <p>名額限制: <span th:text="${competition.quotaLimited}"></span></p>
+									                    <p>報名費: <span th:text="${competition.fee}"></span></p>
+									                </div>
+									                <div class="modal-footer" style="background-color: rgb(33, 37, 41);">
+									                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+									                </div>
+									            </div>
+									        </div>
+									    </div>
+									</td>
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
 									<td>
 										<form th:action="@{/competition/update}" method="get">
 											<input type="hidden" name="competitionId"

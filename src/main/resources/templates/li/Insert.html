@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<title>New Item</title>
+	<meta charset="UTF-8">
+	<title>新增商品</title>
 </head>
 
 <body>
@@ -14,40 +14,50 @@
 			<div class="content mt-3">
 				<nav class="navbar navColor">
 					<div class="container-fluid">
-						<a class="navbar-brand link-light" th:href="@{/bonus/main}"
-							style="font-size: 30px;">Bonus Shop</a>
+						<a class="navbar-brand link-light" th:href="@{/bonus/main}" style="font-size: 30px;">獎勵商城</a>
 						<form th:action="@{/bonus/search}" method="get" class="d-flex" role="search">
-							<input class="form-control me-2" type="search"
-								placeholder="商品名稱查詢" aria-label="Search" name="bonusitem_search"
-								id="bonusitem_search">
-							<button class="btn btn-outline-warning" type="submit"
-								id="name_search_btn">Search</button>
+							<input class="form-control me-2" type="search" placeholder="商品名稱查詢" aria-label="Search"
+								name="bonusitem_search" id="bonusitem_search">
+							<button class="btn btn-outline-warning col-3" type="submit" id="name_search_btn">查詢</button>
 						</form>
 					</div>
 				</nav>
 				<ul class="nav nav-tabs">
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/bonus/listAll}">ALL</a></li>
-					<li class="nav-item"><a class="nav-link active"
-						th:href="@{/bonus/insert}">NEW ITEM</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/listAll}">全部商品</a></li>
+					<li class="nav-item"><a class="nav-link active" th:href="@{/bonus/insert}">新增商品</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/bonuslog}">購買紀錄</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/bonuspointlog}">點數紀錄</a></li>
 				</ul>
 			</div>
 			<div class="container-fluid">
-				<form th:action="@{/bonus/upload}" method="post"
-					enctype="multipart/form-data">
-					商品名稱: <input name="bonusName" /> <br /> 商品價格: <input
-						name="bonusPrice" /> <br /> 是否直接上架: <input type="radio"
-						name="status" value="1">上架 <input type="radio"
-						name="status" value="0" checked>下架 <br> 商品描述: <input
-						name="bonusDes" /> <br /> 檔案: <input name="img_file" type="file" />
-					<br />
-					<button type="submit">送出</button>
+			<div class="d-flex justify-content-center">
+				<form th:action="@{/bonus/upload}" method="post" enctype="multipart/form-data">
+					商品名稱: <input class="form-control" name="bonusName" id="bonusName"/> <br />
+					商品價格: <input  class="form-control" name="bonusPrice" id="bonusPrice" /> <br />
+					商品類型: <input type="radio" name="bonusType" value="avatar" checked>頭像 <input type="radio"
+						name="bonusType" value="frame">外框 <input type="radio" name="bonusType" value="background">背景
+					<br>
+					是否直接上架: <input type="radio" name="status" value="1" checked>上架 <input type="radio" name="status" value="0">下架
+					<br>
+					商品描述: <input class="form-control" name="bonusDes" id="bonusDes"/> <br />
+					檔案: <input name="img_file" type="file" />
+					<br /><br />
+					<button class="btn btn-warning col-3" type="submit">送出</button>
+				<div class="btn btn-warning col-4" style="background-color:lightblue;" id="fastBtn">一鍵輸入</div>
 				</form>
 			</div>
-		</div>
+		</div></div>
 	</div>
 
-
+<script>
+    // 一鍵輸入按钮点击事件处理程序
+   	 document.getElementById("fastBtn").addEventListener("click", function() {
+        // 设置表单字段的值
+        document.getElementById("bonusName").value = "放逐浪人 犽宿";
+        document.getElementById("bonusPrice").value = "10000";
+        document.getElementById("bonusDes").value = "LOL放逐浪人-犽宿 頭像";
+    });
+</script>
 
 </body>
 

@@ -1,160 +1,170 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-.profile_header_bg {
-	position: relative;
-	max-width: 1018px;
-	min-height: 224px;
-	padding-bottom: 0px;
-	margin: 0 auto;
-	background-repeat: no-repeat;
-	background-position: center bottom;
-}
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style>
 
-.profile_header_bg_text {
-	max-width: 976px;
-	min-height: 224px;
-	margin: 0 auto;
-	background: radial-gradient(farthest-side at bottom right, var(--gradient-right),
-		transparent 500px),
-		radial-gradient(farthest-corner at bottom left, var(--gradient-left),
-		transparent 600px);
-	background-color: gray; background-repeat : no-repeat;
-	background-position: center;
-	background-repeat: no-repeat;
-}
+	</style>
 
-.profile_header {
-	position: relative;
-	max-width: 926px;
-	margin: 0 auto;
-	padding-top: 24px;
-}
+	<link th:href="@{/css/bonus-shop.css}" rel="stylesheet">
+	<!-- START: Styles -->
 
-.profile_header .personal_avatar {
-	float: left;
-	margin-right: 18px;
-}
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet"
+		type="text/css">
 
-.personal_avatar_innersize {
-	position: absolute;
-	top: 2px;
-	right: 2px;
-	bottom: 2px;
-	left: 2px;
-}
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
 
-.profile_header .personal_name {
-	line-height: 40px;
-	font-size: 24px;
-	color: #ffffff;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	font-family: "Motiva Sans", Sans-serif;
-	font-weight: 200;
-}
-.profile_avatat_frame{
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-}
+	<!-- FontAwesome -->
+	<script defer src="assets/vendor/fontawesome-free/js/all.js"></script>
+	<script defer src="assets/vendor/fontawesome-free/js/v4-shims.js"></script>
 
-.profile_header .profile_header_personalinfo {
-	position: absolute;
-	left: 186px;
-	right: 268px;
-	white-space: nowrap;
-	padding-left: 18px;
-	padding-bottom: 18px;
-}
+	<!-- IonIcons -->
+	<link rel="stylesheet" href="assets/vendor/ionicons/css/ionicons.min.css">
 
-.profile_header_layout {
-	position: relative;
-	padding-top: 8px;
-	padding-right: 8px;
-	color: #c4c4c4;
-	font-size: 13px;
-}
+	<!-- Flickity -->
+	<link rel="stylesheet" href="assets/vendor/flickity/dist/flickity.min.css">
 
-.backimg {
-	
-}
+	<!-- Photoswipe -->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/photoswipe.css">
+	<link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/default-skin/default-skin.css">
 
-.personal_profile {
-	
-}
-</style>
+	<!-- Seiyria Bootstrap Slider -->
+	<link rel="stylesheet" href="assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css">
+
+	<!-- Summernote -->
+	<link rel="stylesheet" type="text/css" href="assets/vendor/summernote/dist/summernote-bs4.css">
+
+	<!-- GoodGames -->
+	<link rel="stylesheet" href="assets/css/goodgames.css">
+
+	<!-- Custom Styles -->
+	<link rel="stylesheet" href="assets/css/custom.css">
+
+	<!-- END: Styles -->
+
+	<!-- jQuery -->
+	<script src="assets/vendor/jquery/dist/jquery.min.js"></script>
 </head>
+
 <body>
-	<div
-		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	
 	<section class="my-4">
 		<div class="container">
 			<div class="profile_header_bg">
+			<th:block th:switch="${session.memberBeans.useBackground == 3}">			
+				<img th:case="true" id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/img/userBgDefault.jpg}">
+				<img th:case="false" id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/downloadImage/}+${session.memberBeans.useBackground}">
+		    </th:block>
+			
 				<div class="profile_header_bg_text">
 					<div class="profile_header">
 						<div class="profile_header_layout">
 							<div class="profile_header_personalinfo">
-								<div class="personal_name">NAME</div>
+								<div class="personal_name">[[${session.memberBeans.userId}]]</div>
 							</div>
-							<div class="personal_avatar">
-								<div class="personal_avatar_innersize">
-									<div class="profile_avatar_frame">
-									FRAME
+							<div  data-toggle="modal" data-target="#modalAvatar">
+							
+								<div class="personal_avatar">
+									<div class="personal_avatar_innersize">
+										<div class="profile_avatar_frame">
+										<th:block th:switch="${session.memberBeans.useFrame==2}">
+											<img th:case="true" id="user_frame" th:src="@{/img/userFrameDefault.png}">
+											<img th:case="false" id="user_frame" th:src="@{/downloadImage/}+${session.memberBeans.useFrame}">
+										</th:block>
+										</div>
+										<th:block th:switch="${session.memberBeans.useAvatar==1}">
+											<img th:case="true"  id="user_avatar" class="profile_avatar_img" th:src="@{/img/userAvatarDefault.gif}">
+											<img th:case="false" id="user_avatar" class="profile_avatar_img" th:src="@{/downloadImage/}+${session.memberBeans.useAvatar}">
+										</th:block>
+
+										
 									</div>
-									
-									IMG
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 
 	</section>
 
 
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<div class="row">
-				<div class="col-4 text-light h2">
-					<h3 class="">CARBON</h3>
-				</div>
-				<div class="col-6 col-md text-light">
-					<h5>STORE</h5>
-					<ul class="list-unstyled">
-						<li>HOME</li>
-						<li>GAME</li>
-						<li>BONUS SHOP</li>
-					</ul>
-				</div>
-				<div class="col-6 col-md text-light">
-					<h5>COMMUNITY</h5>
-					<ul class="list-unstyled">
-						<li>MARKET</li>
-						<li>BONUS SHOP</li>
-						<li>BONUS SHOP</li>
-					</ul>
-				</div>
-				<div class="col-6 col-md text-light">
-					<h5>CONNECT</h5>
-					<ul class="list-unstyled">
-						<li>Q&A</li>
-						<li>SUPPORT</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</footer>
+
+
+
+
+	<div th:replace="~{li/avatar-edit}"></div>
+	<div th:replace="~{layout/footer}"></div>
+
+
+
+	<script th:src="@{/js/profile-avataredit.js}"></script>
+
+	<!-- START: Scripts -->
+
+	<!-- Object Fit Polyfill -->
+	<script src="assets/vendor/object-fit-images/dist/ofi.min.js"></script>
+
+	<!-- GSAP -->
+	<script src="assets/vendor/gsap/src/minified/TweenMax.min.js"></script>
+	<script src="assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js"></script>
+
+	<!-- Popper -->
+	<script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+
+	<!-- Bootstrap -->
+	<script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- Sticky Kit -->
+	<script src="assets/vendor/sticky-kit/dist/sticky-kit.min.js"></script>
+
+	<!-- Jarallax -->
+	<script src="assets/vendor/jarallax/dist/jarallax.min.js"></script>
+	<script src="assets/vendor/jarallax/dist/jarallax-video.min.js"></script>
+
+	<!-- imagesLoaded -->
+	<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+
+	<!-- Flickity -->
+	<script src="assets/vendor/flickity/dist/flickity.pkgd.min.js"></script>
+
+	<!-- Photoswipe -->
+	<script src="assets/vendor/photoswipe/dist/photoswipe.min.js"></script>
+	<script src="assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js"></script>
+
+	<!-- Jquery Validation -->
+	<script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+
+	<!-- Jquery Countdown + Moment -->
+	<script src="assets/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
+	<script src="assets/vendor/moment/min/moment.min.js"></script>
+	<script src="assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+
+	<!-- Hammer.js -->
+	<script src="assets/vendor/hammerjs/hammer.min.js"></script>
+
+	<!-- NanoSroller -->
+	<script src="assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
+
+	<!-- SoundManager2 -->
+	<script src="assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js"></script>
+
+	<!-- Seiyria Bootstrap Slider -->
+	<script src="assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+
+	<!-- Summernote -->
+	<script src="assets/vendor/summernote/dist/summernote-bs4.min.js"></script>
+
+	<!-- nK Share -->
+	<script src="assets/plugins/nk-share/nk-share.js"></script>
+
+	<!-- END: Scripts -->
 </body>
+
 </html>

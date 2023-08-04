@@ -198,9 +198,9 @@ function printGameListonType(gamesInfo) {
 
 		let buyerCount = document.createElement('td');
 		buyerCount.textContent = game.buyerCount;
-		
+
 		let totalSales = document.createElement('td');
-		totalSales.textContent = game.buyerCount*game.price;
+		totalSales.textContent = game.buyerCount * game.price;
 
 		tr.appendChild(gamPic);
 		tr.appendChild(gname);
@@ -296,6 +296,39 @@ function deleteGame(button) {
 	$('#deleteTitle').html('你確定要刪除 : ' + gameName);
 	$("#selectedInput").val(value);
 }
+//上傳================================================
+function uploadGame(button) {
+	// 创建一个隐藏的文件输入框
+	var gameName = $(button).val();
+	var fileInput = $('<input type="file">').hide().appendTo('body');
+	console.log(gameName)
+	// 監聽文件
+	fileInput.change(function() {
+		var file = fileInput[0].files[0];
+
+		var formData = new FormData();
+		formData.append('gameFile', file);
+		formData.append('gameName', gameName);
+		$.ajax({
+			url: '/carbon/game/uploadGame',
+			type: 'Post',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(response) {
+				Swal.fire('上傳成功目前成功上傳遊戲有：'+response, '', 'success').then(function() {
+
+				});
+			},
+			error: function() {
+				Swal.fire('上傳失敗', '', 'error');
+			}
+		});
+	});
+
+	// 触发点击事件
+	fileInput.click();
+}
 
 //更新遊戲的按鈕事件====================================================================
 function updateGame(button) {
@@ -341,6 +374,12 @@ function RunForm() {
 
 }
 
+function oneClickEnter() {
+	document.getElementById("copyName").value = "排數字大賽";
+	document.getElementsByName("Price")[0].value = "500";
+	document.getElementsByName("GameIntroduce")[0].value = "一款好玩又可以考驗頭腦的遊戲，傳說製作者自己都還沒有破關過";
+	document.getElementsByName("GameTypes")[0].value = "趣味,動腦,數字,邏輯,好玩,java小遊戲";
+}
 //清除表單===================================================================
 function clearButton() {
 	console.log(1)
@@ -372,9 +411,9 @@ function showGames() {
 function showGameContent(gamesInfos) {
 	let tbody = document.getElementById('showAllGame');
 	let today = document.getElementsByClassName('today');
-	today[0].setAttribute('min',gamesInfos[0].today);
-	today[0].setAttribute('value',gamesInfos[0].today);
-	today[1].setAttribute('min',gamesInfos[0].today);
+	today[0].setAttribute('min', gamesInfos[0].today);
+	today[0].setAttribute('value', gamesInfos[0].today);
+	today[1].setAttribute('min', gamesInfos[0].today);
 	console.log(gamesInfos);
 	tbody.innerHTML = '';
 
@@ -438,7 +477,7 @@ function showGameContent(gamesInfos) {
 		let action = document.createElement('td');
 		let imgButton = document.createElement('button');
 		imgButton.setAttribute('value', game.gameId);
-		imgButton.setAttribute('class', 'btn btn-success me-3');
+		imgButton.setAttribute('class', 'btn btn-success me-2');
 		imgButton.setAttribute('data-bs-toggle', 'modal');
 		imgButton.setAttribute('data-bs-target', '#updateImageModal');
 		imgButton.setAttribute('onclick', 'getPhotoIdList(this)');
@@ -451,7 +490,7 @@ function showGameContent(gamesInfos) {
 		let updateButton = document.createElement('button');
 		updateButton.setAttribute('value', game.gameId);
 		updateButton.setAttribute('name', 'id');
-		updateButton.setAttribute('class', 'btn btn-primary me-3');
+		updateButton.setAttribute('class', 'btn btn-primary me-2');
 		updateButton.setAttribute('data-bs-toggle', 'modal');
 		updateButton.setAttribute('data-bs-target', '#updatemessage');
 		updateButton.setAttribute('onclick', 'updateGame(this)');
@@ -467,7 +506,7 @@ function showGameContent(gamesInfos) {
 		let deleteButton = document.createElement('button');
 		deleteButton.setAttribute('value', game.gameId);
 		deleteButton.setAttribute('name', 'id');
-		deleteButton.setAttribute('class', 'btn btn-danger');
+		deleteButton.setAttribute('class', 'btn btn-danger me-2');
 		deleteButton.setAttribute('data-bs-toggle', 'modal');
 		deleteButton.setAttribute('data-bs-target', '#deletemessage');
 		deleteButton.setAttribute('onclick', 'deleteGame(this)');
@@ -479,6 +518,17 @@ function showGameContent(gamesInfos) {
 		//插入刪除彈跳表格
 		//let deleteFormContent = document.createRange().createContextualFragment(deleteMsg(game));
 		//deleteMethod.appendChild(deleteFormContent);
+
+		let uploadFile = document.createElement('button');
+		uploadFile.setAttribute('id', 'uploadBtn');
+		uploadFile.setAttribute('class', 'btn btn-warning');
+		uploadFile.setAttribute('onclick', 'uploadGame(this)');
+		uploadFile.setAttribute('value', game.gameName);
+		uploadIcon = document.createElement('i');
+		uploadIcon.setAttribute('class', 'fa-solid fa-upload fa-xl');
+		uploadIcon.setAttribute('style', 'color: #ffffff;');
+		uploadFile.appendChild(uploadIcon);
+		action.appendChild(uploadFile);
 
 		tr.appendChild(th);
 		tr.appendChild(gname);
@@ -527,6 +577,8 @@ function showGameContent(gamesInfos) {
 		})
 
 		$(':checkbox').checkboxpicker();//checkbox 套件
+
+
 
 
 		//更新狀態 Ajex---------------------------------------------

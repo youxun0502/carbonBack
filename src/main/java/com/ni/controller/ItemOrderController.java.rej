@@ -1,0 +1,20 @@
+diff a/src/main/java/com/ni/controller/ItemOrderController.java b/src/main/java/com/ni/controller/ItemOrderController.java	(rejected hunks)
+@@ -129,14 +129,15 @@
+ 			Member buyer = mService.findById(orderInfo.getBuyer());
+ 			Member seller = mService.findById(orderInfo.getSeller());
+ 			
+-			String url = "http://localhost:8080/carbon/profiles/inventory";
++			String buyerUrl = "http://localhost:8080/carbon/profile/" + buyer.getId() + "/inventory";
++			String sellerUrl = "http://localhost:8080/carbon/profile/" + seller.getId() + "/inventory";
+ 			gService.sendMessage(buyer.getEmail(), gService.getMyEmail(), "Carbon虛寶市集交易成功通知",
+ 					"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + buyer.getUserId() + "您好:\n" + "\n" + 
+-					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + url
++					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + buyerUrl
+ 					+ "\n\n" + "Carbon lys7744110@gmail.com");
+ 			gService.sendMessage(seller.getEmail(), gService.getMyEmail(), "Carbon虛寶市集交易成功通知",
+ 					"此為系統發送郵件，請勿直接回覆！！！\n" + "\n" + seller.getUserId() + "您好:\n" + "\n" + 
+-					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + url
++					"感謝您此次於Carbon完成虛寶交易，點選以下連結前往個人頁面\n" + "\n" + sellerUrl
+ 					+ "\n\n" + "Carbon lys7744110@gmail.com");
+ 			
+ 		} else {

@@ -2,6 +2,7 @@ package com.liu.controller;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.evan.dto.OrderLogDTO;
+import com.evan.service.GameOrderService;
+import com.li.model.BonusItem;
+import com.li.service.BonusService;
 import com.liu.dto.MemberDto;
+import com.liu.model.Friend;
 import com.liu.model.Member;
+import com.liu.service.ChatService;
+import com.liu.service.FriendService;
 import com.liu.service.MemberService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MemberController {
@@ -23,10 +33,17 @@ public class MemberController {
 	@Autowired
 	MemberService mService;
 
-	@GetMapping("/member")
-	public String memberMain() {
-		return "/liu/memberDataTable";
-	}
+	@Autowired
+	GameOrderService gameOrderService;
+
+	@Autowired
+	BonusService bService;
+
+	@Autowired
+	FriendService friendService;
+	
+	@Autowired
+	ChatService chatService;
 
 	@GetMapping("/member/allMember")
 	public String findAllMember(Model m) {
@@ -49,6 +66,7 @@ public class MemberController {
 			memberDto.setName(updateData.getMemberName());
 			memberDto.setId(updateData.getUserId());
 			memberDto.setPhone(updateData.getPhone());
+			System.out.println("DTO:" + updateData.getMemberPwd());
 			memberDto.setPwd(updateData.getMemberPwd());
 			memberDto.setRegistration(updateData.getRegistrationDate());
 			memberDto.setAccount(updateData.getAccount());
@@ -61,30 +79,13 @@ public class MemberController {
 	@ResponseBody
 	@PutMapping("/member/api/update")
 	public String update(@RequestBody MemberDto memberDto) {
-		Member updateMember = mService.findById(Integer.parseInt(memberDto.getInnerId()));
+		boolean status = mService.update(memberDto);
 
-		if (updateMember != null) {
-			updateMember.setUserId(memberDto.getId());
-			updateMember.setMemberPwd(memberDto.getPwd());
-			updateMember.setMemberName(memberDto.getName());
-			updateMember.setBirthday(memberDto.getBirthday());
-			updateMember.setGender(memberDto.getGender());
-			updateMember.setPhone(memberDto.getPhone());
-			updateMember.setAccount(memberDto.getAccount());
-			updateMember.setRegistrationDate(memberDto.getRegistration());
-			updateMember.setLevelId(memberDto.getLevel());
-			boolean status = mService.update(updateMember);
-
-			if (status == true) {
-				return "true";
-			} else {
-				return "false";
-			}
-
+		if (status == true) {
+			return "true";
 		} else {
 			return "false";
 		}
-
 	}
 
 	@ResponseBody
@@ -109,6 +110,7 @@ public class MemberController {
 			return "fail";
 		}
 	}
+
 	@ResponseBody
 	@GetMapping("/member/api/seachByName")
 	public List<MemberDto> findMemberByName(@RequestParam(name = "name") String name) {
@@ -131,5 +133,72 @@ public class MemberController {
 			memberDtos.add(memberDto);
 		}
 		return memberDtos;
+	}
+
+	@GetMapping("/member/memberRegistrationDateAnalysisPage")
+	public String memberRegistrationDateAnalysisPage(Model m,
+			@RequestParam(name = "year", defaultValue = "2023") String year) {
+		List<Object[]> datas = mService.findRegistrationMonth(year);
+		List<String> years = mService.findAllRegistrationYear();
+		List<Object[]> genderData = mService.findRegistrationGender(year);
+		m.addAttribute("datas", datas);
+		m.addAttribute("year", year);
+		m.addAttribute("years", years);
+		System.out.println(genderData.get(0)[1]);
+		m.addAttribute("genderData", genderData);
+		return "/liu/memberRegistrationDateAnalysisPage";
+	}
+
+	@GetMapping("/member/api/memberRegistrationDateAnalysis")
+	@ResponseBody
+	public List<Object[]> memberRegistrationDateAnalysis(
+			@RequestParam(name = "year", defaultValue = "2023") String year) {
+		return mService.findRegistrationMonth(year);
+	}
+
+	@GetMapping("/member/api/memberRegistrationgGenderAnalysis")
+	@ResponseBody
+	public List<Object[]> memberRegistrationGenderAnalysis(
+			@RequestParam(name = "year", defaultValue = "2023") String year) {
+		return mService.findRegistrationGender(year);
+	}
+
+	@GetMapping("/memberFront/memberInformationPage")
+	public String memberInformationPage(HttpSession session, Model m) {
+		Member member = (Member) session.getAttribute("memberBeans");
+		Map<String, Object> formData = new HashMap<>();
+		formData.put("memberId", member.getId().toString());
+		List<OrderLogDTO> memberOwnGames = gameOrderService.getMemberOwnGames(formData);
+		List<BonusItem> list = bService.findAll();
+		session.setAttribute("memberBeans", mService.findById(member.getId()));
+		m.addAttribute("bonusitemList", list);
+		m.addAttribute("memberOwnGames", memberOwnGames);
+		return "/liu/memberInformationPage";
+	}
+
+	@GetMapping("/memberFront/memberChattingRoom")
+	public String memberChattingRoom(HttpSession session, Model m) {
+		Member member = (Member) session.getAttribute("memberBeans");
+		List<Friend> friendList = friendService.findFriendByuserId(member.getId());
+		List<MemberDto> friends = new ArrayList<>();
+		
+		for (Friend friend : friendList) {
+			MemberDto memberFriend = new MemberDto();
+			if (friend.getInviter().equals(member.getId())) {			
+				Member tempMember = mService.findById(friend.getRecipient());
+				memberFriend.setInnerId(tempMember.getId().toString());
+				memberFriend.setName(tempMember.getMemberName());
+				memberFriend.setMessageNotRead(chatService.findNotReadMessage(tempMember.getId()));
+			}else {	
+				Member tempMember = mService.findById(friend.getInviter());
+				memberFriend.setInnerId(tempMember.getId().toString());
+				memberFriend.setName(tempMember.getMemberName());
+				memberFriend.setMessageNotRead(chatService.findNotReadMessage(tempMember.getId()));
+			}
+			friends.add(memberFriend);
+		}
+		
+		m.addAttribute("friends", friends);
+		return "/liu/memberFriendAndChat";
 	}
 }

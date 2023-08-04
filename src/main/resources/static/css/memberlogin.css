@@ -2,26 +2,59 @@
 	font-size: 120px;
 }
 
-.formContainer {
+
+
+.form-label{
 	color: #000 !important;
-	min-width: 440px;
-	background-color: #91C4F2;
+}
+
+.form-check-label{
+	color: #000 !important;
 }
 
 body {
-	height: 90vh;
-	background-image: url("../img/memberlogin2.jpg");
-	background-size: cover;
+	height: 100vh;
+	background-image: linear-gradient(to right,rgba(0,0,0,0.4) ,rgba(0,0,0,1)), url("../img/memberLog4.jpg");
+	background-size:auto, 70%;
+  	background-repeat: no-repeat;
+  	overflow: hidden;
 }
+
+
 
 .nextStep {
-	background-color: #6495ED !important;
-}
+	background-color: #dd163b!important;
+	font-weight: bold !important;
+	}
 
 .registrationPage {
-	background-color: #8CA0D7 !important;
+	background-color: #8D99AE !important;
+	font-weight: bold !important;
 }
 
 .oneClick {
-	background-color: rgb(159, 209, 236) !important;
+	background-color: #EF233C !important;
+	font-weight: bold !important;
+}
+
+
+.forgetPwd{
+	background-color: #F2542D !important;
+	font-weight: bold !important;
+}
+
+.color-white{
+	color:white;
+}
+
+.mt-80{
+	margin-top:80px;
+}
+
+@media(max-width: 1362px){
+	body{
+	background-image:none;
+	background-color:rgb(39, 39, 39) !important;
+	overflow:scroll;
+	}
 }

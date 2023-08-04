@@ -24,7 +24,7 @@ public class BonusLog {
 	@Column(name = "logId")
 	private Integer logId;
 	@Column(name = "memberId")
-	private String memberId;
+	private Integer memberId;
 	@Column(name = "bonusId")
 	private Integer bonusId;
 	@Column(name = "buyDate")

@@ -12,4 +12,11 @@ public interface EventRegistrationRepository extends JpaRepository<EventRegistra
 	
 	@Query("from Event where gameId = :gameId order by startDate asc")
 	public List<Event> findByGameId(Integer gameId);
+	
+	@Query("from EventRegistration where eventId = :eventId")
+	public List<EventRegistration> findByEventId(Integer eventId);
+	
+	@Query("from EventRegistration where memberId = :memberId")
+	public List<EventRegistration> findMemberRecord(Integer memberId);
+	
 }

@@ -2,9 +2,7 @@ package com.ni.model;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.liu.model.Member;
 
 import jakarta.persistence.CascadeType;
@@ -44,12 +42,10 @@ public class ItemOrder {
 	private Date createTime;
 	private Date updateTime;
 	
-//	@JsonManagedReference(value = "orders")
 	@ManyToOne
 	@JoinColumn(name = "ITEMID", insertable = false, updatable = false)
 	private GameItem gameItem;
 	@JsonIgnore
-//	@JsonBackReference
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "itemOrder", cascade = CascadeType.ALL)
 	private ItemLog itemLog;
 	

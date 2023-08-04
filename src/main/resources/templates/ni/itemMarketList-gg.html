@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <title>Carbon | 虛寶交易</title>
+</head>
+
+<body onload=loadItemList()>
+<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome}"></div>
+
+<div class="nk-main">
+        
+            <!-- START: Breadcrumbs -->
+<div class="nk-gap-1"></div>
+<div class="container">
+    <ul class="nk-breadcrumbs">
+        
+        <li><a th:href="@{/main/goBackToHome}">首頁</a></li>
+        <li><span class="fa fa-angle-right"></span></li>
+        
+        <li><span>虛寶交易</span></li>
+        
+    </ul>
+</div>
+<div class="nk-gap-1"></div>
+<!-- END: Breadcrumbs -->
+
+    <div class="container">
+    	<div class="row vertical-gap">
+    	
+		    <div class="nk-gap-2"></div>
+    		<div class="nk-tabs">
+			    <!--
+			        Additional Classes:
+			            .nav-tabs-fill
+			    -->
+			    <div class="d-flex justify-content-between align-items-center">
+				    <ul class="nav nav-tabs" role="tablist">
+				        <li class="nav-item">
+				            <a class="nav-link active" href="#tabs-1-1" role="tab" data-toggle="tab">我的上架物品</a>
+				        </li>
+				        <li class="nav-item">
+				            <a class="nav-link" href="#tabs-1-2" role="tab" data-toggle="tab">交易歷史紀錄</a>
+				        </li>
+				        <li class="nav-item">
+				            <a class="nav-link" th:href="@{/profile/orderHistory}">所有紀錄</a>
+				        </li>
+				    </ul>
+			        <div class="me-3">
+			        	<a href="#" class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-main-1 sellPageBtn" data-toggle="modal" data-target="#modalInventory" id="sellPageBtn1">
+		                    販賣物品
+		                </a>
+			        </div>
+			    </div>
+				    <div class="tab-content">
+				        <div role="tabpanel" class="tab-pane fade show active" id="tabs-1-1">
+				            <div class="nk-gap"></div>
+				            <!-- START: Forums List -->
+				            
+				            <div class="nk-accordion" id="accordion-1" role="tablist" aria-multiselectable="true">
+			                    <div class="panel panel-default">
+			                        <div class="panel-heading" role="tab" id="salesList-1-1-heading">
+			                            <a class="collapsed" id="sales1" data-toggle="collapse" data-parent="#accordion-1" href="#salesList-1-1" aria-expanded="true" aria-controls="salesList-1-1" onclick=saleList()>
+			                                販賣訂單 <span class="panel-heading-arrow fa fa-angle-down"></span>
+			                            </a>
+			                        </div>
+			                        <div id="salesList-1-1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="salesList-1-1-heading">
+			                        	<ul class="nk-forum text-white">
+								            <li class="p-10">
+								                <div class="nk-forum-icon"></div>
+								                <div class="nk-forum-title">
+								                	名稱
+								                </div>
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        上架日期
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity border-end border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        價格
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity text-center"></div>
+								            </li>
+								        </ul>
+								        <div class="nk-gap"></div>
+								        <div id="sellListings1">
+									        <ul class="nk-forum">
+									            <li>
+									                <div class="nk-forum-title loginToView" id="">
+									                    <h3>尚無販賣訂單</h3>
+									                </div>
+									            </li>
+									        </ul>
+								        </div>
+							            <div class="nk-gap"></div>
+			                        </div>
+			                    </div>
+			                    <div class="panel panel-default">
+			                        <div class="panel-heading" role="tab" id="buyOrder-1-2-heading">
+			                            <a class="collapsed" id="buys1" data-toggle="collapse" data-parent="#accordion-1" href="#buyOrder-1-2" aria-expanded="true" aria-controls="buyOrder-1-2" onclick=buyOrder()>
+			                                購買訂單 <span class="panel-heading-arrow fa fa-angle-down"></span>
+			                            </a>
+			                        </div>
+			                        <div id="buyOrder-1-2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="buyOrder-1-2-heading">
+			                        	<ul class="nk-forum text-white">
+								            <li class="p-10">
+								                <div class="nk-forum-icon"></div>
+								                <div class="nk-forum-title">
+								                	名稱
+								                </div>
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        上架日期
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        數量
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity border-start border-end">
+								                    <div class="nk-forum-activity-title text-center">
+								                        出價
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity text-center"></div>
+								            </li>
+								        </ul>
+								        <div class="nk-gap"></div>
+								        <div id="buyOrders1">
+									        <ul class="nk-forum">
+									            <li>
+									                <div class="nk-forum-title loginToView">
+									                    <h3>尚無購買訂單</h3>
+									                </div>
+									            </li>
+									        </ul>
+								        </div>
+			                        </div>
+			                    </div>
+			                </div>
+				        </div>
+				        <div role="tabpanel" class="tab-pane fade" id="tabs-1-2">
+				            <div class="nk-gap"></div>
+				            
+				            <div class="nk-accordion" id="accordion-1" role="tablist" aria-multiselectable="true">
+			                    <div class="panel panel-default">
+			                        <div class="panel-heading" role="tab" id="accordion-1-1-heading">
+			                            <a class="collapsed" id="history1" data-toggle="collapse" data-parent="#accordion-1" href="#accordion-1-1" aria-expanded="true" aria-controls="accordion-1-1" onclick=history()>
+			                                歷史紀錄 <span class="panel-heading-arrow fa fa-angle-down"></span>
+			                            </a>
+			                        </div>
+			                        <div id="accordion-1-1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="accordion-1-1-heading">
+			                        	<ul class="nk-forum text-white">
+								            <li class="p-10">
+								                <div class="nk-forum-icon"></div>
+								                <div class="nk-forum-title">
+								                	名稱
+								                </div>
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        上架日期
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity border-start">
+								                    <div class="nk-forum-activity-title text-center">
+								                        成交日期
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity border-start border-end">
+								                    <div class="nk-forum-activity-title text-center">
+								                        價格
+								                    </div>
+								                </div>
+								                <div class="nk-forum-activity">
+								                	<div class="nk-forum-activity-title text-center">
+								                        交易對象
+								                    </div>
+								                </div>
+								            </li>
+								        </ul>
+								        <div class="nk-gap"></div>
+								        <div id="orderHistory1">
+									        <ul class="nk-forum">
+									            <li>
+									                <div class="nk-forum-title loginToViewH">
+									                    <h3>尚無歷史訂單</h3>
+									                </div>
+									            </li>
+									        </ul>
+								        </div>
+			                        </div>
+			                    </div>
+				            </div>
+				        </div>
+				    </div>
+			</div>
+			<!-- END: Tabs -->
+                
+		    <div class="nk-gap"></div>	            
+	        
+	        <div class="col-lg-7">
+				<div class="row vertical-gap">
+	                <div class="col-md-4">
+                        <select name="gameId" class="form-control" style="height: calc(2.25rem + 2px)">
+                            <option value="">全部遊戲</option>
+                       		<th:block th:each="game : ${games}">
+                            	<option th:value="${game.gameId}">[[${game.gameName}]]</option>
+                            </th:block>
+                        </select>
+	                </div>
+	                <div class="col-md-8">
+		                <div class="input-group">
+		                    <input type="text" name="itemName" class="form-control" placeholder="虛寶名稱查詢">
+		                    <button class="nk-btn nk-btn-color-main-1" onclick=findByNameAndGame()><span class="ion-search"></span></button>
+		                </div>
+	                </div>
+			    </div>
+		    </div>
+		    
+		    <div class="col-lg-5 m-auto">
+	        	<div th:if="${session.memberBeans} != null" class="row vertical-gap text-white  float-right">
+	        		<div class="col-md-12">
+		        		<div class="d-flex">
+		        			<div class="d-flex">
+					        	<div class="myWallet2 h4 my-auto me-4"></div>
+		        			</div>
+				            <div>
+				                <a th:href="@{/profile/wallet}" class="nk-btn nk-btn-rounded nk-btn-color-white float-right">儲值</a>
+				            </div>
+				        </div>
+			        </div>
+	        	</div>
+	        </div>
+		    
+			<div class="col-lg-12">		        	
+			    <div class="nk-gap-2"></div>	            
+	            <div class="nk-blog-grid">
+	                <div class="row" id="listPage1"></div>	
+		        </div>
+	        </div>	
+	        
+			<div class="nk-gap-2"></div>
+	        <div class="nk-pagination nk-pagination-center" id="itemListPage1"></div>
+			<div class="nk-gap-2"></div>
+			
+        </div>
+    </div>
+</div>
+        
+        <!-- ----------- inventory page ----------- -->
+<div class="nk-modal modal fade LoginMsg" id="modalInventory" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="ion-android-close"></span>
+                </button>
+	            <div class="col-lg-12">
+	                <h3>虛寶倉庫</h3>
+	                <div class="nk-gap"></div>
+	                <div class="row vertical-gap text-white">
+	            		<div class="col-lg-12">
+	            			<div class="nk-box-1 bg-dark-3">
+				               <h4 class="mb-0" th:text="${session.memberBeans} ? ${session.memberBeans.userId} : ''"></h4>
+				               <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class="d-none"></span>
+			            	</div>
+		            	</div>
+		            	<div class="col-lg-12" id="inventoryList1"></div>
+			            <div class="col d-none" id="noItem1">
+			            	<div class="nk-box-1 bg-dark-3">
+								<h4>物品庫中無道具</h4>
+							</div>
+						</div>
+                    </div>
+                </div>
+	        </div>
+	    </div>
+    </div>
+</div>
+        <!-- ----------- sale page ----------- -->
+<div class="nk-modal modal fade LoginMsg" id="modalSalesPage" tabindex="-1" role="dialog" aria-hidden="true" style="background: rgba(0, 0, 0, 0.5);
+    z-index: 1072 !important">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="ion-android-close"></span>
+                </button>
+	            <div class="col-lg-12">
+	                <h4>將物品上架銷售</h4>
+	                <div class="nk-gap"></div>
+	                <div class="row vertical-gap text-white">
+	                	<div class="col mb-3">
+			               <span th:text="${session.memberBeans} ? ${session.memberBeans.id} : ''" id="user1" class="d-none"></span>
+			            </div>
+			            <div class="" id="saleItem1"></div>
+		            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div th:replace="~{layout/footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
+    <script th:src="@{/js/itemMarket.js}"></script>
+    <script>
+    	// =========================== 控制多個modal的scroll ===========================
+    	$(function(){
+			$('#modalSalesPage').on('hidden.bs.modal', function () {
+				$('body').addClass('modal-open');
+			});
+    	})
+    </script>
+</body>
+
+</html>

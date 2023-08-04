@@ -20,20 +20,57 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.li.dto.BonusPointDto;
+import com.li.dto.BonusShopDto;
 import com.li.model.BonusItem;
+import com.li.service.BonusLogService;
+import com.li.service.BonusPointService;
 import com.li.service.BonusService;
+import com.liu.service.MemberService;
 
 @Controller
 public class BonusItemController {
 
 	@Autowired
 	private BonusService bService;
+	
+	@Autowired
+	private BonusLogService blService;
+	
+	@Autowired
+	private BonusPointService bpService;
+	
+	@Autowired MemberService mService;
 
 	@GetMapping("bonus/main")
-	public String goBackToBounusMain() {
-		return "li/main";
+	public String goBackToBounusMain(Model model) {
+		List<BonusItem> list = bService.findAll();
+		model.addAttribute("bonusitemList", list);
+		return "redirect:/bonus/listAll";
 	}
-
+	@GetMapping("bonus/bonuslog")
+	public String gotoBonusLogPage(Model model) {
+		List<BonusShopDto> listDto=blService.findAlltoDto();
+		model.addAttribute("Dtos",listDto);
+		return "li/listBonusLog" ;
+	}
+	@GetMapping("bonus/bonuspointlog")
+	public String gotoBonusPointLogPage(Model model) {
+		List<BonusPointDto> listDto = bpService.findAlltoDto();
+		model.addAttribute("Dtos",listDto);
+		return "li/listBonusPoint" ;
+	}
+	
+	@ResponseBody
+	@GetMapping("/bonus/findmemberpoint")
+	public List<BonusPointDto> getmemberpoint(@RequestParam("bonus_search") String str, Model model) {
+//		List<BonusItem> result = bService.findByName(str);
+//		model.addAttribute("bonusitemList", result);
+//		return "li/listAll";
+		
+		return bpService.findByMemberIdtoDto(Integer.parseInt(str));
+	}
+	
 	@GetMapping("bonus/insert")
 	public String gotoBonusInsert() {
 		return "li/Insert";
@@ -43,6 +80,7 @@ public class BonusItemController {
 	public String InsertBonusItemToDB(@RequestParam("bonusName") String bonusname,
 			@RequestParam("bonusPrice") Integer bonusPrice, @RequestParam("bonusDes") String bonusDes,
 			@RequestParam("status")Boolean status,
+			@RequestParam("bonusType")String bonusType,
 			@RequestParam("img_file") MultipartFile file) {
 
 		try {
@@ -53,7 +91,7 @@ public class BonusItemController {
 			bonusItem.setImg_file(file.getBytes());
 			bonusItem.setBonusImg(bonusname);
 			bonusItem.setStatus(status);
-			
+			bonusItem.setBonusType(bonusType);
 			bService.insertBonusItem(bonusItem);
 			
 			return "redirect:/bonus/listAll";
@@ -70,16 +108,16 @@ public class BonusItemController {
 		return "li/listAll";
 	}
 	
-//	@GetMapping("/downloadImage/{id}")
-//	public ResponseEntity<byte[]> downloadImage(@PathVariable Integer id){
-//		BonusItem photo1 = bService.getBonusItemById(id);
-//		byte[] photoFile = photo1.getImg_file();
-//		
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.IMAGE_JPEG);
-//		                                // 檔案, header, HttpStatus
-//		return new ResponseEntity<byte[]>(photoFile, headers, HttpStatus.OK);
-//	}
+	@GetMapping("/downloadImage/{id}")
+	public ResponseEntity<byte[]> downloadImage(@PathVariable Integer id){
+		BonusItem photo1 = bService.getBonusItemById(id);
+		byte[] photoFile = photo1.getImg_file();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_JPEG);
+		                                // 檔案, header, HttpStatus
+		return new ResponseEntity<byte[]>(photoFile, headers, HttpStatus.OK);
+	}
 	
 	@GetMapping("/bonus/edit")
 	public String editPage(@RequestParam("id") Integer id, Model model) {
@@ -89,7 +127,7 @@ public class BonusItemController {
 	}
 	@PutMapping("/bonus/edit")
 	public String editPost(@ModelAttribute(name="bonusitem") BonusItem bi) {
-		bService.updateBonusItemById(bi.getBonusId(),bi.getBonusName(),bi.getBonusPrice(),bi.getBonusDes(),bi.isStatus());
+		bService.updateBonusItemById(bi.getBonusId(),bi.getBonusName(),bi.getBonusPrice(),bi.getBonusDes(),bi.isStatus(),bi.getBonusType());
 		
 		return "redirect:/bonus/listAll";
 	}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link th:href="@{/css/bonus-shop.css}" rel="stylesheet">
+	<title>Member Information</title>
+	
+
+</head>
+
+<body>
+	<div th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+
+	<div class="nk-main">
+		<img class="nk-page-background-top" th:src="@{/assets/images/bg-top-3.png}">
+		<div class="container">
+			<ul class="nk-breadcrumbs">
+				<li><a th:href="@{/main/goBackToHome}">首頁</a></li>
+				<li><svg class="svg-inline--fa fa-angle-right fa-w-8" aria-hidden="true" data-prefix="fa"
+						data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"
+						data-fa-i2svg="">
+						<path fill="currentColor"
+							d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z">
+						</path>
+					</svg></li>
+				<li><span>個人資料</span></li>
+
+						<div class="profile_header_bg">
+			<th:block th:switch="${session.memberBeans.useBackground == 3}">			
+				<img th:case="true" id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/img/userBgDefault.jpg}">
+				<img th:case="false" id="user_bg" style="position:absolute;z-index:-1;width:1000px;height:224px;" th:src="@{/downloadImage/}+${session.memberBeans.useBackground}">
+		    </th:block>
+				<div class="profile_header_bg_text">
+					<div class="profile_header">
+						<div class="profile_header_layout">
+							<div class="profile_header_personalinfo">
+								<div class="personal_name">[[${session.memberBeans.userId}]]</div>
+							</div>
+							<div  data-toggle="modal" data-target="#modalAvatar">
+								<div class="personal_avatar">
+									<div class="personal_avatar_innersize">
+										<div class="profile_avatar_frame">
+										<th:block th:switch="${session.memberBeans.useFrame == 2}">
+											<img th:case="true" id="user_frame" th:src="@{/img/userFrameDefault.png}">
+											<img th:case="false" id="user_frame" th:src="@{/downloadImage/}+${session.memberBeans.useFrame}">
+										</th:block>
+										</div>
+										<th:block th:switch="${session.memberBeans.useAvatar == 1}">
+											<img th:case="true"  id="user_avatar" class="profile_avatar_img" th:src="@{/img/userAvatarDefault.gif}">
+											<img th:case="false" id="user_avatar" class="profile_avatar_img" th:src="@{/downloadImage/}+${session.memberBeans.useAvatar}">
+										</th:block>
+
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			</ul>
+			<!-- 已購項目區隔線 -->
+			<div class="nk-gap-2"></div>
+			<h3 class="nk-decorated-h-2"><span>我的遊戲</span></h3>
+			<div class="nk-gap"></div>
+			<!-- 已購項目區隔線 -->
+
+			<!-- 已購項目視圖 -->
+			<div class="row vertical-gap">
+			<th:block th:each="memberOwnGame: ${memberOwnGames}">
+				<div class="col-lg-4 col-md-6">
+					<div class="nk-gallery-item-box">
+						<div class="nk-gallery-item-overlay">
+							<div class=" h-50 col-12">
+								<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-main-4 nk-btn-hover-main-1 nk-btn-x3 d-block">下載</a>
+										<div class="nk-gap-2"></div>
+								<a th:href="@{'/gameFront/'+${memberOwnGame.gameName}}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-dark-2 nk-btn-x3 d-block">詳細資料</a>								
+							</div>
+						</div>
+						<img th:src="@{'/gameFront/getImg/'+${memberOwnGame.photoId}}" style="height:250px;" alt="">
+						<h3 class="text-center mb-0">[[${memberOwnGame.gameName}]]</h3>
+					</div>
+				</div>
+			</th:block>
+			
+			</div>
+			<!-- 已購項目視圖 -->
+		</div>
+		<div class="nk-gap-2"></div>
+	</div>
+	<div th:replace="~{li/avatar-edit}"></div>
+	<div th:replace="~{layout/footer}"></div>
+	<script th:src="@{/js/profile-avataredit.js}"></script>
+	
+</body>
+
+</html>

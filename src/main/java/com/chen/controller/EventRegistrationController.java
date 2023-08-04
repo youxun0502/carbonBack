@@ -18,13 +18,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.chen.model.Event;
 import com.chen.model.EventRegistration;
+import com.chen.model.EventRegistrationRepository;
 import com.chen.model.EventRepository;
 import com.chen.service.EventRegistrationService;
 import com.chen.service.EventService;
 import com.evan.dao.GameRepository;
 import com.evan.model.Game;
+import com.liu.model.Member;
+import com.liu.service.MemberService;
+
 
 @Controller
 public class EventRegistrationController {
@@ -40,9 +45,32 @@ public class EventRegistrationController {
 	
 	@Autowired
 	private GameRepository gRepo;
+	
+	@Autowired
+	private MemberService mService;
+	
+	@Autowired
+	private EventRegistrationRepository erRepo;
+	
 
 	//////////    前台管理    //////////
+	// 跳轉報名紀錄頁面
+	@GetMapping("/registrationRecord")
+	public String registrationRecordPage(@RequestParam(value = "memberId", required = false)Integer memberId, Model m) {
+		
+		List<EventRegistration> recordList = erRepo.findMemberRecord(memberId);
+		m.addAttribute("recordList", recordList);
+		
+		return "chen/registrationRecord";
+	}
 	
+	// 報名紀錄分類查詢
+	@ResponseBody
+	@GetMapping("/registrationRecord/category")
+	public List<Event> findRegistrationRecordByGameName(@RequestParam("eventName") String eventName, @RequestParam("memberId") Integer memberId) {
+	    List<Event> recordList = eRepo.findMemberRecord(memberId, eventName);
+	    return recordList;
+	}
 	
 	// 跳轉活動總覽頁面
 	@GetMapping("/eventPageAll")
@@ -55,6 +83,7 @@ public class EventRegistrationController {
 		return "chen/eventFrontPageAll";
 	}
 	
+	/*
 	// 跳轉活動分類頁面
 	@GetMapping("/eventPageOne")
 	public String eventFrontPageOne(@RequestParam("gameId")Integer gameId,Model m) {
@@ -65,11 +94,21 @@ public class EventRegistrationController {
 		m.addAttribute("events", events);
 		return "chen/eventFrontPageOne";
 	}
+	*/
+	// 跳轉活動分類頁面
+	@GetMapping("/eventPageOne")
+	public String eventFrontPageOne(@RequestParam(name="p", defaultValue = "1") Integer pageNumber,@RequestParam(value = "gameId", required = false)Integer gameId,Model m) {
+		List<Game> games = gRepo.findAll();
+		m.addAttribute("games", games);
+		
+		Page<Event> page = erService.findByPageOne(pageNumber,gameId);
+		m.addAttribute("page", page);
+		return "chen/eventFrontPageOne";
+	}
 	
 	// 跳轉活動細節頁面
 	@GetMapping("/eventPageDetail")
 	public String eventFrontPageDetail(@RequestParam("eventId")Integer eventId,Model m) {
-		System.out.println("eventId =" + eventId);
 		Event event = eService.findById(eventId);
 		m.addAttribute("event", event);
 		return "chen/eventFrontPageDetail";
@@ -77,25 +116,32 @@ public class EventRegistrationController {
 	
 	// 跳轉新增頁面
 	@GetMapping("/eventRegistration")
-	public String signupPage(Model m) {
-		List<Event> events = eRepo.findAll();
-		m.addAttribute("events", events);
+	public String signupPage(@RequestParam("eventId")Integer eventId,@RequestParam(value = "memberId", required = false)Integer memberId, Model m) {
+		
+		if(memberId != null) {
+			Member member = mService.findById(memberId);
+			m.addAttribute("member", member);
+		}
+		
+		Event event = eService.findById(eventId);
+		m.addAttribute("event", event);
 		return "chen/eventRegistration";
 	}
 	
 	// 新增資料
 	@PostMapping("/eventRegistration/insert")
-	public String inserData(@RequestParam("eventId") Integer eventId, @RequestParam("realName") String realName,
-			@RequestParam("email") String email, @RequestParam("phone") String phone,
-			@RequestParam(value = "address", required = false) String address) {
-		EventRegistration er = new EventRegistration();
-		er.setEventId(eventId);
-		er.setRealName(realName);
-		er.setEmail(email);
-		er.setPhone(phone);
-		er.setAddress(address);
-		erService.insert(er);
-		return "redirect:/eventRegistration";
+	public String inserData(@RequestParam("eventId") Integer eventId, @RequestParam("realName") String realName,@RequestParam(value = "memberId", required = false) Integer memberId,
+	        @RequestParam("email") String email, @RequestParam("phone") String phone,
+	        @RequestParam(value = "address", required = false) String address) {
+	    EventRegistration er = new EventRegistration();
+	    er.setEventId(eventId);
+	    er.setRealName(realName);
+	    er.setEmail(email);
+	    er.setPhone(phone);
+	    er.setAddress(address);
+	    er.setMemberId(memberId);
+	    erService.insert(er);
+	    return "redirect:/eventPageAll";
 	}
 	
 	//顯示前台圖片
@@ -116,6 +162,19 @@ public class EventRegistrationController {
 		Page<Event> page = erService.findByPageAll(pageNumber);
 		return page;
 	}
+	
+	// 刪除資料
+	@DeleteMapping("/registrationRecord/delete")
+	public String deleteRegistrationRecord(@RequestParam("signupId") Integer id,@RequestParam(value = "memberId", required = false)Integer memberId, Model m) {
+		erService.deleteById(id);
+		List<EventRegistration> recordList = erRepo.findMemberRecord(memberId);
+		m.addAttribute("recordList", recordList);
+		
+		return "chen/registrationRecord";
+	}
+	
+	
+
 
 	
 	
@@ -135,6 +194,9 @@ public class EventRegistrationController {
 	// 查詢全部
 	@GetMapping("/event/registration/data")
 	public String findALL(Model m) {
+		List<Event> events = eService.findAll();
+		m.addAttribute("events", events);
+		
 		List<EventRegistration> registrations = erService.findAll();
 		m.addAttribute("registrations", registrations);
 		return "chen/eventRegistrationData";
@@ -150,10 +212,10 @@ public class EventRegistrationController {
 
 	// 修改資料
 	@PutMapping("/event/registration/update")
-	public String updatePost(@RequestParam("signupId") Integer signupId, @RequestParam("eventId") Integer eventId,
+	public String updatePost(@RequestParam("signupId") Integer signupId, 
 			@RequestParam("realName") String realName, @RequestParam("email") String email,
-			@RequestParam("phone") String phone, @RequestParam("address") String address) {
-		erService.updateRegistrationById(signupId, eventId, realName, email, phone, address);
+			@RequestParam("phone") String phone, @RequestParam(value = "address", required = false) String address) {
+		erService.updateRegistrationById(signupId, realName, email, phone, address);
 		return "redirect:/event/registration/data";
 	}
 
@@ -162,6 +224,14 @@ public class EventRegistrationController {
 	public String deletePost(@RequestParam("signupId") Integer id) {
 		erService.deleteById(id);
 		return "redirect:/event/registration/data";
+	}
+	
+	// 分類顯示
+	@ResponseBody
+	@GetMapping("/event/registration/category")
+	public List<EventRegistration> showByCategory(@RequestParam("eventId") Integer eventId) {
+	    List<EventRegistration> registrations = erRepo.findByEventId(eventId);
+	    return registrations;
 	}
 	
 }

@@ -55,7 +55,38 @@
     <!-- jQuery -->
     <script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
     
-    
+    <style>
+		.wow {
+            display: flex;
+        }
+
+        #countdown_dashboard {
+            border: 1px solid #ccc;
+            width: 355px;
+            background: #FFF;
+
+        }
+
+        .dash {
+            padding: 10px;
+        }
+
+        .dash .digit,
+        .dash_title {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+            color: #555;
+        }
+
+        .dash .digit {
+            margin-right: 5px;
+            border-radius: 3px;
+            background: #333;
+            color: #FFF;
+
+        }
+	</style>
 </head>
 
 
@@ -126,30 +157,30 @@
 
     
 
-    <div class="nk-main">
+    <div class="nk-main" style="margin-top:-100px">
         
             <!-- START: Breadcrumbs -->
 <div class="nk-gap-1"></div>
-<div class="container">
+<div class="container" style="max-width: 1140px">
     <ul class="nk-breadcrumbs">
         
         
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html">總覽</a></li>
         
         
         <li><span class="fa fa-angle-right"></span></li>
         
-        <li><a href="tournaments.html">Tournaments</a></li>
+        <li><a href="tournaments.html">分類</a></li>
         
         
         <li><span class="fa fa-angle-right"></span></li>
         
-        <li><a href="tournaments-teams.html">Teams</a></li>
+        <li><a href="tournaments-teams.html">活動</a></li>
         
         
         <li><span class="fa fa-angle-right"></span></li>
         
-        <li><span>Faker</span></li>
+        <li><span th:text="${event.name}"></span></li>
         
     </ul>
 </div>
@@ -159,67 +190,65 @@
         
 
         
-<div class="container">
+<div class="container" style="max-width: 1140px">
     <div class="row vertical-gap">
         <div class="col-lg-8">
 
             <!-- START: Teammate Card -->
             <div class="nk-teammate-card">
-                <div class="nk-teammate-card-photo">
-                    <img th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="">
+                <div class="nk-teammate-card-photo" style="height: 293px;">
+                    <img style="height: 293px;" th:src="@{'/eventRegistration/showImage/'+${event.eventId}}" alt="">
                 </div>
 
                 <div class="nk-teammate-card-info">
                     <table>
                         <tbody>
                         <tr>
-                            <td>
-                                <img src="assets/images/teammate-team.png" alt="">
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">開始日期</strong>
                             </td>
-                            <td>
-                                <table>
-                                    <tbody>
-                                    <tr>
-                                        <td><strong class="h5">Name:</strong>&nbsp;&nbsp;&nbsp;</td>
-                                        <td><strong class="h5">SANG-HYEOK LEE</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong class="h5">Nickname:</strong>&nbsp;&nbsp;&nbsp;</td>
-                                        <td><strong class="h5">Faker</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong class="h5">Position:</strong>&nbsp;&nbsp;&nbsp;</td>
-                                        <td><strong class="h5">Mid</strong></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong id="startDate" class="h6" th:text="${event.startDate}"></strong>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <strong class="h3">7.3</strong>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">結束日期</strong>
                             </td>
-                            <td>
-                                <strong class="h5">KDA Ration</strong>
-                                <div>#5 in World Championship</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong class="h3">8.3</strong>
-                            </td>
-                            <td>
-                                <strong class="h5">CS PER MIN</strong>
-                                <div>#23 in World Championship</div>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h6" th:text="${event.endDate}"></strong>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <strong class="h3">64%</strong>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">活動地點</strong>
                             </td>
-                            <td>
-                                <strong class="h5">KILL PARTICIPATION</strong>
-                                <div>#66 in World Championship</div>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong id="locationText" class="h6" th:text="${event.location}"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">名額限制</strong>
+                            </td>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h6" th:text="${event} ? ${event.quotaLimited}+'名'"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">報名費</strong>
+                            </td>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h6" th:text="${event} ? '$'+${event.fee}+'元'+'(會員折50元'"></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong class="h4">報名截止</strong>
+                            </td>
+                            <td style="padding-top: 8px;padding-bottom: 5px;">
+                                <strong id="deadline" class="h6" th:text="${event.deadline}"></strong>
                             </td>
                         </tr>
                         </tbody>
@@ -227,11 +256,57 @@
                 </div>
             </div>
             <!-- END: Teammate Card -->
+            <div class="nk-gap-2"></div>
+            <div style="position: relative;">
+				<strong id="discount" style="position: absolute;right: 155px;background-color: red;" class="h4" th:text="${event} ? '限時折扣:'+${event.timeLimitedDiscount}"></strong>
+				
+				<div id="countdown_dashboard" class="wow" style="position: absolute;right: 350px;top: 0;">
+
+			        <div class="wow dash days_dash">
+			            <div class="digit digit1">0</div>
+			            <div class="digit digit2">0</div>
+			            <div class="dash_title">天</div>
+			        </div>
+			
+			        <div class="wow dash houws_dash">
+			            <div class="digit digit1">0</div>
+			            <div class="digit digit2">0</div>
+			            <div class="dash_title">時</div>
+			        </div>
+			
+			        <div class="wow dash minutes_dash">
+			            <div class="digit digit1">0</div>
+			            <div class="digit digit2">0</div>
+			            <div class="dash_title">分</div>
+			        </div>
+			
+			        <div class="wow dash seconds_dash">
+			            <div class="digit digit1">0</div>
+			            <div class="digit digit2">0</div>
+			            <div class="dash_title">秒</div>
+			        </div>
+			
+			    </div>
+				
+				
+				
+				
+				
+				
+				
+				
+				<strong id="countdownNo" style="position: absolute;left: 80px;top: 0px;background-color: red;text-decoration: line-through;" class="h3"></strong>
+				<form th:action="@{/eventRegistration}" method="get">
+					<input type="hidden" name="eventId" th:value="${event.eventId}" />
+					<input type="hidden" name="memberId" th:value="${session.memberBeans?.id}" />
+					<button style="position: absolute;right: 0;top: 0;" class="btn btn-warning btn-lg">點擊報名</button>
+				</form>
+			</div>
 
             <!-- START: Biography -->
-            <div class="nk-gap-3"></div>
-            <h3 class="nk-decorated-h-2"><span>Biography</span></h3>
-            <p th:text="${event.description}"></p>
+            <div class="nk-gap-4"></div>
+            <h3 class="nk-decorated-h-2"><span>活動說明</span></h3>
+            <p th:text="${event.description}" style="color: white;"></p>
             <!-- END: Biography -->
 
             <!-- START: Latest Matches -->
@@ -438,14 +513,6 @@
 
         </div>
         <div class="col-lg-4">
-            <!--
-                START: Sidebar
-
-                Additional Classes:
-                    .nk-sidebar-left
-                    .nk-sidebar-right
-                    .nk-sidebar-sticky
-            -->
             <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
                 <div class="nk-widget">
     <div class="nk-widget-content">
@@ -460,15 +527,6 @@
 <div class="nk-widget nk-widget-highlighted">
     <h4 class="nk-widget-title"><span><span class="text-main-1">We</span> Are Social</span></h4>
     <div class="nk-widget-content">
-        <!--
-            Social Links 3
-
-            Additional Classes:
-                .nk-social-links-cols-5
-                .nk-social-links-cols-4
-                .nk-social-links-cols-3
-                .nk-social-links-cols-2
-        -->
         <ul class="nk-social-links-3 nk-social-links-cols-4">
             <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a></li>
             <li><a class="nk-social-instagram" href="#"><span class="fab fa-instagram"></span></a></li>
@@ -478,101 +536,7 @@
             <li><a class="nk-social-twitter" href="#" target="_blank"><span class="fab fa-twitter"></span></a></li>
             <li><a class="nk-social-pinterest" href="#"><span class="fab fa-pinterest-p"></span></a></li>
             <li><a class="nk-social-rss" href="#"><span class="fa fa-rss"></span></a></li>
-
-            <!-- Additional Social Buttons
-                <li><a class="nk-social-behance" href="#"><span class="fab fa-behance"></span></a></li>
-                <li><a class="nk-social-bitbucket" href="#"><span class="fab fa-bitbucket"></span></a></li>
-                <li><a class="nk-social-dropbox" href="#"><span class="fab fa-dropbox"></span></a></li>
-                <li><a class="nk-social-dribbble" href="#"><span class="fab fa-dribbble"></span></a></li>
-                <li><a class="nk-social-deviantart" href="#"><span class="fab fa-deviantart"></span></a></li>
-                <li><a class="nk-social-flickr" href="#"><span class="fab fa-flickr"></span></a></li>
-                <li><a class="nk-social-foursquare" href="#"><span class="fab fa-foursquare"></span></a></li>
-                <li><a class="nk-social-github" href="#"><span class="fab fa-github"></span></a></li>
-                <li><a class="nk-social-linkedin" href="#"><span class="fab fa-linkedin"></span></a></li>
-                <li><a class="nk-social-medium" href="#"><span class="fab fa-medium"></span></a></li>
-                <li><a class="nk-social-odnoklassniki" href="#"><span class="fab fa-odnoklassniki"></span></a></li>
-                <li><a class="nk-social-paypal" href="#"><span class="fab fa-paypal"></span></a></li>
-                <li><a class="nk-social-reddit" href="#"><span class="fab fa-reddit"></span></a></li>
-                <li><a class="nk-social-skype" href="#"><span class="fab fa-skype"></span></a></li>
-                <li><a class="nk-social-soundcloud" href="#"><span class="fab fa-soundcloud"></span></a></li>
-                <li><a class="nk-social-steam" href="#"><span class="fab fa-steam"></span></a></li>
-                <li><a class="nk-social-slack" href="#"><span class="fab fa-slack"></span></a></li>
-                <li><a class="nk-social-tumblr" href="#"><span class="fab fa-tumblr"></span></a></li>
-                <li><a class="nk-social-vimeo" href="#"><span class="fab fa-vimeo"></span></a></li>
-                <li><a class="nk-social-vk" href="#"><span class="fab fa-vk"></span></a></li>
-                <li><a class="nk-social-wordpress" href="#"><span class="fab fa-wordpress"></span></a></li>
-            -->
         </ul>
-    </div>
-</div>
-<div class="nk-widget nk-widget-highlighted">
-    <h4 class="nk-widget-title"><span><span class="text-main-1">Next</span> Matches</span></h4>
-    <div class="nk-widget-content">
-        <div class="nk-widget-match">
-            <a href="#">
-                <span class="nk-widget-match-left">
-                    <span class="nk-widget-match-teams">
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-1.jpg" alt="">
-                        </span>
-                        <span class="nk-widget-match-vs">VS</span>
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-2.jpg" alt="">
-                        </span>
-                    </span>
-                    <span class="nk-widget-match-date">CS:GO - Apr 28, 2018 8:00 pm</span>
-                </span>
-                <span class="nk-widget-match-right">
-                    <span class="nk-match-score">
-                        Upcoming
-                    </span>
-                </span>
-            </a>
-        </div>
-
-        <div class="nk-widget-match">
-            <a href="#">
-                <span class="nk-widget-match-left">
-                    <span class="nk-widget-match-teams">
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-3.jpg" alt="">
-                        </span>
-                        <span class="nk-widget-match-vs">VS</span>
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-2.jpg" alt="">
-                        </span>
-                    </span>
-                    <span class="nk-widget-match-date">LoL - Apr 24, 2018 7:20 pm</span>
-                </span>
-                <span class="nk-widget-match-right">
-                    <span class="nk-match-score">
-                        Upcoming
-                    </span>
-                </span>
-            </a>
-        </div>
-
-        <div class="nk-widget-match">
-            <a href="#">
-                <span class="nk-widget-match-left">
-                    <span class="nk-widget-match-teams">
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-1.jpg" alt="">
-                        </span>
-                        <span class="nk-widget-match-vs">VS</span>
-                        <span class="nk-widget-match-team-logo">
-                            <img src="assets/images/team-4.jpg" alt="">
-                        </span>
-                    </span>
-                    <span class="nk-widget-match-date">Dota 2 - Apr 12, 2018 6:40 pm</span>
-                </span>
-                <span class="nk-widget-match-right">
-                    <span class="nk-match-score bg-dark-1">
-                        0 : 0
-                    </span>
-                </span>
-            </a>
-        </div>
     </div>
 </div>
 <div class="nk-widget nk-widget-highlighted">
@@ -669,12 +633,6 @@
         </div>
     </div>
 </div>
-<div class="nk-widget nk-widget-highlighted">
-    <h4 class="nk-widget-title"><span>Facebook</span></h4>
-    <div class="nk-widget-content">
-        <div class="fb-page" data-href="http://www.facebook.com/templatespoint.net" data-width="700" data-height="350" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"></div>
-    </div>
-</div>
 
             </aside>
             <!-- END: Sidebar -->
@@ -686,129 +644,7 @@
 
 
         
-            <!-- START: Footer -->
-<footer class="nk-footer">
-
-    <div class="container">
-        <div class="nk-gap-3"></div>
-        <div class="row vertical-gap">
-            <div class="col-md-6">
-                <div class="nk-widget">
-                    <h4 class="nk-widget-title"><span class="text-main-1">Contact</span> With Us</h4>
-                    <div class="nk-widget-content">
-                        <form action="php/ajax-contact-form.php" class="nk-form nk-form-ajax">
-                            <div class="row vertical-gap sm-gap">
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control required" name="email" placeholder="Email *">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control required" name="name" placeholder="Name *">
-                                </div>
-                            </div>
-                            <div class="nk-gap"></div>
-                            <textarea class="form-control required" name="message" rows="5" placeholder="Message *"></textarea>
-                            <div class="nk-gap-1"></div>
-                            <button class="nk-btn nk-btn-rounded nk-btn-color-white">
-                                <span>Send</span>
-                                <span class="icon"><i class="ion-paper-airplane"></i></span>
-                            </button>
-                            <div class="nk-form-response-success"></div>
-                            <div class="nk-form-response-error"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="nk-widget">
-                    <h4 class="nk-widget-title"><span class="text-main-1">Latest</span> Posts</h4>
-                    <div class="nk-widget-content">
-                        <div class="row vertical-gap sm-gap">
-                            
-                            <div class="col-lg-6">
-                                <div class="nk-widget-post-2">
-                                    <a href="blog-article.html" class="nk-post-image">
-                                        <img src="assets/images/post-1-sm.jpg" alt="">
-                                    </a>
-                                    <div class="nk-post-title"><a href="blog-article.html">Smell magic in the air. Or maybe barbecue</a></div>
-                                    <div class="nk-post-date">
-                                        <span class="fa fa-calendar"></span> Sep 18, 2018
-                                        <span class="fa fa-comments"></span> <a href="#">4</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-6">
-                                <div class="nk-widget-post-2">
-                                    <a href="blog-article.html" class="nk-post-image">
-                                        <img src="assets/images/post-2-sm.jpg" alt="">
-                                    </a>
-                                    <div class="nk-post-title"><a href="blog-article.html">Grab your sword and fight the Horde</a></div>
-                                    <div class="nk-post-date">
-                                        <span class="fa fa-calendar"></span> Sep 5, 2018
-                                        <span class="fa fa-comments"></span> <a href="#">7</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="nk-widget">
-                    <h4 class="nk-widget-title"><span class="text-main-1">In</span> Twitter</h4>
-                    <div class="nk-widget-content">
-                        <div class="nk-twitter-list" data-twitter-count="1"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="nk-gap-3"></div>
-    </div>
-
-    <div class="nk-copyright">
-        <div class="container">
-            <div class="nk-copyright-left">
-                <a target="_blank" href="https://www.templateshub.net">Templates Hub</a>
-            </div>
-            <div class="nk-copyright-right">
-                <ul class="nk-social-links-2">
-                    <li><a class="nk-social-rss" href="#"><span class="fa fa-rss"></span></a></li>
-                    <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a></li>
-                    <li><a class="nk-social-steam" href="#"><span class="fab fa-steam"></span></a></li>
-                    <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a></li>
-                    <li><a class="nk-social-google-plus" href="#"><span class="fab fa-google-plus"></span></a></li>
-                    <li><a class="nk-social-twitter" href="#" target="_blank"><span class="fab fa-twitter"></span></a></li>
-                    <li><a class="nk-social-pinterest" href="#"><span class="fab fa-pinterest-p"></span></a></li>
-
-                    <!-- Additional Social Buttons
-                        <li><a class="nk-social-behance" href="#"><span class="fab fa-behance"></span></a></li>
-                        <li><a class="nk-social-bitbucket" href="#"><span class="fab fa-bitbucket"></span></a></li>
-                        <li><a class="nk-social-dropbox" href="#"><span class="fab fa-dropbox"></span></a></li>
-                        <li><a class="nk-social-dribbble" href="#"><span class="fab fa-dribbble"></span></a></li>
-                        <li><a class="nk-social-deviantart" href="#"><span class="fab fa-deviantart"></span></a></li>
-                        <li><a class="nk-social-flickr" href="#"><span class="fab fa-flickr"></span></a></li>
-                        <li><a class="nk-social-foursquare" href="#"><span class="fab fa-foursquare"></span></a></li>
-                        <li><a class="nk-social-github" href="#"><span class="fab fa-github"></span></a></li>
-                        <li><a class="nk-social-instagram" href="#"><span class="fab fa-instagram"></span></a></li>
-                        <li><a class="nk-social-linkedin" href="#"><span class="fab fa-linkedin"></span></a></li>
-                        <li><a class="nk-social-medium" href="#"><span class="fab fa-medium"></span></a></li>
-                        <li><a class="nk-social-odnoklassniki" href="#"><span class="fab fa-odnoklassniki"></span></a></li>
-                        <li><a class="nk-social-paypal" href="#"><span class="fab fa-paypal"></span></a></li>
-                        <li><a class="nk-social-reddit" href="#"><span class="fab fa-reddit"></span></a></li>
-                        <li><a class="nk-social-skype" href="#"><span class="fab fa-skype"></span></a></li>
-                        <li><a class="nk-social-soundcloud" href="#"><span class="fab fa-soundcloud"></span></a></li>
-                        <li><a class="nk-social-slack" href="#"><span class="fab fa-slack"></span></a></li>
-                        <li><a class="nk-social-tumblr" href="#"><span class="fab fa-tumblr"></span></a></li>
-                        <li><a class="nk-social-vimeo" href="#"><span class="fab fa-vimeo"></span></a></li>
-                        <li><a class="nk-social-vk" href="#"><span class="fab fa-vk"></span></a></li>
-                        <li><a class="nk-social-wordpress" href="#"><span class="fab fa-wordpress"></span></a></li>
-                        <li><a class="nk-social-youtube" href="#"><span class="fab fa-youtube"></span></a></li>
-                    -->
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- END: Footer -->
+        <div th:replace="~{layout/footer}"></div>
 
         
     </div>
@@ -973,6 +809,84 @@
 <!-- END: Scripts -->
 
 
-    
+
+
+
+
+<script>
+	
+
+	// 指定日期
+	var newDate = $('#deadline').text();
+    var deadline = new Date(newDate);
+    // 加上3天
+    deadline.setDate(deadline.getDate() - 7);
+
+    function updateCountdown() {
+      var now = new Date();
+      var timeDifference = deadline.getTime() - now.getTime();
+
+      // 检查是否已过倒计时结束时间
+      if (timeDifference <= 0) {
+        document.getElementById("countdownNo").textContent = "限時優惠已结束";
+        document.getElementById("discount").style.display = "none";
+        return;
+      }
+      
+      if (timeDifference > 259200000) {
+        document.getElementById("countdownNo").textContent = "限時優惠未開始";
+        document.getElementById("discount").style.display = "none";
+        return;
+      }
+
+
+      // 计算剩余时间
+      var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+
+	  /*
+      // 更新倒计时显示
+      document.getElementById("countdown").textContent = "剩餘時間：" + days + "天 " + hours + "小時 " + minutes + "分鐘 " + seconds + "秒";
+      */
+
+      // 获取倒计时元素
+		var countdownElement = document.getElementById("countdown_dashboard");
+
+		// 获取所有数字和标题元素
+		var daysElement1 = countdownElement.querySelector(".days_dash .digit1");
+		var daysElement2 = countdownElement.querySelector(".days_dash .digit2");
+		var hoursElement1 = countdownElement.querySelector(".houws_dash .digit1");
+		var hoursElement2 = countdownElement.querySelector(".houws_dash .digit2");
+		var minutesElement1 = countdownElement.querySelector(".minutes_dash .digit1");
+		var minutesElement2 = countdownElement.querySelector(".minutes_dash .digit2");
+		var secondsElement1 = countdownElement.querySelector(".seconds_dash .digit1");
+		var secondsElement2 = countdownElement.querySelector(".seconds_dash .digit2");
+
+		// 更新倒计时显示
+		daysElement1.textContent = formatTime(Math.floor(days / 10));
+		daysElement2.textContent = formatTime(days % 10);
+		hoursElement1.textContent = formatTime(Math.floor(hours / 10));
+		hoursElement2.textContent = formatTime(hours % 10);
+		minutesElement1.textContent = formatTime(Math.floor(minutes / 10));
+		minutesElement2.textContent = formatTime(minutes % 10);
+		secondsElement1.textContent = formatTime(Math.floor(seconds / 10));
+		secondsElement2.textContent = formatTime(seconds % 10);
+
+		function formatTime(time) {
+		  return time < 10 ?  time : time.toString();
+		}
+
+
+
+      // 每秒更新一次
+      setTimeout(updateCountdown, 1000);
+    }
+
+    // 初始化倒计时
+    updateCountdown();
+  </script>    
 </body>
 </html>

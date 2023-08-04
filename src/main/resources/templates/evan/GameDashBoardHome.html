@@ -151,7 +151,7 @@
 				<div class="modal-content"
 					style="background-color: #262424; color: white;">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Create New Game</h5>
+						<h5 class="modal-title" id="exampleModalLabel">創建新遊戲</h5>
 						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -218,11 +218,8 @@
 										<input type="file" name="gameImg" accept=".png,.jpg,.gif" class="form-control" required id="file" multiple/>
 								<tr>
 									<td>購買人數
-									<td><input type="text" name="BuyerCount" class="form-control" pattern="[0-9]{1,}" required />
-										<div class="valid-feedback" style="color: rgb(114, 245, 132);">Looks good!</div>
-										<div class="invalid-feedback" style="color: rgb(238, 146, 146);">
-											<em>Give me the Number!</em>
-										</div>
+									<td><input type="text" name="BuyerCount" class="form-control" value="0" readonly/>
+			
 								<tr>
 									<td>上架狀態
 									<td style="text-align: center">
@@ -234,8 +231,9 @@
 						</table>
 					</div>
 					<div class="modal-footer">
+						<button type="button" class="btn btn-warning" onclick="oneClickEnter()">自動填入</button>
 						<button type="submit" class="btn btn-primary" onclick="RunForm();">確定</button>
-						<button type="button" class="btn btn-secondary"data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-secondary"data-bs-dismiss="modal">關閉</button>
 					</div>
 				</div>
 			</form>
@@ -281,7 +279,7 @@
                              <td><input type="text" class="form-control" readonly name="GameId" id="uGameId" style="background-color: #252424;border:none;color:white">
                          <tr>
                              <td>遊戲名稱：
-                             <td><input type="text"  name="GameName" class="form-control" required id="uGameName">
+                             <td><input type="text"  name="GameName" class="form-control" required id="uGameName" readonly>
                                  <div class="valid-feedback" style="color: rgb(114, 245, 132);">Looks good!</div></td>
                          <tr>
                              <td>遊戲價格：

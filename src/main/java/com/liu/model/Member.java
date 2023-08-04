@@ -1,12 +1,20 @@
 package com.liu.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.evan.model.Game;
+import com.evan.model.GameOrder;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ni.model.GameItem;
+import com.ni.model.Wallet;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,6 +24,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
@@ -61,11 +71,24 @@ public class Member {
 	@Column(name = "account")
 	private String account;
 	
+	@Column(name = "useAvatar")
+	private Integer useAvatar;
+	@Column(name = "useFrame")
+	private Integer useFrame;
+	@Column(name = "useBackground")
+	private Integer useBackground;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")// 回傳到前端的格式
 	@DateTimeFormat(pattern = "yyyy-MM-dd") // java的格式
 	@Temporal(TemporalType.DATE)// 資料庫的型別
 	@Column(name = "registrationDate")
 	private Date registrationDate;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "membercart", 
+	    joinColumns = {@JoinColumn(name = "MEMBERID")},
+	    inverseJoinColumns = {@JoinColumn(name = "GAMEID")})
+	private Set<Game> games = new HashSet<>();
 	
 	// 物件轉換成 Persistent 狀態以前做以下事情
 	@PrePersist
@@ -85,7 +108,42 @@ public class Member {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
 	private Set<CouponLog> couponLogs;
 	
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+	private List<GameOrder> gameOrder = new ArrayList<>();
 	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "member", cascade = CascadeType.ALL)
+	private List<Wallet> wallets = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "inviterMember", cascade = CascadeType.ALL)
+	private List<Friend> inviterList = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "recipientMember", cascade = CascadeType.ALL)
+	private List<Friend> recipientList = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "chatFromMember", cascade = CascadeType.ALL)
+	private List<Chat> fromMemberMember = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "chatToMember", cascade = CascadeType.ALL)
+	private List<Chat> toMemberMember = new ArrayList<>();
+	
+
+
+	public List<Chat> getFromMemberMember() {
+		return fromMemberMember;
+	}
+
+	public void setFromMemberMember(List<Chat> fromMemberMember) {
+		this.fromMemberMember = fromMemberMember;
+	}
+
+	public List<Chat> getToMemberMember() {
+		return toMemberMember;
+	}
+
+	public void setToMemberMember(List<Chat> toMemberMember) {
+		this.toMemberMember = toMemberMember;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}
@@ -192,6 +250,68 @@ public class Member {
 	public void setLevel(Level level) {
 		this.level = level;
 	}
+
+	public Integer getUseAvatar() {
+		return useAvatar;
+	}
+
+	public void setUseAvatar(Integer useAvatar) {
+		this.useAvatar = useAvatar;
+	}
+
+	public Integer getUseFrame() {
+		return useFrame;
+	}
+
+	public void setUseFrame(Integer useFrame) {
+		this.useFrame = useFrame;
+	}
+
+	public Integer getUseBackground() {
+		return useBackground;
+	}
+
+	public void setUseBackground(Integer useBackground) {
+		this.useBackground = useBackground;
+	}
 	
+	public Set<Game> getGames() {
+		return games;
+	}
+
+	public List<GameOrder> getGameOrder() {
+		return gameOrder;
+	}
+
+	public void setGameOrder(List<GameOrder> gameOrder) {
+		this.gameOrder = gameOrder;
+	}
+
+	public List<Wallet> getWallets() {
+		return wallets;
+	}
+
+	public void setWallets(List<Wallet> wallets) {
+		this.wallets = wallets;
+	}
+
+	public List<Friend> getInviterList() {
+		return inviterList;
+	}
+
+	public void setInviterList(List<Friend> inviterList) {
+		this.inviterList = inviterList;
+	}
+
+	public List<Friend> getRecipientList() {
+		return recipientList;
+	}
+
+	public void setRecipientList(List<Friend> recipientList) {
+		this.recipientList = recipientList;
+	}
+
+	
+
 
 }

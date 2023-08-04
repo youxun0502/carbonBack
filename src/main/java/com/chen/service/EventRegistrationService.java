@@ -58,12 +58,11 @@ public class EventRegistrationService {
 	
 	//修改資料
 	@Transactional
-	public EventRegistration updateRegistrationById(Integer signupId, Integer eventId, String realName, String email, String phone, 
+	public EventRegistration updateRegistrationById(Integer signupId, String realName, String email, String phone, 
 													String address) {
 		Optional<EventRegistration> optional = erRepo.findById(signupId);
 		if(optional.isPresent()) {
 			EventRegistration er = optional.get();
-			er.setEventId(eventId);
 			er.setRealName(realName);
 			er.setEmail(email);
 			er.setPhone(phone);
@@ -80,7 +79,7 @@ public class EventRegistrationService {
 	
 	//總覽分頁
 	public Page<Event> findByPageAll(Integer pageNumber){
-		Pageable pgb = PageRequest.of(pageNumber-1, 4, Sort.Direction.DESC, "startDate");
+		Pageable pgb = PageRequest.of(pageNumber-1, 4, Sort.Direction.ASC, "startDate");
 		
 		Page<Event> page = eRepo.findAll(pgb);
 		
@@ -88,11 +87,13 @@ public class EventRegistrationService {
 	}
 	
 	//分類分頁
-	public Page<Event> findByPageOne(Integer pageNumber){
-		Pageable pgb = PageRequest.of(pageNumber-1, 2, Sort.Direction.DESC, "startDate");
-		
-		Page<Event> page = eRepo.findAll(pgb);
+	public Page<Event> findByPageOne(Integer pageNumber,Integer gameId){
+		Pageable pgb = PageRequest.of(pageNumber-1, 4, Sort.Direction.ASC, "startDate");
+				
+		Page<Event> page = eRepo.findByGameId(gameId,pgb);
 		
 		return page;
 	}
+	
+	
 }

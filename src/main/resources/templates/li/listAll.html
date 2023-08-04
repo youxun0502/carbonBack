@@ -34,7 +34,7 @@
 			max-width: calc(100% - 200px);
 		}
 	</style>
-	<title>Bonus Shop</title>
+	<title>獎勵商城</title>
 </head>
 
 <body>
@@ -45,20 +45,21 @@
 			<div class="content mt-3">
 				<nav class="navbar navColor">
 					<div class="container-fluid">
-						<a class="navbar-brand link-light" th:href="@{/bonus/main}" style="font-size: 30px;">Bonus
-							Shop</a>
+						<a class="navbar-brand link-light" th:href="@{/bonus/main}" style="font-size: 30px;">獎勵商城</a>
 						<div class="d-flex" role="search">
 
 							<input class="form-control me-2" type="search" placeholder="商品名稱查詢" aria-label="Search"
 								name="bonusName" id="bonusitem_search">
-							<button class="btn btn-outline-warning" type="submit" id="name_search_btn">Search</button>
+							<button class="btn btn-outline-warning col-3" type="submit" id="name_search_btn">查詢</button>
 
 						</div>
 					</div>
 				</nav>
 				<ul class="nav nav-tabs">
-					<li class="nav-item"><a class="nav-link active" th:href="@{/bonus/listAll}">ALL</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/insert}">NEW ITEM</a></li>
+					<li class="nav-item"><a class="nav-link active" th:href="@{/bonus/listAll}">全部商品</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/insert}">新增商品</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/bonuslog}">購買紀錄</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/bonus/bonuspointlog}">點數紀錄</a></li>
 				</ul>
 			</div>
 			<div class="container-fluid">
@@ -99,16 +100,14 @@
 									<td>
 										<form method="get" th:action="@{/bonus/edit}">
 											<button type="submit" th:value="${oneBonusitem.bonusId}" name="id"
-												class="btn btn-info">
+												class="btn btn-info editBtn">
 												<i class="fa-solid fa-pen"></i>
 											</button>
 
 										</form>
 									</td>
 									<td>
-										<!-- <form method="post" th:action="@{/gameitem/gameitemDelete}" class="delForm">
-											<input type="hidden" th:value="${item.itemId}" name="itemId">
-											<input type="hidden" value="delete" name="_method"> -->
+										
 										<button type="submit" class="delBtn btn btn-secondary"
 											th:data-id="${oneBonusitem.bonusId}">
 											<i class=" fa-solid fa-trash-can"></i>

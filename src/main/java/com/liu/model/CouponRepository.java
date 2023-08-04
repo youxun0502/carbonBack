@@ -13,4 +13,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	
 	@Query("from Coupon Order By couponId")
 	public List<Coupon> findCouponOrderByCouponId();
+	
+	@Query("from Coupon  where status =1 Order By couponId")
+	public List<Coupon> findCouponWhereStatusNotEqualOneOrderByCouponId();
 }

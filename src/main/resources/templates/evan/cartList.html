@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Game List</title>
+
+<!-- START: Styles -->
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700"
+	rel="stylesheet" type="text/css">
+
+<!-- Bootstrap -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/bootstrap/dist/css/bootstrap.min.css}">
+
+<!-- FontAwesome -->
+<script defer th:src="@{/assets/vendor/fontawesome-free/js/all.js}"></script>
+<script defer th:src="@{/assets/vendor/fontawesome-free/js/v4-shims.js}"></script>
+
+<!-- IonIcons -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/ionicons/css/ionicons.min.css}">
+
+<!-- Flickity -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/flickity/dist/flickity.min.css}">
+
+<!-- Photoswipe -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/photoswipe/dist/photoswipe.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/photoswipe/dist/default-skin/default-skin.css}">
+
+<!-- Seiyria Bootstrap Slider -->
+<link rel="stylesheet"
+	th:href="@{/assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css}">
+
+<!-- Summernote -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/vendor/summernote/dist/summernote-bs4.css}">
+
+<!-- GoodGames -->
+<link rel="stylesheet" th:href="@{/assets/css/goodgames.css}">
+
+<!-- Custom Styles -->
+<link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+<!-- END: Styles -->
+
+<!-- jQuery -->
+<script th:src="@{/assets/vendor/jquery/dist/jquery.min.js}"></script>
+
+</head>
+
+<body>
+	<div
+		th:replace="${session.memberBeans} ? ~{layout/navHomeLogin} : ~{layout/navHome} "></div>
+	<div class="container " style="margin-top: -100px; font-size: 16px">
+
+		<div class="nk-gap-1"></div>
+		<ul class="nk-breadcrumbs">
+			<li>Home</li>
+			<li><span class="fa fa-angle-right"></span></li>
+			<li>CART</li>
+			<li><span class="fa fa-angle-right"></span></li>
+			<li><span>Cart</span></li>
+		</ul>
+		<div class="nk-gap-1"></div>
+		<!-- START: Products Filter -->
+		<div class="nk-store nk-store-cart">
+			<div class="table-responsive">
+
+				<!-- START: Products in Cart -->
+				<table class="table nk-store-cart-products">
+					<tbody>
+						<th:block th:if="${cartList.isEmpty()}">
+							<tr>
+								<td colspan="6" style="text-align: center;"><h2>目前購物車是空的</h2></td>
+							</tr>
+						</th:block>
+						<th:block th:each="game:${cartList}">
+							<tr>
+								<td class="nk-product-cart-thumb"><a
+									th:href="@{'/gameFront/'+${game.gameName}}"
+									class="nk-image-box-1 nk-post-image"> <img
+										th:src="@{'/gameFront/getImg/'+${game.photoId}}"
+										alt="However, I have reason" width="115">
+								</a></td>
+								<td class="nk-product-cart-title">
+									<h5 class="h6">遊戲名稱:</h5>
+									<div class="nk-gap-1"></div>
+
+									<h2 class="nk-post-title h4">
+										<a th:href="@{'/gameFront/'+${game.gameName}}">[[${game.gameName}]]</a>
+									</h2>
+								</td>
+								<td class="nk-product-cart-price">
+									<h5 class="h6">定價:</h5>
+									<div class="nk-gap-1"></div> <strong>NT$[[${game.price}]]</strong>
+								</td>
+								<td class="nk-product-cart-quantity">
+									<h5 class="h6">數量:</h5>
+									<div class="nk-gap-1"></div> <strong>1</strong>
+								</td>
+								<td class="nk-product-cart-total">
+									<h5 class="h6">消費金額:</h5>
+									<div class="nk-gap-1"></div> <strong>NT$[[${game.price}]]</strong>
+								</td>
+								<td class="nk-product-cart-remove"><a
+									th:data-name="${game.gameName}" th:data-id="${game.gameId}"
+									th:data-memberId="${session.memberBeans.id}"
+									onclick="removeFromCart(event,this.getAttribute('data-name'),this.getAttribute('data-id'),this.getAttribute('data-memberId'))">
+										<span class="ion-android-close"></span>
+								</a></td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+				<!-- END: Products in Cart -->
+
+			</div>
+			<div class="nk-gap-1"></div>
+			<a class="nk-btn nk-btn-rounded nk-btn-color-white float-right"
+				th:href="@{/gameFront}">選購更多</a>
+
+			<div class="clearfix"></div>
+			<div class="nk-gap-2"></div>
+			<div class="row vertical-gap">
+				<div class="col-md-6">
+
+					<!-- START: Calculate Shipping -->
+					<h3 class="nk-title h4">訂單資訊</h3>
+					<form action="#" class="nk-form">
+						<label for="country-sel">電子郵件 <span class="text-main-1">*</span>:
+						</label> <input type="text" class="form-control required"
+							th:value="${session.memberBeans.email}">
+
+						<div class="nk-gap-1"></div>
+						<div class="row vertical-gap">
+							<div class="col-sm-6">
+								<label for="state">姓名<span class="text-main-1">*</span>:
+								</label> <input type="text" class="form-control required"
+									th:value="${session.memberBeans.memberName}">
+							</div>
+							<div class="col-sm-6">
+								<label for="zip">電話<span class="text-main-1">*</span>:
+								</label> <input type="tel" class="form-control required"
+									th:value="${session.memberBeans.phone}">
+							</div>
+						</div>
+
+
+					</form>
+					<!-- END: Calculate Shipping -->
+
+				</div>
+				<div class="col-md-6">
+					<!-- START: Cart Totals -->
+					<h3 class="nk-title h4">Cart Totals</h3>
+					<!-- 在迴圈之外計算總價 -->
+					<table class="nk-table nk-table-sm">
+						<tbody>
+							<tr class="nk-store-cart-totals-subtotal">
+								<td>總價</td>
+								<td>NT$[[${countSum}]]</td>
+							</tr>
+							<tr class="nk-store-cart-totals-shipping">
+								<td>折扣</td>
+								<td>沒有折扣</td>
+							</tr>
+							<tr class="nk-store-cart-totals-total">
+								<td>消費金額</td>
+								<td>NT$[[${countSum}]]</td>
+							</tr>
+						</tbody>
+					</table>
+					<!-- END: Cart Totals -->
+
+					<div class="nk-gap-2"></div>
+					<a class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right"
+						href="#" data-toggle="modal" data-target="#modalCheckout">成立訂單，前往結帳</a>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="nk-gap-2"></div>
+
+			<div class="nk-gap-3"></div>
+		</div>
+	</div>
+	<!-- START: Login Modal -->
+	<div class="nk-modal modal fade" id="modalCheckout" tabindex="-1"
+		role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span class="ion-android-close"></span>
+					</button>
+
+					<div class="nk-gap"></div>
+					<h3 class="nk-decorated-h-2">
+						<span><span class="text-main-1">你的</span> 訂單</span>
+					</h3>
+					<div class="nk-gap"></div>
+					<div class="table-responsive">
+						<table class="nk-table nk-table-sm">
+							<thead class="thead-default">
+								<tr>
+									<th class="nk-product-cart-title">商品</th>
+									<th class="nk-product-cart-total">價格</th>
+								</tr>
+							</thead>
+							<tbody>
+								<th:block th:each="game:${cartList}">
+									<tr>
+										<td class="nk-product-cart-title">[[${game.gameName}]]</td>
+										<td class="nk-product-cart-total">NT$[[${game.price}]]</td>
+									</tr>
+								</th:block>
+
+							</tbody>
+						</table>
+					</div>
+					<!-- END: Order Products -->
+
+					<div class="nk-gap-2"></div>
+					<h5>
+						<span class="float-right"><span class="text-main-1 ">總價:
+						</span> NT$[[${countSum}]]</span>
+					</h5>
+
+					<div class="nk-gap-1"></div>
+					<form th:action="@{/gameFront/orderList}" method="post">
+						<!-- ... 其他表單內容 ... -->
+						<input type="hidden" name="memberId"
+							th:value="${session.memberBeans.id}" />
+						<button type="submit"
+							th:attr="disabled=${countSum == 0 ? 'disabled' : null}"
+							class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right"
+							onclick="clearLocal()">確認訂單</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END: Login Modal -->
+
+	<div th:replace="~{layout/footer}"></div>
+	<!-- START: Scripts -->
+	<script th:src="@{/js/cart_list.js}"></script>
+	<!-- Object Fit Polyfill -->
+	<script th:src="@{/assets/vendor/object-fit-images/dist/ofi.min.js}"></script>
+
+	<!-- GSAP -->
+	<script th:src="@{/assets/vendor/gsap/src/minified/TweenMax.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js}"></script>
+
+	<!-- Popper -->
+	<script th:src="@{/assets/vendor/popper.js/dist/umd/popper.min.js}"></script>
+
+	<!-- Bootstrap -->
+	<script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+	<!-- Sticky Kit -->
+	<script th:src="@{/assets/vendor/sticky-kit/dist/sticky-kit.min.js}"></script>
+
+	<!-- Jarallax -->
+	<script th:src="@{/assets/vendor/jarallax/dist/jarallax.min.js}"></script>
+	<script th:src="@{/assets/vendor/jarallax/dist/jarallax-video.min.js}"></script>
+
+	<!-- imagesLoaded -->
+	<script
+		th:src="@{/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+
+	<!-- Flickity -->
+	<script th:src="@{/assets/vendor/flickity/dist/flickity.pkgd.min.js}"></script>
+
+	<!-- Photoswipe -->
+	<script th:src="@{/assets/vendor/photoswipe/dist/photoswipe.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js}"></script>
+
+	<!-- Jquery Validation -->
+	<script
+		th:src="@{/assets/vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
+
+	<!-- Jquery Countdown + Moment -->
+	<script
+		th:src="@{/assets/vendor/jquery-countdown/dist/jquery.countdown.min.js}"></script>
+	<script th:src="@{/assets/vendor/moment/min/moment.min.js}"></script>
+	<script
+		th:src="@{/assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js}"></script>
+
+	<!-- Hammer.js -->
+	<script th:src="@{/assets/vendor/hammerjs/hammer.min.js}"></script>
+
+	<!-- NanoSroller -->
+	<script
+		th:src="@{/assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js}"></script>
+
+	<!-- SoundManager2 -->
+	<script
+		th:src="@{/assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js}"></script>
+
+	<!-- Seiyria Bootstrap Slider -->
+	<script
+		th:src="@{/assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js}"></script>
+
+	<!-- Summernote -->
+	<script
+		th:src="@{/assets/vendor/summernote/dist/summernote-bs4.min.js}"></script>
+
+	<!-- nK Share -->
+	<script th:src="@{/assets/plugins/nk-share/nk-share.js}"></script>
+
+	<!-- GoodGames -->
+	<script th:src="@{/assets/js/goodgames.min.js}"></script>
+	<script th:src="@{/assets/js/goodgames-init.js}"></script>
+	<!-- END: Scripts -->
+</body>
+
+</html>

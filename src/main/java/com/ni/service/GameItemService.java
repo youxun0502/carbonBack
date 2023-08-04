@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +24,21 @@ public class GameItemService {
 		return itemRepo.findAll();
 	}
 	
+	public Page<GameItem> findAllByPage(Integer pageNumber) {
+		Pageable pgb = PageRequest.of(pageNumber - 1, 9);
+		return itemRepo.findAll(pgb);
+	}
+	
 	public List<GameItem> findByLikeName(String itemName) {
 		return itemRepo.findByNameLike(itemName);
+	}
+	
+	public List<GameItem> findByNameOrGame(Integer gameId, String itemName) {
+		return itemRepo.findByNameOrGame(gameId, itemName);
+	}
+	
+	public List<GameItem> findByNameAndGame(Integer gameId, String itemName) {
+		return itemRepo.findByNameAndGame(gameId, itemName);
 	}
 	
 	public GameItem findById(Integer itemId) {

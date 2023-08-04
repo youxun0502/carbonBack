@@ -55,14 +55,11 @@
 							<tr>
 								<th>圖片
 								<th>活動名稱
-								<th>活動說明
 								<th>開始日期
 								<th>結束日期
-								<th>限時優惠
 								<th>地點
-								<th>名額限制
 								<th>報名截止日期
-								<th>報名費
+								<th>
 								<th>編輯
 								<th>刪除
 							</tr>
@@ -72,14 +69,45 @@
 								<tr>
 									<td class="imgBox overflow-hidden"><img th:src="@{'/event/showImage/'+${event.eventId}}" alt="找不到圖片" class="img-fluid"></td>
 									<td th:text="${event.name}"></td>
-									<td th:text="${event.description}"></td>
 									<td th:text="${event.startDate}"></td>
 									<td th:text="${event.endDate}"></td>
-									<td th:text="${event.timeLimitedDiscount}"></td>
 									<td th:text="${event.location}"></td>
-									<td th:text="${event.quotaLimited}"></td>
 									<td th:text="${event.deadline}"></td>
-									<td th:text="${event.fee}"></td>
+									
+									
+									<td>
+									    <span class="showDesc" data-bs-toggle="modal" th:data-bs-target="'#descriptionModal-' + ${event.eventId}">詳細資訊</span>
+									    <div class="modal fade" th:id="'descriptionModal-' + ${event.eventId}" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+									        aria-hidden="true">
+									        <div class="modal-dialog">
+									            <div class="modal-content">
+									                <div class="modal-header" style="background-color: rgb(33, 37, 41);">
+									                    <h5 class="modal-title" id="descriptionModalLabel">詳細資訊</h5>
+									                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									                </div>
+									                <div class="modal-body" style="background-color: rgb(33, 37, 41);">
+									                    <!-- 隐藏的字段内容 -->
+									                    <p>活動說明: <span th:text="${event.description}"></span></p>
+									                    <p>限時折扣: <span th:text="${event.timeLimitedDiscount}"></span></p>
+									                    <p>名額限制: <span th:text="${event.quotaLimited}"></span></p>
+									                    <p>報名費: <span th:text="${event.fee}"></span></p>
+									                </div>
+									                <div class="modal-footer" style="background-color: rgb(33, 37, 41);">
+									                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+									                </div>
+									            </div>
+									        </div>
+									    </div>
+									</td>
+									
+									
+									
+									
+									
+									
+									
+									
+									
 									<td>
 										<form th:action="@{/event/update}" method="get">
 											<input type="hidden" name="eventId" th:value="${event.eventId}" />
